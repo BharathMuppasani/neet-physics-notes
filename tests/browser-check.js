@@ -16,7 +16,7 @@ async (page) => {
   try {
     await go('index.html');
     const chapterFiles=await tab.evaluate(()=>Site.CHAPTERS.map(c=>c.page));
-    const allFiles=['index.html','chapters.html','syllabus.html','practice.html','revise.html','formula-sheet.html',...chapterFiles];
+    const allFiles=['index.html','chapters.html','syllabus.html','practice.html','revise.html','formula-sheet.html','fluids-quick.html',...chapterFiles];
     // Every chapter quiz can show/hide its solution independently, even after answering.
     for (const file of chapterFiles) {
       await go(file);

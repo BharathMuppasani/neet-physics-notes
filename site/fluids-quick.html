@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fluids at a Glance</title>
+<meta name="description" content="Fluids I and II on one page: each idea in one line, its formula, the trap, and the ways NEET asks it, with tap-to-reveal answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,750&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<!-- site.js MUST load before MathJax (it holds the MathJax config) -->
+<script src="assets/catalog.js"></script>
+<script src="assets/site.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
+<style>
+  mjx-assistive-mml { max-width: 100% !important; }
+  .content { overflow-wrap: anywhere; }
+  #push   { --accent: var(--water);  --accent-soft: var(--water-soft); }
+  #flow   { --accent: var(--teal);   --accent-soft: var(--teal-soft); }
+  #resist { --accent: var(--amber);  --accent-soft: var(--amber-soft); }
+  #cling  { --accent: var(--plum);   --accent-soft: var(--plum-soft); }
+
+  /* four-verb route map */
+  .route { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); counter-reset: stop; }
+  .stop { --c: var(--accent); position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 14px 16px 16px; display: grid; gap: 8px; align-content: start; box-shadow: var(--shadow); }
+  .stop::before { counter-increment: stop; content: counter(stop); position: absolute; top: -12px; left: 14px; width: 26px; height: 26px; border-radius: 50%; background: var(--c); color: #fff; font: 700 13px/26px var(--f-mono); text-align: center; }
+  .stop .verb { font-family: var(--f-display); font-size: 24px; font-weight: 750; color: var(--c); line-height: 1.1; margin-top: 6px; }
+  .stop .verb a { color: inherit; text-decoration: none; }
+  .stop .why { font-size: 14px; color: var(--ink-2); line-height: 1.4; }
+  .stop ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .stop li a { display: inline-block; font-size: 13px; font-weight: 600; padding: 4px 9px; border-radius: 999px; background: color-mix(in srgb, var(--c) 11%, white); color: var(--c); text-decoration: none; }
+  .stop li a:hover { background: color-mix(in srgb, var(--c) 20%, white); }
+  .stop .part { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .toolbar .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* idea cards */
+  .ideas { display: grid; gap: 18px; }
+  .idea { --c: var(--accent); background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--c); border-radius: var(--r-lg); padding: 16px 18px 18px; display: grid; gap: 14px; box-shadow: var(--shadow); scroll-margin-top: calc(var(--topbar-h) + 16px); }
+  .idea-head { display: flex; align-items: center; gap: 12px; }
+  .idea-icon { flex: none; width: 52px; height: 52px; border-radius: 14px; background: color-mix(in srgb, var(--c) 11%, white); color: var(--c); display: grid; place-items: center; }
+  .idea-icon svg { width: 40px; height: 40px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .idea-icon svg .f { fill: currentColor; fill-opacity: .28; stroke: none; }
+  .idea-icon svg .d { fill: currentColor; stroke: none; }
+  .idea-icon svg .t { stroke-width: 1.4; stroke-dasharray: 3 3; }
+  .idea-title { display: grid; gap: 2px; min-width: 0; }
+  .idea-title .n { font-family: var(--f-mono); font-size: 12px; font-weight: 600; letter-spacing: .06em; color: var(--c); }
+  .idea-title h3 { font-size: 21px; }
+  .idea-body { display: grid; gap: 14px; }
+  @media (min-width: 780px) { .idea-body { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: start; gap: 20px; } }
+  .idea-learn { display: grid; gap: 12px; }
+  .big { font-family: var(--f-display); font-size: clamp(18px, 2.3vw, 20px); font-weight: 600; line-height: 1.35; color: var(--ink); }
+  .seen { font-size: 14.5px; color: var(--ink-2); line-height: 1.45; }
+  .seen b, .trap b, .ask-head { font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-right: 6px; }
+  .seen b { color: var(--muted); }
+  .fbox { background: color-mix(in srgb, var(--c) 7%, white); border-left: 4px solid var(--c); border-radius: 0 var(--r) var(--r) 0; padding: 8px 12px; overflow-x: auto; display: grid; gap: 4px; }
+  .fbox p { font-size: 14px; color: var(--ink-2); line-height: 1.45; }
+  .fbox mjx-container[display="true"] { margin: 6px 0 !important; }
+  .trap { font-size: 14.5px; line-height: 1.45; background: var(--coral-soft); border-radius: var(--r); padding: 9px 12px; color: var(--ink); }
+  .trap b { color: var(--coral); }
+
+  .asks { display: grid; gap: 8px; }
+  .ask-head { color: var(--c); margin: 0; }
+  .ask { border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+  .ask summary { list-style: none; cursor: pointer; padding: 10px 12px; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; font-size: 15px; line-height: 1.45; }
+  .ask summary::-webkit-details-marker { display: none; }
+  .ask summary::after { content: "Tap to check ▸"; grid-column: 2; font-size: 12px; font-weight: 600; color: var(--c); }
+  .ask[open] summary::after { content: "Hide ▾"; }
+  .ask .kind { grid-row: span 2; align-self: start; font-family: var(--f-mono); font-size: 10.5px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--c); background: color-mix(in srgb, var(--c) 11%, white); border-radius: 6px; padding: 3px 6px; margin-top: 2px; }
+  .ask .ans { margin: 0 12px 12px; padding: 9px 12px; border-radius: 8px; background: var(--green-soft); font-size: 15px; line-height: 1.5; }
+  .ask .ans::before { content: "✓ "; color: var(--green); font-weight: 700; }
+
+  /* pattern decoder */
+  .decoder { display: grid; gap: 8px; }
+  .dec { display: grid; grid-template-columns: 1fr; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 10px 14px; }
+  @media (min-width: 640px) { .dec { grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1.1fr); align-items: center; gap: 10px; } }
+  .dec .says { font-size: 15px; color: var(--ink-2); }
+  .dec .says q { font-weight: 600; color: var(--ink); quotes: "“" "”"; }
+  .dec .arrow { color: var(--muted); font-weight: 700; text-align: center; }
+  @media (max-width: 639px) { .dec .arrow { display: none; } }
+  .dec .use { font-size: 15px; }
+  .dec .use a { font-weight: 650; }
+
+  /* radius game */
+  .rgame { display: grid; gap: 14px; }
+  .rgame .seg { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+  .rtiles { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); }
+  .rtile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; display: grid; gap: 4px; }
+  .rtile .what { font-size: 14px; font-weight: 600; color: var(--ink-2); line-height: 1.35; }
+  .rtile .law { font-size: 13px; color: var(--muted); }
+  .rtile .x { font-family: var(--f-display); font-size: 30px; font-weight: 750; line-height: 1.1; }
+  .rtile .x.up { color: var(--green); }
+  .rtile .x.down { color: var(--coral); }
+  .rtile a { font-size: 13px; }
+</style>
+</head>
+<body class="ch-fluids1" data-page="fluids-quick">
+<div class="frame with-toc">
+  <aside class="toc" aria-label="Sections"></aside>
+  <main class="content">
+    <header class="hero">
+      <span class="eyebrow">Fluids I + Fluids II · one-page revision</span>
+      <h1>Fluids in four verbs</h1>
+      <p class="lede">A fluid <strong>pushes</strong>, <strong>flows</strong>, <strong>resists</strong> and <strong>clings</strong>. Every idea in both chapters fits under one of these verbs. For each idea you get one line, one formula, the trap to avoid, and the ways NEET asks about it. Answer the question in your head first, then tap to check.</p>
+      <div class="chips">
+        <span class="chip water">21 ideas</span>
+        <span class="chip coral">21 traps</span>
+        <span class="chip green">56 quick checks</span>
+        <a class="chip" href="fluids-1.html">Full lesson: Fluids I →</a>
+        <a class="chip" href="fluids-2.html">Full lesson: Fluids II →</a>
+      </div>
+    </header>
+
+    <section id="map" data-num="★" data-toc="The chapter on one map">
+      <div class="sec-head"><span class="num">★ <span class="level basic">Start here</span></span><h2>The chapter on one map</h2></div>
+      <p class="prose">If a question confuses you, first ask which verb it is about. That tells you which group of formulas to use.</p>
+      <nav class="route" aria-label="Fluids topics by verb">
+        <div class="stop" style="--c: var(--water)">
+          <span class="verb"><a href="#push">It pushes</a></span>
+          <span class="part">At rest · Fluids I</span>
+          <p class="why">Its weight presses on everything inside and around it.</p>
+          <ol><li><a href="#density">Density</a></li><li><a href="#pressure">Pressure</a></li><li><a href="#depth">Depth</a></li><li><a href="#atmosphere">Atmosphere</a></li><li><a href="#hydraulic">Pascal</a></li><li><a href="#buoyancy">Buoyancy</a></li></ol>
+        </div>
+        <div class="stop" style="--c: var(--teal)">
+          <span class="verb"><a href="#flow">It flows</a></span>
+          <span class="part">In motion · Fluids I</span>
+          <p class="why">Mass and energy are conserved while it moves.</p>
+          <ol><li><a href="#continuity">Continuity</a></li><li><a href="#bernoulli">Bernoulli</a></li><li><a href="#torricelli">Torricelli</a></li><li><a href="#venturi">Venturi</a></li><li><a href="#lift">Lift</a></li><li><a href="#accelerating">Accelerating tank</a></li></ol>
+        </div>
+        <div class="stop" style="--c: var(--amber)">
+          <span class="verb"><a href="#resist">It resists</a></span>
+          <span class="part">Liquid friction · Fluids II</span>
+          <p class="why">Its layers rub against each other and against objects moving through them.</p>
+          <ol><li><a href="#viscosity">Viscosity</a></li><li><a href="#poiseuille">Pipe flow</a></li><li><a href="#stokes">Stokes</a></li><li><a href="#reynolds">Reynolds</a></li></ol>
+        </div>
+        <div class="stop" style="--c: var(--plum)">
+          <span class="verb"><a href="#cling">It clings</a></span>
+          <span class="part">Liquid skin · Fluids II</span>
+          <p class="why">Its surface is pulled tight like a stretched skin.</p>
+          <ol><li><a href="#surface-tension">Surface tension</a></li><li><a href="#surface-energy">Surface energy</a></li><li><a href="#contact-angle">Contact angle</a></li><li><a href="#bubbles">Drops &amp; bubbles</a></li><li><a href="#capillary">Capillarity</a></li></ol>
+        </div>
+      </nav>
+      <div class="toolbar">
+        <button class="btn" type="button" data-reveal-all aria-pressed="false">Show every answer</button>
+        <span class="small muted">Use this for a quick read-through. Keep answers hidden when you are testing yourself.</span>
+      </div>
+    </section>
+
+    <!-- ================= IT PUSHES ================= -->
+    <section id="push" data-num="1" data-toc="It pushes · fluid at rest">
+      <div class="sec-head"><span class="num">VERB 1 <span class="level core">Fluids I · 9.1–9.2</span></span><h2>It pushes: a fluid at rest</h2></div>
+      <div class="ideas">
+
+        <article class="idea" id="density">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 15 L24 8 L38 15 V33 L24 40 L10 33 Z M10 15 L24 22 L38 15 M24 22 V40"/><circle class="d" cx="17" cy="26" r="2"/><circle class="d" cx="31" cy="26" r="2"/><circle class="d" cx="24" cy="14.5" r="2"/><circle class="d" cx="17" cy="33" r="2"/><circle class="d" cx="31" cy="33" r="2"/></svg></span>
+            <div class="idea-title"><span class="n">01 · Fluids I §9.1</span><h3>Density</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">Density tells you how much mass is packed into each cubic metre.</p>
+              <p class="seen"><b>Seen it</b>Oil floats on water because it is less dense.</p>
+              <div class="fbox">\[ \rho=\frac{m}{V},\qquad \text{RD}=\frac{\rho}{\rho_{\text{water}}} \]
+                <p>Mixing liquids: equal volumes → \(\dfrac{\rho_1+\rho_2}{2}\) · equal masses → \(\dfrac{2\rho_1\rho_2}{\rho_1+\rho_2}\)</p></div>
+              <p class="trap"><b>Trap</b>Equal masses do <em>not</em> give the simple average. The equal-mass answer is always the smaller one. Relative density has no unit.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>Equal masses of liquids of density 2 and 3 g cm⁻³ are mixed. What is the density of the mixture?</summary><p class="ans">\(\frac{2(2)(3)}{2+3}=2.4\) g cm⁻³. The tempting wrong answer is 2.5.</p></details>
+              <details class="ask"><summary><span class="kind">Unit</span>The relative density of mercury is 13.6. What is its density in SI units?</summary><p class="ans">13.6 × 1000 = 13 600 kg m⁻³.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="pressure">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="13" y="5" width="22" height="7" rx="2.5"/><path d="M24 12 V36 M19 31 L24 38 L29 31 M5 41 H43"/></svg></span>
+            <div class="idea-title"><span class="n">02 · Fluids I §9.2–9.2.1</span><h3>Pressure</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">Pressure is force shared over an area. The same push on a smaller area gives a bigger pressure.</p>
+              <p class="seen"><b>Seen it</b>A sharp knife cuts, but a blunt one doesn't. A camel's wide feet don't sink into sand.</p>
+              <div class="fbox">\[ P=\frac{F_\perp}{A}\qquad [\mathrm{ML^{-1}T^{-2}}],\ \ 1\ \text{Pa}=1\ \text{N m}^{-2} \]</div>
+              <p class="trap"><b>Trap</b>Pressure is a <strong>scalar</strong>. At a point it is the same in every direction. The <em>force</em> a fluid at rest exerts on a surface is always normal (perpendicular) to that surface.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">T / F</span>“Pressure at a point in a fluid acts vertically downward.” Is this true or false?</summary><p class="ans">False. Pressure has no direction; it acts equally in all directions at a point. (This was Q3 in your Test-05.)</p></details>
+              <details class="ask"><summary><span class="kind">Dim</span>Pressure has the same dimensions as which of these: force, energy, energy per unit volume, or power?</summary><p class="ans">Energy per unit volume: J m⁻³ = N m⁻² = [ML⁻¹T⁻²]. Stress has the same dimensions too.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="depth">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M7 6 V41 H41 V6"/><path class="t" d="M7 12 H41"/><path d="M13 19 H18 M13 27 H25 M13 35 H33 M30 32 L33 35 L30 38"/></svg></span>
+            <div class="idea-title"><span class="n">03 · Fluids I §9.2.2</span><h3>Pressure with depth</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">The deeper you go, the more liquid sits on top of you, so the pressure rises by ρgh. Only the vertical depth matters.</p>
+              <p class="seen"><b>Seen it</b>Dams are built thicker at the bottom.</p>
+              <div class="fbox">\[ P=P_0+\rho g h,\qquad P_2-P_1=\rho g\,\Delta h \]</div>
+              <p class="trap"><b>Trap</b>The shape of the vessel and the amount of liquid do not matter. In a connected liquid at rest, all points at the same level have the same pressure.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Concept</span>Three vessels of different shapes have the same base area and are filled to the same height. How do the forces on their bases compare?</summary><p class="ans">All three are equal. P = ρgh depends only on height, so F = PA is the same (the hydrostatic paradox).</p></details>
+              <details class="ask"><summary><span class="kind">Num</span>What is the absolute pressure 10 m below a lake surface? (P₀ = 10⁵ Pa, g = 10)</summary><p class="ans">10⁵ + 1000 × 10 × 10 = 2 × 10⁵ Pa, about 2 atm.</p></details>
+              <details class="ask"><summary><span class="kind">U-tube</span>In a U-tube, a 10 cm column of oil balances an 8 cm column of water. Find ρ_oil.</summary><p class="ans">Equal pressures at the interface level: ρ_oil × 10 = 1000 × 8, so ρ_oil = 800 kg m⁻³.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="atmosphere">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect class="f" x="20" y="15" width="8" height="22"/><path d="M20 37 V5 H28 V37 M5 31 V41 H43 V31"/><path class="t" d="M5 34 H43"/></svg></span>
+            <div class="idea-title"><span class="n">04 · Fluids I §9.2.3</span><h3>Atmospheric and gauge pressure</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">We live at the bottom of an ocean of air. A pressure gauge reads only the pressure above atmospheric.</p>
+              <p class="seen"><b>Seen it</b>A drinking straw works because the atmosphere pushes the drink up the straw.</p>
+              <div class="fbox">\[ P_{\text{atm}}=\rho_{\text{Hg}}\,g\,(0.76\text{ m})\approx1.013\times10^{5}\ \text{Pa},\qquad P_{\text{gauge}}=P-P_{\text{atm}} \]
+                <p>Manometer rule: going <strong>down</strong> a column, add ρgh; going <strong>up</strong>, subtract ρgh.</p></div>
+              <p class="trap"><b>Trap</b>Gas laws and bubble problems need <em>absolute</em> pressure. When atmosphere pushes on both sides (dam walls, lids), use gauge pressure.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>A barometer uses water instead of mercury. How tall is its column?</summary><p class="ans">h = 1.013 × 10⁵ / (1000 × 9.8) ≈ 10.3 m. (That is 13.6 × 76 cm.)</p></details>
+              <details class="ask"><summary><span class="kind">Concept</span>A tyre gauge reads 2 atm. What is the absolute pressure inside the tyre?</summary><p class="ans">2 + 1 = 3 atm.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="hydraulic">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path class="f" d="M9 22 H15 V36 H39 V27 H45 V41 H9 Z"/><path d="M9 14 V41 H45 V20 M15 14 V35 H39 V20 M6 22 H18 M36 27 H48 M12 6 V17 M9.5 14 L12 17 L14.5 14 M42 24 V10 M38 14 L42 10 L46 14"/></svg></span>
+            <div class="idea-title"><span class="n">05 · Fluids I §9.2.4</span><h3>Pascal's law and the hydraulic lift</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">Press on a trapped liquid and the extra pressure reaches every part of it undiminished. A small force on a small piston can lift a big load.</p>
+              <p class="seen"><b>Seen it</b>Hydraulic brakes, car-service lifts and JCB arms.</p>
+              <div class="fbox">\[ \frac{F_1}{A_1}=\frac{F_2}{A_2},\qquad A_1x_1=A_2x_2 \]</div>
+              <p class="trap"><b>Trap</b>If diameters are given, <strong>square</strong> their ratio to get the force ratio. A hydraulic lift multiplies force, not work: the small piston moves much farther.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>The pistons have diameters of 2 cm and 20 cm. A 10 N push on the small piston supports what load?</summary><p class="ans">(20/2)² = 100, so the load is 100 × 10 = 1000 N.</p></details>
+              <details class="ask"><summary><span class="kind">Num</span>In the same lift, the small piston is pushed down 50 cm. How far does the large piston rise?</summary><p class="ans">50 / 100 = 0.5 cm, because the displaced volume is the same.</p></details>
+              <details class="ask"><summary><span class="kind">Concept</span>Does an ideal hydraulic lift give out more work than you put in?</summary><p class="ans">No. Work in = work out. It gains force by losing distance.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="buoyancy">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path class="f" d="M4 24 H44 V44 H4 Z"/><rect x="15" y="10" width="18" height="20" rx="2"/><path d="M4 24 H15 M33 24 H44 M24 44 V34 M20 38 L24 34 L28 38"/></svg></span>
+            <div class="idea-title"><span class="n">06 · Fluids I ★ Archimedes</span><h3>Buoyancy and floating</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">A liquid pushes up with a force equal to the weight of the liquid the body pushes aside.</p>
+              <p class="seen"><b>Seen it</b>A steel ship floats, and only the tip of an iceberg shows above the sea.</p>
+              <div class="fbox">\[ F_B=\rho_\ell V_{\text{sub}}\,g,\qquad \text{floating: }\frac{V_{\text{sub}}}{V}=\frac{\rho_{\text{body}}}{\rho_\ell} \]
+                <p>Relative density of a body = W<sub>air</sub> ÷ (W<sub>air</sub> − W<sub>water</sub>), i.e. weight ÷ loss of weight.</p></div>
+              <p class="trap"><b>Trap</b>Use the <em>submerged</em> volume, not the whole volume. Once a body is fully under the surface, the buoyant force doesn't change with depth.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>Ice (ρ = 900 kg m⁻³) floats in water. What fraction of it is above the water?</summary><p class="ans">Fraction submerged is 900/1000 = 9/10, so 1/10 is above.</p></details>
+              <details class="ask"><summary><span class="kind">Num</span>A stone weighs 10 N in air and 8 N in water. What is its relative density?</summary><p class="ans">10 / (10 − 8) = 5.</p></details>
+              <details class="ask"><summary><span class="kind">Concept</span>An ice cube floating in a glass of water melts. What happens to the water level?</summary><p class="ans">It stays the same. The meltwater exactly fills the volume the ice was displacing.</p></details>
+              <details class="ask"><summary><span class="kind">Num</span>A block floats with 60% of its volume in water and 75% of its volume in oil. Find ρ_oil.</summary><p class="ans">The block's density is 600 kg m⁻³, so ρ_oil = 600 / 0.75 = 800 kg m⁻³.</p></details>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= IT FLOWS ================= -->
+    <section id="flow" data-num="2" data-toc="It flows · fluid in motion">
+      <div class="sec-head"><span class="num">VERB 2 <span class="level core">Fluids I · 9.3–9.4</span></span><h2>It flows: a fluid in motion</h2></div>
+      <div class="ideas">
+
+        <article class="idea" id="continuity">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M3 11 H17 L29 19 H45 M3 37 H17 L29 29 H45 M7 24 H13 M33 24 H44 M40 21 L44 24 L40 27 M10 21 L13 24 L10 27"/></svg></span>
+            <div class="idea-title"><span class="n">07 · Fluids I §9.3</span><h3>Continuity</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">Liquid can't pile up inside a pipe. Where the pipe narrows, the liquid has to speed up.</p>
+              <p class="seen"><b>Seen it</b>Put your thumb over a hose and the water shoots out faster.</p>
+              <div class="fbox">\[ A_1v_1=A_2v_2\;(=Q),\qquad v\propto\frac{1}{A}\propto\frac{1}{d^{2}} \]
+                <p>Streamline (steady) flow: the velocity at each point does not change with time, and streamlines never cross.</p></div>
+              <p class="trap"><b>Trap</b>Halving the <strong>diameter</strong> cuts the area to ¼, so the speed becomes 4 times larger, not 2 times.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>A pipe's diameter halves. How does the speed in the narrow part compare?</summary><p class="ans">It is 4 times the speed in the wide part.</p></details>
+              <details class="ask"><summary><span class="kind">Why?</span>Why does a stream of water from a tap get thinner as it falls?</summary><p class="ans">Gravity speeds the water up. Since Av is constant, the area A must decrease.</p></details>
+              <details class="ask"><summary><span class="kind">Concept</span>Can two streamlines cross each other?</summary><p class="ans">No. At the crossing point the fluid would have two velocities at once.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="bernoulli">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect class="f" x="9" y="4" width="4" height="10"/><rect class="f" x="33" y="13" width="4" height="6"/><path d="M3 14 H17 L27 19 H45 M3 36 H17 L27 31 H45 M9 14 V3 M13 14 V3 M33 19 V9 M37 19 V9"/></svg></span>
+            <div class="idea-title"><span class="n">08 · Fluids I §9.4</span><h3>Bernoulli's principle</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">Energy per unit volume stays constant along the flow, so wherever a fluid moves faster, its pressure is lower.</p>
+              <p class="seen"><b>Seen it</b>Storms blow roofs off. Two boats moving side by side are pulled towards each other.</p>
+              <div class="fbox">\[ P+\tfrac12\rho v^{2}+\rho g h=\text{constant} \]
+                <p>The three terms are pressure energy, kinetic energy and potential energy, each per unit volume (in Pa).</p></div>
+              <p class="trap"><b>Trap</b>Bernoulli applies only to ideal flow: incompressible, non-viscous, steady, and along a streamline. It is the law of <strong>energy</strong> conservation.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>In a horizontal pipe, water speeds up from 2 m/s to 4 m/s. By how much does the pressure drop?</summary><p class="ans">½ × 1000 × (16 − 4) = 6000 Pa.</p></details>
+              <details class="ask"><summary><span class="kind">Concept</span>Bernoulli's theorem is a statement of the conservation of what?</summary><p class="ans">Energy (per unit volume of the fluid).</p></details>
+              <details class="ask"><summary><span class="kind">Why?</span>Strong wind blows over a roof. Which way is the net force on the roof?</summary><p class="ans">Upward. The fast air above has lower pressure than the still air inside the house.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="torricelli">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path class="f" d="M5 12 H26 V42 H5 Z"/><path d="M5 5 V42 H26 V5 M26 30 Q38 30 44 44"/></svg></span>
+            <div class="idea-title"><span class="n">09 · Fluids I §9.4.1</span><h3>Torricelli: speed of efflux</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">Water comes out of a hole as fast as a stone would be moving after falling from the water surface down to the hole.</p>
+              <p class="seen"><b>Seen it</b>On a leaking tank, water from the lower holes spurts out faster.</p>
+              <div class="fbox">\[ v=\sqrt{2gh},\qquad R=2\sqrt{h(H-h)},\qquad R_{\max}=H\ \text{at}\ h=\tfrac H2 \]
+                <p>h = depth of the hole below the surface; H = height of the water surface above the ground.</p></div>
+              <p class="trap"><b>Trap</b>Measure h down from the <em>free surface</em>, not up from the bottom. The efflux speed doesn't depend on the liquid's density.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>A hole is 5 m below the water surface. What is the efflux speed? (g = 10)</summary><p class="ans">√(2 × 10 × 5) = 10 m/s.</p></details>
+              <details class="ask"><summary><span class="kind">Max</span>A tank is filled to height H. Where should the hole be for maximum range, and what is that range?</summary><p class="ans">At depth H/2 (halfway up). The maximum range is H.</p></details>
+              <details class="ask"><summary><span class="kind">Pair</span>A tank is filled to 10 m. A hole at 2 m depth gives the same range as a hole at what other depth?</summary><p class="ans">8 m. Depths h and H − h always give equal ranges.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="venturi">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect class="f" x="7" y="5" width="4" height="9"/><rect class="f" x="22" y="14" width="4" height="6"/><path d="M3 14 H13 L20 20 H28 L35 14 H45 M3 34 H13 L20 28 H28 L35 34 H45 M7 14 V3 M11 14 V3 M22 20 V9 M26 20 V9"/></svg></span>
+            <div class="idea-title"><span class="n">10 · Fluids I ★</span><h3>Venturimeter and Pitot tube</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">Narrow the pipe and measure how much the pressure drops. The size of the drop tells you how fast the fluid flows.</p>
+              <p class="seen"><b>Seen it</b>Perfume sprayers, carburettors and Bunsen burners all use this.</p>
+              <div class="fbox">\[ P_1-P_2=\tfrac12\rho\left(v_2^{2}-v_1^{2}\right),\quad A_1v_1=A_2v_2 \]
+                <p>Manometer reading: ΔP = ρ<sub>m</sub>gh. Pitot tube: stagnation − static = ½ρv².</p></div>
+              <p class="trap"><b>Trap</b>The throat has the highest speed and the <em>lowest</em> pressure. A venturimeter needs continuity <strong>and</strong> Bernoulli together.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>Water flows through a venturimeter whose main area is twice its throat area. The pressure difference is 3000 Pa. Find the speed in the main pipe.</summary><p class="ans">v₂ = 2v₁, so 3000 = ½ × 1000 × (4v₁² − v₁²) = 1500 v₁². This gives v₁ = √2 ≈ 1.4 m/s.</p></details>
+              <details class="ask"><summary><span class="kind">Why?</span>How does a perfume sprayer lift the liquid?</summary><p class="ans">Fast air over the top of the tube lowers the pressure there, and atmospheric pressure pushes the liquid up.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="lift">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path class="f" d="M4 30 C10 18 30 17 45 28 C31 32 13 34 4 30 Z"/><path d="M4 30 C10 18 30 17 45 28 C31 32 13 34 4 30 Z"/><path class="t" d="M2 18 C14 8 32 9 46 20 M2 40 C16 40 32 39 46 34"/><path d="M38 14 V3 M34.5 6.5 L38 3 L41.5 6.5"/></svg></span>
+            <div class="idea-title"><span class="n">11 · Fluids I §9.4.2</span><h3>Dynamic lift and the Magnus effect</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">Air moves faster over the top of a wing, so the pressure on top is lower and the wing is pushed up.</p>
+              <p class="seen"><b>Seen it</b>Aeroplane wings, and a spinning cricket ball that swerves (the Magnus effect).</p>
+              <div class="fbox">\[ F=\Delta P\,A=\tfrac12\rho\left(v_{\text{top}}^{2}-v_{\text{bottom}}^{2}\right)A \]</div>
+              <p class="trap"><b>Trap</b>A spinning ball moves towards the side where its spin <em>adds</em> to the airflow. The air is faster there, so the pressure is lower. Reverse the spin and it curves the other way.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>A wing of area 10 m² has air moving at 60 m/s above it and 50 m/s below it. Find the lift. (ρ = 1.2 kg m⁻³)</summary><p class="ans">½ × 1.2 × (3600 − 2500) × 10 = 6600 N.</p></details>
+              <details class="ask"><summary><span class="kind">Concept</span>What happens to the path of a ball thrown with topspin?</summary><p class="ans">It dips sooner. Topspin makes the air faster below the ball, so the net push is downward.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="accelerating">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path class="f" d="M6 16 L42 26 V36 H6 Z"/><path d="M6 6 V36 H42 V6 M6 16 L42 26 M14 43 H34 M30 40 L34 43 L30 46"/></svg></span>
+            <div class="idea-title"><span class="n">12 · Fluids I ★</span><h3>Accelerating containers</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">In an accelerating tank, the water surface tilts until it is perpendicular to the “effective gravity”.</p>
+              <p class="seen"><b>Seen it</b>Tea sloshes to the back of the cup when a bus starts.</p>
+              <div class="fbox">\[ \tan\theta=\frac{a}{g}\ \ (\text{sideways }a),\qquad P=P_0+\rho(g+a)h\ \ (\text{lift accelerating up}) \]
+                <p>Free fall: g<sub>eff</sub> = 0, so there is no pressure difference with depth and no buoyancy.</p></div>
+              <p class="trap"><b>Trap</b>The surface rises at the <em>back</em>, on the side opposite the acceleration. In a lift, the fraction of a floating block under water does <strong>not</strong> change, because its weight and the buoyancy scale together.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>A truck carrying a tank of water accelerates at g/√3. What angle does the water surface make with the horizontal?</summary><p class="ans">tan θ = 1/√3, so θ = 30°.</p></details>
+              <details class="ask"><summary><span class="kind">Concept</span>A block floats half-submerged in a lift. The lift then accelerates upward. How much of the block is submerged now?</summary><p class="ans">Still half.</p></details>
+              <details class="ask"><summary><span class="kind">Concept</span>What is the buoyant force on a ball held under water in a freely falling container?</summary><p class="ans">Zero. With g<sub>eff</sub> = 0 there is no pressure difference.</p></details>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= IT RESISTS ================= -->
+    <section id="resist" data-num="3" data-toc="It resists · viscosity">
+      <div class="sec-head"><span class="num">VERB 3 <span class="level core">Fluids II · 9.5</span></span><h2>It resists: liquid friction</h2></div>
+      <div class="ideas">
+
+        <article class="idea" id="viscosity">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M4 42 H44 M4 8 H44" stroke-width="3.2"/><path d="M6 34 H14 M6 26 H22 M6 18 H30 M11 31 L14 34 L11 37 M19 23 L22 26 L19 29 M27 15 L30 18 L27 21"/></svg></span>
+            <div class="idea-title"><span class="n">13 · Fluids II §9.5</span><h3>Viscosity</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">Viscosity is friction between liquid layers as they slide over each other. Honey has a lot of it; water has a little.</p>
+              <p class="seen"><b>Seen it</b>Honey pours slowly, and engine oil keeps metal parts from rubbing.</p>
+              <div class="fbox">\[ F=\eta A\frac{dv}{dx},\qquad [\eta]=[\mathrm{ML^{-1}T^{-1}}] \]
+                <p>SI unit Pa·s (N s m⁻²); 1 poise = 0.1 Pa·s.</p></div>
+              <p class="trap"><b>Trap</b>When heated, <strong>liquids</strong> become less viscous but <strong>gases</strong> become more viscous. Convert poise to Pa·s (÷ 10) before you substitute.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>A plate of area 0.1 m² slides at 0.1 m/s over a 1 mm oil film (η = 1 Pa·s). What force is needed?</summary><p class="ans">1 × 0.1 × 0.1 / 0.001 = 10 N.</p></details>
+              <details class="ask"><summary><span class="kind">Concept</span>What happens to the viscosity of air when it is heated?</summary><p class="ans">It increases. For liquids it would decrease.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="poiseuille">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M3 9 H45 M3 39 H45" stroke-width="3"/><path d="M12 9 Q42 24 12 39"/><path d="M12 16 H24 M12 24 H31 M12 32 H24"/></svg></span>
+            <div class="idea-title"><span class="n">14 · Fluids II ★</span><h3>Poiseuille: flow through a tube</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">Flow through a thin tube depends on the fourth power of its radius.</p>
+              <p class="seen"><b>Seen it</b>When an artery narrows a little, blood flow drops a lot.</p>
+              <div class="fbox">\[ Q=\frac{\pi P r^{4}}{8\eta\, l},\qquad R_{\text{flow}}=\frac{8\eta l}{\pi r^{4}} \]
+                <p>Combine tubes like electrical resistors: add R in series, and add 1/R in parallel.</p></div>
+              <p class="trap"><b>Trap</b>Because of the fourth power, halving r divides Q by 16. The speed at the axis is twice the mean speed.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>A tube's radius is doubled while the pressure difference stays the same. What happens to the flow rate?</summary><p class="ans">It becomes 2⁴ = 16 times larger.</p></details>
+              <details class="ask"><summary><span class="kind">Series</span>Two tubes of equal length, with radii r and r/2, are joined in series. Which one takes most of the pressure drop?</summary><p class="ans">The thin one has 16 times the resistance, so it takes 16/17 of the total pressure drop.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="stokes">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle class="f" cx="24" cy="24" r="7"/><circle cx="24" cy="24" r="7"/><path d="M24 31 V45 M20.5 41.5 L24 45 L27.5 41.5 M19 17 V5 M15.5 8.5 L19 5 L22.5 8.5 M29 17 V8 M25.5 11.5 L29 8 L32.5 11.5"/></svg></span>
+            <div class="idea-title"><span class="n">15 · Fluids II §9.5.1</span><h3>Stokes' law and terminal velocity</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">A falling ball speeds up until drag plus buoyancy balance its weight. After that it falls at a constant speed, the terminal velocity.</p>
+              <p class="seen"><b>Seen it</b>Raindrops land gently instead of hitting like bullets.</p>
+              <div class="fbox">\[ F=6\pi\eta r v,\qquad v_t=\frac{2r^{2}(\rho-\sigma)g}{9\eta} \]
+                <p>ρ = density of the ball, σ = density of the liquid.</p></div>
+              <p class="trap"><b>Trap</b>Use (ρ − σ), never ρ alone. If σ &gt; ρ, as for an air bubble, v<sub>t</sub> points upward.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>A ball's radius is doubled. What happens to its terminal velocity?</summary><p class="ans">It becomes 4 times larger (v<sub>t</sub> ∝ r²).</p></details>
+              <details class="ask"><summary><span class="kind">Merge</span>8 identical raindrops merge into one drop. How does the new terminal speed compare?</summary><p class="ans">The radius doubles (8<sup>1/3</sup> = 2), so the speed is 4 times larger. In general, n drops give n<sup>2/3</sup> times the speed.</p></details>
+              <details class="ask"><summary><span class="kind">Force</span>A ball moves at terminal velocity through a liquid that is half as dense as the ball. What is the viscous force?</summary><p class="ans">F<sub>v</sub> = W − B = Mg − Mg/2 = Mg/2.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="reynolds">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M3 12 H20 C28 12 28 20 34 17 C40 14 38 7 32 9 M3 24 H20 C26 24 30 31 36 27 C41 24 45 30 45 32 M3 36 H20 C28 36 26 44 35 42"/></svg></span>
+            <div class="idea-title"><span class="n">16 · Fluids II ★</span><h3>Reynolds number</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">One number tells you whether a flow moves in calm layers or chaotic swirls. It compares inertia with viscosity.</p>
+              <p class="seen"><b>Seen it</b>Smoke from an incense stick rises smoothly at first, then breaks into swirls.</p>
+              <div class="fbox">\[ Re=\frac{\rho v d}{\eta}\quad(\text{no unit}),\qquad v_c=\frac{Re\,\eta}{\rho d} \]
+                <p>Coaching values: Re &lt; 1000 streamline; Re &gt; 2000 turbulent.</p></div>
+              <p class="trap"><b>Trap</b>Higher viscosity gives a <em>lower</em> Re, so the flow stays streamline up to a higher speed. Re is a pure number with no dimensions.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Dim</span>What are the dimensions of Reynolds number?</summary><p class="ans">None: [M⁰L⁰T⁰].</p></details>
+              <details class="ask"><summary><span class="kind">Concept</span>Which liquid stays streamline up to a higher speed in the same pipe: a more viscous one or a less viscous one?</summary><p class="ans">The more viscous one, because v<sub>c</sub> ∝ η.</p></details>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= IT CLINGS ================= -->
+    <section id="cling" data-num="4" data-toc="It clings · surface tension">
+      <div class="sec-head"><span class="num">VERB 4 <span class="level core">Fluids II · 9.6</span></span><h2>It clings: the liquid's skin</h2></div>
+      <div class="ideas">
+
+        <article class="idea" id="surface-tension">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path class="f" d="M3 24 H15 Q24 34 33 24 H45 V44 H3 Z"/><path d="M3 24 H15 Q24 34 33 24 H45"/><circle class="d" cx="24" cy="26" r="3.2"/><path d="M14 18 L8 15 M34 18 L40 15"/></svg></span>
+            <div class="idea-title"><span class="n">17 · Fluids II §9.6.1</span><h3>Surface tension</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">A liquid surface behaves like a stretched elastic skin. T is the pull on each metre of its edge.</p>
+              <p class="seen"><b>Seen it</b>A pond skater walks on water, a steel needle can float, and raindrops are round.</p>
+              <div class="fbox">\[ T=\frac{F}{L},\qquad \text{N m}^{-1}=\text{J m}^{-2},\quad [\mathrm{MT^{-2}}] \]</div>
+              <p class="trap"><b>Trap</b>A soap film has <strong>two</strong> surfaces, so F = 2TL. T decreases as temperature rises. Soap lowers T; dissolved salt (NaCl) raises it.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>What extra force is needed to lift a thin wire ring of radius r off a water surface?</summary><p class="ans">There are two contact circles, inside and outside, each 2πr long. F = 2 × 2πr × T = 4πrT.</p></details>
+              <details class="ask"><summary><span class="kind">Why?</span>Why are small drops spherical?</summary><p class="ans">Surface tension makes the surface area as small as possible, and a sphere has the least area for a given volume.</p></details>
+              <details class="ask"><summary><span class="kind">Dim</span>Surface tension has the same dimensions as which quantity: force, spring constant, or pressure?</summary><p class="ans">Spring constant (N/m): [MT⁻²].</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="surface-energy">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle class="f" cx="9" cy="15" r="5"/><circle class="f" cx="9" cy="33" r="5"/><circle cx="9" cy="15" r="5"/><circle cx="9" cy="33" r="5"/><path d="M18 24 H25 M22 21 L25 24 L22 27"/><circle class="f" cx="36" cy="24" r="9"/><circle cx="36" cy="24" r="9"/></svg></span>
+            <div class="idea-title"><span class="n">18 · Fluids II §9.6.2</span><h3>Surface energy</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">Making new surface costs energy: T joules for every square metre of new surface.</p>
+              <p class="seen"><b>Seen it</b>Blowing a big soap bubble takes effort.</p>
+              <div class="fbox">\[ W=T\,\Delta A\quad(\text{film: }2T\Delta A),\qquad W_{\text{bubble}}=8\pi r^{2}T \]</div>
+              <p class="trap"><b>Trap</b>When drops <strong>merge</strong>, the area shrinks and energy is <em>released</em>, which warms the drop. <strong>Splitting</strong> a drop needs work. Count both surfaces of a film.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>How much work does it take to blow a soap bubble of radius r?</summary><p class="ans">2 surfaces × 4πr² × T = 8πr²T.</p></details>
+              <details class="ask"><summary><span class="kind">Num</span>A drop of radius R splits into 1000 equal droplets. How much work is done?</summary><p class="ans">Each droplet has r = R/10. ΔA = 1000 × 4π(R/10)² − 4πR² = 36πR², so W = 36πR²T.</p></details>
+              <details class="ask"><summary><span class="kind">Concept</span>Many tiny drops merge into one big drop. What happens to its temperature?</summary><p class="ans">It rises, because surface energy is released.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="contact-angle">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path class="f" d="M5 34 Q13 23 21 34 Z"/><path d="M3 34 H45 M5 34 Q13 23 21 34"/><circle class="f" cx="35" cy="27" r="7"/><circle cx="35" cy="27" r="7"/></svg></span>
+            <div class="idea-title"><span class="n">19 · Fluids II §9.6.3</span><h3>Angle of contact</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">The contact angle shows whether a liquid “likes” a solid. Below 90° it spreads out and wets the solid; above 90° it beads up.</p>
+              <p class="seen"><b>Seen it</b>Water beads up on a lotus leaf or a raincoat but spreads out on clean glass.</p>
+              <div class="fbox"><p><strong>θ &lt; 90°</strong>: wets the solid, concave meniscus, rises in a capillary. Water–glass ≈ 0°.</p>
+                <p><strong>θ &gt; 90°</strong>: doesn't wet, convex meniscus, falls in a capillary. Mercury–glass ≈ 140°.</p></div>
+              <p class="trap"><b>Trap</b>Detergents <em>lower</em> θ, so the liquid wets better. Waterproofing agents make θ <em>obtuse</em>.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Concept</span>What shape is the mercury meniscus in a glass tube?</summary><p class="ans">Convex, because θ &gt; 90°.</p></details>
+              <details class="ask"><summary><span class="kind">Concept</span>A waterproofing agent is applied to cloth. How does it change the contact angle?</summary><p class="ans">It makes the angle obtuse (more than 90°).</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="bubbles">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="14"/><circle cx="24" cy="24" r="10.5"/><path d="M24 8 V3 M24 40 V45 M8 24 H3 M40 24 H45"/></svg></span>
+            <div class="idea-title"><span class="n">20 · Fluids II §9.6.4</span><h3>Drops and bubbles: excess pressure</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">A curved surface squeezes whatever is inside it. The smaller the radius, the larger the extra pressure inside.</p>
+              <p class="seen"><b>Seen it</b>A balloon is hardest to blow at the very start, when it is smallest.</p>
+              <div class="fbox">\[ \text{drop / air bubble: }\frac{2T}{r},\qquad \text{soap bubble: }\frac{4T}{r} \]
+                <p>Air bubble at depth h: P<sub>inside</sub> = P₀ + ρgh + 2T/r.</p></div>
+              <p class="trap"><b>Trap</b>If two soap bubbles are connected, air flows from the <strong>smaller</strong> one into the larger one. A soap bubble has two surfaces; an air bubble inside a liquid has only one.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>A soap bubble has r = 1 cm and T = 0.03 N/m. What is the excess pressure inside it?</summary><p class="ans">4 × 0.03 / 0.01 = 12 Pa.</p></details>
+              <details class="ask"><summary><span class="kind">Double</span>Two soap bubbles of radii r₁ &lt; r₂ are stuck together. What is the radius of the film between them?</summary><p class="ans">r₁r₂ / (r₂ − r₁). The film bulges into the bigger bubble.</p></details>
+              <details class="ask"><summary><span class="kind">Merge</span>Soap bubbles of radii 3 cm and 4 cm merge in vacuum at constant temperature. Find the new radius.</summary><p class="ans">R² = r₁² + r₂² = 9 + 16, so R = 5 cm.</p></details>
+            </div>
+          </div>
+        </article>
+
+        <article class="idea" id="capillary">
+          <div class="idea-head">
+            <span class="idea-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path class="f" d="M3 36 H45 V45 H3 Z"/><rect class="f" x="8" y="29" width="8" height="8"/><rect class="f" x="29" y="12" width="4" height="25"/><path d="M8 44 V8 M16 44 V8 M29 44 V4 M33 44 V4 M3 36 H8 M16 36 H29 M33 36 H45"/></svg></span>
+            <div class="idea-title"><span class="n">21 · Fluids II §9.6.5</span><h3>Capillary rise</h3></div>
+          </div>
+          <div class="idea-body">
+            <div class="idea-learn">
+              <p class="big">In a thin tube, the surface skin pulls water upward. The narrower the tube, the higher the water climbs.</p>
+              <p class="seen"><b>Seen it</b>Oil climbs a lamp wick, blotting paper soaks up ink, and water rises through soil and plants.</p>
+              <div class="fbox">\[ h=\frac{2T\cos\theta}{r\rho g},\qquad h\,r=\text{constant} \]</div>
+              <p class="trap"><b>Trap</b>If the tube is shorter than h, water does <strong>not</strong> overflow; the meniscus just flattens. In a tilted tube the vertical height stays h, and the length along the tube is h/cos α.</p>
+            </div>
+            <div class="asks">
+              <p class="ask-head">How NEET asks it</p>
+              <details class="ask"><summary><span class="kind">Num</span>A capillary tube's radius is halved. What happens to the rise h?</summary><p class="ans">h doubles.</p></details>
+              <details class="ask"><summary><span class="kind">Mass</span>A tube's radius is doubled. How does the mass of water raised change?</summary><p class="ans">m = ρπr²h ∝ r² × (1/r) = r, so the mass doubles.</p></details>
+              <details class="ask"><summary><span class="kind">Lift</span>A capillary tube in water is inside a lift that falls freely. What happens to the water?</summary><p class="ans">With g<sub>eff</sub> = 0 nothing limits the rise, so water climbs to the top of the tube.</p></details>
+              <details class="ask"><summary><span class="kind">Concept</span>A glass capillary is dipped in mercury. What happens to the mercury level inside it?</summary><p class="ans">It falls below the outside level, because θ &gt; 90° makes cos θ negative.</p></details>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= PATTERN DECODER ================= -->
+    <section id="decoder" data-num="★" data-toc="Question decoder">
+      <div class="sec-head"><span class="num">★ <span class="level exam">Exam</span></span><h2>Question decoder: words → formula</h2></div>
+      <p class="prose">NEET questions give away their pattern in a few key words. Read the left side, cover the right side, and say which tool you would use.</p>
+      <div class="decoder">
+        <div class="dec"><span class="says">Says <q>same level</q>, <q>U-tube</q> or <q>manometer</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">Equal pressure at one level; walk the columns adding or subtracting ρgh · <a href="#depth">03</a></span></div>
+        <div class="dec"><span class="says">Says <q>floats with … outside</q> or <q>fraction submerged</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">V<sub>sub</sub>/V = ρ<sub>body</sub>/ρ<sub>liquid</sub> · <a href="#buoyancy">06</a></span></div>
+        <div class="dec"><span class="says">Says <q>weighs … in air and … in water</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">RD = weight ÷ loss of weight · <a href="#buoyancy">06</a></span></div>
+        <div class="dec"><span class="says">Says <q>pistons</q>, <q>hydraulic</q> or <q>brakes</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">F ∝ A ∝ d²; work in = work out · <a href="#hydraulic">05</a></span></div>
+        <div class="dec"><span class="says">Says <q>pipe narrows</q> or <q>diameter halved</q> (speed)</span><span class="arrow" aria-hidden="true">→</span><span class="use">Av = constant, v ∝ 1/d² · <a href="#continuity">07</a></span></div>
+        <div class="dec"><span class="says">Says <q>roof</q>, <q>storm</q>, <q>wing</q> or <q>speed and pressure</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">Bernoulli, then F = ΔP·A · <a href="#bernoulli">08</a> <a href="#lift">11</a></span></div>
+        <div class="dec"><span class="says">Says <q>hole in a tank</q>, <q>efflux</q> or <q>range</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">v = √(2gh), R = 2√(h(H−h)) · <a href="#torricelli">09</a></span></div>
+        <div class="dec"><span class="says">Says <q>throat</q> or <q>venturimeter</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">Continuity + Bernoulli together · <a href="#venturi">10</a></span></div>
+        <div class="dec"><span class="says">Says <q>truck accelerates</q> or <q>lift moving up</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">Effective gravity: tan θ = a/g, or g → g ± a · <a href="#accelerating">12</a></span></div>
+        <div class="dec"><span class="says">Says <q>plate on an oil film</q> or <q>layers</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">F = ηAv/d (convert poise ÷ 10) · <a href="#viscosity">13</a></span></div>
+        <div class="dec"><span class="says">Says <q>flow rate through a narrow tube</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">Q ∝ r⁴ · <a href="#poiseuille">14</a></span></div>
+        <div class="dec"><span class="says">Says <q>falls through a liquid at constant speed</q> or <q>drops coalesce</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">v<sub>t</sub> ∝ r²(ρ − σ); n drops → × n<sup>2/3</sup> · <a href="#stokes">15</a></span></div>
+        <div class="dec"><span class="says">Says <q>laminar or turbulent</q> or <q>critical velocity</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">Re = ρvd/η · <a href="#reynolds">16</a></span></div>
+        <div class="dec"><span class="says">Says <q>ring</q>, <q>needle</q> or <q>frame pulled off water</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">F = T × total contact length (count both sides) · <a href="#surface-tension">17</a></span></div>
+        <div class="dec"><span class="says">Says <q>split into n drops</q> or <q>blow a bubble</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">W = T·ΔA (× 2 for a film) · <a href="#surface-energy">18</a></span></div>
+        <div class="dec"><span class="says">Says <q>excess pressure</q> or <q>bubble at depth</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">2T/r for drops and air bubbles; 4T/r for soap bubbles · <a href="#bubbles">20</a></span></div>
+        <div class="dec"><span class="says">Says <q>rise in a capillary</q> or <q>meniscus</q></span><span class="arrow" aria-hidden="true">→</span><span class="use">h = 2T cos θ/(rρg), hr = constant · <a href="#capillary">21</a></span></div>
+      </div>
+    </section>
+
+    <!-- ================= RADIUS GAME ================= -->
+    <section id="radius-game" data-num="★" data-toc="Change r: what happens?">
+      <div class="sec-head"><span class="num">★ <span class="level exam">Ratio drill</span></span><h2>Change the radius: what happens?</h2></div>
+      <p class="prose">Ratio questions are the easiest marks in fluids. Each formula depends on the radius through a different power. Pick a change, guess every multiplier, then look.</p>
+      <div class="rgame" data-rgame>
+        <div class="seg" role="group" aria-label="Change in radius">
+          <button class="btn" type="button" data-k="0.5" aria-pressed="false">Halve r</button>
+          <button class="btn" type="button" data-k="2" aria-pressed="true">Double r</button>
+          <button class="btn" type="button" data-k="3" aria-pressed="false">Triple r</button>
+        </div>
+        <div class="rtiles">
+          <div class="rtile" data-p="4"><span class="what">Flow rate through a tube</span><span class="law">Q ∝ r⁴</span><span class="x up">×16</span><a href="#poiseuille">Poiseuille</a></div>
+          <div class="rtile" data-p="2"><span class="what">Terminal velocity of a ball</span><span class="law">v<sub>t</sub> ∝ r²</span><span class="x up">×4</span><a href="#stokes">Stokes</a></div>
+          <div class="rtile" data-p="2"><span class="what">Force on the big piston (its radius changes)</span><span class="law">F ∝ r²</span><span class="x up">×4</span><a href="#hydraulic">Pascal</a></div>
+          <div class="rtile" data-p="2"><span class="what">Surface energy of a drop</span><span class="law">E = 4πr²T</span><span class="x up">×4</span><a href="#surface-energy">Surface energy</a></div>
+          <div class="rtile" data-p="1"><span class="what">Stokes drag at the same speed</span><span class="law">F = 6πηrv</span><span class="x up">×2</span><a href="#stokes">Stokes</a></div>
+          <div class="rtile" data-p="1"><span class="what">Mass of water in a capillary</span><span class="law">m ∝ r²h ∝ r</span><span class="x up">×2</span><a href="#capillary">Capillarity</a></div>
+          <div class="rtile" data-p="-1"><span class="what">Capillary rise</span><span class="law">h ∝ 1/r</span><span class="x down">×1/2</span><a href="#capillary">Capillarity</a></div>
+          <div class="rtile" data-p="-1"><span class="what">Excess pressure in a bubble</span><span class="law">ΔP ∝ 1/r</span><span class="x down">×1/2</span><a href="#bubbles">Bubbles</a></div>
+          <div class="rtile" data-p="-2"><span class="what">Flow speed in that part of the pipe</span><span class="law">v ∝ 1/r²</span><span class="x down">×1/4</span><a href="#continuity">Continuity</a></div>
+          <div class="rtile" data-p="-4"><span class="what">Pressure needed for the same flow rate</span><span class="law">P ∝ 1/r⁴</span><span class="x down">×1/16</span><a href="#poiseuille">Poiseuille</a></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">Fluids at a glance condenses <a href="fluids-1.html">Fluids I</a> and <a href="fluids-2.html">Fluids II</a> (NCERT Class 11 Chapter 9, plus coaching extras marked ★). Numbers use g = 10 m s⁻² unless stated, ρ<sub>water</sub> = 1000 kg m⁻³ and 1 atm ≈ 1.013 × 10⁵ Pa. For derivations, simulations and full question sets, open the full lessons or <a href="practice.html?chapter=fluids1">practise Fluids I</a> · <a href="practice.html?chapter=fluids2">Fluids II</a>.</footer>
+  </main>
+</div>
+<script>
+(() => {
+  // Reveal every answer at once for a fast read-through.
+  const all = document.querySelector('[data-reveal-all]');
+  all?.addEventListener('click', () => {
+    const open = all.getAttribute('aria-pressed') !== 'true';
+    document.querySelectorAll('details.ask').forEach(d => { d.open = open; });
+    all.setAttribute('aria-pressed', String(open));
+    all.textContent = open ? 'Hide every answer' : 'Show every answer';
+  });
+
+  // Radius drill: each tile shows k^p for its power p.
+  const game = document.querySelector('[data-rgame]');
+  if (!game) return;
+  const fmt = f => f >= 1 ? '×' + Math.round(f) : '×1/' + Math.round(1 / f);
+  game.querySelectorAll('[data-k]').forEach(btn => btn.addEventListener('click', () => {
+    const k = Number(btn.dataset.k);
+    game.querySelectorAll('[data-k]').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    game.querySelectorAll('.rtile').forEach(tile => {
+      const f = Math.pow(k, Number(tile.dataset.p));
+      const x = tile.querySelector('.x');
+      x.textContent = fmt(f);
+      x.className = 'x ' + (f >= 1 ? 'up' : 'down');
+    });
+  }));
+})();
+</script>
+</body>
+</html>
