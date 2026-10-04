@@ -151,6 +151,7 @@ const Site = {
 
   buildNav() {
     const page = document.body.dataset.page;
+    const chapterPage = this.CHAPTERS.some(c => c.key === page);
     const bar = document.createElement('header');
     bar.className = 'topbar';
     bar.innerHTML = `
@@ -159,13 +160,35 @@ const Site = {
           <span class="brand-mark">Φ</span>
           <span class="brand-name">NEET Physics Notes<small>Class 11 · NEET preparation</small></span>
         </a>
-        <nav class="nav" aria-label="Chapters">
-          ${this.PAGES.map(p => `<a href="${p.href}"${p.key === page || (p.key === 'chapters' && this.CHAPTERS.some(c => c.key === page)) ? ' aria-current="page"' : ''}>${p.label}</a>`).join('')}
+        <nav class="nav" aria-label="Main navigation">
+          ${this.PAGES.map(p => p.key === 'chapters' ? `
+            <details class="chapter-menu">
+              <summary${page === 'chapters' || chapterPage ? ' aria-current="page"' : ''}>Chapters <span aria-hidden="true">▾</span></summary>
+              <div class="chapter-menu-panel">
+                <a class="all-chapters" href="chapters.html"${page === 'chapters' ? ' aria-current="page"' : ''}>All chapters &amp; progress →</a>
+                <div class="chapter-menu-volumes">${[1,2,3,4].map(volume => `<div><p>Volume ${volume}</p>${this.CHAPTERS.filter(c => c.volume === volume).map(c => `<a href="${c.page}"${c.key === page ? ' aria-current="page"' : ''}>${c.label}</a>`).join('')}</div>`).join('')}</div>
+              </div>
+            </details>` : `<a href="${p.href}"${p.key === page ? ' aria-current="page"' : ''}>${p.label}</a>`).join('')}
         </nav>
       </div>`;
     document.body.prepend(bar);
-    const cur = bar.querySelector('[aria-current]');
-    if (cur && cur.scrollIntoView) cur.scrollIntoView({ block: 'nearest', inline: 'center' });
+    const menu = bar.querySelector('.chapter-menu');
+    menu.addEventListener('focusout', event => {
+      if (!menu.contains(event.relatedTarget)) menu.open = false;
+    });
+    document.addEventListener('click', event => {
+      if (!menu.contains(event.target) || event.target.closest('a')) menu.open = false;
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && menu.open) {
+        menu.open = false;
+        menu.querySelector('summary').focus();
+      }
+    });
+    // Sticky offsets follow the actual header height, including wrapped mobile text.
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(() => document.documentElement.style.setProperty('--topbar-h', `${bar.getBoundingClientRect().height}px`)).observe(bar);
+    }
   },
 
   buildToc() {
@@ -234,7 +257,7 @@ const Site = {
     }
     const home = document.getElementById('study-progress');
     if (home) {
-      home.innerHTML = [1, 2, 3, 4].map(volume => `<div><h3>Volume ${volume}</h3><div class="grid-cards">${this.CHAPTERS.filter(c => c.volume === volume).map(c => `<article class="card study-card" data-study-chapter="${c.key}"><h3><a href="${c.page}">${c.label}</a></h3><p data-study-summary></p><progress data-study-meter max="${c.sections.length}" value="0" aria-label="${c.label} sections studied"></progress><p class="small" data-practice-summary></p><a data-continue-study></a></article>`).join('')}</div></div>`).join('');
+      home.innerHTML = [1, 2, 3, 4].map(volume => `<details class="home-progress-group" data-progress-volume="${volume}"><summary><span>Volume ${volume}</span><span class="small" data-volume-summary></span></summary><div class="grid-cards">${this.CHAPTERS.filter(c => c.volume === volume).map(c => `<article class="card study-card" data-study-chapter="${c.key}"><h3><a href="${c.page}">${c.label}</a></h3><p data-study-summary></p><progress data-study-meter max="${c.sections.length}" value="0" aria-label="${c.label} sections studied"></progress><p class="small" data-practice-summary></p><a data-continue-study></a></article>`).join('')}</div></details>`).join('');
     }
     this.refreshProgress();
     document.addEventListener('progress:change', () => this.refreshProgress());
@@ -297,6 +320,20 @@ const Site = {
     }
     const summary = document.getElementById('study-overall');
     if (summary) summary.textContent = `${totalStudied} of ${this.CHAPTERS.reduce((n, c) => n + c.sections.length, 0)} sections studied across Class 11 Physics.`;
+    document.querySelectorAll('[data-progress-volume]').forEach(group => {
+      const chapters = this.CHAPTERS.filter(c => c.volume === Number(group.dataset.progressVolume));
+      const done = chapters.reduce((n,c) => n + c.sections.filter(id => studied[`${c.key}:${id}`]).length, 0);
+      const total = chapters.reduce((n,c) => n + c.sections.length, 0);
+      group.querySelector('[data-volume-summary]').textContent = `${done} / ${total} sections`;
+    });
+    const resume = document.getElementById('home-continue');
+    if (resume) {
+      const recent = Object.keys(studied).reverse().map(key => this.CHAPTERS.find(c => c.key === key.split(':')[0])).find(Boolean);
+      const chapter = recent || this.CHAPTERS[0];
+      const next = chapter.sections.find(id => !studied[`${chapter.key}:${id}`]);
+      resume.href = next ? `${chapter.page}#${next}` : `practice.html?chapter=${chapter.key}`;
+      resume.textContent = `${recent ? (next ? 'Continue' : 'Practise') : 'Start'} ${chapter.label} →`;
+    }
   },
 
   sectionLabel(id) {

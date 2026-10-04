@@ -113,13 +113,21 @@ for meta in ordered:
                     break
     body+='</section>'
 page('formula-sheet.html','revise','Class 11 formula reference',body,True)
-# Homepage replaces the obsolete single-test framing while retaining attempt summaries.
-body=hero('Class 11 · Physics','Physics, from the first idea to exam level','Four volumes organised around your uploaded syllabus. Learn each idea, inspect its formulas, try a worked example, and check it with practice.')
-body+='<div class="row"><a class="btn primary" href="chapters.html">Explore all chapters →</a><a class="btn" href="practice.html">Practice bank</a><a class="btn" href="formula-sheet.html">Formula reference</a><a class="btn" href="syllabus.html">Syllabus library</a></div>'
-body+='<section><h2>Your study progress</h2><p id="study-overall"></p><div id="study-progress" class="stack"></div><p class="small muted">Mark a section studied when you understand it. Reading and question attempts are separate and saved in this browser.</p></section>'
-body+='<section><h2>Your practice so far</h2><div class="grid-cards">'+''.join(f'<div class="card"><strong id="{i}">0</strong><p>{label}</p></div>' for i,label in [('t-total','questions available'),('t-done','attempted here'),('t-right','answered correctly'),('t-flag','marked on your papers')])+'</div><p><a href="practice.html#flagged">Re-do questions marked on your tests</a> · <a href="practice.html#ex">Try curated Exemplar patterns</a></p></section>'
-body+='<section><h2>A useful study loop</h2><ol><li>Read the introduction and identify the system and assumptions.</li><li>Explain every symbol and predict what happens when an input changes.</li><li>Solve the worked example before opening its solution.</li><li>Answer the concept check, then use chapter practice to revisit mistakes.</li></ol></section>'
+# Homepage has its own layout; lesson generation must preserve its design.
+volume_titles={1:'Foundations & Motion',2:'Forces, Energy & Rotation',3:'Gravity, Materials & Oscillations',4:'Waves & Thermal Physics'}
+volume_cards=''
+for vol in syllabus['physics']:
+    number=vol['volume']
+    volume_cards+=f'<article class="card home-volume" style="--c: var(--{["indigo","coral","water","plum"][number-1]})"><span class="card-k">Volume {number}</span><h3>{volume_titles[number]}</h3><ul>'
+    for row in vol['chapters']:
+        for key in row[2:]:
+            meta=(new|old)[key]
+            volume_cards+=f'<li><a href="{meta["page"]}">{escape(meta["label"])}</a></li>'
+    volume_cards+='</ul></article>'
+body=(SITE/'_home-body.html').read_text().replace('{{VOLUME_CARDS}}',volume_cards)
 page('index.html','home','NEET Physics Notes',body)
+text=(SITE/'index.html').read_text().replace('class="ch-mechanics" data-page="home"','class="ch-home" data-page="home"')
+(SITE/'index.html').write_text(text)
 # Local index and a tracked public audit describe the source image organisation.
 md=['# Uploaded Class 11 syllabus','',syllabus['scope'],'','Original images are preserved by filename mapping and SHA-256 in file-manifest.json. One exact chemistry volume 3 duplicate is in duplicates/.','']
 for subject in ['physics','chemistry','biology']:

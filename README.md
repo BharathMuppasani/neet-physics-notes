@@ -28,6 +28,7 @@ Open http://localhost:8000. Section progress and answers are saved in the visito
 - `content/syllabus.json`: transcription of the uploaded subject/volume contents.
 - `content/exemplar_sources.json`: official PDF URLs, checksums and extracted question identifiers.
 - `scripts/render_physics.py`: deterministic static-page and question-bank renderer.
+- `site/_home-body.html`: homepage layout, kept separate from generated lessons.
 - `scripts/collect_exemplar.py`: optional public-source collector; requires `pypdf`. Downloaded PDFs and extracted text stay in ignored `papers/references/`. Answer keys are not automatically imported.
 
 The syllabus catalogue describes the uploaded books; it is not a claim that every legacy book topic is in the current official exam syllabus. See [docs/syllabus-catalogue.md](docs/syllabus-catalogue.md) and [docs/class11-expansion.md](docs/class11-expansion.md).
@@ -40,6 +41,8 @@ node tests/check-physics.cjs
 ```
 
 Checks cover question/section integrity, formula labels, links, saved-state compatibility and recovery, 71 answer fixtures, collision conservation and source identifiers. `tests/browser-check.js` is a Playwright function for a local server on port 8766. It covers solution controls, progress persistence, cross-tab updates, practice filters, print recovery, model calculations and all 24 learning/library pages at phone/tablet widths.
+
+`tests/home-navigation-check.js` checks the homepage and chapter menu at six widths from 320 to 1280 px, keyboard and outside-click dismissal, chapter shortcuts and the saved-progress resume link. The homepage uses compact progress disclosures; the chapter catalogue keeps the full study dashboard.
 
 The earlier Solids/Fluids review is retained in [docs/site-audit.md](docs/site-audit.md).
 
