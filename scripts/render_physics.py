@@ -113,20 +113,11 @@ for meta in ordered:
                     break
     body+='</section>'
 page('formula-sheet.html','revise','Class 11 formula reference',body,True)
-# Homepage has its own layout; lesson generation must preserve its design.
-volume_titles={1:'Foundations & Motion',2:'Forces, Energy & Rotation',3:'Gravity, Materials & Oscillations',4:'Waves & Thermal Physics'}
-volume_cards=''
-for vol in syllabus['physics']:
-    number=vol['volume']
-    volume_cards+=f'<article class="card home-volume" style="--c: var(--{["indigo","coral","water","plum"][number-1]})"><span class="card-k">Volume {number}</span><h3>{volume_titles[number]}</h3><ul>'
-    for row in vol['chapters']:
-        for key in row[2:]:
-            meta=(new|old)[key]
-            volume_cards+=f'<li><a href="{meta["page"]}">{escape(meta["label"])}</a></li>'
-    volume_cards+='</ul></article>'
-body=(SITE/'_home-body.html').read_text().replace('{{VOLUME_CARDS}}',volume_cards)
+# Keep the approved homepage separate from lesson generation.
+body=(SITE/'_home-body.html').read_text()
 page('index.html','home','NEET Physics Notes',body)
 text=(SITE/'index.html').read_text().replace('class="ch-mechanics" data-page="home"','class="ch-home" data-page="home"')
+text=text.replace('<link rel="stylesheet" href="assets/style.css">','<link rel="stylesheet" href="assets/style.css">\n<link rel="stylesheet" href="assets/home.css">')
 (SITE/'index.html').write_text(text)
 # Local index and a tracked public audit describe the source image organisation.
 md=['# Uploaded Class 11 syllabus','',syllabus['scope'],'','Original images are preserved by filename mapping and SHA-256 in file-manifest.json. One exact chemistry volume 3 duplicate is in duplicates/.','']

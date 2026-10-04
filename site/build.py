@@ -7,7 +7,7 @@ Output: ../dist/
 
 Use --web for a standalone website suitable for GitHub Pages.
 """
-import argparse, re, shutil, pathlib
+import argparse, hashlib, re, shutil, pathlib
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--web", action="store_true", help="Build standalone HTML pages")
@@ -25,10 +25,21 @@ for page in SRC.glob("*.html"):
         continue
     shutil.copy(page, OUT / page.name)
 
+# A changed asset gets a new URL so returning readers receive matching HTML,
+# styles and navigation rather than a previously cached version.
+def version_asset(match):
+    path = match.group(2)
+    asset = OUT / path
+    digest = hashlib.sha256(asset.read_bytes()).hexdigest()[:12]
+    return '%s%s?v=%s%s' % (match.group(1), path, digest, match.group(3))
+
+for page in OUT.glob('*.html'):
+    page.write_text(re.sub(r'((?:src|href)=")((?:assets/)[^"?]+\.(?:js|css))(")', version_asset, page.read_text()))
+
 if args.web:
     (OUT / ".nojekyll").touch()
 else:
-    html = (SRC / "index.html").read_text()
+    html = (OUT / "index.html").read_text()
     head = re.search(r"<head>(.*?)</head>", html, re.S).group(1)
     head = re.sub(r'<meta (charset|name="viewport")[^>]*>\s*', "", head)
     body_tag = re.search(r"<body([^>]*)>", html).group(1)

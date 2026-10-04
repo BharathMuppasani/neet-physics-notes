@@ -404,83 +404,19 @@ html.print mjx-container[display="true"] { overflow: visible; }
 .qmeta .chip { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 .qmeta .src { overflow-wrap: anywhere; }
 
-/* Home keeps the original overview layout; full progress lives in the catalogue. */
+/* Original direct chapter tabs, wrapped so every link remains visible. */
+.topbar-inner { min-height: 56px; }
+.nav { overflow: visible; flex-wrap: wrap; }
 .ch-home .content, body[data-page="chapters"] .content { max-width: 1120px; margin-inline: auto; }
-.ch-home { --accent: var(--teal); --accent-soft: var(--teal-soft); }
-.home-hero { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 36px; align-items: center; padding-block: 40px 8px; }
-.home-hero .hero { padding: 0; gap: 18px; }
-.home-actions .btn { text-decoration: none; }
-.home-hero h1 { max-width: 20ch; }
-.home-focus { background: var(--ink); color: #fff; padding: 24px; border-radius: var(--r-lg); display: grid; gap: 14px; }
-.home-focus .eyebrow { color: #BFC8E0; }
-.home-focus h2 { color: #fff; }
-.home-focus p { color: #D5DDED; font-size: 15px; line-height: 1.5; }
-.focus-links { display: grid; }
-.focus-links a { display: flex; justify-content: space-between; gap: 12px; padding-block: 9px; border-bottom: 1px solid #3d4558; }
-.home-focus a { color: #fff; text-decoration: none; font-size: 15px; }
-.home-focus a:hover { text-decoration: underline; }
-.focus-practice { font-weight: 650; }
-.ch-home .content > .home-section { margin-block: 32px 0; padding-top: 32px; gap: 18px; }
-.ch-home .content > .home-section:first-of-type { border-top: 0; }
-.home-section-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
-.home-section-heading > div { display: grid; gap: 6px; }
-.home-section-heading > a { font-size: 14px; font-weight: 600; }
-.progress-tiles { display: grid; gap: 12px; grid-template-columns: repeat(4, minmax(0,1fr)); }
-.ptile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 18px; display: grid; gap: 4px; }
-.ptile .v { font-family: var(--f-display); font-size: 30px; font-weight: 750; line-height: 1.2; }
-.ptile .k { font-size: 13px; color: var(--muted); }
-.green { color: var(--green); } .coral { color: var(--coral); } .water { color: var(--water); } .plum { color: var(--plum); }
-.home-volumes { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; align-items: stretch; }
-.home-volume, .ch-card { border-top: 4px solid var(--c); }
-.home-volume .card-k, .ch-card .card-k { color: var(--c); }
-.home-volume ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
-.home-volume li a { display: block; text-decoration: none; color: var(--ink-2); padding-block: 3px; line-height: 1.4; }
-.home-volume li a:hover { color: var(--accent); text-decoration: underline; }
-.home-featured { grid-template-columns: repeat(3,minmax(0,1fr)); }
-.home-featured .chips { margin-top: auto; }
-.home-featured .chip { white-space: normal; line-height: 1.2; }
-.card-link { color: var(--accent); font-size: 14px; font-weight: 650; }
-.home-progress { display: grid; gap: 10px; }
-.home-progress-group { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
-.home-progress-group > summary { cursor: pointer; padding: 14px 18px; display: flex; align-items: center; gap: 12px; font-weight: 650; list-style: none; }
-.home-progress-group > summary::after { content: '＋'; margin-left: auto; color: var(--muted); }
-.home-progress-group[open] > summary::after { content: '−'; }
-.home-progress-group [data-volume-summary] { color: var(--muted); font-weight: 500; }
-.home-progress-group > .grid-cards { padding: 0 14px 14px; }
-
-/* Every primary destination fits on phones; the chapter menu is not clipped. */
-.topbar-inner { position: relative; min-height: 56px; }
-.nav { overflow: visible; align-items: center; }
-.nav > a, .chapter-menu > summary { white-space: nowrap; text-decoration: none; color: var(--ink-2); font-weight: 550; font-size: 14.5px; padding: 7px 12px; border-radius: 999px; cursor: pointer; line-height: 1.65; }
-.chapter-menu > summary { list-style: none; }
-.chapter-menu > summary::-webkit-details-marker { display: none; }
-.chapter-menu > summary:hover { background: var(--surface-2); }
-.chapter-menu > summary[aria-current="page"], .chapter-menu[open] > summary { color: var(--accent); background: var(--accent-soft); }
-.chapter-menu-panel { position: absolute; top: calc(100% + 8px); left: 16px; right: 16px; border: 1px solid var(--line-2); border-radius: var(--r-lg); background: var(--surface); box-shadow: 0 12px 32px #1b223326; padding: 18px; max-height: calc(100dvh - var(--topbar-h) - 24px); overflow-y: auto; }
-.chapter-menu:not([open]) .chapter-menu-panel { display: none; }
-.chapter-menu-volumes { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; }
-.chapter-menu-panel .all-chapters { display: block; margin-bottom: 12px; color: var(--accent); border-bottom: 1px solid var(--line); border-radius: 0; padding-bottom: 12px; }
-.chapter-menu-volumes p { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
-.chapter-menu-volumes a { display: block; white-space: normal; border-radius: var(--r-sm); font-size: 13.5px; line-height: 1.4; padding: 8px; }
-@media (max-width: 900px) {
-  .home-hero { grid-template-columns: 1fr; gap: 24px; }
-  .home-hero h1 { max-width: 24ch; }
-  .home-featured { grid-template-columns: 1fr; }
-  .chapter-menu-volumes { grid-template-columns: repeat(2,minmax(0,1fr)); }
-}
-@media (max-width: 720px) {
-  :root { --topbar-h: 92px; }
-  .topbar-inner { display: grid; grid-template-columns: minmax(0,1fr); align-content: center; gap: 6px; min-height: 92px; padding: 8px 16px; }
-  .nav { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.2fr) repeat(3,minmax(0,1fr)); gap: 2px; width: 100%; margin: 0; padding: 0; }
-  .nav > a, .chapter-menu > summary { display: block; padding: 12px 2px; text-align: center; font-size: 12px; }
-  .chapter-menu > summary span { font-size: 8px; }
-  .chapter-menu-panel { left: 12px; right: 12px; padding: 14px; }
-  .home-hero { padding-top: 28px; }
-  .home-volumes { grid-template-columns: 1fr; }
-  .progress-tiles { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .home-section-heading { align-items: start; }
-  .home-section-heading .btn { max-width: 100%; white-space: normal; }
+@media (max-width: 1000px) {
+  :root { --topbar-h: 132px; }
+  .topbar-inner { display: grid; grid-template-columns: minmax(0,1fr); gap: 8px; padding-block: 10px; }
+  .nav { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 4px; width: 100%; margin: 0; padding: 0; }
+  .nav a { padding: 8px 4px; font-size: 14px; text-align: center; }
 }
 @media (max-width: 420px) {
-  .chapter-menu-volumes { grid-template-columns: 1fr; }
+  .nav a { font-size: 12.5px; padding-inline: 2px; }
+}
+@media (max-width: 360px) {
+  .nav a { font-size: 11.5px; }
 }

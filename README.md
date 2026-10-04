@@ -42,7 +42,7 @@ node tests/check-physics.cjs
 
 Checks cover question/section integrity, formula labels, links, saved-state compatibility and recovery, 71 answer fixtures, collision conservation and source identifiers. `tests/browser-check.js` is a Playwright function for a local server on port 8766. It covers solution controls, progress persistence, cross-tab updates, practice filters, print recovery, model calculations and all 24 learning/library pages at phone/tablet widths.
 
-`tests/home-navigation-check.js` checks the homepage and chapter menu at six widths from 320 to 1280 px, keyboard and outside-click dismissal, chapter shortcuts and the saved-progress resume link. The homepage uses compact progress disclosures; the chapter catalogue keeps the full study dashboard.
+`tests/home-navigation-check.js` checks the restored homepage and eight direct navigation tabs at six widths from 320 to 1280 px, saved progress, chapter links and revision. The original exam overview and Solids/Fluids cards remain on the homepage; All chapters opens the complete Class 11 library. Publishing adds content hashes to asset URLs so updates reach returning readers.
 
 The earlier Solids/Fluids review is retained in [docs/site-audit.md](docs/site-audit.md).
 

@@ -1,0 +1,34 @@
+/* Original homepage design, restored from the approved checkpoint. */
+.home-hero { display: grid; gap: 22px; padding-block: 36px 8px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 900px) { .home-hero { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: end; } }
+  .countdown { background: var(--ink); color: #fff; border-radius: var(--r-lg); padding: 20px; display: grid; gap: 6px; }
+  .countdown .k { font-family: var(--f-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #B9C2DA; }
+  .countdown .big { font-family: var(--f-display); font-size: 40px; font-weight: 750; line-height: 1.05; }
+  .countdown p { color: #D7DCEA; font-size: 15px; }
+  .weights { display: grid; gap: 10px; }
+  .wrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; }
+  .wrow .name { font-weight: 600; font-size: 15.5px; min-width: 0; }
+  .wrow .name a { color: var(--ink); }
+  .wrow .qs { font-family: var(--f-mono); font-size: 13px; color: var(--ink-2); }
+  .wrow .bar { grid-column: 1 / -1; }
+  .wrow.hot .bar > span { background: var(--coral); }
+  .wrow.solid .bar > span { background: var(--indigo); }
+  .wrow.flu .bar > span { background: var(--water); }
+  .wrow.other .bar > span { background: var(--line-2); }
+  .ch-card .card-k { color: var(--c); }
+  .ch-card { border-top: 4px solid var(--c); }
+  .plan { counter-reset: s; display: grid; gap: 10px; padding: 0; margin: 0; list-style: none; }
+  .plan li { counter-increment: s; display: grid; grid-template-columns: 34px minmax(0,1fr); gap: 10px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; }
+  .plan li::before { content: counter(s); font-family: var(--f-display); font-weight: 750; font-size: 18px; color: #fff; background: var(--coral); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; }
+  .plan li span { min-width: 0; }
+  .progress-tiles { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); }
+  .ptile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; display: grid; gap: 4px; }
+  .ptile .v { font-family: var(--f-display); font-size: 26px; font-weight: 750; }
+  .ptile .k { font-size: 13px; color: var(--muted); }
+/* The original layout also exposes the expanded lesson library. */
+.home-library { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.home-library .btn { text-decoration: none; }
+.home-study-heading { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.home-study-heading .btn { max-width: 100%; white-space: normal; text-decoration: none; }
+#study-progress { align-items: stretch; }
+@media (max-width: 720px) { .home-hero .chips .chip { white-space: normal; } }
