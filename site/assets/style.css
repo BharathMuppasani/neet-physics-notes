@@ -309,6 +309,16 @@ input[type="range"] { width: 100%; accent-color: var(--accent); height: 28px; ma
 a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .card .card-k { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
 .card p { color: var(--ink-2); font-size: 15.5px; }
+.ch-card { border-top: 4px solid var(--c); }
+.ch-card .card-k { color: var(--c); }
+.ch-card .chip { white-space: normal; max-width: 100%; }
+.chapter-volume { display: grid; gap: 16px; margin-block: 24px; }
+.chapter-volume .grid-cards { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.chapter-volume .volume-heading { color: var(--ink-2); font-size: 20px; }
+.chapter-card-link { display: grid; gap: 10px; color: var(--ink); text-decoration: none; }
+.chapter-card-link:hover h3 { color: var(--c); }
+.chapter-card-progress { border-top: 1px solid var(--line); padding-top: 12px; display: grid; gap: 8px; }
+.ch-card progress { accent-color: var(--c); }
 
 .bar { height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
 .bar > span { display: block; height: 100%; background: var(--accent); border-radius: 99px; }

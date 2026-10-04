@@ -15,8 +15,6 @@
   .wrow.solid .bar > span { background: var(--indigo); }
   .wrow.flu .bar > span { background: var(--water); }
   .wrow.other .bar > span { background: var(--line-2); }
-  .ch-card .card-k { color: var(--c); }
-  .ch-card { border-top: 4px solid var(--c); }
   .plan { counter-reset: s; display: grid; gap: 10px; padding: 0; margin: 0; list-style: none; }
   .plan li { counter-increment: s; display: grid; grid-template-columns: 34px minmax(0,1fr); gap: 10px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; }
   .plan li::before { content: counter(s); font-family: var(--f-display); font-weight: 750; font-size: 18px; color: #fff; background: var(--coral); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; }

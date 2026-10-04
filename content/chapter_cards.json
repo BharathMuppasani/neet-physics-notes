@@ -1,0 +1,164 @@
+{
+  "maths": {
+    "description": "Build the mathematical language used throughout physics: relationships, graphs, rates and accumulation.",
+    "chips": [
+      "Graphs",
+      "Trigonometry",
+      "Calculus"
+    ],
+    "color": "indigo"
+  },
+  "units": {
+    "description": "Learn how to report a measurement, check an equation and propagate uncertainty.",
+    "chips": [
+      "Dimensions",
+      "Measurement errors",
+      "Instruments"
+    ],
+    "color": "indigo"
+  },
+  "linear": {
+    "description": "Separate position, displacement and distance; connect graphs with equations; then handle relative motion, gravity and changes of direction..",
+    "chips": [
+      "Motion graphs",
+      "Free fall",
+      "Relative motion"
+    ],
+    "color": "indigo"
+  },
+  "vectors": {
+    "description": "Understand direction before using projectile, force or torque equations.",
+    "chips": [
+      "Components",
+      "Dot product",
+      "Cross product"
+    ],
+    "color": "indigo"
+  },
+  "plane": {
+    "description": "Resolve two-dimensional motion into perpendicular directions, then connect projectiles, relative velocity and circular motion..",
+    "chips": [
+      "Projectiles",
+      "River crossings",
+      "Circular motion"
+    ],
+    "color": "indigo"
+  },
+  "laws": {
+    "description": "Use free-body diagrams to connect forces with changes in momentum.",
+    "chips": [
+      "Free-body diagrams",
+      "Connected masses",
+      "Momentum"
+    ],
+    "color": "indigo"
+  },
+  "friction": {
+    "description": "Friction responds to the tendency to slip.",
+    "chips": [
+      "Static friction",
+      "Inclines",
+      "Connected bodies"
+    ],
+    "color": "coral"
+  },
+  "work": {
+    "description": "Use work to track energy changes, recognise conservative forces and analyse collisions.",
+    "chips": [
+      "Work–energy theorem",
+      "Collisions",
+      "Power"
+    ],
+    "color": "coral"
+  },
+  "rotation": {
+    "description": "Track the centre of mass, then distinguish translation from rotation.",
+    "chips": [
+      "Centre of mass",
+      "Moment of inertia",
+      "Rolling"
+    ],
+    "color": "coral"
+  },
+  "gravitation": {
+    "description": "Connect force, field and potential, then derive orbital motion and escape speed.",
+    "chips": [
+      "Gravity & potential",
+      "Satellites",
+      "Escape speed"
+    ],
+    "color": "water"
+  },
+  "oscillations": {
+    "description": "Start with restoring forces and phase, then connect displacement, velocity and energy.",
+    "chips": [
+      "SHM",
+      "Springs & pendulums",
+      "Resonance"
+    ],
+    "color": "water"
+  },
+  "waves": {
+    "description": "Follow a disturbance travelling through a medium while its particles oscillate locally.",
+    "chips": [
+      "Standing waves",
+      "Beats",
+      "Doppler effect"
+    ],
+    "color": "plum"
+  },
+  "thermal-properties": {
+    "description": "Separate temperature from heat, then explain expansion, calorimetry, phase changes and heat transfer.",
+    "chips": [
+      "Expansion",
+      "Calorimetry",
+      "Heat transfer"
+    ],
+    "color": "plum"
+  },
+  "kinetic-theory": {
+    "description": "Connect random molecular motion to pressure and temperature.",
+    "chips": [
+      "Molecular speeds",
+      "Heat capacities",
+      "Mean free path"
+    ],
+    "color": "plum"
+  },
+  "thermodynamics": {
+    "description": "Account for heat, work and internal energy with one consistent sign convention.",
+    "chips": [
+      "Gas processes",
+      "Heat engines",
+      "Carnot cycle"
+    ],
+    "color": "plum"
+  },
+  "solids": {
+    "description": "Stress, strain, Hooke's law, the stress–strain curve, Young's, shear and bulk moduli, Poisson's ratio, elastic energy, combined wires, own weight, thermal stress and applications.",
+    "chips": [
+      "Wire lab",
+      "Stress–strain curve",
+      "Beam bending"
+    ],
+    "color": "indigo"
+  },
+  "fluids1": {
+    "description": "Pressure and depth, atmospheric and gauge pressure, Pascal's law, buoyancy, continuity, Bernoulli, Torricelli, venturimeter, dynamic lift, Magnus effect and accelerating containers.",
+    "chips": [
+      "Hydraulic lift",
+      "Floating lab",
+      "Water jets"
+    ],
+    "color": "water"
+  },
+  "fluids2": {
+    "description": "Viscosity, Stokes' law, terminal velocity, Reynolds number, surface tension and energy, angle of contact, drops and bubbles, capillary rise and its surface-tension experiment, plus viscous pipe flow.",
+    "chips": [
+      "Terminal velocity",
+      "Bubbles",
+      "Capillary tube"
+    ],
+    "color": "plum"
+  }
+}
