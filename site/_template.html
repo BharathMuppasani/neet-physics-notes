@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chapter Name</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,750&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<!-- site.js MUST load before MathJax (it holds the MathJax config) -->
+<script src="assets/site.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
+<!-- question data used by inline quizzes -->
+<script src="assets/q-test05.js"></script>
+<script src="assets/q-test06.js"></script>
+<script src="assets/q-solids.js"></script>
+</head>
+<!-- body class sets the chapter accent: ch-solids | ch-fluids1 | ch-fluids2 | ch-practice | ch-revise -->
+<body class="ch-solids" data-page="solids">
+<div class="frame with-toc">
+  <aside class="toc" aria-label="Sections"></aside>
+  <main class="content">
+    <header class="hero">
+      <span class="eyebrow">Class 11 · Chapter 8</span>
+      <h1>Chapter Name</h1>
+      <p class="lede">One or two sentences on what this chapter is about.</p>
+      <div class="chips"><span class="chip accent">10 Qs in CUT-6</span></div>
+    </header>
+
+    <section id="stress" data-num="8.2" data-toc="Stress">
+      <div class="sec-head">
+        <span class="num">8.2 <span class="level basic">Basics</span></span>
+        <h2>Stress</h2>
+      </div>
+      <div class="prose">
+        <p>Plain explanation. Inline math \( \sigma = F/A \). Use <span class="term">term</span> and <span class="hl">highlight</span>.</p>
+      </div>
+      <div class="formula">
+        <div class="f-title">Stress</div>
+        <div class="f-main">\[ \text{Stress} = \frac{F}{A} \]</div>
+        <div class="f-where">F = restoring force, A = area. SI unit N m⁻² (Pa).</div>
+      </div>
+      <div class="callout def"><span class="label">Definition</span><p>…</p></div>
+      <div class="callout tip"><span class="label">Shortcut</span><p>…</p></div>
+      <div class="callout trap"><span class="label">Exam trap</span><p>…</p></div>
+      <div class="callout exam"><span class="label">How it is asked</span><p>…</p></div>
+
+      <figure class="sim" id="sim-demo">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Title</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="controls">
+              <div class="ctrl"><label for="demo-F">Force F <output data-for="demo-F"></output></label>
+                <input type="range" id="demo-F" min="0" max="100" step="1" value="40" data-unit=" N" data-dp="0"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout hi"><span class="k">Stress</span><span class="v" data-r="stress">–</span></div>
+            </div>
+            <p class="sim-note">What to notice.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>Question…</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps"><li>…</li></ol><p class="answer">Answer: …</p></div></details>
+      </div>
+
+      <!-- auto-filled with matching questions from window.QBANK -->
+      <div class="quiz" data-topic="stress" data-limit="3"><h3>Try it</h3></div>
+    </section>
+
+    <footer class="footer">…</footer>
+  </main>
+</div>
+<script src="assets/sims-solids.js"></script>
+</body>
+</html>

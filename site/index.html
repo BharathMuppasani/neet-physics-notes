@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NEET Physics Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,750&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js"></script>
+<script src="assets/q-test05.js"></script>
+<script src="assets/q-test06.js"></script>
+<script src="assets/q-solids.js"></script>
+<script src="assets/q-fluids-extra.js"></script>
+<style>
+  .home-hero { display: grid; gap: 22px; padding-block: 36px 8px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 900px) { .home-hero { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: end; } }
+  .countdown { background: var(--ink); color: #fff; border-radius: var(--r-lg); padding: 20px; display: grid; gap: 6px; }
+  .countdown .k { font-family: var(--f-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #B9C2DA; }
+  .countdown .big { font-family: var(--f-display); font-size: 40px; font-weight: 750; line-height: 1.05; }
+  .countdown p { color: #D7DCEA; font-size: 15px; }
+  .weights { display: grid; gap: 10px; }
+  .wrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; }
+  .wrow .name { font-weight: 600; font-size: 15.5px; min-width: 0; }
+  .wrow .name a { color: var(--ink); }
+  .wrow .qs { font-family: var(--f-mono); font-size: 13px; color: var(--ink-2); }
+  .wrow .bar { grid-column: 1 / -1; }
+  .wrow.hot .bar > span { background: var(--coral); }
+  .wrow.solid .bar > span { background: var(--indigo); }
+  .wrow.flu .bar > span { background: var(--water); }
+  .wrow.other .bar > span { background: var(--line-2); }
+  .ch-card .card-k { color: var(--c); }
+  .ch-card { border-top: 4px solid var(--c); }
+  .plan { counter-reset: s; display: grid; gap: 10px; padding: 0; margin: 0; list-style: none; }
+  .plan li { counter-increment: s; display: grid; grid-template-columns: 34px minmax(0,1fr); gap: 10px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; }
+  .plan li::before { content: counter(s); font-family: var(--f-display); font-weight: 750; font-size: 18px; color: #fff; background: var(--coral); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; }
+  .plan li span { min-width: 0; }
+  .progress-tiles { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  .ptile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; display: grid; gap: 4px; }
+  .ptile .v { font-family: var(--f-display); font-size: 26px; font-weight: 750; }
+  .ptile .k { font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body class="ch-home" data-page="home">
+<div class="frame">
+  <main class="content" style="max-width: 1120px; margin-inline: auto;">
+    <section class="home-hero">
+      <div class="stack">
+        <span class="eyebrow" style="color: var(--coral);">NEET Jr Star · Narayana CUT-6</span>
+        <h1>Physics, from the first idea to exam level</h1>
+        <p class="lede">Mechanical properties of solids and fluids, explained from scratch with interactive visuals. Every question from your Module Test-05 and Test-06 is solved step by step.</p>
+        <div class="row">
+          <a class="btn primary" href="revise.html">Night-before revision →</a>
+          <a class="btn" href="practice.html#flagged">Re-do the ✗ questions</a>
+        </div>
+      </div>
+      <div class="countdown" id="countdown">
+        <span class="k">CUT-6 exam</span>
+        <span class="big" id="cd-big">Sun, 4 Oct 2026</span>
+        <p id="cd-note">Physics: 45 questions. Solids and Fluids together are 30 of them.</p>
+      </div>
+    </section>
+
+    <section style="padding-top: 36px;" class="stack">
+      <h2>Where the 45 physics marks come from</h2>
+      <p class="muted" style="max-width: 70ch;">From the CUT-6 syllabus clarification sheet. The two chapters on this site carry two-thirds of the physics paper.</p>
+      <div class="grid-cards" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); align-items: start;">
+        <div class="card weights">
+          <div class="wrow hot flu"><span class="name"><a href="fluids-1.html">Mechanical Properties of Fluids</a></span><span class="qs">20 Qs</span><div class="bar"><span style="width: 100%; background: var(--water)"></span></div></div>
+          <div class="wrow solid"><span class="name"><a href="solids.html">Mechanical Properties of Solids</a></span><span class="qs">10 Qs</span><div class="bar"><span style="width: 50%"></span></div></div>
+          <div class="wrow other"><span class="name">Work, Power, Energy (incl. collisions)</span><span class="qs">3 Qs</span><div class="bar"><span style="width: 15%"></span></div></div>
+          <div class="wrow other"><span class="name">System of Particles &amp; Rotational Motion</span><span class="qs">3 Qs</span><div class="bar"><span style="width: 15%"></span></div></div>
+          <div class="wrow other"><span class="name">Gravitation</span><span class="qs">3 Qs</span><div class="bar"><span style="width: 15%"></span></div></div>
+          <div class="wrow other"><span class="name">Motion in a Straight Line</span><span class="qs">2 Qs</span><div class="bar"><span style="width: 10%"></span></div></div>
+          <div class="wrow other"><span class="name">Motion in a Plane</span><span class="qs">2 Qs</span><div class="bar"><span style="width: 10%"></span></div></div>
+          <div class="wrow other"><span class="name">Laws of Motion &amp; Friction</span><span class="qs">2 Qs</span><div class="bar"><span style="width: 10%"></span></div></div>
+        </div>
+        <div class="stack">
+          <div class="callout exam"><span class="label">Fluids syllabus limit</span><p>Fluids is examined in schedule order "up to 9.6.5 Capillarity, determination of surface tension by capillary rise method". That is the whole chapter: pressure → Bernoulli → viscosity → surface tension → capillarity.</p></div>
+          <div class="callout def"><span class="label">What are Fluids I and Fluids II?</span><p>Both are the <strong>same chapter</strong> (Mechanical Properties of Fluids), split in two because it is long. The split follows your module tests:</p>
+            <ul><li><strong>Fluids I</strong> covers pressure, Pascal, buoyancy, continuity, Bernoulli and Torricelli. That is Test-05.</li>
+            <li><strong>Fluids II</strong> covers viscosity, Stokes' law, surface tension, bubbles and capillarity. That is Test-06.</li></ul></div>
+          <p class="small muted">Other chapters (motion, laws of motion, WPE, rotation, gravitation) will be added here next.</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding-top: 44px;" class="stack">
+      <h2>Chapters</h2>
+      <div class="grid-cards">
+        <a class="card ch-card" href="solids.html" style="--c: var(--indigo)">
+          <span class="card-k">Chapter 8 · 10 Qs</span>
+          <h3>Mechanical Properties of Solids</h3>
+          <p>Stress, strain, Hooke's law, the stress–strain curve, Young's, shear and bulk moduli, Poisson's ratio, elastic energy, applications.</p>
+          <div class="chips"><span class="chip indigo">Wire lab</span><span class="chip indigo">Stress–strain curve</span><span class="chip indigo">Beam bending</span></div>
+        </a>
+        <a class="card ch-card" href="fluids-1.html" style="--c: var(--water)">
+          <span class="card-k">Chapter 9 · part I</span>
+          <h3>Fluids I: Pressure to Bernoulli</h3>
+          <p>Pressure and depth, atmospheric and gauge pressure, Pascal's law, buoyancy, continuity, Bernoulli, Torricelli, venturimeter, lift.</p>
+          <div class="chips"><span class="chip water">Hydraulic lift</span><span class="chip water">Floating lab</span><span class="chip water">Water jets</span></div>
+        </a>
+        <a class="card ch-card" href="fluids-2.html" style="--c: var(--plum)">
+          <span class="card-k">Chapter 9 · part II</span>
+          <h3>Fluids II: Viscosity &amp; Surface Tension</h3>
+          <p>Viscosity, Stokes' law, terminal velocity, Reynolds number, surface tension and energy, angle of contact, drops and bubbles, capillary rise.</p>
+          <div class="chips"><span class="chip plum">Terminal velocity</span><span class="chip plum">Bubbles</span><span class="chip plum">Capillary tube</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section style="padding-top: 44px;" class="stack">
+      <h2>Your practice so far</h2>
+      <div class="progress-tiles" id="tiles">
+        <div class="ptile"><span class="v" id="t-total">–</span><span class="k">questions in the bank</span></div>
+        <div class="ptile"><span class="v" id="t-done">0</span><span class="k">attempted on this device</span></div>
+        <div class="ptile"><span class="v" id="t-right" style="color: var(--green)">0</span><span class="k">answered correctly</span></div>
+        <div class="ptile"><span class="v" id="t-flag" style="color: var(--coral)">–</span><span class="k">✗-marked on your papers</span></div>
+      </div>
+      <div class="grid-cards">
+        <a class="card" href="practice.html#t05"><span class="card-k" style="color: var(--water)">26 Sep 2026</span><h3>Module Test-05</h3><p>45 questions on Pascal, buoyancy, continuity, Bernoulli and Torricelli. Every one is solved.</p></a>
+        <a class="card" href="practice.html#t06"><span class="card-k" style="color: var(--plum)">03 Oct 2026</span><h3>Module Test-06</h3><p>46 questions on viscosity, terminal velocity, surface tension, bubbles and capillarity. Every one is solved.</p></a>
+        <a class="card" href="practice.html#xs"><span class="card-k" style="color: var(--indigo)">Exam-style set</span><h3>Solids practice</h3><p>Your tests didn't cover Solids yet, so this set covers the classic question patterns.</p></a>
+      </div>
+    </section>
+
+    <section style="padding-top: 44px;" class="stack">
+      <h2>How to use tonight</h2>
+      <ol class="plan">
+        <li><span><strong>Solids, 45 min.</strong> Read <a href="solids.html">the chapter</a> top to bottom and play with the wire lab and stress–strain curve. Then do the Solids practice set.</span></li>
+        <li><span><strong>Re-do your ✗ questions.</strong> <a href="practice.html#flagged">Practice → ✗ marked</a>. Read the "Exam trap" box under each one.</span></li>
+        <li><span><strong>Fluids I and II, sections you feel weak in.</strong> Use the section index; each section ends with questions from your own test.</span></li>
+        <li><span><strong>Formula sheet last.</strong> <a href="revise.html">Revise</a> has every formula, ratio shortcut and trap on one page.</span></li>
+      </ol>
+    </section>
+
+    <footer class="footer">Built from the photos of Module Test-05, Module Test-06 and the CUT-6 syllabus sheet. Your answers are saved only in this browser.</footer>
+  </main>
+</div>
+<script>
+(function () {
+  const exam = new Date(2026, 9, 4);
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const d = Math.round((exam - today) / 86400000);
+  const big = document.getElementById('cd-big');
+  if (d > 1) big.textContent = d + ' days to go';
+  else if (d === 1) big.textContent = 'Tomorrow';
+  else if (d === 0) big.textContent = 'Today. All the best!';
+  else big.textContent = 'Done on 4 Oct 2026';
+  document.addEventListener('DOMContentLoaded', () => {
+    const q = window.QBANK || [];
+    const att = Site.store.read();
+    const ids = Object.keys(att).filter(id => q.find(x => x.id === id));
+    document.getElementById('t-total').textContent = q.length;
+    document.getElementById('t-done').textContent = ids.length;
+    document.getElementById('t-right').textContent = ids.filter(id => q.find(x => x.id === id).ans === att[id]).length;
+    document.getElementById('t-flag').textContent = q.filter(x => x.flagged).length;
+  });
+})();
+</script>
+</body>
+</html>

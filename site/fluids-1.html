@@ -1,0 +1,1084 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fluids I · Pressure to Bernoulli</title>
+<meta name="description" content="Mechanical properties of fluids, part 1: pressure, Pascal's law, buoyancy, continuity, Bernoulli, Torricelli, venturimeter and dynamic lift, with interactive simulations.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,750&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<!-- site.js MUST load before MathJax (it holds the MathJax config) -->
+<script src="assets/site.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
+<!-- question data used by inline quizzes -->
+<script src="assets/q-test05.js"></script>
+<script src="assets/q-fluids-extra.js"></script>
+<style>
+  .sim-panel [hidden] { display: none !important; }
+  /* MathJax's invisible assistive MathML can stretch the page sideways on phones */
+  mjx-assistive-mml { max-width: 100% !important; }
+  .content { overflow-wrap: anywhere; }
+  .fig svg text { font-family: var(--f-body); }
+  .pattern-list { display: grid; gap: 12px; }
+  .pattern { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; display: grid; gap: 6px; }
+  .pattern h4 { color: var(--accent); }
+  .pattern p { font-size: 15.5px; color: var(--ink-2); }
+  .checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .checklist li { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px 9px 38px; position: relative; font-size: 15.5px; }
+  .checklist li::before { content: ""; position: absolute; left: 12px; top: 13px; width: 14px; height: 14px; border: 2px solid var(--accent); border-radius: 4px; }
+  .fig-row { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+</style>
+</head>
+<body class="ch-fluids1" data-page="fluids1">
+<div class="frame with-toc">
+  <aside class="toc" aria-label="Sections"></aside>
+  <main class="content">
+    <header class="hero">
+      <span class="eyebrow">Class 11 · Chapter 9 · Part 1</span>
+      <h1>Fluids I: pressure, floating and flow</h1>
+      <p class="lede">Why dams are thick at the bottom, why ships float, why a hose nozzle speeds water up and why aeroplanes stay up. Every idea from your Module Test-05, taken from zero to exam level.</p>
+      <div class="chips">
+        <span class="chip accent">Most of CUT-6</span>
+        <span class="chip">45 Qs in Test-05</span>
+        <a class="chip plum" href="fluids-2.html">Viscosity &amp; surface tension → Fluids II</a>
+      </div>
+    </header>
+
+    <section id="intro" data-num="9.1" data-toc="What is a fluid">
+      <div class="sec-head">
+        <span class="num">9.1 <span class="level basic">Basics</span></span>
+        <h2>What is a fluid?</h2>
+      </div>
+      <div class="prose">
+        <p>Push a book sideways and it slides as one piece: it keeps its shape. Push water sideways and it simply flows. That is the whole difference. A <span class="term">fluid</span> is anything that <em>flows</em>. Liquids and gases are both fluids.</p>
+        <p>Why do fluids flow? A solid can resist a sideways (shearing) push by deforming a little and pushing back. A fluid at rest cannot. Even a tiny sideways force makes its layers slide over each other. So <span class="hl">a fluid at rest can push on a surface only at right angles to it</span>. This one fact explains a lot of the chapter.</p>
+        <ul>
+          <li><strong>Liquids</strong> have a fixed volume but no fixed shape. They are nearly incompressible, so in this chapter we treat their density as constant.</li>
+          <li><strong>Gases</strong> fill whatever container they are in and are easily compressed.</li>
+        </ul>
+      </div>
+
+      <div class="callout def"><span class="label">Definition</span>
+        <p><strong>Density</strong> \( \rho = \dfrac{m}{V} \), SI unit kg m⁻³, dimensions [ML⁻³].<br>
+        <strong>Relative density</strong> (specific gravity) \( = \dfrac{\rho}{\rho_{\text{water at }4^\circ\text{C}}} \). It is a pure number with no unit. Mercury has RD 13.6, so \( \rho_{Hg} = 13.6 \times 1000 = 13600 \) kg m⁻³.</p>
+      </div>
+
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Density and relative density</div>
+          <div class="f-main">\[ \rho = \frac{m}{V}, \qquad \text{RD} = \frac{\rho}{1000\ \text{kg m}^{-3}} \]</div>
+          <div class="f-where">1 g cm⁻³ = 1000 kg m⁻³. Water: 1000; seawater: 1030; ice: about 917 (problems often use 900); mercury: 13600; air: about 1.2–1.3 kg m⁻³.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Mixing two liquids</div>
+          <div class="f-main">\[ \rho_{\text{equal }V} = \frac{\rho_1 + \rho_2}{2}, \qquad \rho_{\text{equal }m} = \frac{2\rho_1\rho_2}{\rho_1 + \rho_2} \]</div>
+          <div class="f-where">Always use total mass ÷ total volume. The equal-mass result (harmonic mean) is always the smaller one.</div>
+        </div>
+      </div>
+
+      <div class="callout exam"><span class="label">What "ideal fluid" means in questions</span>
+        <p>Unless a question says otherwise, take the fluid to be <strong>incompressible</strong> (constant ρ), <strong>non-viscous</strong> (no friction between layers), with <strong>steady</strong> flow that is <strong>irrotational</strong>. Bernoulli's equation needs all four. Viscosity, Stokes' law and surface tension are in <a href="fluids-2.html">Fluids II</a>.</p>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>Two liquids of densities 0.8 g cm⁻³ and 1.2 g cm⁻³ are mixed. Find the density of the mixture if (a) equal volumes are mixed, (b) equal masses are mixed.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>(a) Take volume \(V\) of each. Mass = \(0.8V + 1.2V = 2V\), total volume \(2V\), so \(\rho = 1.0\) g cm⁻³.</li>
+          <li>(b) Take mass \(m\) of each. Volume = \(m/0.8 + m/1.2 = m(1.25 + 0.833) = 2.083m\). So \(\rho = 2m / 2.083m = 0.96\) g cm⁻³.</li>
+          <li>Check with the formula: \(2(0.8)(1.2)/(2.0) = 0.96\). ✓</li>
+        </ol><p class="answer">Answer: (a) 1.0 g cm⁻³ = 1000 kg m⁻³; (b) 0.96 g cm⁻³ = 960 kg m⁻³</p></div></details>
+      </div>
+    </section>
+
+    <section id="pressure" data-num="9.2" data-toc="Pressure &amp; depth">
+      <div class="sec-head">
+        <span class="num">9.2 <span class="level basic">Basics</span></span>
+        <h2>Pressure and how it grows with depth</h2>
+      </div>
+      <div class="prose">
+        <p>A sharp knife cuts but a blunt one does not, even though your hand pushes just as hard. A camel walks on sand without sinking because its feet are wide. School-bag straps are made wide so they do not dig into your shoulders. In each case what matters is not just the force but <em>how much area it is spread over</em>. That quantity is <span class="term">pressure</span>.</p>
+      </div>
+      <div class="callout def"><span class="label">Definition</span>
+        <p><strong>Pressure</strong> is the normal force per unit area: \( P = \dfrac{F_\perp}{A} \). More precisely, \( P = \lim_{\Delta A\to 0} \dfrac{\Delta F}{\Delta A} \) is the pressure <em>at a point</em>.<br>SI unit: pascal, 1 Pa = 1 N m⁻². Dimensions [ML⁻¹T⁻²], the same as stress and energy per unit volume.</p>
+      </div>
+      <div class="prose">
+        <p>Three facts about pressure in a fluid at rest. All three are tested:</p>
+        <ol>
+          <li><strong>Pressure is a scalar.</strong> It has no direction. What has a direction is the <em>force</em> the fluid exerts on a surface, and that force is always <strong>normal</strong> (perpendicular) to the surface.</li>
+          <li><strong>At a point, pressure is the same in every direction.</strong> A tiny probe at one point feels the same push from above, below and the sides. (NCERT shows this with a small triangular wedge of fluid: the forces balance only if \(P_a = P_b = P_c\).)</li>
+          <li><strong>Pressure increases with depth.</strong> Deeper water has more water above it pushing down.</li>
+        </ol>
+      </div>
+      <div class="callout trap"><span class="label">Exam trap · your Test-05 Q3</span>
+        <p>"Pressure at a point in a fluid acts vertically downward" is <strong>false</strong>. Pressure has no direction; it acts equally in all directions at a point. "The force exerted by a fluid at rest on a surface is normal to the surface" is <strong>true</strong>. So in that A–R question the assertion is false and the reason is true.</p>
+      </div>
+
+      <h3>Why \(P = P_0 + \rho g h\)</h3>
+      <div class="prose">
+        <p>Imagine a vertical cylinder of liquid with cross-section \(A\) and height \(h\), its top at the surface. It is in equilibrium, so the upward push on its bottom must hold up the downward push on its top <em>plus</em> its own weight:</p>
+        <p>\( P A = P_0 A + mg = P_0 A + (\rho A h) g \;\Rightarrow\; P = P_0 + \rho g h \).</p>
+        <p>Note that \(A\) cancels. Pressure depends only on <strong>vertical depth</strong>, not on how wide the vessel is, what shape it has, or how much liquid there is.</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Pressure at depth h</div>
+          <div class="f-main">\[ P = P_0 + \rho g h \]</div>
+          <div class="f-where">\(P_0\) = pressure at the free surface (usually atmospheric, 1.013 × 10⁵ Pa), ρ = liquid density, h = vertical depth below the surface.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Between any two points</div>
+          <div class="f-main">\[ P_2 - P_1 = \rho g (h_2 - h_1) \]</div>
+          <div class="f-where">Only the vertical separation matters. Points at the same level in the same connected liquid at rest have the same pressure.</div>
+        </div>
+      </div>
+
+      <figure class="sim" id="sim-pressure">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Depth probe: pressure grows linearly with depth</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="liq" role="group" aria-label="Liquid">
+              <button type="button" data-v="water" aria-pressed="true">Water</button>
+              <button type="button" data-v="oil">Oil</button>
+              <button type="button" data-v="sea">Seawater</button>
+              <button type="button" data-v="hg">Mercury</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="pr-h">Depth h <output data-for="pr-h"></output></label>
+                <input type="range" id="pr-h" min="0" max="10" step="0.1" value="4" data-unit=" m" data-dp="1"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout hi"><span class="k">Absolute P</span><span class="v" data-r="P">–</span></div>
+              <div class="readout"><span class="k">In atm</span><span class="v" data-r="atm">–</span></div>
+              <div class="readout"><span class="k">Gauge ρgh</span><span class="v" data-r="gauge">–</span></div>
+              <div class="readout"><span class="k">Density</span><span class="v" data-r="rho">–</span></div>
+            </div>
+            <p class="sim-note">Tap inside the tank to move the probe. The eight arrows are always equal in length: pressure at a point is the same in every direction. The graph on the right is a straight line that starts at \(P_0\), not at zero, with slope ρg. Try mercury and watch the slope jump (note that its scale changes).</p>
+          </div>
+        </div>
+      </figure>
+
+      <h3>Shape does not matter: the hydrostatic paradox</h3>
+      <div class="prose">
+        <p>Fill three differently shaped vessels with the same base area to the same height. The pressure at the bottom, and so the force on the base, is the same in all three, even though they hold very different amounts of water. How can the base of the narrow-necked vessel feel more than the weight of the water in it? Because its sloping walls push down on the water. In the flared vessel the walls hold some of the water up.</p>
+      </div>
+      <figure class="sim" id="sim-paradox">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Hydrostatic paradox: same height, same pressure, different weights</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="controls">
+              <div class="ctrl"><label for="px-h">Water height h <output data-for="px-h"></output></label>
+                <input type="range" id="px-h" min="0.02" max="0.28" step="0.01" value="0.2" data-unit=" m" data-dp="2"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout hi"><span class="k">Gauge P at base</span><span class="v" data-r="P">–</span></div>
+              <div class="readout"><span class="k">Base force F (20 cm²)</span><span class="v" data-r="F">–</span></div>
+            </div>
+            <p class="sim-note">"W = 2.12 F" means the water in that vessel weighs 2.12 times the force on its base. Change the height: the pressure arrows stay equal in all three, and only the straight vessel always has W = F. The walls of B and C carry the difference.</p>
+          </div>
+        </div>
+      </figure>
+
+      <h3>Force on a side wall: why dams are thick at the bottom</h3>
+      <div class="fig-row">
+        <figure class="fig">
+          <svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dam with pressure arrows growing with depth">
+            <rect x="20" y="40" width="150" height="130" fill="#E3EFF9"/>
+            <line x1="20" y1="40" x2="170" y2="40" stroke="#3A8CCB" stroke-width="2"/>
+            <path d="M170 25 L200 25 L250 170 L170 170 Z" fill="#CDD2DD" stroke="#454F66" stroke-width="2"/>
+            <g stroke="#D6604A" stroke-width="2" fill="#D6604A">
+              <line x1="160" y1="60" x2="168" y2="60"/><path d="M168 56 L170 60 L168 64 Z"/>
+              <line x1="146" y1="90" x2="168" y2="90"/><path d="M164 85 L170 90 L164 95 Z"/>
+              <line x1="132" y1="120" x2="168" y2="120"/><path d="M164 115 L170 120 L164 125 Z"/>
+              <line x1="118" y1="150" x2="168" y2="150"/><path d="M164 145 L170 150 L164 155 Z"/>
+            </g>
+            <line x1="170" y1="40" x2="110" y2="170" stroke="#D6604A" stroke-dasharray="4 3"/>
+            <text x="26" y="58" font-size="12" fill="#3A8CCB">water</text>
+            <text x="26" y="160" font-size="12" fill="#D6604A">P = ρgh grows with depth</text>
+            <text x="206" y="60" font-size="12" fill="#454F66">dam</text>
+          </svg>
+          <figcaption>Gauge pressure on the wall rises from 0 at the surface to ρgH at the bottom, so the bottom of the dam must be strongest.</figcaption>
+        </figure>
+        <div class="formula">
+          <div class="f-title">Force on a vertical wall of width w, liquid depth H</div>
+          <div class="f-main">\[ F = \underbrace{\frac{\rho g H}{2}}_{\text{average pressure}} \times (H w) = \frac{\rho g H^2 w}{2} \]</div>
+          <div class="f-where">Gauge force (the atmosphere usually acts on both sides and cancels). The resultant acts at H/3 above the base. On the base itself, F = ρgH × (base area).</div>
+        </div>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>Find the absolute and gauge pressure 20 m below the surface of a lake. (\(P_0 = 1.01\times10^5\) Pa, \(g = 10\) m s⁻²)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Gauge: \(\rho g h = 1000 \times 10 \times 20 = 2.0\times10^5\) Pa.</li>
+          <li>Absolute: \(P_0 + \rho g h = 1.01\times10^5 + 2.0\times10^5 = 3.01\times10^5\) Pa ≈ 3 atm.</li>
+        </ol><p class="answer">Answer: gauge 2.0 × 10⁵ Pa, absolute 3.01 × 10⁵ Pa</p></div></details>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>A dam holds water 6 m deep along a width of 10 m. Find the total force of the water on the dam. (\(g = 10\) m s⁻²)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Average gauge pressure = \(\rho g H/2 = 1000 \times 10 \times 6 / 2 = 3\times10^4\) Pa.</li>
+          <li>Area = \(6 \times 10 = 60\) m², so \(F = 3\times10^4 \times 60 = 1.8\times10^6\) N.</li>
+        </ol><p class="answer">Answer: 1.8 × 10⁶ N (using ρgH over the whole wall would wrongly double it)</p></div></details>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Energy (like Test-05 Q4)</span><p>Two identical tanks, each of base area 3 m², stand side by side. One has water 8 m deep and the other 2 m deep. They are joined at the bottom by a thin pipe and the levels equalise. How much work does gravity do? (\(g = 10\) m s⁻²)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Final level = (8 + 2)/2 = 5 m in each tank.</li>
+          <li>Effectively a 3 m thick layer (from 5 to 8 m) moves from the first tank into the second (from 2 to 5 m). Mass = \(1000 \times 3 \times 3 = 9000\) kg.</li>
+          <li>Its centre of mass falls from 6.5 m to 3.5 m, a drop of 3 m.</li>
+          <li>\(W = mg\Delta h = 9000 \times 10 \times 3 = 2.7\times10^5\) J.</li>
+          <li>Shortcut: \(W = \rho g A (h_1 - h_2)^2/4\). In Test-05 Q4 (2 m², 6 m and 4 m) this gives \(1000\cdot10\cdot2\cdot4/4 = 2\times10^4\) J.</li>
+        </ol><p class="answer">Answer: 2.7 × 10⁵ J</p></div></details>
+      </div>
+
+      <div class="quiz" data-topic="pressure" data-limit="3"><h3>From your Test-05</h3></div>
+    </section>
+
+    <section id="atmospheric" data-num="9.2.3" data-toc="Atmospheric &amp; gauge">
+      <div class="sec-head">
+        <span class="num">9.2.3 <span class="level core">Core</span></span>
+        <h2>Atmospheric pressure, gauge pressure and the U-tube</h2>
+      </div>
+      <div class="prose">
+        <p>We live at the bottom of an ocean of air several hundred kilometres deep. Its weight presses on everything with about 10⁵ N on every square metre, roughly the weight of a 10-tonne truck on each m². We don't get crushed because the fluids inside our body push back just as hard.</p>
+        <p>You use this every day. When you drink through a straw, you don't "pull" the juice up. You lower the pressure inside the straw, and the atmosphere pressing on the juice in the glass pushes it up. A suction hook sticks because you squeeze the air out from behind it and the atmosphere then holds it against the wall.</p>
+      </div>
+
+      <h3>Measuring it: the mercury barometer</h3>
+      <div class="fig-row">
+        <figure class="fig">
+          <svg viewBox="0 0 260 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mercury barometer">
+            <rect x="40" y="160" width="120" height="40" fill="#C9CDD6" stroke="#454F66" stroke-width="2"/>
+            <rect x="88" y="20" width="24" height="170" fill="#FFFFFF" stroke="#454F66" stroke-width="2"/>
+            <rect x="90" y="62" width="20" height="128" fill="#9AA1B1"/>
+            <text x="118" y="38" font-size="12" fill="#737C91">vacuum (P ≈ 0)</text>
+            <line x1="180" y1="62" x2="180" y2="160" stroke="#4B5BD0" stroke-width="1.5"/>
+            <line x1="174" y1="62" x2="186" y2="62" stroke="#4B5BD0" stroke-width="1.5"/>
+            <line x1="174" y1="160" x2="186" y2="160" stroke="#4B5BD0" stroke-width="1.5"/>
+            <line x1="112" y1="62" x2="180" y2="62" stroke="#4B5BD0" stroke-dasharray="3 3"/>
+            <text x="190" y="108" font-size="13" fill="#4B5BD0" font-weight="700">h = 76 cm</text>
+            <text x="190" y="124" font-size="12" fill="#4B5BD0">(vertical)</text>
+            <g stroke="#737C91" stroke-width="1.5" fill="#737C91">
+              <line x1="55" y1="128" x2="55" y2="156"/><path d="M51 150 L55 158 L59 150 Z"/>
+              <line x1="140" y1="128" x2="140" y2="156"/><path d="M136 150 L140 158 L144 150 Z"/>
+            </g>
+            <text x="20" y="120" font-size="12" fill="#454F66">P₀ pushes here</text>
+            <text x="48" y="214" font-size="12" fill="#454F66">mercury dish</text>
+          </svg>
+          <figcaption>Torricelli's barometer: the column stops where its weight per area equals P₀. The space above is (almost) a vacuum.</figcaption>
+        </figure>
+        <div class="formula">
+          <div class="f-title">Barometer</div>
+          <div class="f-main">\[ P_0 = \rho_{Hg}\, g\, h \]</div>
+          <div class="f-where">At sea level h = 0.76 m: \(13600 \times 9.8 \times 0.76 = 1.013\times10^5\) Pa. With water the column would be 10.3 m tall. The height is the <strong>vertical</strong> height. It does not depend on the tube's width or tilt; tilting only makes the column longer along the tube.</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Unit</th><th>Equals</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td>1 atm</td><td>1.013 × 10⁵ Pa = 76 cm Hg = 760 mm Hg</td><td>sea-level average</td></tr>
+            <tr><td>1 torr</td><td>1 mm Hg = 133 Pa</td><td>medicine (blood pressure 120/80 mm Hg)</td></tr>
+            <tr><td>1 bar</td><td>10⁵ Pa</td><td>meteorology; 1 millibar = 100 Pa</td></tr>
+            <tr><td>1 Pa</td><td>1 N m⁻²</td><td>SI unit</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Gauge pressure vs absolute pressure</h3>
+      <div class="compare">
+        <div><h4>Absolute pressure P</h4><p>The actual total pressure, measured from a perfect vacuum. Example: at 20 m depth in water, P ≈ 3 atm.</p></div>
+        <div><h4>Gauge pressure P − P₀</h4><p>The pressure <em>above atmospheric</em>. Tyre gauges and BP machines read this. At 20 m depth the gauge pressure is ρgh ≈ 2 atm. A negative gauge pressure means a partial vacuum (suction).</p></div>
+      </div>
+      <div class="formula">
+        <div class="f-title">Open-tube manometer</div>
+        <div class="f-main">\[ P_{\text{gas}} = P_0 + \rho g h \qquad (h = \text{difference in liquid levels}) \]</div>
+        <div class="f-where">If the open side stands higher, the gas pressure is above atmospheric (h positive). If the open side is lower, the gas pressure is below atmospheric (subtract).</div>
+      </div>
+
+      <h3>U-tube with two liquids that don't mix</h3>
+      <div class="prose">
+        <p>Pour oil into one arm of a U-tube containing water. The oil floats on the water and pushes the water up the other arm. To solve these, use one rule: <span class="hl">in the same liquid, at the same level, at rest, the pressure is the same</span>. Choose the level of the <strong>oil–water interface</strong>. Below it, both arms contain water.</p>
+        <p>\(P_0 + \rho_1 g h_1 = P_0 + \rho_2 g h_2 \;\Rightarrow\; \rho_1 h_1 = \rho_2 h_2\), with both heights measured <em>from the interface level</em>.</p>
+      </div>
+
+      <figure class="sim" id="sim-utube">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>U-tube: manometer and two-liquid balance</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="umode" role="group" aria-label="Mode">
+              <button type="button" data-v="mano" aria-pressed="true">Manometer</button>
+              <button type="button" data-v="two">Oil + water</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl" data-mode="mano"><label for="ut-P">Gas pressure <output data-for="ut-P"></output></label>
+                <input type="range" id="ut-P" min="75" max="135" step="0.5" value="115" data-unit=" kPa" data-dp="1"></div>
+              <div class="ctrl" data-mode="two"><label for="ut-ho">Oil column h₁ <output data-for="ut-ho"></output></label>
+                <input type="range" id="ut-ho" min="0" max="20" step="0.5" value="10" data-unit=" cm" data-dp="1"></div>
+              <div class="ctrl" data-mode="two"><label for="ut-rho">Oil density <output data-for="ut-rho"></output></label>
+                <input type="range" id="ut-rho" min="500" max="950" step="10" value="800" data-unit=" kg/m³" data-dp="0"></div>
+            </div>
+            <div class="readouts" data-mode="mano">
+              <div class="readout hi"><span class="k">Level difference h</span><span class="v" data-r="dh">–</span></div>
+              <div class="readout"><span class="k">Gauge P</span><span class="v" data-r="gauge">–</span></div>
+              <div class="readout"><span class="k">Absolute P</span><span class="v" data-r="abs">–</span></div>
+            </div>
+            <div class="readouts" data-mode="two">
+              <div class="readout hi"><span class="k">Water column above A</span><span class="v" data-r="hw">–</span></div>
+              <div class="readout"><span class="k">Oil surface higher by</span><span class="v" data-r="diff">–</span></div>
+            </div>
+            <p class="sim-note" data-mode="mano">Every 1.33 kPa above atmospheric pushes the mercury 1 cm higher on the open side. Drop the gas pressure below 101.3 kPa and the open side goes lower.</p>
+            <p class="sim-note" data-mode="two">The lighter oil needs a taller column to balance the water: ρ₁h₁ = ρ₂h₂, with heights measured from the interface line A–B.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="callout trap"><span class="label">Exam trap</span>
+        <p>In two-liquid U-tubes, students measure heights from the bottom of the tube. Always measure from the <strong>interface level</strong>. Also read carefully whether the question asks for the water column above the interface, or the <em>difference</em> between the two free surfaces.</p>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · U-tube</span><p>Water is in a U-tube. Oil (ρ = 900 kg m⁻³) is poured into the left arm until the oil column is 12 cm long. How far above the oil–water interface does the water stand in the right arm, and which free surface is higher?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Equal pressure at the interface level: \(900 \times 12 = 1000 \times h_2\).</li>
+          <li>\(h_2 = 10.8\) cm above the interface.</li>
+          <li>The oil surface is 12 − 10.8 = 1.2 cm higher than the water surface.</li>
+        </ol><p class="answer">Answer: 10.8 cm; the oil surface is 1.2 cm higher</p></div></details>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Manometer</span><p>An open mercury manometer attached to a gas cylinder shows the mercury 20 cm higher in the open arm. Find the gauge and absolute pressure of the gas in pascal. (P₀ = 1.013 × 10⁵ Pa, g = 9.8 m s⁻²)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Gauge = \(\rho g h = 13600 \times 9.8 \times 0.20 = 2.67\times10^4\) Pa.</li>
+          <li>Absolute = \(1.013\times10^5 + 0.267\times10^5 = 1.28\times10^5\) Pa (= 96 cm of Hg).</li>
+        </ol><p class="answer">Answer: gauge 2.67 × 10⁴ Pa, absolute 1.28 × 10⁵ Pa</p></div></details>
+      </div>
+
+      <div class="quiz" data-ids="xf-04,xf-05,xf-06,xf-07"><h3>Practice: barometers, manometers, U-tubes</h3></div>
+    </section>
+
+    <section id="pascal" data-num="9.2.4" data-toc="Pascal's law &amp; hydraulics">
+      <div class="sec-head">
+        <span class="num">9.2.4 <span class="level core">Core</span></span>
+        <h2>Pascal's law and hydraulic machines</h2>
+      </div>
+      <div class="prose">
+        <p>Squeeze the end of a toothpaste tube and paste comes out at the nozzle, far from your fingers. Press one side of a water-filled balloon and it bulges everywhere else. An enclosed liquid passes any extra push on to every part of itself. That is Pascal's law, and it lets a mechanic lift a car with one hand.</p>
+      </div>
+      <div class="callout def"><span class="label">Pascal's law (two forms)</span>
+        <p><strong>(1)</strong> The pressure in a fluid at rest is the same at all points at the same height. (If gravity is ignored, it is the same everywhere.)<br>
+        <strong>(2)</strong> A change in pressure applied to an <strong>enclosed</strong> incompressible fluid is transmitted <strong>undiminished</strong> to every point of the fluid and to the walls of the container.</p>
+      </div>
+
+      <h3>The hydraulic lift</h3>
+      <div class="prose">
+        <p>Two pistons of areas \(A_1\) (small) and \(A_2\) (large) sit on the same enclosed liquid. Push the small one with \(F_1\). That adds pressure \(P = F_1/A_1\), which reaches the large piston unchanged, so it is pushed up with \(F_2 = P A_2\).</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Force multiplication</div>
+          <div class="f-main">\[ \frac{F_1}{A_1} = \frac{F_2}{A_2} \;\Rightarrow\; F_2 = F_1 \frac{A_2}{A_1} = F_1\left(\frac{d_2}{d_1}\right)^2 \]</div>
+          <div class="f-where">Mechanical advantage = A₂/A₁. For round pistons, area ∝ (diameter)², so square the diameter ratio.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">No free energy</div>
+          <div class="f-main">\[ A_1 x_1 = A_2 x_2, \qquad F_1 x_1 = F_2 x_2 \]</div>
+          <div class="f-where">The liquid volume pushed out of the small cylinder equals the volume entering the big one. The big piston rises only x₂ = x₁A₁/A₂, so work in = work out (ideal machine).</div>
+        </div>
+      </div>
+
+      <figure class="sim" id="sim-hydraulic">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Hydraulic lift: force up, distance down</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="controls">
+              <div class="ctrl"><label for="hy-d1">Small piston d₁ <output data-for="hy-d1"></output></label>
+                <input type="range" id="hy-d1" min="1" max="5" step="0.1" value="2" data-unit=" cm" data-dp="1"></div>
+              <div class="ctrl"><label for="hy-d2">Large piston d₂ <output data-for="hy-d2"></output></label>
+                <input type="range" id="hy-d2" min="5" max="30" step="0.5" value="10" data-unit=" cm" data-dp="1"></div>
+              <div class="ctrl"><label for="hy-F">Input force F₁ <output data-for="hy-F"></output></label>
+                <input type="range" id="hy-F" min="10" max="200" step="5" value="30" data-unit=" N" data-dp="0"></div>
+              <div class="ctrl"><label for="hy-x">Push distance x₁ <output data-for="hy-x"></output></label>
+                <input type="range" id="hy-x" min="0" max="30" step="0.5" value="12" data-unit=" cm" data-dp="1"></div>
+            </div>
+            <div class="btn-row"><button class="btn primary" type="button" data-act="play" aria-pressed="false">Animate push</button></div>
+            <div class="readouts">
+              <div class="readout hi"><span class="k">Output F₂</span><span class="v" data-r="F2">–</span></div>
+              <div class="readout"><span class="k">A₂/A₁</span><span class="v" data-r="ratio">–</span></div>
+              <div class="readout"><span class="k">Pressure</span><span class="v" data-r="P">–</span></div>
+              <div class="readout"><span class="k">Big piston rises</span><span class="v" data-r="x2">–</span></div>
+              <div class="readout"><span class="k">Work in</span><span class="v" data-r="win">–</span></div>
+              <div class="readout"><span class="k">Work out</span><span class="v" data-r="wout">–</span></div>
+            </div>
+            <p class="sim-note">Diameter ratio 5 gives area ratio 25: 30 N becomes 750 N. But pushing the small piston 12 cm lifts the load less than 5 mm. Work in = work out, always.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="callout trap"><span class="label">Exam trap · your Test-05 Q5</span>
+        <p>Arms of diameter 1.4 cm and 7 cm, 20 N applied. The diameter ratio is 5, but force scales with <strong>area</strong>, so the factor is 5² = 25 and F₂ = <strong>500 N</strong>. The answer 100 N comes from using the diameter ratio directly. Q1 is the same idea: syringes of 1 cm and 3 cm, 10 N → 10 × 9 = 90 N. If radii are given, square them the same way.</p>
+      </div>
+
+      <div class="prose">
+        <p><strong>Hydraulic brakes.</strong> A light push on the brake pedal moves a piston in a small master cylinder. The pressure travels through the brake oil to larger pistons at each wheel, which press the brake pads with a much larger force. Because the pressure is the same everywhere in the oil, all wheels brake equally.</p>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>In a hydraulic press the piston diameters are 2 cm and 10 cm. A force of 30 N is applied to the small piston and it moves down 50 cm. Find the force on the large piston and how far it rises.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Area ratio \(= (10/2)^2 = 25\), so \(F_2 = 30 \times 25 = 750\) N.</li>
+          <li>Volume is conserved: \(x_2 = x_1 \times A_1/A_2 = 50/25 = 2\) cm.</li>
+          <li>Check: work in = \(30 \times 0.5 = 15\) J; work out = \(750 \times 0.02 = 15\) J. ✓</li>
+        </ol><p class="answer">Answer: 750 N; the large piston rises 2 cm</p></div></details>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>A car lift has a large piston of area 0.2 m² carrying a car of mass 1600 kg. What force must be applied on the small piston of area 0.002 m²? What is the pressure in the oil? (g = 10 m s⁻²)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Load \(F_2 = 1600 \times 10 = 1.6\times10^4\) N. Pressure \(= F_2/A_2 = 8\times10^4\) Pa.</li>
+          <li>\(F_1 = P A_1 = 8\times10^4 \times 0.002 = 160\) N.</li>
+        </ol><p class="answer">Answer: 160 N; pressure 8 × 10⁴ Pa (gauge)</p></div></details>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Statement I / II</span><p><strong>Statement I:</strong> A hydraulic lift multiplies force. <strong>Statement II:</strong> A hydraulic lift multiplies energy, because the output force is larger than the input force.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>I is correct: F₂ = F₁A₂/A₁.</li>
+          <li>II is incorrect: the large piston moves a smaller distance, so F₁x₁ = F₂x₂. No machine creates energy.</li>
+        </ol><p class="answer">Answer: Statement I correct, Statement II incorrect</p></div></details>
+      </div>
+
+      <div class="quiz" data-topic="pascal" data-limit="3"><h3>From your Test-05</h3></div>
+    </section>
+
+    <section id="buoyancy" data-num="★" data-toc="Buoyancy &amp; floating">
+      <div class="sec-head">
+        <span class="num">★ Coaching topic <span class="level core">Core</span></span>
+        <h2>Buoyancy, Archimedes and floating</h2>
+      </div>
+      <div class="prose">
+        <p>In a swimming pool you can lift a friend with one arm. A steel ship weighing thousands of tonnes floats, while a steel nail sinks. A bucket of water feels lighter while it is still under the surface of the well. All of these come from one upward push, the <span class="term">buoyant force</span> (upthrust).</p>
+        <p><strong>Where does it come from?</strong> Think of a cube held under water. Pressure pushes on all six faces. The side pushes cancel. But the bottom face is deeper than the top face, so it is pushed harder: \(F_B = (P_{bottom} - P_{top})A = \rho_l g h A = \rho_l g V\). The net push is upward and equals the weight of a cube of <em>liquid</em> the same size. The material of the body does not appear anywhere in this result.</p>
+      </div>
+      <div class="callout def"><span class="label">Archimedes' principle</span>
+        <p>A body wholly or partly immersed in a fluid experiences an upward buoyant force equal to the <strong>weight of the fluid it displaces</strong>. The force acts at the <em>centre of buoyancy</em>, the centre of mass of the displaced fluid.</p>
+      </div>
+      <div class="callout trap"><span class="label">Exam trap · your Test-05 Q15</span>
+        <p>Buoyant force = weight of the <strong>liquid displaced</strong>. It is <em>not</em> "the weight of the body" (that equality holds only for a floating body), not "the volume of the body", and not "the weight of the body minus the weight of the liquid". For a fully immersed body it does not depend on depth or on what the body is made of.</p>
+      </div>
+
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Buoyant force</div>
+          <div class="f-main">\[ F_B = \rho_l\, V_{sub}\, g \]</div>
+          <div class="f-where">ρ_l = density of the <em>liquid</em>, V_sub = submerged volume. F_B vs V_sub is a straight line through the origin with slope ρ_l g, and it becomes flat once the body is fully under (Test-05 Q36).</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Floating (equilibrium)</div>
+          <div class="f-main">\[ \rho_b V g = \rho_l V_{sub} g \;\Rightarrow\; \frac{V_{sub}}{V} = \frac{\rho_b}{\rho_l} \]</div>
+          <div class="f-where">Fraction submerged = density ratio. Ice (900) in water: 90% under. Wood (600) in water: 60% under.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Apparent weight (fully immersed)</div>
+          <div class="f-main">\[ W_{app} = W - F_B = W\left(1 - \frac{\rho_l}{\rho_b}\right) \]</div>
+          <div class="f-where">Loss of weight = F_B. Relative density of a solid = W_air ÷ (W_air − W_water).</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Body at the interface of two liquids</div>
+          <div class="f-main">\[ \rho_b V = \rho_1 V_1 + \rho_2 V_2 \]</div>
+          <div class="f-where">V₁ + V₂ = V. The body's density is the volume-weighted average of the two liquids.</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Compare densities</th><th>What happens</th><th>Net force when fully under</th></tr></thead>
+          <tbody>
+            <tr><td>ρ_body &lt; ρ_liquid</td><td>Rises and floats, partly submerged (fraction ρ_b/ρ_l)</td><td>Upward: accelerates up with a = (ρ_l/ρ_b − 1)g if released under water and drag is ignored</td></tr>
+            <tr><td>ρ_body = ρ_liquid</td><td>Floats fully submerged at any depth (neutral)</td><td>Zero</td></tr>
+            <tr><td>ρ_body &gt; ρ_liquid</td><td>Sinks; apparent weight W(1 − ρ_l/ρ_b)</td><td>Downward: a = (1 − ρ_l/ρ_b)g</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="sim" id="sim-float">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Floating lab: drop a block, watch it settle</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="fmode" role="group" aria-label="Liquids">
+              <button type="button" data-v="one" aria-pressed="true">One liquid</button>
+              <button type="button" data-v="two">Two liquids</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="fl-rb">Block density <output data-for="fl-rb"></output></label>
+                <input type="range" id="fl-rb" min="100" max="2000" step="10" value="600" data-unit=" kg/m³" data-dp="0"></div>
+              <div class="ctrl" data-mode="one"><label for="fl-rl">Liquid density <output data-for="fl-rl"></output></label>
+                <input type="range" id="fl-rl" min="600" max="1600" step="10" value="1000" data-unit=" kg/m³" data-dp="0"></div>
+              <div class="ctrl" data-mode="two"><label for="fl-r1">Upper liquid ρ₁ <output data-for="fl-r1"></output></label>
+                <input type="range" id="fl-r1" min="500" max="1000" step="10" value="800" data-unit=" kg/m³" data-dp="0"></div>
+              <div class="ctrl" data-mode="two"><label for="fl-r2">Lower liquid ρ₂ <output data-for="fl-r2"></output></label>
+                <input type="range" id="fl-r2" min="1000" max="1600" step="10" value="1300" data-unit=" kg/m³" data-dp="0"></div>
+            </div>
+            <div class="btn-row"><button class="btn" type="button" data-act="drop">Drop again</button></div>
+            <div class="readouts">
+              <div class="readout hi"><span class="k">Result</span><span class="v" data-r="status">–</span></div>
+              <div class="readout"><span class="k">Submerged</span><span class="v" data-r="sub">–</span></div>
+              <div class="readout"><span class="k">F_B / W</span><span class="v" data-r="fbw">–</span></div>
+              <div class="readout"><span class="k">Apparent weight</span><span class="v" data-r="app">–</span></div>
+              <div class="readout" data-mode="two"><span class="k">In lower liquid</span><span class="v" data-r="lower">–</span></div>
+            </div>
+            <p class="sim-note">Arrows are drawn to scale. While the block bobs, F_B changes with depth. It settles where F_B = W. Make the block denser than the liquid: it sinks and the floor supplies the missing force N. In two-liquid mode a block with ρ₁ &lt; ρ &lt; ρ₂ stops at the interface.</p>
+          </div>
+        </div>
+      </figure>
+
+      <h3>Level-change puzzles (Test-05 Q12 type)</h3>
+      <div class="prose">
+        <p>Use one idea: <span class="hl">a floating object displaces its own <em>weight</em> of water; a sunk object displaces only its own <em>volume</em></span>. For anything denser than water, displacing its weight takes more water than displacing its volume.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Situation</th><th>Water level in the tank</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>Coin / stone on a floating block (or boat) falls or is thrown into the water</td><td><strong>Falls</strong>; the block rises (floats higher)</td><td>Before: the coin displaced m/ρ_w. After: only m/ρ_coin, which is less.</td></tr>
+            <tr><td>Wooden piece taken off the boat and dropped in the water</td><td>Unchanged</td><td>It still floats, so it still displaces its own weight.</td></tr>
+            <tr><td>Ice floating in water melts</td><td>Unchanged</td><td>The meltwater exactly fills the "hole" the ice was making.</td></tr>
+            <tr><td>Ice with a stone inside melts</td><td><strong>Falls</strong></td><td>The stone ends up sunk.</td></tr>
+            <tr><td>Ice with an air bubble or wood inside melts</td><td>Unchanged</td><td>Air/wood still floats (air's mass ≈ 0).</td></tr>
+            <tr><td>Ice floating in salt water (or any liquid denser than water) melts</td><td><strong>Rises</strong></td><td>Meltwater m/ρ_w &gt; displaced m/ρ_salt.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout trap"><span class="label">Exam trap · your Test-05 Q12</span>
+        <p>A block carrying a coin floats in a tank. The coin slips off and sinks. Two things happen: the <strong>block rises</strong> (it is lighter, so less of it needs to be under water, and L, its height above the water, increases), and the <strong>water level h falls</strong> (the coin now displaces only its own volume). Students often say "the level stays the same". It doesn't.</p>
+      </div>
+
+      <h3>More things that get asked</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Extra load to sink a floater</strong> (Q11): extra mass needed = ρ_l × (unsubmerged volume). A 1 m³ cube half under water needs 1000 × 0.5 = 500 kg more.</li>
+          <li><strong>Burning candle</strong> (Q6): the fraction submerged stays ρ_c/ρ_w. If the candle shortens at rate r, the submerged length shrinks at (ρ_c/ρ_w)r, so the bottom rises at that rate. Half-submerged, burning 4 cm/h → bottom rises 2 cm/h.</li>
+          <li><strong>Hollow and variable-density bodies</strong> (Q9, Q13): use the <em>average</em> density = total mass ÷ total volume. "Just floats" (fully submerged at rest) means ρ_avg = ρ_l. Worked out in <a href="#problem-types">Problem patterns</a>.</li>
+          <li><strong>Body on a spring, fully submerged</strong> (Q10): if it hangs from a spring, kx = mg − F_B. If it is tied to the bottom by a spring (a floater held under), kx = F_B − mg.</li>
+          <li><strong>Accelerating container</strong>: in a lift accelerating up with a, replace g by g + a. Weight and buoyancy both scale, so <strong>the fraction submerged does not change</strong>. In free fall there is no buoyancy at all.</li>
+          <li><strong>Rising body</strong> (like a bubble, Q14): with drag neglected, net upward force F_B − W = ma gives a = (ρ_l/ρ_b − 1)g. For a = g/100, ρ_l/ρ_b = 1.01.</li>
+        </ul>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical (like Q8, Q11)</span><p>A cube of side 0.5 m floats in water with 40% of its volume submerged. (a) What is its density? (b) What extra mass placed on it will just submerge it completely?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>(a) Fraction submerged = ρ_b/ρ_w ⇒ ρ_b = 0.4 × 1000 = 400 kg m⁻³.</li>
+          <li>(b) Volume = 0.125 m³. Unsubmerged part = 0.6 × 0.125 = 0.075 m³.</li>
+          <li>To push it all under, the extra weight must equal the extra buoyancy: Δm = 1000 × 0.075 = 75 kg.</li>
+        </ol><p class="answer">Answer: 400 kg m⁻³; 75 kg</p></div></details>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Ratio (like Q7, Q45)</span><p>A sphere of density d floats at the interface of two immiscible liquids of densities 0.8d (upper) and 1.4d (lower), fully submerged. Find the ratio of its volume in the lower liquid to that in the upper liquid.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Let a fraction x be in the lower liquid: \(d = 1.4d\,x + 0.8d(1 - x)\).</li>
+          <li>\(1 = 0.8 + 0.6x \Rightarrow x = 1/3\).</li>
+          <li>Lower : upper = 1/3 : 2/3 = 1 : 2.</li>
+          <li>General form (Q45): with liquids ρ (upper) and nρ (lower) and fraction p in the lower one, \(d = p(n\rho) + (1-p)\rho = \{1 + (n-1)p\}\rho\).</li>
+        </ol><p class="answer">Answer: 1 : 2</p></div></details>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Apparent weight</span><p>A stone of mass 2 kg and density 2500 kg m⁻³ is fully immersed in water. Find the buoyant force and its apparent weight. (g = 10 m s⁻²)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Volume = 2/2500 = 8 × 10⁻⁴ m³.</li>
+          <li>F_B = 1000 × 8 × 10⁻⁴ × 10 = 8 N.</li>
+          <li>Apparent weight = 20 − 8 = 12 N. Check: W(1 − ρ_l/ρ_b) = 20(1 − 0.4) = 12 N. ✓</li>
+        </ol><p class="answer">Answer: 8 N; 12 N</p></div></details>
+      </div>
+
+      <div class="quiz" data-ids="t05-12,t05-13,t05-15,t05-36,t05-07"><h3>From your Test-05 (the ones marked on your paper first)</h3></div>
+      <p class="small"><a href="practice.html#buoyancy">See all 12 buoyancy questions from Test-05 in Practice →</a></p>
+    </section>
+
+    <section id="flow" data-num="9.3" data-toc="Streamline &amp; turbulent">
+      <div class="sec-head">
+        <span class="num">9.3 <span class="level basic">Basics</span></span>
+        <h2>Streamline, laminar and turbulent flow</h2>
+      </div>
+      <div class="prose">
+        <p>Watch smoke rising from an incense stick. For the first few centimetres it rises as a smooth, steady thread. Higher up it suddenly breaks into swirls and eddies. A slow river glides smoothly; white-water rapids churn. These are the two kinds of flow: <span class="term">streamline</span> (smooth) and <span class="term">turbulent</span> (chaotic).</p>
+      </div>
+      <div class="callout def"><span class="label">Steady flow</span>
+        <p>The flow is <strong>steady</strong> if the velocity of the fluid <strong>at each fixed point in space</strong> does not change with time. Different points can have different velocities. A single particle can speed up or slow down as it moves from one point to another.</p>
+      </div>
+      <div class="callout trap"><span class="label">Exam trap · your Test-05 Q16</span>
+        <p>"In steady flow the velocity of every fluid particle is constant" is <strong>false</strong>. Steady means constant velocity <em>at a point</em>, not for a particle. A particle entering a narrow section speeds up (continuity), yet the flow is still perfectly steady, because every particle that passes that point has the same velocity there.</p>
+      </div>
+      <div class="prose">
+        <p><strong>Streamline.</strong> In steady flow, the path a particle follows is a <em>streamline</em>. Every particle passing through a given point follows the same streamline. The tangent to a streamline at any point gives the direction of the velocity there.</p>
+        <ul>
+          <li><strong>Two streamlines never cross.</strong> At a crossing a particle would have two velocities at once, which is impossible.</li>
+          <li><strong>Crowded streamlines mean fast flow;</strong> widely spaced streamlines mean slow flow. (You will see this in the continuity and aerofoil sims.)</li>
+          <li><strong>Tube of flow:</strong> a bundle of streamlines. No fluid crosses its side walls, so whatever mass enters one end must leave the other. That gives the equation of continuity.</li>
+        </ul>
+      </div>
+      <div class="compare">
+        <div><h4>Streamline / laminar</h4><p>Smooth, orderly; layers (laminae) slide past each other. Velocity at a point is constant in time. Happens at <strong>low speeds</strong>. Example: slow honey, gentle stream, the low part of incense smoke.</p></div>
+        <div><h4>Turbulent</h4><p>Irregular, with eddies and swirls; velocity at a point changes randomly. Happens above a <strong>critical speed</strong>. Examples: rapids, wake of a ship, smoke higher up, blood flow past a narrowed artery. Turbulence dissipates energy.</p></div>
+      </div>
+      <div class="callout tip"><span class="label">Link to Fluids II: Reynolds number</span>
+        <p>Whether a flow is laminar or turbulent depends on \( R_e = \dfrac{\rho v d}{\eta} \) (d = size of pipe or object, η = viscosity). Roughly, Re &lt; 1000 is laminar and Re &gt; 2000 is turbulent. Details are in <a href="fluids-2.html">Fluids II</a>. For Test-05 Q18: a <em>smaller</em> model (smaller d) needs a <em>larger</em> v to reach the same Re, so <strong>turbulence starts at a higher speed</strong> for the small model.</p>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Assertion–Reason</span><p><strong>A:</strong> Water flowing through a pipe that narrows can be in steady flow even though each particle speeds up in the narrow part. <strong>R:</strong> Steady flow requires the velocity at every point of space to remain constant in time.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>R is the definition of steady flow, so R is true.</li>
+          <li>Speeding up as a particle moves from one point to another does not change the velocity <em>at</em> any fixed point over time. So A is true, and R explains it.</li>
+        </ol><p class="answer">Answer: both true, R is the correct explanation of A</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Concept</span><p>Which of these flows is most likely turbulent? (a) honey poured slowly (b) water in a thin capillary (c) a river in flood through a rocky gorge (d) blood in a capillary.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Turbulence needs a high Re = ρvd/η: high speed, large size, low viscosity.</li>
+          <li>Honey (very high η), capillaries (tiny d) and blood in capillaries (tiny d, slow) are all laminar. The flooded river has high speed and large size.</li>
+        </ol><p class="answer">Answer: (c)</p></div></details>
+      </div>
+
+      <div class="quiz" data-topic="flow" data-limit="3"><h3>From your Test-05</h3></div>
+    </section>
+
+    <section id="continuity" data-num="9.3" data-toc="Equation of continuity">
+      <div class="sec-head">
+        <span class="num">9.3 <span class="level core">Core</span></span>
+        <h2>Equation of continuity</h2>
+      </div>
+      <div class="prose">
+        <p>Put your thumb over the end of a garden hose and the water shoots out much faster. A river flows lazily where it is wide and races through a narrow gorge. The water has nowhere else to go: the same amount must pass every section each second, so where the passage is narrow the water must move faster.</p>
+        <p><strong>Derivation.</strong> In time Δt, the fluid entering section 1 occupies a length v₁Δt, so its mass is ρ₁A₁v₁Δt. The same mass must leave through section 2 (no fluid crosses the walls of the tube of flow, and none piles up in steady flow): ρ₁A₁v₁ = ρ₂A₂v₂. For an incompressible liquid ρ₁ = ρ₂.</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Equation of continuity (conservation of mass)</div>
+          <div class="f-main">\[ A_1 v_1 = A_2 v_2 = Q \]</div>
+          <div class="f-where">Q = volume flow rate (m³ s⁻¹), constant along the pipe. Mass flow rate = ρQ (kg s⁻¹).</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Round pipes</div>
+          <div class="f-main">\[ v \propto \frac{1}{A} \propto \frac{1}{d^2}, \qquad \frac{v_1}{v_2} = \left(\frac{d_2}{d_1}\right)^2 \]</div>
+          <div class="f-where">Halve the diameter → 4× the speed. Kinetic energy per volume ½ρv² ∝ 1/d⁴.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Branching and many holes</div>
+          <div class="f-main">\[ A v = \sum_i A_i v_i, \qquad A_1 v_1 = n\,a\,v_2 \]</div>
+          <div class="f-where">Flow in = total flow out. Spray pumps and shower heads: n holes, each of area a.</div>
+        </div>
+      </div>
+
+      <figure class="sim" id="sim-continuity">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Continuity: same volume through every section, every second</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="controls">
+              <div class="ctrl"><label for="co-r">Throat area A₂/A₁ <output data-for="co-r"></output></label>
+                <input type="range" id="co-r" min="0.2" max="1" step="0.05" value="0.4" data-dp="2"></div>
+              <div class="ctrl"><label for="co-v">Inlet speed v₁ <output data-for="co-v"></output></label>
+                <input type="range" id="co-v" min="0.5" max="2" step="0.1" value="1" data-unit=" m/s" data-dp="1"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout hi"><span class="k">Throat speed v₂</span><span class="v" data-r="v2">–</span></div>
+              <div class="readout"><span class="k">d₂/d₁</span><span class="v" data-r="d">–</span></div>
+              <div class="readout"><span class="k">Q (A₁ = 10 cm²)</span><span class="v" data-r="Q">–</span></div>
+            </div>
+            <p class="sim-note">The two counters stay equal: the same number of dots crosses the wide gate and the narrow gate. To manage that, dots in the throat must move faster. Notice the streamlines crowding together there. Area ratio 0.25 means diameter ratio 0.5 and speed × 4.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <p><strong>Why a falling stream of tap water narrows</strong> (Test-05 Q25). Once it leaves the tap, water speeds up under gravity: \(v^2 = v_0^2 + 2gh\). Since Av is constant, a larger v means a smaller A, so the stream gets thinner as it falls. This is continuity, not surface tension.</p>
+      </div>
+      <div class="callout trap"><span class="label">Exam trap</span>
+        <p>Areas go as the <strong>square</strong> of diameters (or radii). Test-05 Q22: diameters 6.4 cm and 3.2 cm → area ratio 4 → v_min : v_max = 1 : 4 (not 1 : 2). Q27: diameter ratio 2.5 : 3.75 = 2 : 3 → speed ratio 9 : 4 → KE per volume ratio (9/4)² = 81 : 16.</p>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical (like Q19)</span><p>A spray pump has a cylindrical tube of cross-section 6 cm² ending in a nozzle with 30 fine holes, each of area 0.5 mm². Liquid moves in the tube at 1.5 m per minute. Find the speed at which it leaves the holes.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Convert: A₁ = 6 × 10⁻⁴ m², v₁ = 1.5/60 = 0.025 m s⁻¹, total hole area = 30 × 0.5 × 10⁻⁶ = 1.5 × 10⁻⁵ m².</li>
+          <li>\(v_2 = \dfrac{A_1 v_1}{n a} = \dfrac{6\times10^{-4}\times0.025}{1.5\times10^{-5}} = 1\) m s⁻¹.</li>
+        </ol><p class="answer">Answer: 1 m s⁻¹ (for Q19's numbers: 8 cm², 20 × 1 mm², 1 m/min → 2/3 m s⁻¹)</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Branching (like Q44)</span><p>Water flows at 2 m s⁻¹ in a pipe of area 3A. It splits into two branches of areas A and 2A. The speed in the first branch is 3 m s⁻¹. Find the speed in the second.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Flow in = flow out: \(3A \times 2 = A \times 3 + 2A \times V\).</li>
+          <li>\(6 = 3 + 2V \Rightarrow V = 1.5\) m s⁻¹.</li>
+        </ol><p class="answer">Answer: 1.5 m s⁻¹ (Q44: 2A·4 = (A/2)·4 + A·V → V = 6 m s⁻¹)</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Tap stream</span><p>Water leaves a tap at 1 m s⁻¹ with cross-section 1 cm². What is the cross-section of the stream 15 cm below the tap? (g = 10 m s⁻²)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(v^2 = 1^2 + 2(10)(0.15) = 4 \Rightarrow v = 2\) m s⁻¹.</li>
+          <li>\(A = A_0 v_0 / v = 1 \times 1/2 = 0.5\) cm². (The radius shrinks by a factor √2.)</li>
+        </ol><p class="answer">Answer: 0.5 cm²</p></div></details>
+      </div>
+
+      <div class="quiz" data-ids="t05-19,t05-22,t05-25,t05-27,t05-44"><h3>From your Test-05</h3></div>
+    </section>
+
+    <section id="bernoulli" data-num="9.4" data-toc="Bernoulli's principle">
+      <div class="sec-head">
+        <span class="num">9.4 <span class="level core">Core</span></span>
+        <h2>Bernoulli's principle</h2>
+      </div>
+      <div class="prose">
+        <p>Hold a strip of paper just below your lips and blow <em>over</em> it: it rises. Hang two sheets of paper close together and blow <em>between</em> them: they come together, not apart. A shower curtain gets sucked inward when the shower runs. In each case <span class="hl">fast-moving air has lower pressure</span>. Bernoulli's principle explains why, and it is just energy conservation for a flowing fluid.</p>
+      </div>
+
+      <h3>The idea behind the derivation</h3>
+      <div class="prose">
+        <p>Follow a small slug of fluid of volume ΔV and mass Δm = ρΔV along a tube of flow, from section 1 (pressure P₁, speed v₁, height h₁) to section 2 (P₂, v₂, h₂).</p>
+        <ol>
+          <li>The fluid behind pushes it forward: work done = P₁A₁Δx₁ = P₁ΔV. The fluid ahead pushes back: work = −P₂ΔV. Net work by pressure = (P₁ − P₂)ΔV.</li>
+          <li>Work–energy theorem: this net work = change in KE + change in PE = ½Δm(v₂² − v₁²) + Δm g(h₂ − h₁).</li>
+          <li>Divide by ΔV (with Δm/ΔV = ρ) and rearrange: P₁ + ½ρv₁² + ρgh₁ = P₂ + ½ρv₂² + ρgh₂.</li>
+        </ol>
+      </div>
+      <div class="formula">
+        <div class="f-title">Bernoulli's equation (along a streamline)</div>
+        <div class="f-main">\[ P + \tfrac{1}{2}\rho v^2 + \rho g h = \text{constant} \]</div>
+        <div class="f-where">Each term is energy per unit volume (J m⁻³ = Pa): P = pressure energy, ½ρv² = kinetic energy, ρgh = potential energy, all per unit volume. Valid for steady, incompressible, non-viscous, irrotational flow.</div>
+      </div>
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Per unit mass</div>
+          <div class="f-main">\[ \frac{P}{\rho} + \frac{v^2}{2} + g h = \text{const} \]</div>
+          <div class="f-where">Units J kg⁻¹.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Per unit weight ("heads")</div>
+          <div class="f-main">\[ \frac{P}{\rho g} + \frac{v^2}{2g} + h = \text{const} \]</div>
+          <div class="f-where">Pressure head + velocity head + elevation head, each a length (m).</div>
+        </div>
+      </div>
+      <div class="callout trap"><span class="label">Exam traps · your Test-05 Q21 and Q42</span>
+        <ul>
+          <li>Bernoulli's equation is the law of conservation of <strong>energy</strong> (Q42). Continuity is conservation of <strong>mass</strong>. Neither is conservation of linear momentum.</li>
+          <li>Correct form (Q21): \(P + \tfrac12\rho v^2 + \rho g h\). Watch for wrong options like \(P + \tfrac12\rho v + \rho g h\), \(P + \tfrac12 v^2 + gh\) (mixing per-volume and per-mass terms), or \(P + \rho v^2 + \rho g h\).</li>
+          <li>For a fluid at rest (v = 0) it reduces to P + ρgh = const, which is the hydrostatics you already know.</li>
+        </ul>
+      </div>
+
+      <figure class="sim" id="sim-bernoulli">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Energy per volume: P + ½ρv² + ρgh stays the same</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="controls">
+              <div class="ctrl"><label for="be-v">Speed at 1, v₁ <output data-for="be-v"></output></label>
+                <input type="range" id="be-v" min="0.5" max="3" step="0.1" value="1.5" data-unit=" m/s" data-dp="1"></div>
+              <div class="ctrl"><label for="be-r">Narrowing A₁/A₂ <output data-for="be-r"></output></label>
+                <input type="range" id="be-r" min="1" max="3" step="0.1" value="2" data-map="ratio"></div>
+              <div class="ctrl"><label for="be-h">Rise of section 2 <output data-for="be-h"></output></label>
+                <input type="range" id="be-h" min="0" max="4" step="0.1" value="2" data-unit=" m" data-dp="1"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">v₂</span><span class="v" data-r="v2">–</span></div>
+              <div class="readout"><span class="k">P₁ (pump)</span><span class="v" data-r="P1">–</span></div>
+              <div class="readout hi"><span class="k">P₂</span><span class="v" data-r="P2">–</span></div>
+              <div class="readout"><span class="k">P₁ − P₂</span><span class="v" data-r="dP">–</span></div>
+            </div>
+            <p class="sim-note">The two bars always end at the same total. Raise section 2: the green ρgh grows and pressure is used up to pay for it. Narrow it: the coral ½ρv² grows (v₂ = v₁A₁/A₂) and pressure drops again. With h = 0 you get the horizontal-pipe rule: faster means lower pressure.</p>
+          </div>
+        </div>
+      </figure>
+
+      <h3>Static, dynamic and stagnation pressure</h3>
+      <div class="prose">
+        <p>In a horizontal pipe, P + ½ρv² = const. <strong>P</strong> is the <em>static</em> pressure (what a gauge moving with the fluid would read). <strong>½ρv²</strong> is the <em>dynamic</em> pressure. Where the fluid is brought to rest, at the nose of an object or the mouth of a tube facing the flow, all of it turns into pressure. The <em>stagnation</em> pressure there is P + ½ρv².</p>
+        <p>An L-shaped (pitot) tube with its open end facing the current therefore holds a column <span class="hl">h = v²/2g higher</span> than a plain vertical tube (Test-05 Q39).</p>
+      </div>
+      <div class="callout tip"><span class="label">Shortcuts</span>
+        <ul>
+          <li>Horizontal pipe: narrowest section → maximum speed → <strong>minimum pressure</strong>; widest section → minimum speed → <strong>maximum pressure</strong> (Q41).</li>
+          <li>Liquid escaping from a region at pressure P₁ into a region at P₂ through a valve: ½ρv² = P₁ − P₂, so <strong>v ∝ √(P₁ − P₂)</strong> (Q43).</li>
+          <li>ΔP between two sections of a horizontal pipe = ½ρ(v₂² − v₁²). Find v₂ from continuity first.</li>
+        </ul>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>Water flows at 2 m s⁻¹ through a horizontal pipe. At a constriction the area halves. Find the pressure difference between the wide and narrow parts.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Continuity: v₂ = 2 × 2 = 4 m s⁻¹.</li>
+          <li>\(P_1 - P_2 = \tfrac12\rho(v_2^2 - v_1^2) = \tfrac12(1000)(16 - 4) = 6000\) Pa.</li>
+        </ol><p class="answer">Answer: 6.0 × 10³ Pa (higher in the wide part)</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical with height</span><p>Water at pressure 2.0 × 10⁵ Pa flows at 3 m s⁻¹ in a pipe at ground level. The pipe rises 5 m and its area halves. Find the pressure at the upper point. (g = 10 m s⁻²)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Continuity: v₂ = 6 m s⁻¹.</li>
+          <li>\(P_2 = P_1 - \tfrac12\rho(v_2^2 - v_1^2) - \rho g h = 2.0\times10^5 - 500(36 - 9) - 1000(10)(5)\).</li>
+          <li>\(= 200000 - 13500 - 50000 = 1.365\times10^5\) Pa.</li>
+        </ol><p class="answer">Answer: 1.37 × 10⁵ Pa</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Pitot tube (like Q39)</span><p>A river flows at 2 m s⁻¹. An L-shaped glass tube is dipped in it with its open end facing upstream. How high above the river surface does water rise in the vertical arm? (g = 10 m s⁻²)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>At the tube's mouth the water is brought to rest, so its kinetic energy per volume ½ρv² becomes extra pressure.</li>
+          <li>That pressure holds a column h with ρgh = ½ρv² ⇒ h = v²/2g = 4/20 = 0.2 m.</li>
+        </ol><p class="answer">Answer: 20 cm above the surface</p></div></details>
+      </div>
+
+      <div class="quiz" data-ids="t05-21,t05-42,t05-41,t05-39,t05-43"><h3>From your Test-05</h3></div>
+    </section>
+
+    <section id="torricelli" data-num="9.4.1" data-toc="Speed of efflux">
+      <div class="sec-head">
+        <span class="num">9.4.1 <span class="level exam">Exam</span></span>
+        <h2>Speed of efflux: Torricelli's law</h2>
+      </div>
+      <div class="prose">
+        <p>Poke holes at different heights in a plastic bottle full of water. The lowest hole squirts hardest, because it has the most water above it. But it does not necessarily throw the water farthest: a hole lower down also has less height to fall from. That trade-off is the most-asked graph and range question in this chapter.</p>
+        <p><strong>Derivation.</strong> Apply Bernoulli between a point on the free surface (pressure P₀, speed ≈ 0 because the tank is much wider than the hole) and the hole at depth h below the surface (pressure P₀, since it opens to air, speed v):</p>
+        <p>\(P_0 + 0 + \rho g h = P_0 + \tfrac12\rho v^2 + 0 \;\Rightarrow\; v = \sqrt{2gh}\).</p>
+        <p>This is the same speed a stone gains falling freely through h. Here h is measured <strong>down from the free surface</strong>, not up from the bottom.</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Speed of efflux</div>
+          <div class="f-main">\[ v = \sqrt{2 g h} \]</div>
+          <div class="f-where">h = depth of the hole below the free surface. Independent of the liquid's density and the hole's size.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Extra pressure on the surface (closed tank, piston, load)</div>
+          <div class="f-main">\[ v = \sqrt{2gh + \frac{2(P - P_0)}{\rho}} \]</div>
+          <div class="f-where">An extra pressure ΔP on the surface adds ΔP/ρg to the effective head (Test-05 Q35).</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Horizontal range on the ground</div>
+          <div class="f-main">\[ R = v\sqrt{\frac{2y}{g}} = 2\sqrt{h\,y} = 2\sqrt{h(H-h)} \]</div>
+          <div class="f-where">h = depth below surface, y = height of hole above the ground, H = h + y (liquid surface above the ground). Maximum R = H when h = y = H/2. Holes at depth h and at depth H − h give the same range.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Time to empty (hole at the bottom)</div>
+          <div class="f-main">\[ t = \frac{A}{a}\sqrt{\frac{2H}{g}} \;\propto\; \sqrt{H} \]</div>
+          <div class="f-where">A = tank area, a = hole area. From H₁ to H₂: \( t = \frac{A}{a}\sqrt{\frac{2}{g}}\,(\sqrt{H_1} - \sqrt{H_2}) \). The first half of the height drains in only 29% of the total time.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Thrust (reaction) of the jet</div>
+          <div class="f-main">\[ F = \rho a v^2 = 2\rho a g h \]</div>
+          <div class="f-where">Momentum per second carried out by the jet. This is <em>twice</em> the hydrostatic force ρgh·a on a plugged hole. Two holes on opposite walls at depths h₁, h₂: net force 2ρag(h₂ − h₁) (Q40).</div>
+        </div>
+      </div>
+
+      <figure class="sim" id="sim-torricelli">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Water jet from a hole: speed, range and the mirror hole</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="controls">
+              <div class="ctrl"><label for="to-H">Water surface H <output data-for="to-H"></output></label>
+                <input type="range" id="to-H" min="1" max="4" step="0.1" value="3" data-unit=" m" data-dp="1"></div>
+              <div class="ctrl"><label for="to-y">Hole height y <output data-for="to-y"></output></label>
+                <input type="range" id="to-y" min="0.05" max="0.95" step="0.01" value="0.25" data-map="pctH"></div>
+              <div class="ctrl"><label for="to-P">Extra pressure on top <output data-for="to-P"></output></label>
+                <input type="range" id="to-P" min="0" max="20" step="0.5" value="0" data-unit=" kPa" data-dp="1"></div>
+            </div>
+            <div class="row"><span class="small muted">Mirror hole</span>
+              <div class="seg" data-k="mirror" role="group" aria-label="Mirror hole">
+                <button type="button" data-v="off" aria-pressed="true">Off</button>
+                <button type="button" data-v="on">On</button>
+              </div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Depth below surface</span><span class="v" data-r="depth">–</span></div>
+              <div class="readout"><span class="k">Efflux speed v</span><span class="v" data-r="v">–</span></div>
+              <div class="readout hi"><span class="k">Range R</span><span class="v" data-r="R">–</span></div>
+              <div class="readout"><span class="k">Best possible</span><span class="v" data-r="Rmax">–</span></div>
+            </div>
+            <p class="sim-note">Slide the hole to 50% of H: the jet lands on the green "max" mark and R = H. Turn on the mirror hole: a hole as far above the middle as yours is below it lands at exactly the same spot. Add top pressure: every jet speeds up and the best hole moves higher.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="fig-row">
+        <figure class="fig">
+          <svg viewBox="0 0 260 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Graph of efflux speed against hole height">
+            <line x1="40" y1="20" x2="40" y2="160" stroke="#454F66" stroke-width="1.5"/>
+            <line x1="40" y1="160" x2="250" y2="160" stroke="#454F66" stroke-width="1.5"/>
+            <path d="M40.0 40.0 L45.0 41.5 L50.0 43.0 L55.0 44.6 L60.0 46.2 L65.0 47.8 L70.0 49.4 L75.0 51.0 L80.0 52.7 L85.0 54.4 L90.0 56.1 L95.0 57.8 L100.0 59.6 L105.0 61.4 L110.0 63.3 L115.0 65.1 L120.0 67.0 L125.0 69.0 L130.0 71.0 L135.0 73.1 L140.0 75.1 L145.0 77.3 L150.0 79.5 L155.0 81.8 L160.0 84.1 L165.0 86.5 L170.0 89.0 L175.0 91.6 L180.0 94.3 L185.0 97.1 L190.0 100.0 L195.0 103.1 L200.0 106.3 L205.0 109.8 L210.0 113.5 L215.0 117.6 L220.0 122.1 L225.0 127.1 L230.0 133.2 L234.0 139.2 L237.0 145.3 L239.0 151.5 L240.0 160.0" fill="none" stroke="#3A8CCB" stroke-width="2.5"/>
+            <text x="12" y="40" font-size="12" fill="#454F66">√2gH</text>
+            <text x="44" y="18" font-size="12" fill="#454F66" font-weight="600">v</text>
+            <text x="236" y="176" font-size="12" fill="#454F66">H</text>
+            <text x="120" y="182" font-size="12" fill="#454F66">hole height y above bottom</text>
+          </svg>
+          <figcaption>Test-05 Q37: v = √(2g(H − y)) falls as the hole is raised, curving down to zero at y = H.</figcaption>
+        </figure>
+        <figure class="fig">
+          <svg viewBox="0 0 260 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Graph of range against hole height">
+            <line x1="40" y1="20" x2="40" y2="160" stroke="#454F66" stroke-width="1.5"/>
+            <line x1="40" y1="160" x2="250" y2="160" stroke="#454F66" stroke-width="1.5"/>
+            <line x1="140" y1="40" x2="140" y2="160" stroke="#2F8A57" stroke-dasharray="4 3"/>
+            <path d="M40.0 160.0 L41.0 143.1 L43.0 130.8 L46.0 119.1 L50.0 107.7 L55.0 96.8 L60.0 88.0 L70.0 74.3 L80.0 64.0 L90.0 56.1 L100.0 50.0 L110.0 45.5 L120.0 42.4 L130.0 40.6 L140.0 40.0 L150.0 40.6 L160.0 42.4 L170.0 45.5 L180.0 50.0 L190.0 56.1 L200.0 64.0 L210.0 74.3 L220.0 88.0 L225.0 96.8 L230.0 107.7 L234.0 119.1 L237.0 130.8 L239.0 143.1 L240.0 160.0" fill="none" stroke="#13817E" stroke-width="2.5"/>
+            <text x="14" y="44" font-size="12" fill="#454F66">H</text>
+            <text x="44" y="18" font-size="12" fill="#454F66" font-weight="600">R</text>
+            <text x="128" y="176" font-size="12" fill="#2F8A57">H/2</text>
+            <text x="234" y="176" font-size="12" fill="#454F66">H</text>
+            <circle cx="90" cy="56.1" r="4" fill="#8B4E9F"/><circle cx="190" cy="56.1" r="4" fill="#8B4E9F"/>
+            <line x1="90" y1="56.1" x2="190" y2="56.1" stroke="#8B4E9F" stroke-dasharray="3 3"/>
+          </svg>
+          <figcaption>R = 2√(y(H − y)) is symmetric about H/2 (maximum R = H there). The purple pair are mirror holes with equal range.</figcaption>
+        </figure>
+      </div>
+
+      <div class="callout trap"><span class="label">Exam traps · your Test-05 Q30, Q31</span>
+        <ul>
+          <li>Maximum range needs the hole at <strong>half the height of the liquid surface above the ground</strong> (Q30). If the tank stands on a block, measure H from the ground, not from the tank's base.</li>
+          <li>Time to empty ∝ √H, not ∝ H (Q31). Four times the height takes twice the time. The outflow slows down as the level falls.</li>
+          <li>v = √(2gh) uses depth below the <em>surface</em>. If a question gives the hole's height above the base, use h = H − y.</li>
+        </ul>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Range (like Q34)</span><p>A tank stands on a platform. A small hole in its side is 45 cm below the water surface and 80 cm above the ground. How far from the tank does the jet hit the ground?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(R = 2\sqrt{h y} = 2\sqrt{45 \times 80} = 2\sqrt{3600} = 120\) cm.</li>
+          <li>Q34 is the same shape: hole 70 cm below the surface and 140 cm above the ground → \(2\sqrt{70\times140} = 140\sqrt2\) cm.</li>
+        </ol><p class="answer">Answer: 120 cm = 1.2 m</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Extra pressure (like Q35)</span><p>A tank of water has a hole 0.8 m below the surface. A piston resting on the water adds a pressure of 10⁴ Pa. Find the efflux speed. (g = 10 m s⁻²)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(\tfrac12\rho v^2 = \Delta P + \rho g h\) ⇒ \(v^2 = 2(\Delta P/\rho + gh) = 2(10 + 8) = 36\).</li>
+          <li>\(v = 6\) m s⁻¹. (Without the piston it would be √16 = 4 m s⁻¹.)</li>
+        </ol><p class="answer">Answer: 6 m s⁻¹</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Time and ratio (like Q31)</span><p>A tank of area 1 m² holds water 5 m deep and drains through a hole of area 10 cm² at its bottom. (a) How long does it take to empty? (b) How long to drain from 5 m to 1.25 m? (g = 10 m s⁻²)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>(a) \(A/a = 1/10^{-3} = 1000\). \(t = 1000\sqrt{2\times5/10} = 1000\) s.</li>
+          <li>(b) \(t = 1000\sqrt{2/10}\,(\sqrt5 - \sqrt{1.25}) = 1000 \times 0.447 \times 1.118 = 500\) s.</li>
+          <li>So three-quarters of the height drains in half the time, and the last 1.25 m takes the other 500 s.</li>
+        </ol><p class="answer">Answer: (a) 1000 s; (b) 500 s</p></div></details>
+      </div>
+
+      <div class="quiz" data-ids="t05-29,t05-30,t05-31,t05-34,t05-35,t05-37,t05-40"><h3>From your Test-05 (all seven efflux questions)</h3></div>
+    </section>
+
+    <section id="venturi" data-num="★" data-toc="Venturimeter">
+      <div class="sec-head">
+        <span class="num">★ Coaching topic <span class="level exam">Exam</span></span>
+        <h2>The venturimeter</h2>
+      </div>
+      <div class="prose">
+        <p>How do you measure how much water flows through a pipe each second without putting anything in its way? Narrow the pipe smoothly to a <span class="term">throat</span> and back again. In the throat the water speeds up (continuity), so its pressure drops (Bernoulli). Measure that pressure drop with a manometer and you can calculate the flow rate. That device is a venturimeter, and it uses both laws together.</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Two equations, two unknowns</div>
+          <div class="f-main">\[ A_1v_1 = A_2v_2, \qquad P_1 - P_2 = \tfrac12\rho\,(v_2^2 - v_1^2) \]</div>
+          <div class="f-where">Substitute v₂ = v₁A₁/A₂ into Bernoulli and solve for v₁.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Venturimeter result</div>
+          <div class="f-main">\[ v_1 = \sqrt{\frac{2\,\Delta P}{\rho\left[(A_1/A_2)^2 - 1\right]}}, \qquad Q = A_1 v_1 = A_1A_2\sqrt{\frac{2\,\Delta P}{\rho\,(A_1^2 - A_2^2)}} \]</div>
+          <div class="f-where">ΔP = P₁ − P₂. With vertical tubes of the same liquid, ΔP = ρgΔh. With a U-tube manometer holding a heavier liquid ρ_m (e.g. mercury under water), ΔP = (ρ_m − ρ)gh.</div>
+        </div>
+      </div>
+
+      <figure class="sim" id="sim-venturi">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Venturimeter: the column over the throat drops</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="controls">
+              <div class="ctrl"><label for="ve-v">Speed in wide part v₁ <output data-for="ve-v"></output></label>
+                <input type="range" id="ve-v" min="0" max="1" step="0.02" value="0.6" data-unit=" m/s" data-dp="2"></div>
+              <div class="ctrl"><label for="ve-r">Area ratio A₁/A₂ <output data-for="ve-r"></output></label>
+                <input type="range" id="ve-r" min="1" max="3" step="0.1" value="2" data-map="ratio"></div>
+            </div>
+            <div class="row"><span class="small muted">Third tube</span>
+              <div class="seg" data-k="third" role="group" aria-label="Third tube">
+                <button type="button" data-v="static" aria-pressed="true">Plain</button>
+                <button type="button" data-v="pitot">Pitot (faces flow)</button>
+              </div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Throat speed v₂</span><span class="v" data-r="v2">–</span></div>
+              <div class="readout hi"><span class="k">Δh (columns 1 − 2)</span><span class="v" data-r="dh">–</span></div>
+              <div class="readout"><span class="k">P₁ − P₂ = ρgΔh</span><span class="v" data-r="dP">–</span></div>
+              <div class="readout"><span class="k">Flow Q (A₁ = 20 cm²)</span><span class="v" data-r="Q">–</span></div>
+              <div class="readout"><span class="k">Pitot rise v₁²/2g</span><span class="v" data-r="pit">–</span></div>
+            </div>
+            <p class="sim-note">Columns 1 and 3 stand at the same height (same area, same speed, no friction). The throat column drops by (v₂² − v₁²)/2g. Push the flow high enough and the throat pressure goes below atmospheric, so air or liquid would be sucked in. That is how sprayers, perfume atomisers, carburettors and Bunsen burners work. Switch on the pitot tube to see the extra v²/2g.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="callout exam"><span class="label">How it is asked</span>
+        <ul>
+          <li>"A venturimeter works on the principle of …" → <strong>Bernoulli's theorem</strong> (together with continuity) (Test-05 Q20).</li>
+          <li>Given A₁, A₂ and the pressure difference (or Δh), find Q. Convert cm² → m² (× 10⁻⁴) before using the formula, then convert back.</li>
+          <li>Ratio form: if Δh is made 4 times larger, Q doubles (Q ∝ √Δh).</li>
+        </ul>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical (like Q26)</span><p>Water flows through a horizontal pipe of cross-section 20 cm² that narrows to 10 cm². The pressure difference between the two sections is 60 Pa. Find the volume flow rate.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>A₁ = 2 × 10⁻³ m², A₂ = 1 × 10⁻³ m², A₁² − A₂² = 3 × 10⁻⁶ m⁴.</li>
+          <li>\(Q = A_1A_2\sqrt{\dfrac{2\Delta P}{\rho(A_1^2 - A_2^2)}} = 2\times10^{-6}\sqrt{\dfrac{120}{1000\times3\times10^{-6}}} = 2\times10^{-6}\times200\).</li>
+          <li>Q = 4 × 10⁻⁴ m³ s⁻¹ = 400 cm³ s⁻¹. (For Q26's 15 Pa, the root is √10⁴ = 100, giving 200 cm³ s⁻¹.)</li>
+        </ol><p class="answer">Answer: 400 cm³ s⁻¹</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Manometer heights</span><p>In a venturimeter (A₁ = 10 cm², A₂ = 5 cm²) carrying water, the vertical tubes over the wide part and the throat differ in height by 15 cm. Find v₁, v₂ and Q. (g = 10 m s⁻²)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>ΔP = ρgΔh = 1000 × 10 × 0.15 = 1500 Pa. Area ratio = 2.</li>
+          <li>\(v_1 = \sqrt{\dfrac{2\times1500}{1000\,(4 - 1)}} = 1\) m s⁻¹, so v₂ = 2 m s⁻¹.</li>
+          <li>Q = A₁v₁ = 10⁻³ m³ s⁻¹ = 1000 cm³ s⁻¹ (1 litre per second).</li>
+          <li>Check: ½ρ(v₂² − v₁²) = 500 × 3 = 1500 Pa. ✓</li>
+        </ol><p class="answer">Answer: 1 m s⁻¹, 2 m s⁻¹, 1 L s⁻¹</p></div></details>
+      </div>
+
+      <div class="quiz" data-ids="t05-20,t05-26,t05-33"><h3>From your Test-05</h3></div>
+    </section>
+
+    <section id="lift" data-num="9.4.2" data-toc="Dynamic lift &amp; Magnus">
+      <div class="sec-head">
+        <span class="num">9.4.2 <span class="level core">Core</span></span>
+        <h2>Dynamic lift and the Magnus effect</h2>
+      </div>
+      <p class="muted">This section is being written…</p>
+    </section>
+
+    <section id="problem-types" data-num="★" data-toc="Problem patterns">
+      <div class="sec-head">
+        <span class="num">★ <span class="level exam">Exam</span></span>
+        <h2>Problem patterns and shortcuts</h2>
+      </div>
+      <p class="muted">This section is being written…</p>
+    </section>
+
+    <section id="checklist" data-num="★" data-toc="Night-before checklist">
+      <div class="sec-head">
+        <span class="num">★ <span class="level exam">Exam</span></span>
+        <h2>Night-before checklist</h2>
+      </div>
+      <p class="muted">This section is being written…</p>
+    </section>
+
+    <footer class="footer">Fluids I covers NCERT Class 11 Physics Ch 9, sections 9.1–9.4, plus coaching extras (buoyancy, venturimeter). Next: <a href="fluids-2.html">Fluids II: viscosity, Stokes' law, Reynolds number, surface tension, capillarity</a>. Values used: g = 10 m s⁻² unless a question says 9.8; ρ(water) = 1000 kg m⁻³; 1 atm = 1.013 × 10⁵ Pa.</footer>
+  </main>
+</div>
+<script src="assets/sims-fluids1.js"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Practice Bank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,750&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/site.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
+<script src="assets/q-test05.js"></script>
+<script src="assets/q-test06.js"></script>
+<script src="assets/q-solids.js"></script>
+<script src="assets/q-fluids-extra.js"></script>
+<style>
+  .filters { position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--topbar-h)); z-index: 20; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding-block: 12px; border-bottom: 1px solid var(--line); display: grid; gap: 10px; }
+  @media (max-width: 720px) { .filters { top: calc(env(safe-area-inset-top, 0px) + 92px); position: static; } }
+  .frow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .frow .lbl { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); min-width: 52px; }
+  .fchip { font: inherit; font-size: 13.5px; font-weight: 600; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink-2); cursor: pointer; }
+  .fchip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .fchip.flag[aria-pressed="true"] { background: var(--coral); border-color: var(--coral); }
+  select { font: inherit; font-size: 14px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); max-width: 100%; }
+  .scorebar { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: 14.5px; color: var(--ink-2); }
+  .scorebar strong { font-family: var(--f-mono); }
+  .empty { padding: 30px; text-align: center; color: var(--muted); background: var(--surface); border: 1px dashed var(--line-2); border-radius: var(--r-lg); }
+</style>
+</head>
+<body class="ch-practice" data-page="practice">
+<div class="frame">
+  <main class="content" style="max-width: 980px; margin-inline: auto;">
+    <header class="hero">
+      <span class="eyebrow">Question bank</span>
+      <h1>Practice</h1>
+      <p class="lede">Every physics question from Module Test-05 and Test-06, plus exam-style sets for Solids and Fluids. Tap an option to check it; each solution explains why the other options are wrong.</p>
+    </header>
+
+    <div class="filters" id="filters">
+      <div class="frow" role="group" aria-label="Source">
+        <span class="lbl">Source</span>
+        <button class="fchip" data-src="all" aria-pressed="true">All</button>
+        <button class="fchip" data-src="t05" aria-pressed="false">Test-05</button>
+        <button class="fchip" data-src="t06" aria-pressed="false">Test-06</button>
+        <button class="fchip" data-src="xs" aria-pressed="false">Solids set</button>
+        <button class="fchip" data-src="xf" aria-pressed="false">Fluids set</button>
+      </div>
+      <div class="frow">
+        <span class="lbl">Show</span>
+        <button class="fchip flag" id="f-flag" aria-pressed="false">✗ marked on paper</button>
+        <button class="fchip" id="f-unans" aria-pressed="false">Not yet answered</button>
+        <button class="fchip" id="f-wrong" aria-pressed="false">Got wrong</button>
+        <label class="sr" for="f-topic" style="position:absolute;left:-9999px">Topic</label>
+        <select id="f-topic"><option value="">All topics</option></select>
+        <label class="sr" for="f-type" style="position:absolute;left:-9999px">Question type</label>
+        <select id="f-type"><option value="">All question types</option></select>
+      </div>
+      <div class="scorebar" aria-live="polite">
+        <span>Showing <strong id="s-shown">0</strong></span>
+        <span>Answered <strong id="s-done">0</strong></span>
+        <span style="color: var(--green)">Correct <strong id="s-right">0</strong></span>
+        <span style="color: var(--coral)">Wrong <strong id="s-wrong">0</strong></span>
+        <span style="margin-left: auto" class="row">
+          <button class="btn" id="reset" type="button">Reset my answers</button>
+          <button class="btn" id="reset-yes" type="button" hidden style="border-color: var(--coral); color: var(--coral)">Yes, clear all</button>
+          <button class="btn" id="reset-no" type="button" hidden>Cancel</button>
+        </span>
+      </div>
+    </div>
+
+    <div class="quiz-list" id="list" style="margin-top: 18px;"></div>
+    <footer class="footer">Answers are saved only in this browser. "✗ marked on paper" means the question has a ✗ next to it on your test photo.</footer>
+  </main>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const Q = window.QBANK;
+  const state = { src: 'all', flag: false, unans: false, wrong: false, topic: '', type: '' };
+  const $ = id => document.getElementById(id);
+
+  // topic & type selects only list what exists in the bank
+  const topicSel = $('f-topic'), typeSel = $('f-type');
+  Object.entries(Site.TOPICS).forEach(([k, t]) => {
+    const n = Q.filter(q => q.topic === k).length;
+    if (n) topicSel.insertAdjacentHTML('beforeend', `<option value="${k}">${t.label} (${n})</option>`);
+  });
+  Object.entries(Site.TYPES).forEach(([k, t]) => {
+    const n = Q.filter(q => q.type === k).length;
+    if (n) typeSel.insertAdjacentHTML('beforeend', `<option value="${k}">${t.label} (${n})</option>`);
+  });
+
+  // deep links: #t05 #t06 #xs #xf #flagged or a topic id
+  const h = location.hash.slice(1);
+  if (['t05', 't06', 'xs', 'xf'].includes(h)) state.src = h;
+  else if (h === 'flagged') state.flag = true;
+  else if (Site.TOPICS[h]) state.topic = h;
+  topicSel.value = state.topic;
+
+  const srcBtns = [...document.querySelectorAll('[data-src]')];
+  const syncButtons = () => {
+    srcBtns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.src === state.src)));
+    $('f-flag').setAttribute('aria-pressed', String(state.flag));
+    $('f-unans').setAttribute('aria-pressed', String(state.unans));
+    $('f-wrong').setAttribute('aria-pressed', String(state.wrong));
+  };
+
+  const render = () => {
+    const att = Site.store.read();
+    const list = Q.filter(q =>
+      (state.src === 'all' || q.src === state.src) &&
+      (!state.flag || q.flagged) &&
+      (!state.topic || q.topic === state.topic) &&
+      (!state.type || q.type === state.type) &&
+      (!state.unans || typeof att[q.id] !== 'number') &&
+      (!state.wrong || (typeof att[q.id] === 'number' && att[q.id] !== q.ans)));
+    const box = $('list');
+    if (!list.length) box.innerHTML = '<div class="empty">No questions match these filters. Try switching one off.</div>';
+    else Quiz.mount(box, list);
+    $('s-shown').textContent = list.length;
+    score();
+  };
+  const score = () => {
+    const att = Site.store.read();
+    const done = Q.filter(q => typeof att[q.id] === 'number');
+    $('s-done').textContent = done.length;
+    $('s-right').textContent = done.filter(q => att[q.id] === q.ans).length;
+    $('s-wrong').textContent = done.filter(q => att[q.id] !== q.ans).length;
+  };
+
+  srcBtns.forEach(b => b.addEventListener('click', () => { state.src = b.dataset.src; syncButtons(); render(); }));
+  $('f-flag').addEventListener('click', () => { state.flag = !state.flag; syncButtons(); render(); });
+  $('f-unans').addEventListener('click', () => { state.unans = !state.unans; if (state.unans) state.wrong = false; syncButtons(); render(); });
+  $('f-wrong').addEventListener('click', () => { state.wrong = !state.wrong; if (state.wrong) state.unans = false; syncButtons(); render(); });
+  topicSel.addEventListener('change', () => { state.topic = topicSel.value; render(); });
+  typeSel.addEventListener('change', () => { state.type = typeSel.value; render(); });
+  document.addEventListener('quiz:answer', score);
+
+  const askReset = (on) => { $('reset').hidden = on; $('reset-yes').hidden = !on; $('reset-no').hidden = !on; };
+  $('reset').addEventListener('click', () => askReset(true));
+  $('reset-no').addEventListener('click', () => askReset(false));
+  $('reset-yes').addEventListener('click', () => { Site.store.clear(); askReset(false); render(); });
+
+  syncButtons();
+  if (Site.printKind) {
+    // print: every question, grouped by source, plus an answer key for the questions-only version
+    const box = $('list');
+    box.innerHTML = '';
+    Object.entries(Site.SOURCES).forEach(([src, name]) => {
+      const qs = Q.filter(q => q.src === src);
+      if (!qs.length) return;
+      const sec = document.createElement('section');
+      sec.className = 'print-group';
+      sec.innerHTML = `<h2>${name} <span class="muted small">(${qs.length} questions)</span></h2><div class="quiz-list"></div>`;
+      box.appendChild(sec);
+      Quiz.mount(sec.querySelector('.quiz-list'), qs);
+    });
+    if (Site.printKind === 'questions') box.insertAdjacentHTML('beforeend', Quiz.answerKey(Q));
+    return;
+  }
+  render();
+});
+</script>
+</body>
+</html>

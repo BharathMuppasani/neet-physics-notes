@@ -1,0 +1,13 @@
+.DS_Store
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+dist/
+papers/
+pdf/
+NEET Physics Notes.pdf
+.agents/
+.codex/
+.aws/

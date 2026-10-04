@@ -1,0 +1,1028 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mechanical Properties of Solids</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,750&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<!-- site.js MUST load before MathJax (it holds the MathJax config) -->
+<script src="assets/site.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
+<!-- question data used by inline quizzes -->
+<script src="assets/q-solids.js"></script>
+<style>
+  /* page-specific helpers (solids.html) */
+  .readout .v.txt { font-family: var(--f-body); font-size: 14px; line-height: 1.3; }
+  .calc { font-family: var(--f-mono); font-size: 12.5px; line-height: 1.5; color: var(--ink-2); background: var(--surface-2); border-radius: 8px; padding: 8px 10px; overflow-wrap: anywhere; }
+  .fig svg text { font-family: var(--f-body); }
+  .check-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .check-list li { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 10px 14px 10px 40px; position: relative; }
+  .check-list li::before { content: ""; position: absolute; left: 14px; top: 15px; width: 14px; height: 14px; border-radius: 4px; border: 2px solid var(--accent); }
+  .pattern { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; display: grid; gap: 8px; }
+  .pattern h4 { color: var(--accent); }
+  .pattern p, .pattern li { font-size: 15.5px; }
+  .tbl-note { font-size: 13.5px; color: var(--muted); }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  /* the [hidden] attribute must win over .sol { display: grid } */
+  .sol[hidden] { display: none; }
+  /* MathJax's off-screen assistive MathML must not widen the page on phones */
+  mjx-assistive-mml { max-width: 100%; }
+  .content > section > *, .qtext > *, .eg-a > * { min-width: 0; }
+  @media (min-width: 860px) { .sim-body.side .sim-stage { display: flex; flex-direction: column; justify-content: center; } }
+</style>
+</head>
+<body class="ch-solids" data-page="solids">
+<div class="frame with-toc">
+  <aside class="toc" aria-label="Sections"></aside>
+  <main class="content">
+    <header class="hero">
+      <span class="eyebrow">Class 11 · Physics · Chapter 8</span>
+      <h1>Mechanical Properties of Solids</h1>
+      <p class="lede">Why a steel wire hardly stretches while a rubber band stretches a lot, how to put a number on "stiffness", and how engineers use it to size ropes, beams and bridges. We start from atoms and springs and work up to exam-level problems.</p>
+      <div class="chips">
+        <span class="chip accent">10 Qs in CUT-6</span>
+        <span class="chip">9 interactive models</span>
+        <span class="chip">38 practice questions</span>
+      </div>
+    </header>
+
+    <section id="elasticity" data-num="8.1" data-toc="Elasticity">
+      <div class="sec-head"><span class="num">8.1 <span class="level basic">Basics</span></span><h2>Elasticity, plasticity and rigid bodies</h2></div>
+      <div class="prose">
+        <p>Stretch a rubber band and let go: it snaps back. Squeeze a ball of wet clay and let go: it stays squashed. Push hard on a steel table and nothing you can see happens. These three everyday results are the whole chapter in miniature.</p>
+        <p>Every solid changes its shape or size at least a little when you apply a force. The force that causes the change is the <span class="term">deforming force</span>. As soon as the body deforms, it develops an internal force that tries to undo the change. This is the <span class="term">restoring force</span>. In equilibrium, the restoring force is equal and opposite to the applied force.</p>
+      </div>
+      <div class="compare">
+        <div><h4>Elasticity</h4><p>The property of a body to <strong>regain its original size and shape</strong> when the deforming force is removed. Examples: a steel wire within its limit, a spring, a rubber band.</p></div>
+        <div><h4>Plasticity</h4><p>The property of a body <strong>not to regain</strong> its original shape after the force is removed, so it stays permanently deformed. Examples: putty, wet clay, chewing gum, a metal bent too far.</p></div>
+      </div>
+
+      <h3>Why solids are elastic: the atom-and-spring model</h3>
+      <div class="prose">
+        <p>In a solid, every atom sits at an equilibrium position fixed by the forces from its neighbours. You can picture each pair of neighbouring atoms as joined by a tiny spring. Pull the solid and the atoms move apart, so the springs (interatomic forces) pull them back. Push and the atoms come closer, so the springs push them apart. <span class="hl">The restoring force of a solid is just the sum of these interatomic forces.</span></p>
+        <p>If you pull too hard, the atoms slide past their neighbours into new equilibrium positions. After you let go they stay in the new places. That is plastic deformation. The largest stress the body can take and still recover completely is called its <span class="term">elastic limit</span>.</p>
+      </div>
+
+      <figure class="sim" id="sim-lattice">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Atoms joined by springs</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="mode" role="group" aria-label="Range of force">
+              <button type="button" data-v="elastic" aria-pressed="true">Within elastic limit</button>
+              <button type="button" data-v="plastic">Allow past the limit</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="lat-F">Deforming force F <output data-for="lat-F"></output></label>
+                <input type="range" id="lat-F" min="0" max="100" step="1" value="40" data-unit="" data-dp="0"></div>
+            </div>
+            <div class="btn-row">
+              <button class="btn primary" type="button" id="lat-release">Release (remove F)</button>
+              <button class="btn" type="button" id="lat-reset">Reset</button>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Strain of lattice</span><span class="v" data-r="strain">–</span></div>
+              <div class="readout hi"><span class="k">Permanent set</span><span class="v" data-r="perm">–</span></div>
+            </div>
+            <p class="sim-note">Pull, then press <strong>Release</strong>: the stretched springs pull the atoms back. Now choose <strong>Allow past the limit</strong>, drag F beyond the black mark, and release again. The lattice settles at a longer length. That left-over stretch is the <em>permanent set</em>.</p>
+          </div>
+        </div>
+      </figure>
+
+      <h3>Three ideal cases</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Ideal body</th><th>Meaning</th><th>Closest real example</th></tr></thead>
+        <tbody>
+          <tr><td>Perfectly elastic</td><td>Regains its shape completely, however often it is loaded</td><td>Quartz fibre (very nearly)</td></tr>
+          <tr><td>Perfectly plastic</td><td>Shows no tendency at all to regain its shape</td><td>Putty, wet clay, mud</td></tr>
+          <tr><td>Perfectly rigid</td><td>No change in shape or size for any force. Then \(Y = G = B = \infty\)</td><td>None. Every real body deforms a little.</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="callout trap"><span class="label">Exam trap</span>
+        <p><strong>"Which is more elastic, rubber or steel?" Steel.</strong> In physics, "more elastic" means it takes a <em>larger</em> stress to produce the same strain, so the elastic modulus is larger. Rubber stretches easily because its modulus is tiny. \(Y_\text{steel} \approx 2\times10^{11}\) Pa is about \(10^{4}\)–\(10^{5}\) times the \(Y\) of rubber.</p>
+      </div>
+      <div class="callout exam"><span class="label">How it is asked</span>
+        <ul>
+          <li>"Young's modulus of a perfectly rigid body is …" Answer: infinite.</li>
+          <li>Assertion–reason on "steel is more elastic than rubber".</li>
+          <li>"The restoring force in a solid is due to …" Answer: interatomic (intermolecular) forces.</li>
+        </ul>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Concept</span><p>A glass marble and a rubber ball of the same size are dropped from the same height on a hard floor. The glass marble bounces higher. A student concludes "glass is more elastic than rubber". Is the conclusion right, and what does "more elastic" really compare?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>"More elastic" compares the elastic modulus: how much stress is needed per unit strain. \(Y_\text{glass} \approx 6.5\times10^{10}\) Pa, while rubber is only about \(10^{6}\)–\(10^{7}\) Pa.</li>
+          <li>So the conclusion "glass is more elastic than rubber" is correct. Glass deforms far less for the same stress.</li>
+          <li>The bounce is only a rough guide, because it also depends on energy lost inside the material. The reliable test is always the modulus.</li>
+        </ol><p class="answer">Yes: glass (and steel) are more elastic than rubber because their modulus is much larger.</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Concept</span><p>A body is "perfectly rigid". What are its Young's modulus, shear modulus and bulk modulus? Why does no real body behave like this?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Perfectly rigid means zero strain for any stress.</li>
+          <li>Each modulus = stress ÷ strain = (finite) ÷ 0 → \(\infty\). So \(Y = G = B = \infty\).</li>
+          <li>Real atoms are held by finite "springs" (interatomic forces), so any force moves them a little. A perfectly rigid body is only an idealisation.</li>
+        </ol><p class="answer">All three moduli are infinite; this is an ideal limit.</p></div></details>
+      </div>
+
+      <div class="quiz" data-topic="elasticity" data-limit="3"><h3>Try it</h3></div>
+    </section>
+
+    <section id="stress" data-num="8.2" data-toc="Stress &amp; strain">
+      <div class="sec-head"><span class="num">8.2 <span class="level basic">Basics</span></span><h2>Stress and strain</h2></div>
+      <div class="prose">
+        <p>Hang the same 10 kg from a thin wire and from a thick rod of the same metal. The thin wire stretches much more, because the same force is shared by fewer atoms. So force alone does not tell us how hard the material is being "worked". We need <strong>force per unit area</strong>. In the same way, a 1 mm stretch means a lot for a 10 cm wire and very little for a 10 m cable. So we compare the <strong>fractional change</strong>.</p>
+      </div>
+      <div class="callout def"><span class="label">Definitions</span>
+        <p><strong>Stress</strong> is the restoring force per unit area that develops inside a deformed body. In equilibrium it equals the applied force per unit area: \(\text{stress} = F/A\).</p>
+        <p><strong>Strain</strong> is the fractional change in a dimension: change ÷ original value. It is a ratio of two like quantities, so it has <strong>no unit and no dimensions</strong>.</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula"><div class="f-title">Stress</div><div class="f-main">\[ \sigma = \frac{F}{A} \]</div><div class="f-where">SI unit N m⁻² = pascal (Pa). Dimensions \([\mathrm{ML^{-1}T^{-2}}]\), the same as pressure.</div></div>
+        <div class="formula"><div class="f-title">Strain</div><div class="f-main">\[ \text{strain} = \frac{\text{change in size}}{\text{original size}} \]</div><div class="f-where">Pure number, dimensionless \([\mathrm{M^0L^0T^0}]\). Often quoted as a % (strain 0.002 = 0.2%).</div></div>
+      </div>
+
+      <h3>Three kinds of stress, three kinds of strain</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Stress</th><th>How the force acts</th><th>What changes</th><th>Strain</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Longitudinal</strong>: tensile (pull) or compressive (push)</td><td>Normal (perpendicular) to the cross-section, along the length</td><td>Length</td><td>Longitudinal strain \(= \Delta L/L\)</td></tr>
+          <tr><td><strong>Shearing</strong> (tangential)</td><td>Parallel to the face, with the opposite face held</td><td>Shape (volume stays the same)</td><td>Shear strain \(= \Delta x/L = \tan\theta \approx \theta\)</td></tr>
+          <tr><td><strong>Hydraulic</strong> (volume)</td><td>Equal normal force on every face, e.g. a body inside a fluid. Equals the pressure \(p\).</td><td>Volume (shape stays the same)</td><td>Volume strain \(= \Delta V/V\)</td></tr>
+        </tbody>
+      </table></div>
+
+      <figure class="sim" id="sim-stress">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>One block, four kinds of stress</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="type" role="group" aria-label="Type of stress">
+              <button type="button" data-v="tensile" aria-pressed="true">Tensile</button>
+              <button type="button" data-v="compressive">Compressive</button>
+              <button type="button" data-v="shear">Shear</button>
+              <button type="button" data-v="hydraulic">Hydraulic</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="st-mag">Size of stress (exaggerated) <output data-for="st-mag"></output></label>
+                <input type="range" id="st-mag" min="0" max="100" step="1" value="60" data-unit="%" data-dp="0"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Stress type</span><span class="v txt" data-r="stype">–</span></div>
+              <div class="readout hi"><span class="k">What changes</span><span class="v txt" data-r="changes">–</span></div>
+            </div>
+            <p class="sim-note" data-r="note">–</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="callout trap"><span class="label">Exam trap: stress is not pressure</span>
+        <p>Stress and pressure share the unit (Pa) and dimensions, but they are different ideas. <strong>Pressure</strong> is an external normal force per unit area pressing on a surface, and in a fluid at rest it acts equally in all directions. <strong>Stress</strong> is the <em>internal restoring force</em> per unit area. It can be normal (tensile or compressive) or tangential (shear), and its value depends on the direction of the surface you consider. Only hydraulic stress equals the pressure of the surrounding fluid.</p>
+      </div>
+      <div class="callout tip"><span class="label">Shortcut</span>
+        <p>Which area? For tensile/compressive stress, use the cross-section <strong>perpendicular</strong> to the force. For shear stress, use the face <strong>parallel</strong> to the force (the face the force slides). In shear strain \(\Delta x/L\), \(L\) is the distance between the fixed face and the moving face.</p>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>A wire 3 m long and 1 mm in diameter carries a load of 5 kg and stretches by 1.2 mm. Find the stress and the strain. \((g = 9.8\ \text{m s}^{-2})\)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(F = 5\times9.8 = 49\ \text{N}\). Radius \(r = 0.5\ \text{mm} = 5\times10^{-4}\ \text{m}\), so \(A = \pi r^2 = 7.85\times10^{-7}\ \text{m}^2\).</li>
+          <li>Stress \(= F/A = 49/(7.85\times10^{-7}) = 6.24\times10^{7}\ \text{N m}^{-2}\).</li>
+          <li>Strain \(= \Delta L/L = 1.2\times10^{-3}/3 = 4.0\times10^{-4}\) (no unit).</li>
+          <li>Bonus: \(Y = \text{stress}/\text{strain} = 1.56\times10^{11}\) Pa.</li>
+        </ol><p class="answer">Stress ≈ 6.2 × 10⁷ N m⁻²; strain = 4 × 10⁻⁴.</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Concept</span><p>Identify the stress in each case. (a) Legs of a table holding a heavy load. (b) A book pushed sideways along its top cover while the bottom cover is held. (c) A steel ball lying at the bottom of a deep lake. (d) The cable of a lift.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>(a) Compressive (longitudinal): the legs are squeezed along their length.</li>
+          <li>(b) Shearing: the force is parallel to the cover, the pages slide over each other and the shape changes.</li>
+          <li>(c) Hydraulic: the water pushes equally on every part of the surface, so the volume decreases slightly and the shape stays the same.</li>
+          <li>(d) Tensile: the cable is pulled at both ends.</li>
+        </ol><p class="answer">Compressive · shear · hydraulic · tensile.</p></div></details>
+      </div>
+
+      <div class="quiz" data-topic="stress" data-limit="3"><h3>Try it</h3></div>
+    </section>
+
+    <section id="curve" data-num="8.3–8.4" data-toc="Hooke's law &amp; stress–strain curve">
+      <div class="sec-head"><span class="num">8.3–8.4 <span class="level core">Core</span></span><h2>Hooke's law and the stress–strain curve</h2></div>
+      <div class="prose">
+        <p>Hang 1 kg on a spring and it stretches 2 cm; hang 2 kg and it stretches 4 cm. For <em>small</em> deformations, the response is simply proportional. Robert Hooke stated this in 1676, and it holds for a wire or a rod as well as for a spring.</p>
+      </div>
+      <div class="formula">
+        <div class="f-title">Hooke's law</div>
+        <div class="f-main">\[ \text{stress} \propto \text{strain} \quad\Rightarrow\quad \text{stress} = k \times \text{strain} \]</div>
+        <div class="f-where">\(k\) is the <strong>modulus of elasticity</strong>. Its unit is Pa and its dimensions are \([\mathrm{ML^{-1}T^{-2}}]\) (strain has none). It is valid only up to the proportional limit.</div>
+      </div>
+
+      <h3>What happens if we keep pulling?</h3>
+      <div class="prose">
+        <p>Clamp a metal wire in a testing machine, increase the load slowly, and plot stress against strain. A ductile metal such as copper or mild steel gives the curve below. <strong>Learn the letters.</strong> NCERT and coaching tests use them directly.</p>
+        <ul>
+          <li><strong>O → A, proportional region.</strong> A straight line; Hooke's law holds. Its slope is Young's modulus \(Y\). A is the <span class="term">proportional limit</span>.</li>
+          <li><strong>A → B, elastic but not linear.</strong> Stress is no longer proportional to strain, yet the body still returns fully to O when unloaded.</li>
+          <li><strong>B, yield point (elastic limit).</strong> The stress here is the <span class="term">yield strength \(\sigma_y\)</span>. Beyond B, the material yields: strain grows quickly for little extra stress.</li>
+          <li><strong>B → D, plastic region.</strong> Unload at any point C here, and the wire comes back along a line <em>parallel to OA</em>. It does not reach O, so a strain is left: the <span class="term">permanent set</span>.</li>
+          <li><strong>D, ultimate tensile strength \(\sigma_u\).</strong> The maximum stress the material can bear.</li>
+          <li><strong>D → E, necking.</strong> A neck forms; the wire stretches further even if the load is reduced, and breaks at the <span class="term">fracture point E</span>.</li>
+        </ul>
+      </div>
+
+      <figure class="sim" id="sim-curve">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Stress–strain curve explorer</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="mat" role="group" aria-label="Material type">
+              <button type="button" data-v="ductile" aria-pressed="true">Ductile metal</button>
+              <button type="button" data-v="brittle">Brittle</button>
+              <button type="button" data-v="elastomer">Rubber / aorta</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="cv-x">Stretch (% of breaking strain) <output data-for="cv-x"></output></label>
+                <input type="range" id="cv-x" min="0" max="100" step="0.5" value="30" data-unit="%" data-dp="0"></div>
+            </div>
+            <div class="btn-row">
+              <button class="btn primary" type="button" id="cv-unload">Unload</button>
+              <button class="btn" type="button" id="cv-reset">Reset</button>
+            </div>
+            <div class="readouts">
+              <div class="readout hi"><span class="k">Region</span><span class="v txt" data-r="region">–</span></div>
+              <div class="readout"><span class="k">Permanent set</span><span class="v txt" data-r="perm">–</span></div>
+            </div>
+            <p class="sim-note" data-r="explain">–</p>
+          </div>
+        </div>
+      </figure>
+      <p class="small muted">Shapes are schematic, not to scale. In a real metal, A and B occur at strains of only about 0.1–0.5%. Try this: stop inside O–B and press Unload (it goes back to O). Then stop beyond B and press Unload (it is left with a permanent set).</p>
+
+      <h3>Ductile, brittle and elastomers</h3>
+      <div class="compare">
+        <div><h4>Ductile</h4><p>Long plastic region: the ultimate point D and fracture point E are <strong>far apart</strong>. These materials can be drawn into wires or hammered into sheets. Examples: copper, aluminium, gold, mild steel.</p></div>
+        <div><h4>Brittle</h4><p>D and E are <strong>close together</strong>: the material breaks soon after the elastic limit, with almost no plastic flow. Examples: glass, cast iron, ceramics.</p></div>
+        <div><h4>Elastomers</h4><p>Huge elastic region (strain can be several hundred %), but the curve is <strong>not straight</strong>, so Hooke's law is not obeyed. There is no well-defined plastic region. Examples: rubber, the elastic tissue of the <strong>aorta</strong> (the large artery from the heart).</p></div>
+      </div>
+
+      <div class="callout tip"><span class="label">Reading two curves on one graph</span>
+        <ul>
+          <li><strong>Steeper initial slope</strong> → larger Young's modulus (more elastic, stiffer).</li>
+          <li><strong>Higher peak (D)</strong> → greater ultimate strength (stronger).</li>
+          <li><strong>Longer curve after B</strong> → more ductile. Breaks right after the straight part → brittle.</li>
+          <li>On a <em>strain–stress</em> graph (strain on the y-axis), the slope is \(1/Y\), so the <em>flatter</em> line has the larger \(Y\).</li>
+        </ul>
+      </div>
+      <div class="callout trap"><span class="label">Exam traps</span>
+        <ul>
+          <li>Proportional limit (A) ≠ elastic limit (B). Between them the body is elastic but non-linear.</li>
+          <li>"Rubber obeys Hooke's law over a large range": false. Rubber is elastic over a large range, but not linear.</li>
+          <li>Unloading from the plastic region is a straight line <strong>parallel to OA</strong>, not back along the curve.</li>
+        </ul>
+      </div>
+
+      <figure class="fig">
+        <svg viewBox="0 0 420 250" role="img" aria-label="Stress–strain graph with a straight line through 150 MPa at strain 0.002 and yielding near 300 MPa">
+          <line x1="60" y1="210" x2="400" y2="210" stroke="#454F66" stroke-width="1.5"/>
+          <line x1="60" y1="210" x2="60" y2="20" stroke="#454F66" stroke-width="1.5"/>
+          <g stroke="#E1E4EC" stroke-width="1">
+            <line x1="60" y1="170" x2="400" y2="170"/><line x1="60" y1="130" x2="400" y2="130"/><line x1="60" y1="90" x2="400" y2="90"/><line x1="60" y1="50" x2="400" y2="50"/>
+            <line x1="120" y1="20" x2="120" y2="210"/><line x1="180" y1="20" x2="180" y2="210"/><line x1="240" y1="20" x2="240" y2="210"/><line x1="300" y1="20" x2="300" y2="210"/><line x1="360" y1="20" x2="360" y2="210"/>
+          </g>
+          <g font-size="11" fill="#737C91" text-anchor="end">
+            <text x="54" y="174">100</text><text x="54" y="134">200</text><text x="54" y="94">300</text><text x="54" y="54">400</text><text x="54" y="214">0</text>
+          </g>
+          <g font-size="11" fill="#737C91" text-anchor="middle">
+            <text x="120" y="226">0.001</text><text x="180" y="226">0.002</text><text x="240" y="226">0.003</text><text x="300" y="226">0.004</text><text x="360" y="226">0.005</text>
+          </g>
+          <text x="400" y="244" font-size="12" text-anchor="end" fill="#454F66">Strain</text>
+          <text x="66" y="16" font-size="12" fill="#454F66">Stress (10⁶ N m⁻²)</text>
+          <path d="M60 210 L300 90 Q322 77 350 74 Q372 72 394 72" fill="none" stroke="#4B5BD0" stroke-width="2.6"/>
+          <circle cx="180" cy="150" r="4" fill="#D6604A"/>
+          <line x1="180" y1="150" x2="180" y2="210" stroke="#D6604A" stroke-dasharray="3 3"/>
+          <line x1="60" y1="150" x2="180" y2="150" stroke="#D6604A" stroke-dasharray="3 3"/>
+          <text x="188" y="146" font-size="11.5" fill="#D6604A">(0.002, 150)</text>
+        </svg>
+        <figcaption>Stress–strain graph of a material (classic NCERT exercise). The line bends away from straight at about 300 × 10⁶ N m⁻².</figcaption>
+      </figure>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Graph</span><p>From the graph above, find (a) Young's modulus and (b) the approximate yield strength of the material.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Pick a point on the straight part: stress \(=150\times10^{6}\ \text{N m}^{-2}\) at strain \(=0.002\).</li>
+          <li>\(Y = \text{slope} = \dfrac{150\times10^{6}}{0.002} = 7.5\times10^{10}\ \text{N m}^{-2}\).</li>
+          <li>The graph stops being straight and flattens at about \(300\times10^{6}\) N m⁻², so the yield strength \(\sigma_y \approx 3\times10^{8}\ \text{N m}^{-2}\).</li>
+        </ol><p class="answer">(a) Y = 7.5 × 10¹⁰ N m⁻² (b) σy ≈ 3 × 10⁸ N m⁻²</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Statement I / II</span><p><strong>Statement I:</strong> If a wire is loaded beyond its yield point and then unloaded, it returns along a line parallel to the initial straight portion. <strong>Statement II:</strong> Ultimate tensile strength is the stress at which the wire actually breaks. Which are correct?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Statement I is true: unloading from the plastic region is elastic recovery only, so it has the same slope \(Y\) as OA and leaves a permanent set.</li>
+          <li>Statement II is false: ultimate tensile strength is the <em>maximum</em> stress (point D). The wire breaks later, at the fracture point E. For a ductile wire, the stress at E is lower than at D.</li>
+        </ol><p class="answer">Statement I true, Statement II false.</p></div></details>
+      </div>
+
+      <div class="quiz" data-topic="curve" data-limit="3"><h3>Try it</h3></div>
+    </section>
+
+    <section id="youngs" data-num="8.5.1" data-toc="Young's modulus">
+      <div class="sec-head"><span class="num">8.5.1–8.5.2 <span class="level core">Core</span></span><h2>Young's modulus</h2></div>
+      <div class="prose">
+        <p>The modulus in Hooke's law gets a different name for each type of stress. For stretching or compressing along the length, it is <span class="term">Young's modulus \(Y\)</span>. It answers one question: <em>how much stress does it take to produce a given fractional stretch?</em> A big \(Y\) means a stiff material.</p>
+      </div>
+      <div class="formula">
+        <div class="f-title">Young's modulus</div>
+        <div class="f-main">\[ Y = \frac{\text{tensile (or compressive) stress}}{\text{longitudinal strain}} = \frac{F/A}{\Delta L/L} = \frac{F\,L}{A\,\Delta L} = \frac{MgL}{\pi r^{2}\,\Delta L} \]</div>
+        <div class="f-where">Unit N m⁻² (Pa); dimensions \([\mathrm{ML^{-1}T^{-2}}]\). Rearranged: \(\Delta L = \dfrac{FL}{AY} = \dfrac{4FL}{\pi d^{2} Y}\).</div>
+      </div>
+      <div class="callout trap"><span class="label">Exam traps</span>
+        <ul>
+          <li><strong>\(Y\) depends only on the material</strong> (and temperature), never on \(L\), \(A\) or the load. Cut a wire in half or double it, and \(Y\) is unchanged. What changes is the <em>extension</em>.</li>
+          <li><strong>\(\Delta L \propto L/d^{2}\)</strong>: square the diameter! Doubling \(d\) cuts the extension to ¼.</li>
+          <li>Diameter given? Halve it before using \(\pi r^{2}\). Convert mm² to m² (\(1\ \text{mm}^2 = 10^{-6}\ \text{m}^2\)).</li>
+          <li>For most metals \(Y\) is about the same in tension and in compression.</li>
+        </ul>
+      </div>
+
+      <h3>Values you should recognise</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Material</th><th class="num">Young's \(Y\)</th><th class="num">Shear \(G\)</th><th class="num">Bulk \(B\)</th></tr></thead>
+        <tbody>
+          <tr><td>Steel</td><td class="num">200</td><td class="num">84</td><td class="num">160</td></tr>
+          <tr><td>Iron</td><td class="num">190</td><td class="num">70</td><td class="num">100</td></tr>
+          <tr><td>Copper</td><td class="num">110–120</td><td class="num">42</td><td class="num">140</td></tr>
+          <tr><td>Brass</td><td class="num">91</td><td class="num">36</td><td class="num">61</td></tr>
+          <tr><td>Aluminium</td><td class="num">70</td><td class="num">25</td><td class="num">72</td></tr>
+          <tr><td>Glass</td><td class="num">65</td><td class="num">23</td><td class="num">37</td></tr>
+          <tr><td>Wood</td><td class="num">13</td><td class="num">10</td><td class="num">–</td></tr>
+          <tr><td>Bone</td><td class="num">9.4</td><td class="num">–</td><td class="num">–</td></tr>
+          <tr><td>Water</td><td class="num">–</td><td class="num">0</td><td class="num">2.2</td></tr>
+          <tr><td>Mercury</td><td class="num">–</td><td class="num">0</td><td class="num">25</td></tr>
+          <tr><td>Air (at STP)</td><td class="num">–</td><td class="num">0</td><td class="num">1.0 × 10⁻⁴</td></tr>
+        </tbody>
+      </table></div>
+      <p class="tbl-note">All values in units of 10⁹ N m⁻² (GPa), e.g. steel \(Y = 2.0\times10^{11}\) Pa. Liquids and gases have no \(Y\) or \(G\); they have only a bulk modulus. Values from the NCERT tables (copper is listed as 1.1–1.2 × 10¹¹ Pa in different books).</p>
+      <div class="callout tip"><span class="label">Patterns in the table</span>
+        <p>Metals have large moduli (stiff). For most solids, \(G \approx Y/3\). Water is about 70× more compressible than steel, and air is about 20 000× more compressible than water.</p>
+      </div>
+
+      <figure class="sim" id="sim-wire">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Wire lab: stretch a real wire</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="mat" role="group" aria-label="Wire material">
+              <button type="button" data-v="steel" aria-pressed="true">Steel</button>
+              <button type="button" data-v="copper">Copper</button>
+              <button type="button" data-v="aluminium">Aluminium</button>
+              <button type="button" data-v="brass">Brass</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="wl-L">Length L <output data-for="wl-L"></output></label>
+                <input type="range" id="wl-L" min="0.5" max="3" step="0.1" value="2" data-unit=" m" data-dp="1"></div>
+              <div class="ctrl"><label for="wl-d">Diameter d <output data-for="wl-d"></output></label>
+                <input type="range" id="wl-d" min="0.2" max="2" step="0.05" value="0.5" data-unit=" mm" data-dp="2"></div>
+              <div class="ctrl"><label for="wl-M">Load M <output data-for="wl-M"></output></label>
+                <input type="range" id="wl-M" min="0" max="20" step="0.5" value="4" data-unit=" kg" data-dp="1"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Stress</span><span class="v" data-r="stress">–</span></div>
+              <div class="readout"><span class="k">Strain</span><span class="v" data-r="strain">–</span></div>
+              <div class="readout hi"><span class="k">Extension ΔL</span><span class="v" data-r="dL">–</span></div>
+            </div>
+            <p class="calc" data-r="formula">–</p>
+            <p class="sim-note">Set d = 0.50 mm and note ΔL. Now set d = 1.00 mm: ΔL drops to exactly ¼. Doubling L doubles ΔL. Changing the material changes ΔL as 1/Y. If the stress passes the yield strength, the wire turns red.</p>
+          </div>
+        </div>
+      </figure>
+
+      <h3>Measuring Y in the lab (Searle's method, NCERT 8.5.2)</h3>
+      <figure class="fig">
+        <svg viewBox="0 0 420 300" role="img" aria-label="Searle's apparatus: reference wire with main scale and experimental wire with vernier and load pan">
+          <rect x="60" y="14" width="300" height="20" fill="#EEF0F5" stroke="#454F66" stroke-width="1.5"/>
+          <g stroke="#CDD2DD" stroke-width="1"><line x1="70" y1="34" x2="86" y2="14"/><line x1="100" y1="34" x2="116" y2="14"/><line x1="130" y1="34" x2="146" y2="14"/><line x1="160" y1="34" x2="176" y2="14"/><line x1="190" y1="34" x2="206" y2="14"/><line x1="220" y1="34" x2="236" y2="14"/><line x1="250" y1="34" x2="266" y2="14"/><line x1="280" y1="34" x2="296" y2="14"/><line x1="310" y1="34" x2="326" y2="14"/><line x1="340" y1="34" x2="356" y2="14"/></g>
+          <text x="210" y="28" font-size="11" text-anchor="middle" fill="#454F66">rigid support</text>
+          <line x1="150" y1="34" x2="150" y2="150" stroke="#454F66" stroke-width="2"/>
+          <line x1="250" y1="34" x2="250" y2="150" stroke="#4B5BD0" stroke-width="2"/>
+          <rect x="142" y="150" width="34" height="96" rx="3" fill="#FFFFFF" stroke="#454F66" stroke-width="1.5"/>
+          <g stroke="#454F66" stroke-width="1"><line x1="166" y1="160" x2="176" y2="160"/><line x1="170" y1="168" x2="176" y2="168"/><line x1="170" y1="176" x2="176" y2="176"/><line x1="166" y1="184" x2="176" y2="184"/><line x1="170" y1="192" x2="176" y2="192"/><line x1="170" y1="200" x2="176" y2="200"/><line x1="166" y1="208" x2="176" y2="208"/><line x1="170" y1="216" x2="176" y2="216"/><line x1="170" y1="224" x2="176" y2="224"/><line x1="166" y1="232" x2="176" y2="232"/></g>
+          <rect x="178" y="176" width="22" height="40" rx="3" fill="#E9EBFA" stroke="#4B5BD0" stroke-width="1.5"/>
+          <g stroke="#4B5BD0" stroke-width="1"><line x1="178" y1="184" x2="186" y2="184"/><line x1="178" y1="191" x2="184" y2="191"/><line x1="178" y1="198" x2="186" y2="198"/><line x1="178" y1="205" x2="184" y2="205"/></g>
+          <path d="M200 196 L250 196 L250 150" fill="none" stroke="#4B5BD0" stroke-width="1.5"/>
+          <line x1="159" y1="246" x2="159" y2="262" stroke="#454F66" stroke-width="1.5"/>
+          <rect x="146" y="262" width="26" height="16" rx="2" fill="#454F66"/>
+          <line x1="250" y1="196" x2="250" y2="240" stroke="#4B5BD0" stroke-width="1.5"/>
+          <path d="M222 240 L278 240 L270 250 L230 250 Z" fill="#E9EBFA" stroke="#4B5BD0" stroke-width="1.5"/>
+          <rect x="232" y="226" width="36" height="7" rx="1.5" fill="#D6604A"/><rect x="232" y="218" width="36" height="7" rx="1.5" fill="#D6604A"/><rect x="232" y="210" width="36" height="7" rx="1.5" fill="#D6604A" opacity=".55"/>
+          <text x="140" y="92" font-size="12" text-anchor="end" fill="#454F66">A: reference wire</text>
+          <text x="140" y="108" font-size="11" text-anchor="end" fill="#737C91">(fixed load, keeps it taut)</text>
+          <text x="260" y="92" font-size="12" fill="#4B5BD0">B: experimental wire</text>
+          <text x="260" y="108" font-size="11" fill="#737C91">(length L, radius r)</text>
+          <text x="138" y="200" font-size="11" text-anchor="end" fill="#454F66">main scale</text>
+          <text x="206" y="172" font-size="11" fill="#4B5BD0">vernier</text>
+          <text x="284" y="236" font-size="11" fill="#D6604A">slotted weights Mg</text>
+          <text x="210" y="292" font-size="11.5" text-anchor="middle" fill="#454F66">Δl = vernier reading with load − reading with no extra load</text>
+        </svg>
+        <figcaption>Searle's apparatus (schematic). Both wires hang from the same support, so any sagging of the support or temperature change affects both equally and cancels out.</figcaption>
+      </figure>
+      <div class="prose">
+        <ol>
+          <li>Two identical long wires, A and B, hang from a rigid support. A (reference) carries a millimetre main scale and a fixed weight. B (experimental) carries a vernier and a pan.</li>
+          <li>Put a small initial load on B to straighten out kinks, and note the vernier reading.</li>
+          <li>Add weights \(M\) one by one and note the extension \(\Delta l\) each time. Then remove them and check the readings come back (to stay within the elastic limit).</li>
+          <li>Plot <strong>stress \((Mg/\pi r^{2})\)</strong> against <strong>strain \((\Delta l/L)\)</strong>. The slope of the straight line is \(Y\); equivalently \(Y = \dfrac{Mg\,L}{\pi r^{2}\,\Delta l}\).</li>
+        </ol>
+        <p>Why two wires? The reference wire cancels errors from the support yielding and from thermal expansion. Measure \(r\) at several points with a screw gauge, because \(r^{2}\) carries the biggest error.</p>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · NCERT · Numerical</span><p>A structural steel rod has radius 10 mm and length 1.0 m. A 100 kN force stretches it along its length. Find (a) the stress, (b) the elongation and (c) the strain. \(Y_\text{steel} = 2.0\times10^{11}\ \text{N m}^{-2}\).</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(A = \pi r^2 = \pi(10^{-2})^2 = 3.14\times10^{-4}\ \text{m}^2\).</li>
+          <li>(a) Stress \(= \dfrac{F}{A} = \dfrac{10^{5}}{3.14\times10^{-4}} = 3.18\times10^{8}\ \text{N m}^{-2}\).</li>
+          <li>(b) \(\Delta L = \dfrac{\text{stress}\times L}{Y} = \dfrac{3.18\times10^{8}\times1}{2\times10^{11}} = 1.59\times10^{-3}\ \text{m} = 1.59\ \text{mm}\).</li>
+          <li>(c) Strain \(= \Delta L/L = 1.59\times10^{-3} = 0.16\%\).</li>
+        </ol><p class="answer">3.18 × 10⁸ N m⁻²; 1.59 mm; 0.16%</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Ratio</span><p>A steel wire and a copper wire of the same length and the same diameter carry the same load. (a) Find the ratio of their extensions. (b) What diameter must the copper wire have, relative to the steel wire, so that both stretch equally? Take \(Y_s = 2.0\times10^{11}\) and \(Y_c = 1.1\times10^{11}\ \text{N m}^{-2}\).</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>(a) \(\Delta L = \dfrac{FL}{AY}\). With \(F, L, A\) equal, \(\Delta L \propto 1/Y\): \(\dfrac{\Delta L_s}{\Delta L_c} = \dfrac{Y_c}{Y_s} = \dfrac{1.1}{2.0} = 0.55\). The copper wire stretches about 1.8 times as much.</li>
+          <li>(b) Equal extension needs \(A_cY_c = A_sY_s\), so \(\dfrac{d_c^{2}}{d_s^{2}} = \dfrac{Y_s}{Y_c} = 1.82\) and \(\dfrac{d_c}{d_s} = \sqrt{1.82} = 1.35\).</li>
+        </ol><p class="answer">(a) ΔL_steel : ΔL_copper = 11 : 20 (b) copper wire ≈ 1.35 × thicker</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · NCERT · Two wires in series</span><p>A copper wire 2.2 m long and a steel wire 1.6 m long, both of diameter 3.0 mm, are joined end to end. When stretched by a load, the net elongation is 0.70 mm. Find the load. \((Y_c = 1.1\times10^{11},\ Y_s = 2.0\times10^{11}\ \text{N m}^{-2})\)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>In series, both wires carry the same tension \(F\). Total \(\Delta L = \dfrac{F}{A}\left(\dfrac{L_c}{Y_c} + \dfrac{L_s}{Y_s}\right)\).</li>
+          <li>\(A = \pi(1.5\times10^{-3})^2 = 7.07\times10^{-6}\ \text{m}^2\).</li>
+          <li>\(\dfrac{L_c}{Y_c} + \dfrac{L_s}{Y_s} = \dfrac{2.2}{1.1\times10^{11}} + \dfrac{1.6}{2.0\times10^{11}} = 2.0\times10^{-11} + 0.8\times10^{-11} = 2.8\times10^{-11}\).</li>
+          <li>\(F = \dfrac{\Delta L\cdot A}{2.8\times10^{-11}} = \dfrac{7\times10^{-4}\times7.07\times10^{-6}}{2.8\times10^{-11}} \approx 1.8\times10^{2}\ \text{N}\).</li>
+        </ol><p class="answer">Load ≈ 180 N</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Classic · Two loads</span><p>A steel wire (length 1.5 m) hangs from the ceiling and holds a 4 kg mass. A brass wire (length 1.0 m) hangs from this mass and holds a 6 kg mass. Both wires have diameter 0.25 cm. Find the elongation of each. \((Y_s = 2.0\times10^{11},\ Y_b = 0.91\times10^{11}\ \text{N m}^{-2},\ g = 9.8)\)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Tension: the steel wire holds <em>both</em> masses, so \(F_s = (4+6)\times9.8 = 98\ \text{N}\). The brass wire holds only the lower one, so \(F_b = 6\times9.8 = 58.8\ \text{N}\).</li>
+          <li>\(A = \pi(1.25\times10^{-3})^2 = 4.91\times10^{-6}\ \text{m}^2\).</li>
+          <li>\(\Delta L_s = \dfrac{98\times1.5}{4.91\times10^{-6}\times2.0\times10^{11}} = 1.5\times10^{-4}\ \text{m}\).</li>
+          <li>\(\Delta L_b = \dfrac{58.8\times1.0}{4.91\times10^{-6}\times0.91\times10^{11}} = 1.3\times10^{-4}\ \text{m}\).</li>
+        </ol><p class="answer">Steel: 1.5 × 10⁻⁴ m; brass: 1.3 × 10⁻⁴ m</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · NCERT · Compression</span><p>In a human pyramid, the total mass of the performers and props is 280 kg. All of it is supported by the legs of one performer (mass 60 kg) lying on his back. Each thighbone (femur) is 50 cm long with an effective radius of 2.0 cm. How much is each femur compressed? \((Y_\text{bone} = 9.4\times10^{9}\ \text{N m}^{-2})\)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Extra load on his legs = \(280-60 = 220\) kg (his own weight is not on his thighs). Each femur carries 110 kg: \(F = 110\times9.8 = 1078\ \text{N}\).</li>
+          <li>\(A = \pi(0.02)^2 = 1.26\times10^{-3}\ \text{m}^2\).</li>
+          <li>\(\Delta L = \dfrac{FL}{AY} = \dfrac{1078\times0.5}{1.26\times10^{-3}\times9.4\times10^{9}} = 4.6\times10^{-5}\ \text{m}\).</li>
+        </ol><p class="answer">About 4.6 × 10⁻⁵ m (0.046 mm), tiny compared to 50 cm.</p></div></details>
+      </div>
+
+      <div class="quiz" data-topic="youngs" data-limit="3"><h3>Try it</h3></div>
+    </section>
+
+    <section id="shear" data-num="8.5.3" data-toc="Shear modulus">
+      <div class="sec-head"><span class="num">8.5.3 <span class="level core">Core</span></span><h2>Shear modulus (modulus of rigidity)</h2></div>
+      <div class="prose">
+        <p>Put a thick book on the table and push its top cover sideways while the bottom stays put. The pages slide a little over one another and the book leans: its <em>shape</em> changes, but its volume does not. That is shear. The stiffness against this sliding is the <span class="term">shear modulus</span> \(G\), also called the <span class="term">modulus of rigidity</span> (some books use \(\eta\)).</p>
+      </div>
+      <div class="formula">
+        <div class="f-title">Shear modulus</div>
+        <div class="f-main">\[ G = \frac{\text{shearing stress}}{\text{shearing strain}} = \frac{F/A}{\Delta x/L} = \frac{F\,L}{A\,\Delta x} = \frac{F}{A\,\theta} \]</div>
+        <div class="f-where">\(A\) is the area of the face the force acts <em>along</em>; \(L\) is the distance between the fixed and moving faces; \(\theta \approx \Delta x/L\) in radian. Unit Pa; dimensions \([\mathrm{ML^{-1}T^{-2}}]\). For most solids \(G \approx Y/3\).</div>
+      </div>
+
+      <figure class="sim" id="sim-shear">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Shearing a 10 cm cube</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="mat" role="group" aria-label="Material">
+              <button type="button" data-v="rubber" aria-pressed="true">Rubber</button>
+              <button type="button" data-v="lead">Lead</button>
+              <button type="button" data-v="aluminium">Aluminium</button>
+              <button type="button" data-v="steel">Steel</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="sh-F">Tangential force F <output data-for="sh-F"></output></label>
+                <input type="range" id="sh-F" min="0" max="2000" step="50" value="800" data-unit=" N" data-dp="0"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Shear stress F/A</span><span class="v" data-r="sstress">–</span></div>
+              <div class="readout hi"><span class="k">Angle θ</span><span class="v" data-r="theta">–</span></div>
+              <div class="readout"><span class="k">Top shift Δx</span><span class="v" data-r="dx">–</span></div>
+            </div>
+            <p class="sim-note">Rubber (G ≈ 6 × 10⁵ Pa, a typical value) leans visibly. For metals the real angle is only about 10⁻⁵ rad, so it is drawn 10 000× larger. Compare lead, aluminium and steel: θ ∝ 1/G.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="callout trap"><span class="label">Exam traps</span>
+        <ul>
+          <li><strong>Fluids have \(G = 0\)</strong>: they cannot resist a steady shear and just flow. So liquids and gases have only a bulk modulus.</li>
+          <li>In \(\Delta x = L\theta\), \(L\) is the <em>height</em> between the two faces, not the side of the face that is pushed.</li>
+          <li>The stress area is the face <em>parallel</em> to the force (top face), not the side face.</li>
+        </ul>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · NCERT · Numerical</span><p>A square lead slab of side 50 cm and thickness 10 cm is subjected to a shearing force of \(9.0\times10^{4}\) N on its narrow face. The lower edge is riveted to the floor. How much does the upper edge move? \((G_\text{lead} = 5.6\times10^{9}\ \text{N m}^{-2})\)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>The force acts along the narrow face: \(A = 0.50\times0.10 = 0.05\ \text{m}^2\).</li>
+          <li>Shear stress \(= 9.0\times10^{4}/0.05 = 1.8\times10^{6}\ \text{N m}^{-2}\).</li>
+          <li>The distance between the riveted edge and the pushed edge is \(L = 0.50\) m. \(\Delta x = \dfrac{\text{stress}\times L}{G} = \dfrac{1.8\times10^{6}\times0.5}{5.6\times10^{9}} = 1.6\times10^{-4}\ \text{m}\).</li>
+        </ol><p class="answer">Δx ≈ 0.16 mm</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>One face of an aluminium cube of edge 10 cm is fixed to a vertical wall. A 100 kg mass hangs from the opposite face. Find the vertical deflection of that face. \((G_\text{Al} = 25\ \text{GPa},\ g = 9.8)\)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>The weight \(F = 980\) N acts along (parallel to) the free face: \(A = 0.1\times0.1 = 0.01\ \text{m}^2\).</li>
+          <li>\(\Delta x = \dfrac{FL}{AG} = \dfrac{980\times0.1}{0.01\times25\times10^{9}} = 3.9\times10^{-7}\ \text{m}\).</li>
+        </ol><p class="answer">About 3.9 × 10⁻⁷ m (0.39 µm)</p></div></details>
+      </div>
+
+      <div class="quiz" data-topic="shear" data-limit="3"><h3>Try it</h3></div>
+    </section>
+
+    <section id="bulk" data-num="8.5.4" data-toc="Bulk modulus">
+      <div class="sec-head"><span class="num">8.5.4 <span class="level core">Core</span></span><h2>Bulk modulus and compressibility</h2></div>
+      <div class="prose">
+        <p>Take a steel ball deep into the sea. The water presses on it equally from every side, so it keeps its shape but becomes very slightly smaller. How strongly a material resists this all-round squeeze is measured by its <span class="term">bulk modulus</span> \(B\). Its reciprocal, the <span class="term">compressibility</span> \(k\), tells you how easily it is squeezed.</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula"><div class="f-title">Bulk modulus</div><div class="f-main">\[ B = -\frac{p}{\Delta V/V} = -\frac{V\,\Delta p}{\Delta V} \]</div><div class="f-where">\(p\) = hydraulic stress (extra pressure). The minus sign makes \(B\) positive, since \(\Delta V &lt; 0\) when pressure rises. Unit Pa; dimensions \([\mathrm{ML^{-1}T^{-2}}]\).</div></div>
+        <div class="formula"><div class="f-title">Compressibility</div><div class="f-main">\[ k = \frac{1}{B} = -\frac{1}{\Delta p}\,\frac{\Delta V}{V} \]</div><div class="f-where">Unit Pa⁻¹ (m² N⁻¹); dimensions \([\mathrm{M^{-1}LT^{2}}]\). Gases ≫ liquids ≫ solids.</div></div>
+        <div class="formula"><div class="f-title">Sphere under pressure</div><div class="f-main">\[ \frac{\Delta V}{V} = 3\,\frac{\Delta r}{r} \;\Rightarrow\; \frac{\Delta r}{r} = \frac{p}{3B} \]</div><div class="f-where">Because \(V \propto r^{3}\). Likewise, for a cube \(\Delta V/V = 3\,\Delta a/a\).</div></div>
+      </div>
+
+      <figure class="sim" id="sim-bulk">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Squeeze it from all sides</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="mat" role="group" aria-label="Material">
+              <button type="button" data-v="water" aria-pressed="true">Water</button>
+              <button type="button" data-v="glass">Glass</button>
+              <button type="button" data-v="steel">Steel</button>
+              <button type="button" data-v="air">Air</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="bk-p">Extra pressure Δp <output data-for="bk-p"></output></label>
+                <input type="range" id="bk-p" min="0" max="1100" step="10" value="300" data-unit=" atm" data-dp="0"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout hi"><span class="k">ΔV / V</span><span class="v" data-r="dvv">–</span></div>
+              <div class="readout"><span class="k">Δr / r</span><span class="v" data-r="drr">–</span></div>
+              <div class="readout"><span class="k">Same as depth</span><span class="v txt" data-r="depth">–</span></div>
+            </div>
+            <p class="sim-note" data-r="bnote">–</p>
+          </div>
+        </div>
+      </figure>
+      <p class="small muted">300 atm is roughly the pressure at the average depth of the Indian Ocean (3 km); 1100 atm is the bottom of the Mariana Trench (about 11 km). The bars on the right compare all four materials at the same pressure on a log scale.</p>
+
+      <div class="callout trap"><span class="label">Exam traps</span>
+        <ul>
+          <li>\(\Delta r/r = p/3B\), not \(p/B\). Fractional changes multiply by the power: volume ∝ \(r^{3}\).</li>
+          <li>For a gas, the isothermal bulk modulus equals its pressure \(p\) (adiabatic: \(\gamma p\)). This is why air at 1 atm has \(B \approx 10^{5}\) Pa.</li>
+          <li>A perfectly rigid body has \(B = \infty\) and compressibility 0.</li>
+        </ul>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · NCERT · Numerical</span><p>The average depth of the Indian Ocean is about 3000 m. Find the fractional compression \(\Delta V/V\) of water at the bottom. \((B_\text{water} = 2.2\times10^{9}\ \text{N m}^{-2},\ \rho = 10^{3}\ \text{kg m}^{-3},\ g = 10\ \text{m s}^{-2})\)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Pressure at the bottom (above atmospheric): \(p = h\rho g = 3000\times10^{3}\times10 = 3\times10^{7}\ \text{N m}^{-2}\).</li>
+          <li>\(\dfrac{\Delta V}{V} = \dfrac{p}{B} = \dfrac{3\times10^{7}}{2.2\times10^{9}} = 1.36\times10^{-2}\).</li>
+        </ol><p class="answer">ΔV/V ≈ 1.36 × 10⁻², i.e. about 1.4%</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>A steel ball of volume 0.32 m³ is dropped into the Mariana Trench, where the water pressure is \(1.1\times10^{8}\) Pa. Find the change in its volume. \((B_\text{steel} = 1.6\times10^{11}\ \text{Pa})\)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(\Delta V = \dfrac{pV}{B} = \dfrac{1.1\times10^{8}\times0.32}{1.6\times10^{11}} = 2.2\times10^{-4}\ \text{m}^3\) (a decrease).</li>
+        </ol><p class="answer">ΔV ≈ 2.2 × 10⁻⁴ m³ decrease</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>100.0 litres of water under a pressure increase of 100.0 atm shrinks to 99.5 litres. Find \(B\) for water and compare it with air (\(B \approx 1.0\times10^{5}\) Pa). Take 1 atm \(= 1.013\times10^{5}\) Pa.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(\Delta V/V = 0.5/100 = 5\times10^{-3}\); \(\Delta p = 100\times1.013\times10^{5} = 1.013\times10^{7}\) Pa.</li>
+          <li>\(B = \dfrac{1.013\times10^{7}}{5\times10^{-3}} = 2.0\times10^{9}\ \text{Pa}\).</li>
+          <li>\(B_\text{water}/B_\text{air} = 2.0\times10^{9}/1.0\times10^{5} = 2\times10^{4}\). Air is about 20 000 times more compressible.</li>
+        </ol><p class="answer">B ≈ 2.0 × 10⁹ Pa, about 2 × 10⁴ times that of air</p></div></details>
+      </div>
+
+      <div class="quiz" data-topic="bulk" data-limit="3"><h3>Try it</h3></div>
+    </section>
+
+    <section id="poisson" data-num="★" data-toc="Poisson's ratio">
+      <div class="sec-head"><span class="num">★ Coaching extra <span class="level exam">Exam</span></span><h2>Poisson's ratio</h2></div>
+      <div class="callout life"><span class="label">Syllabus note</span><p>Poisson's ratio was dropped from the rationalised NCERT text, but coaching tests (including Narayana CUTs) still ask 1–2 easy questions on it. Learn the definition, the 0–0.5 range, and the volume-change result.</p></div>
+      <div class="prose">
+        <p>Stretch a rubber band and watch it: it gets <em>thinner</em> as it gets longer. Every material does this to some extent. The longitudinal strain (along the force) comes with a <span class="term">lateral strain</span> (across it) of opposite sign. Their ratio, within the elastic limit, is a constant of the material.</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula"><div class="f-title">Poisson's ratio</div><div class="f-main">\[ \sigma = -\frac{\text{lateral strain}}{\text{longitudinal strain}} = -\frac{\Delta d/d}{\Delta L/L} \]</div><div class="f-where">Dimensionless, no unit. The minus sign makes \(\sigma\) positive. Theory allows \(-1 &lt; \sigma &lt; 0.5\); real materials have about 0 to 0.5. Steel ≈ 0.28–0.30, rubber ≈ 0.49, cork ≈ 0.</div></div>
+        <div class="formula"><div class="f-title">Volume change of a stretched wire</div><div class="f-main">\[ \frac{\Delta V}{V} = (1-2\sigma)\,\frac{\Delta L}{L} \]</div><div class="f-where">From \(V = \tfrac{\pi}{4}d^{2}L\): \(\Delta V/V = \Delta L/L + 2\,\Delta d/d\). Volume is unchanged only if \(\sigma = 0.5\) (incompressible).</div></div>
+      </div>
+
+      <figure class="sim" id="sim-poisson">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Longer and thinner</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="controls">
+              <div class="ctrl"><label for="po-s">Poisson's ratio σ <output data-for="po-s"></output></label>
+                <input type="range" id="po-s" min="0" max="0.5" step="0.01" value="0.3" data-unit="" data-dp="2"></div>
+              <div class="ctrl"><label for="po-e">Longitudinal strain <output data-for="po-e"></output></label>
+                <input type="range" id="po-e" min="0" max="20" step="0.5" value="10" data-unit=" %" data-dp="1"></div>
+            </div>
+            <div class="btn-row">
+              <button class="btn" type="button" data-sigma="0">Cork ≈ 0</button>
+              <button class="btn" type="button" data-sigma="0.29">Steel ≈ 0.29</button>
+              <button class="btn" type="button" data-sigma="0.49">Rubber ≈ 0.49</button>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Lateral strain</span><span class="v" data-r="lat">–</span></div>
+              <div class="readout hi"><span class="k">ΔV / V</span><span class="v" data-r="dv">–</span></div>
+              <div class="readout"><span class="k">Small-strain formula</span><span class="v txt" data-r="dvapprox">–</span></div>
+            </div>
+            <p class="sim-note">Try the rubber preset: the volume hardly changes (σ ≈ 0.5). With cork the rod gets longer without getting thinner, so its volume grows by the full strain. (Cork is why wine bottles can be corked easily.)</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="callout tip"><span class="label">Advanced aside: links between the moduli</span>
+        <p>For an isotropic material \(Y = 2G(1+\sigma) = 3B(1-2\sigma)\), and eliminating \(\sigma\) gives \(\dfrac{9}{Y} = \dfrac{1}{B} + \dfrac{3}{G}\). Two quick uses: since \(0 \le \sigma \le 0.5\), \(G\) lies between \(Y/3\) and \(Y/2\) (hence "G ≈ Y/3"); and \(B \to \infty\) (incompressible) needs \(\sigma \to 0.5\).</p>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>A wire of diameter 2 mm and length 1 m is stretched by 1 mm. If \(\sigma = 0.3\), find the decrease in its diameter and the fractional change in volume.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Longitudinal strain \(= 10^{-3}/1 = 10^{-3}\).</li>
+          <li>Lateral strain \(= \sigma\times10^{-3} = 3\times10^{-4}\), so \(\Delta d = 3\times10^{-4}\times2\ \text{mm} = 6\times10^{-4}\ \text{mm} = 0.6\ \mu\text{m}\).</li>
+          <li>\(\Delta V/V = (1-2\times0.3)\times10^{-3} = 4\times10^{-4}\) (an increase).</li>
+        </ol><p class="answer">Δd = 0.6 µm decrease; ΔV/V = +4 × 10⁻⁴</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>For a material, \(Y = 2.4\,G\). Find Poisson's ratio, and express \(B\) in terms of \(Y\).</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(Y = 2G(1+\sigma) \Rightarrow 2.4G = 2G(1+\sigma) \Rightarrow \sigma = 0.2\).</li>
+          <li>\(Y = 3B(1-2\sigma) = 3B(0.6) = 1.8B \Rightarrow B = Y/1.8 \approx 0.56\,Y\).</li>
+        </ol><p class="answer">σ = 0.2; B = Y/1.8</p></div></details>
+      </div>
+
+      <div class="quiz" data-topic="poisson" data-limit="3"><h3>Try it</h3></div>
+    </section>
+
+    <section id="energy" data-num="★" data-toc="Elastic energy">
+      <div class="sec-head"><span class="num">★ Coaching extra <span class="level exam">Exam</span></span><h2>Elastic potential energy of a stretched wire</h2></div>
+      <div class="callout life"><span class="label">Syllabus note</span><p>This topic was in the older NCERT and is still a favourite in NEET and coaching tests. It is the same idea as the energy of a spring, \(\tfrac12 kx^{2}\).</p></div>
+      <div class="prose">
+        <p>A stretched catapult rubber can launch a stone, so stretching stores energy. While a wire is being stretched, the restoring force grows from 0 up to its final value \(F\), in direct proportion to the extension (Hooke's law). The work done against it is the <strong>area under the force–extension line</strong>, which is a triangle.</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula"><div class="f-title">Energy stored</div><div class="f-main">\[ U = \tfrac12 F\,\Delta l = \tfrac12\,\frac{YA}{L}\,(\Delta l)^{2} \]</div><div class="f-where">Same as \(\tfrac12 kx^{2}\) with \(k = YA/L\).</div></div>
+        <div class="formula"><div class="f-title">Energy per unit volume</div><div class="f-main">\[ u = \tfrac12\,\text{stress}\times\text{strain} = \tfrac12 Y(\text{strain})^{2} = \frac{(\text{stress})^{2}}{2Y} \]</div><div class="f-where">Divide \(U\) by the volume \(AL\). Unit J m⁻³, dimensions \([\mathrm{ML^{-1}T^{-2}}]\), the same as stress.</div></div>
+      </div>
+
+      <figure class="sim" id="sim-energy">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Energy = area under the F–Δl line</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="mat" role="group" aria-label="Wire material">
+              <button type="button" data-v="steel" aria-pressed="true">Steel</button>
+              <button type="button" data-v="copper">Copper</button>
+            </div>
+            <div class="seg" data-k="show" role="group" aria-label="What to show">
+              <button type="button" data-v="tri" aria-pressed="true">Stored energy</button>
+              <button type="button" data-v="rect">vs work by gravity</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="en-x">Extension Δl <output data-for="en-x"></output></label>
+                <input type="range" id="en-x" min="0" max="1" step="0.01" value="0.6" data-unit=" mm" data-dp="2"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Force F</span><span class="v" data-r="F">–</span></div>
+              <div class="readout hi"><span class="k">U = ½FΔl</span><span class="v" data-r="U">–</span></div>
+              <div class="readout"><span class="k">u (per m³)</span><span class="v" data-r="u">–</span></div>
+              <div class="readout"><span class="k">Mg·Δl</span><span class="v" data-r="W">–</span></div>
+            </div>
+            <p class="sim-note">Wire: L = 1 m, A = 1 mm², so k = YA/L. Doubling Δl makes U four times larger. Switch to <strong>vs work by gravity</strong>: a hung load does work Mg·Δl (the rectangle), but only half of it (the triangle) is stored.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="callout trap"><span class="label">Exam trap: Mgl versus Mgl/2</span>
+        <p>A mass \(M\) hung on a wire stretches it by \(l\). Gravity does work \(Mgl\), but the wire stores only \(\tfrac12 Mgl\). If the mass is released suddenly, the extra half becomes kinetic energy. The mass overshoots (the maximum extension is \(2l\)), oscillates, and the energy is finally lost as heat. If you lower it slowly by hand, your hand absorbs that half.</p>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>A wire of length 2 m and cross-section 2 mm² \((Y = 2\times10^{11}\ \text{Pa})\) is stretched by 1 mm. Find the work done and the energy stored per unit volume.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(k = \dfrac{YA}{L} = \dfrac{2\times10^{11}\times2\times10^{-6}}{2} = 2\times10^{5}\ \text{N m}^{-1}\).</li>
+          <li>\(W = \tfrac12 k(\Delta l)^{2} = \tfrac12\times2\times10^{5}\times(10^{-3})^{2} = 0.1\ \text{J}\).</li>
+          <li>Volume \(= AL = 4\times10^{-6}\ \text{m}^3\); \(u = 0.1/(4\times10^{-6}) = 2.5\times10^{4}\ \text{J m}^{-3}\).</li>
+          <li>Check: strain \(= 5\times10^{-4}\), so \(\tfrac12 Y\varepsilon^{2} = \tfrac12\times2\times10^{11}\times2.5\times10^{-7} = 2.5\times10^{4}\) J m⁻³. ✓</li>
+        </ol><p class="answer">W = 0.1 J; u = 2.5 × 10⁴ J m⁻³</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Ratio</span><p>Two wires of the same material, A and B, have lengths in the ratio 1 : 2 and radii in the ratio 2 : 1. They are stretched by the same force. Find the ratio of the elastic energies stored.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(U = \tfrac12 F\Delta l\) and \(\Delta l = \dfrac{FL}{AY}\), so for the same \(F\): \(U = \dfrac{F^{2}L}{2AY} \propto \dfrac{L}{r^{2}}\).</li>
+          <li>\(\dfrac{U_A}{U_B} = \dfrac{1}{2}\times\left(\dfrac{1}{2}\right)^{2} = \dfrac18\).</li>
+        </ol><p class="answer">U_A : U_B = 1 : 8</p></div></details>
+      </div>
+
+      <div class="quiz" data-topic="energy" data-limit="3"><h3>Try it</h3></div>
+    </section>
+
+    <section id="thermal" data-num="★" data-toc="Thermal stress">
+      <div class="sec-head"><span class="num">★ Coaching extra <span class="level exam">Exam</span></span><h2>Thermal stress</h2></div>
+      <div class="prose">
+        <p>Railway tracks have small gaps between rails, and bridges have expansion joints. Why? A rod that is heated wants to expand by \(\Delta L = L\alpha\Delta T\). If rigid supports stop it, the supports must squeeze it back by exactly that amount. The rod is then under a compressive stress, the <span class="term">thermal stress</span>, without any visible change in length. If it is cooled instead, the stress is tensile.</p>
+      </div>
+      <figure class="fig">
+        <svg viewBox="0 0 420 150" role="img" aria-label="Rod clamped between two rigid walls; when heated, the walls push back with force F">
+          <rect x="20" y="20" width="24" height="100" fill="#EEF0F5" stroke="#454F66" stroke-width="1.5"/>
+          <rect x="376" y="20" width="24" height="100" fill="#EEF0F5" stroke="#454F66" stroke-width="1.5"/>
+          <rect x="44" y="56" width="332" height="28" rx="4" fill="#FBE9E4" stroke="#D6604A" stroke-width="2"/>
+          <text x="210" y="74" font-size="12.5" text-anchor="middle" fill="#1B2233">rod heated by ΔT (wants to grow by LαΔT)</text>
+          <line x1="44" y1="104" x2="376" y2="104" stroke="#454F66" stroke-width="1.2"/>
+          <line x1="44" y1="98" x2="44" y2="110" stroke="#454F66" stroke-width="1.2"/><line x1="376" y1="98" x2="376" y2="110" stroke="#454F66" stroke-width="1.2"/>
+          <text x="210" y="122" font-size="12" text-anchor="middle" fill="#454F66">L (cannot change)</text>
+          <path d="M90 40 L58 40" stroke="#4B5BD0" stroke-width="2.5" fill="none"/><path d="M52 40 L62 35 L62 45 Z" fill="#4B5BD0"/>
+          <path d="M330 40 L362 40" stroke="#4B5BD0" stroke-width="2.5" fill="none"/><path d="M368 40 L358 35 L358 45 Z" fill="#4B5BD0"/>
+          <text x="96" y="44" font-size="12" fill="#4B5BD0">rod pushes wall</text>
+          <text x="324" y="44" font-size="12" text-anchor="end" fill="#4B5BD0">F = YAαΔT</text>
+        </svg>
+        <figcaption>The prevented expansion \(L\alpha\Delta T\) becomes a compressive strain \(\alpha\Delta T\).</figcaption>
+      </figure>
+      <div class="formula">
+        <div class="f-title">Thermal stress in a clamped rod</div>
+        <div class="f-main">\[ \text{strain} = \frac{L\alpha\Delta T}{L} = \alpha\Delta T,\qquad \text{stress} = Y\alpha\Delta T,\qquad F = YA\alpha\Delta T \]</div>
+        <div class="f-where">\(\alpha\) = coefficient of linear expansion (K⁻¹ or °C⁻¹). <strong>The length cancels</strong>: the stress and the force do not depend on \(L\).</div>
+      </div>
+      <div class="callout trap"><span class="label">Exam traps</span>
+        <ul>
+          <li>A longer rod expands more but also has more length to share the compression, so the force is the same. Do not put \(L\) into the answer.</li>
+          <li>Doubling the area doubles the <em>force</em> but leaves the <em>stress</em> unchanged.</li>
+          <li>Heating gives compressive stress; cooling a clamped rod gives tensile stress, which is how rails can crack in severe winters.</li>
+        </ul>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>A brass rod of cross-section 1 cm² is clamped between rigid walls at 20 °C and heated to 120 °C. Find the thermal stress and the force on each wall. \((Y = 0.91\times10^{11}\ \text{Pa},\ \alpha = 1.8\times10^{-5}\ ^\circ\text{C}^{-1})\)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(\Delta T = 100\ ^\circ\text{C}\); strain \(= \alpha\Delta T = 1.8\times10^{-3}\).</li>
+          <li>Stress \(= Y\alpha\Delta T = 0.91\times10^{11}\times1.8\times10^{-3} = 1.64\times10^{8}\ \text{Pa}\).</li>
+          <li>\(F = \text{stress}\times A = 1.64\times10^{8}\times10^{-4} = 1.64\times10^{4}\ \text{N}\). That is roughly the weight of a 1.7-tonne car, from just 100 °C of heating.</li>
+        </ol><p class="answer">Stress ≈ 1.6 × 10⁸ Pa; F ≈ 1.6 × 10⁴ N</p></div></details>
+      </div>
+
+      <div class="quiz" data-topic="thermal" data-limit="3"><h3>Try it</h3></div>
+    </section>
+
+    <section id="applications" data-num="8.6" data-toc="Applications">
+      <div class="sec-head"><span class="num">8.6 <span class="level core">Core</span></span><h2>Applications: ropes, beams and mountains</h2></div>
+
+      <h3>1. How thick must a crane's rope be?</h3>
+      <div class="prose">
+        <p>A crane must lift 10 tonnes \((10^{4}\ \text{kg})\). The steel rope must never be stressed beyond its yield strength, \(\sigma_y \approx 300\times10^{6}\ \text{N m}^{-2}\), or it would stretch permanently. So:</p>
+      </div>
+      <div class="formula">
+        <div class="f-title">Minimum rope radius</div>
+        <div class="f-main">\[ \frac{Mg}{\pi r^{2}} \le \sigma_y \;\Rightarrow\; r \ge \sqrt{\frac{Mg}{\pi\sigma_y}} = \sqrt{\frac{10^{4}\times9.8}{3.14\times3\times10^{8}}} \approx 1\ \text{cm} \]</div>
+        <div class="f-where">Engineers add a <strong>safety factor</strong> of about 10 (design for 10⁵ kg), which gives \(r \approx 3\) cm. A single 3 cm rod would be stiff like a bar, so ropes are made by braiding many thin wires. This gives the same area but is flexible and strong.</div>
+      </div>
+
+      <h3>2. Why beams are deep, and why girders are I-shaped</h3>
+      <div class="prose">
+        <p>A beam of length \(l\), breadth \(b\) and depth \(d\), supported at its ends and loaded by \(W\) at the middle, sags at the centre by</p>
+      </div>
+      <div class="formula">
+        <div class="f-title">Sag (bending) of a centrally loaded beam</div>
+        <div class="f-main">\[ \delta = \frac{W\,l^{3}}{4\,b\,d^{3}\,Y} \]</div>
+        <div class="f-where">To reduce bending: use a material with large \(Y\), keep the span short, and above all <strong>increase the depth \(d\)</strong>. \(\delta \propto 1/d^{3}\), so doubling the depth cuts the sag to 1/8, while doubling the breadth only halves it.</div>
+      </div>
+
+      <figure class="sim" id="sim-beam">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Beam bending lab</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="mat" role="group" aria-label="Beam material">
+              <button type="button" data-v="wood" aria-pressed="true">Wood</button>
+              <button type="button" data-v="steel">Steel</button>
+            </div>
+            <div class="seg" data-k="sec" role="group" aria-label="Cross-section">
+              <button type="button" data-v="rect" aria-pressed="true">Rectangle b×d</button>
+              <button type="button" data-v="ibeam">I-section</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="bm-W">Load W <output data-for="bm-W"></output></label>
+                <input type="range" id="bm-W" min="0" max="5000" step="100" value="1000" data-unit=" N" data-dp="0"></div>
+              <div class="ctrl"><label for="bm-l">Span l <output data-for="bm-l"></output></label>
+                <input type="range" id="bm-l" min="1" max="4" step="0.1" value="2" data-unit=" m" data-dp="1"></div>
+              <div class="ctrl"><label for="bm-b">Breadth b <output data-for="bm-b"></output></label>
+                <input type="range" id="bm-b" min="2" max="30" step="1" value="10" data-unit=" cm" data-dp="0"></div>
+              <div class="ctrl"><label for="bm-d">Depth d <output data-for="bm-d"></output></label>
+                <input type="range" id="bm-d" min="2" max="24" step="1" value="5" data-unit=" cm" data-dp="0"></div>
+            </div>
+            <div class="btn-row">
+              <button class="btn primary" type="button" id="bm-double">Double the depth</button>
+              <button class="btn" type="button" id="bm-half">Halve the depth</button>
+            </div>
+            <div class="readouts">
+              <div class="readout hi"><span class="k">Sag δ</span><span class="v" data-r="delta">–</span></div>
+              <div class="readout"><span class="k">b·d³ / note</span><span class="v txt" data-r="bd3">–</span></div>
+            </div>
+            <p class="calc" data-r="formula">–</p>
+            <p class="sim-note">Press <strong>Double the depth</strong>: δ falls to exactly 1/8. The I-section uses the same amount of metal as the b × d rectangle (same weight), arranged as two flanges and a thin web with twice the depth. It sags about 6.4 times less.</p>
+          </div>
+        </div>
+      </figure>
+      <div class="callout tip"><span class="label">Why the I-section works</span>
+        <p>When a beam bends, its top layer is compressed and its bottom layer is stretched; the middle hardly does any work. An I-section removes metal from the middle and puts it in the top and bottom flanges. That gives a deep, stiff beam that is light and cheaper. The flanges also give a wide load-bearing surface. A very deep, narrow beam could <em>buckle</em> (bend sideways); the flanges help prevent that too.</p>
+      </div>
+
+      <h3>3. How high can a mountain be?</h3>
+      <div class="prose">
+        <p>The rock at the base of a mountain of height \(h\) carries the weight above it, so the stress there is about \(h\rho g\). If this exceeds the elastic limit of rock (about \(30\times10^{7}\ \text{N m}^{-2}\)), the base rock starts to flow and the mountain sinks. With \(\rho \approx 3\times10^{3}\ \text{kg m}^{-3}\):</p>
+      </div>
+      <div class="formula">
+        <div class="f-title">Maximum height of a mountain</div>
+        <div class="f-main">\[ h\rho g \le \sigma_\text{limit} \;\Rightarrow\; h_\text{max} = \frac{30\times10^{7}}{3\times10^{3}\times10} = 10^{4}\ \text{m} = 10\ \text{km} \]</div>
+        <div class="f-where">Mount Everest is about 8.8 km, just under this limit. (NCERT notes that the stress at the base is really shear, and the estimate is rough.)</div>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span><p>A steel cable of radius 1.5 cm supports a chairlift at a ski area. If the stress must not exceed \(10^{8}\ \text{N m}^{-2}\), what is the maximum load it can support?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(A = \pi(1.5\times10^{-2})^2 = 7.07\times10^{-4}\ \text{m}^2\).</li>
+          <li>\(F_\text{max} = \sigma A = 10^{8}\times7.07\times10^{-4} = 7.1\times10^{4}\ \text{N}\).</li>
+        </ol><p class="answer">About 7.1 × 10⁴ N (≈ 7 tonnes-weight)</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Ratio</span><p>A wooden plank (b = 10 cm, d = 5 cm, l = 2 m) is laid flat across a stream and sags 12 mm under a person. The same plank is turned on its edge (so b = 5 cm, d = 10 cm). What is the new sag?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(\delta \propto \dfrac{1}{b\,d^{3}}\). Flat: \(b d^{3} = 10\times5^{3} = 1250\). On edge: \(5\times10^{3} = 5000\).</li>
+          <li>\(\delta_\text{new} = 12\times\dfrac{1250}{5000} = 3\ \text{mm}\).</li>
+        </ol><p class="answer">3 mm: four times stiffer, from the same plank. (This is why floor joists stand on edge.)</p></div></details>
+      </div>
+
+      <div class="quiz" data-topic="applications" data-limit="3"><h3>Try it</h3></div>
+    </section>
+
+    <section id="problem-types" data-num="★" data-toc="Problem patterns">
+      <div class="sec-head"><span class="num">★ Exam toolkit <span class="level exam">Exam</span></span><h2>Problem patterns and shortcuts</h2></div>
+      <div class="prose">
+        <p>Almost every numerical in this chapter is one formula, \(\Delta L = \dfrac{FL}{AY}\), dressed up in a different situation. Learn to spot <em>which</em> quantity is held fixed, and the answer usually follows as a ratio in one line.</p>
+      </div>
+
+      <div class="pattern">
+        <h4>Pattern 1: Wire under its own weight</h4>
+        <div class="row" style="align-items:flex-start">
+          <svg viewBox="0 0 200 210" style="width:180px;max-width:100%;flex:0 0 auto" role="img" aria-label="Hanging wire with tension increasing from zero at the bottom to Mg at the top">
+            <rect x="40" y="6" width="120" height="14" fill="#EEF0F5" stroke="#454F66" stroke-width="1.5"/>
+            <rect x="94" y="20" width="12" height="170" rx="3" fill="#E9EBFA" stroke="#4B5BD0" stroke-width="1.5"/>
+            <path d="M120 30 L120 186" stroke="#CDD2DD" stroke-width="1"/>
+            <line x1="112" y1="40" x2="150" y2="40" stroke="#D6604A" stroke-width="2.5"/>
+            <line x1="112" y1="80" x2="142" y2="80" stroke="#D6604A" stroke-width="2.5"/>
+            <line x1="112" y1="120" x2="132" y2="120" stroke="#D6604A" stroke-width="2.5"/>
+            <line x1="112" y1="160" x2="122" y2="160" stroke="#D6604A" stroke-width="2.5"/>
+            <text x="154" y="44" font-size="11" fill="#D6604A">T ≈ Mg</text>
+            <text x="138" y="164" font-size="11" fill="#D6604A">T ≈ 0</text>
+            <text x="86" y="110" font-size="11" text-anchor="end" fill="#454F66">T(x) = Mg·x/L</text>
+            <text x="86" y="126" font-size="11" text-anchor="end" fill="#737C91">x from bottom</text>
+            <text x="100" y="204" font-size="11" text-anchor="middle" fill="#454F66">free end</text>
+          </svg>
+          <div class="stack" style="flex:1 1 220px;min-width:0">
+            <p>The bottom element carries nothing; the top element carries the whole weight. Tension grows linearly, so the average tension is \(Mg/2\):</p>
+            <p>\[ \Delta l = \frac{MgL}{2AY} = \frac{\rho g L^{2}}{2Y} \]</p>
+            <p>With an extra load \(m\) at the bottom: \(\Delta l = \dfrac{(m + M/2)gL}{AY}\). The wire breaks first at the <strong>top</strong>, and the longest wire that can hang is \(L_\text{max} = \sigma_\text{break}/\rho g\), independent of area.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pattern">
+        <h4>Pattern 2: Same material, different sizes</h4>
+        <p>\(\Delta L \propto \dfrac{F L}{r^{2}}\) (or \(FL/d^{2}\)). Write the ratio and cancel. Common case: "length doubled, radius doubled, same load" → \(\Delta L\) halves.</p>
+      </div>
+      <div class="pattern">
+        <h4>Pattern 3: Same volume (wire drawn or melted and recast)</h4>
+        <p>\(A = V/L\), so \(\Delta L = \dfrac{F L^{2}}{VY} \propto L^{2} \propto \dfrac{1}{A^{2}}\). For equal extension, \(F \propto A^{2}\). So areas A and 3A need forces F and 9F. Stretching a wire to n times its length (same volume) makes a given load stretch it \(n^{2}\) times more.</p>
+      </div>
+      <div class="pattern">
+        <h4>Pattern 4: A wire is a spring, \(k = YA/L\)</h4>
+        <p><strong>Series</strong> (end to end, same force): \(\dfrac{1}{k} = \dfrac{1}{k_1}+\dfrac{1}{k_2}\), and the extensions add. For equal areas, \(Y_\text{eq} = \dfrac{L_1+L_2}{L_1/Y_1 + L_2/Y_2}\); for equal lengths as well, \(Y_\text{eq} = \dfrac{2Y_1Y_2}{Y_1+Y_2}\).</p>
+        <p><strong>Parallel</strong> (side by side, same extension): \(k = k_1 + k_2\), and the load is shared in the ratio \(k_1 : k_2\). For equal lengths, \(Y_\text{eq} = \dfrac{Y_1A_1 + Y_2A_2}{A_1 + A_2}\).</p>
+        <p>A mass on a wire oscillates with \(T = 2\pi\sqrt{\dfrac{mL}{YA}}\).</p>
+      </div>
+      <div class="pattern">
+        <h4>Pattern 5: Find the tension first</h4>
+        <ul>
+          <li>Atwood pulley (masses \(m_1, m_2\)): \(T = \dfrac{2m_1m_2 g}{m_1+m_2}\), not \(m_1 g\) or \(m_2 g\).</li>
+          <li>Lift accelerating upward at \(a\): \(T = m(g+a)\); downward: \(m(g-a)\); free fall: 0, so no extension.</li>
+          <li>Rod on a smooth floor pulled by \(F\) at one end: tension falls linearly to 0 at the free end, so \(\Delta l = \dfrac{FL}{2AY}\). Pulled by \(F_1\) and \(F_2\) at the two ends: \(\Delta l = \dfrac{(F_1+F_2)L}{2AY}\).</li>
+          <li>Two masses hung one below the other: the upper wire carries <em>both</em>.</li>
+          <li>Load released suddenly: maximum extension is \(2\times\) the static extension (energy argument).</li>
+        </ul>
+      </div>
+      <div class="pattern">
+        <h4>Pattern 6: Graph slopes</h4>
+        <p>Stress–strain slope \(= Y\). Strain–stress slope \(= 1/Y\). Load–extension slope \(= YA/L = k\). Extension–load slope \(= L/YA\). Always check which quantity is on which axis before deciding whether "steeper" means "stiffer".</p>
+      </div>
+      <div class="pattern">
+        <h4>Pattern 7: Strength, units and quick ratios</h4>
+        <ul>
+          <li>Breaking load \(\propto r^{2}\), independent of length; breaking stress depends only on the material.</li>
+          <li>Stress, pressure, every modulus and energy density all have unit Pa (J m⁻³ = N m⁻²) and dimensions \([\mathrm{ML^{-1}T^{-2}}]\). Strain and Poisson's ratio are dimensionless; compressibility is Pa⁻¹.</li>
+          <li>Volume strain = 3 × linear strain (sphere or cube).</li>
+        </ul>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Pulley</span><p>Masses of 3 kg and 5 kg hang from the two ends of a steel wire passing over a light frictionless pulley. The total length of the wire is 2 m and its cross-section is 1 mm². Find the extension of the wire. \((Y = 2\times10^{11}\ \text{Pa},\ g = 10)\)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>The masses accelerate, so the tension is not 30 N or 50 N: \(T = \dfrac{2m_1m_2g}{m_1+m_2} = \dfrac{2\times3\times5\times10}{8} = 37.5\ \text{N}\).</li>
+          <li>The same tension acts along the whole 2 m: \(\Delta l = \dfrac{TL}{AY} = \dfrac{37.5\times2}{10^{-6}\times2\times10^{11}} = 3.75\times10^{-4}\ \text{m}\).</li>
+        </ol><p class="answer">0.375 mm</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Series vs parallel</span><p>A steel wire and a copper wire are each 1 m long with cross-section 1 mm². \((Y_s = 2.0\times10^{11},\ Y_c = 1.1\times10^{11}\ \text{Pa})\) (a) They hang side by side and support a rigid bar carrying 310 N, with both wires stretching equally. Find the extension and the load on each. (b) They are instead joined end to end and carry 310 N. Find the total extension.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(k_s = \dfrac{YA}{L} = 2.0\times10^{5}\ \text{N m}^{-1}\), \(k_c = 1.1\times10^{5}\ \text{N m}^{-1}\).</li>
+          <li>(a) Parallel: \(k = 3.1\times10^{5}\), \(\Delta l = 310/3.1\times10^{5} = 1.0\ \text{mm}\). Loads: steel \(k_s\Delta l = 200\ \text{N}\), copper \(110\ \text{N}\). The stiffer wire takes more of the load.</li>
+          <li>(b) Series: same 310 N in each. \(\Delta l = \dfrac{310}{2\times10^{5}} + \dfrac{310}{1.1\times10^{5}} = 1.55 + 2.82 = 4.37\ \text{mm}\).</li>
+        </ol><p class="answer">(a) 1.0 mm; 200 N and 110 N (b) ≈ 4.4 mm</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Own weight + load</span><p>A uniform steel wire of mass 0.5 kg, length 2 m and cross-section 1 mm² hangs from the ceiling with a 2 kg mass at its lower end. Find its extension. \((Y = 2\times10^{11}\ \text{Pa},\ g = 9.8)\) Also find the longest steel wire that could hang without breaking under its own weight, if the breaking stress is \(4\times10^{8}\) Pa and \(\rho = 7800\ \text{kg m}^{-3}\) \((g = 10)\).</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Effective load \(= m + M/2 = 2 + 0.25 = 2.25\ \text{kg}\).</li>
+          <li>\(\Delta l = \dfrac{2.25\times9.8\times2}{10^{-6}\times2\times10^{11}} = 2.2\times10^{-4}\ \text{m}\).</li>
+          <li>The top carries \(\rho A L g\), so the stress there is \(\rho L g\). Setting \(\rho L g = \sigma_b\): \(L_\text{max} = \dfrac{4\times10^{8}}{7800\times10} \approx 5.1\times10^{3}\ \text{m}\).</li>
+        </ol><p class="answer">0.22 mm; about 5 km (independent of the wire's thickness)</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Assertion–Reason</span><p><strong>A:</strong> A rod lying on a smooth horizontal floor and pulled by a force \(F\) at one end stretches by \(FL/2AY\), half of what it would if fixed at the other end. <strong>R:</strong> In the accelerating rod, the tension decreases linearly from \(F\) at the pulled end to zero at the free end.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>The rod accelerates with \(a = F/m\). The part beyond a point at distance \(x\) from the free end has mass \(mx/L\), so the tension there is \(T = (mx/L)a = Fx/L\). This is linear, which makes R true.</li>
+          <li>The average tension is \(F/2\), so \(\Delta l = \dfrac{(F/2)L}{AY}\). A is true.</li>
+          <li>R directly explains A.</li>
+        </ol><p class="answer">Both true; R is the correct explanation of A.</p></div></details>
+      </div>
+    </section>
+
+    <section id="checklist" data-num="Rev" data-toc="Night-before checklist">
+      <div class="sec-head"><span class="num">Revision <span class="level exam">Exam</span></span><h2>Night-before checklist</h2></div>
+      <div class="prose"><p>Read this the night before the test. If any line feels shaky, click back to its section.</p></div>
+      <ul class="check-list">
+        <li><strong>More elastic = larger modulus.</strong> Steel is more elastic than rubber. A perfectly rigid body has \(Y = G = B = \infty\).</li>
+        <li>Stress \(= F/A\) is an internal restoring force per area. Strain is a ratio with <strong>no unit and no dimensions</strong>. Stress and all moduli: Pa, \([\mathrm{ML^{-1}T^{-2}}]\).</li>
+        <li>Tensile/compressive → length; shear → shape (volume same); hydraulic → volume (shape same).</li>
+        <li>Curve letters: A proportional limit · B yield point/elastic limit \((\sigma_y)\) · D ultimate strength \((\sigma_u)\) · E fracture. Unloading beyond B is parallel to OA and leaves a <strong>permanent set</strong>.</li>
+        <li>D and E far apart → ductile; close → brittle. Rubber and aorta are elastomers: large elastic range, <strong>no Hooke region</strong>, no plastic region.</li>
+        <li>\(Y\) depends only on the material (and temperature), <strong>not</strong> on \(L\), \(A\) or the load.</li>
+        <li>\(\Delta L = FL/AY \propto L/d^{2}\). <strong>Square the diameter.</strong> Halve the diameter before using \(\pi r^{2}\); 1 mm² = \(10^{-6}\) m².</li>
+        <li>Same volume: \(\Delta L \propto L^{2}\); equal extension needs \(F \propto A^{2}\) (A and 3A → F and 9F).</li>
+        <li>Own weight: \(\Delta l = MgL/2AY = \rho g L^{2}/2Y\) (do not forget the ½).</li>
+        <li>Breaking load \(\propto r^{2}\), independent of length; breaking stress is a material property.</li>
+        <li>Wire = spring with \(k = YA/L\). Series: add \(1/k\); parallel: add \(k\).</li>
+        <li>Energy stored \(= \tfrac12 F\Delta l\) (= \(Mgl/2\), not \(Mgl\)); per unit volume \(= \tfrac12\) stress × strain.</li>
+        <li>Sphere under pressure: \(\Delta V/V = p/B\), \(\Delta r/r = p/3B\). Fluids have \(G = 0\); gases are the most compressible.</li>
+        <li>Thermal stress \(= Y\alpha\Delta T\) and force \(= YA\alpha\Delta T\): <strong>no \(L\)</strong>.</li>
+        <li>Beam sag \(\delta = Wl^{3}/4bd^{3}Y\): doubling the depth makes it 1/8. That is why girders are deep I-sections. Max mountain height ≈ 10 km.</li>
+      </ul>
+
+      <h3>Formula sheet</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Quantity</th><th>Formula</th><th>Unit</th></tr></thead>
+        <tbody>
+          <tr><td>Stress</td><td>\(F/A\)</td><td>Pa</td></tr>
+          <tr><td>Longitudinal / shear / volume strain</td><td>\(\Delta L/L\) · \(\Delta x/L = \theta\) · \(\Delta V/V\)</td><td>none</td></tr>
+          <tr><td>Young's modulus</td><td>\(Y = \dfrac{FL}{A\Delta L} = \dfrac{MgL}{\pi r^{2}\Delta L}\)</td><td>Pa</td></tr>
+          <tr><td>Shear modulus</td><td>\(G = \dfrac{F}{A\theta} = \dfrac{FL}{A\Delta x}\)</td><td>Pa</td></tr>
+          <tr><td>Bulk modulus</td><td>\(B = -\dfrac{V\Delta p}{\Delta V}\); \(k = 1/B\)</td><td>Pa; Pa⁻¹</td></tr>
+          <tr><td>Poisson's ratio</td><td>\(\sigma = -\dfrac{\Delta d/d}{\Delta L/L}\); \(\Delta V/V = (1-2\sigma)\Delta L/L\)</td><td>none</td></tr>
+          <tr><td>Moduli relations (aside)</td><td>\(Y = 2G(1+\sigma) = 3B(1-2\sigma)\)</td><td>–</td></tr>
+          <tr><td>Elastic energy</td><td>\(U = \tfrac12 F\Delta l\); \(u = \tfrac12\,\text{stress}\times\text{strain} = \dfrac{\text{stress}^{2}}{2Y}\)</td><td>J; J m⁻³</td></tr>
+          <tr><td>Wire as spring</td><td>\(k = YA/L\)</td><td>N m⁻¹</td></tr>
+          <tr><td>Own weight</td><td>\(\Delta l = \dfrac{MgL}{2AY} = \dfrac{\rho gL^{2}}{2Y}\)</td><td>m</td></tr>
+          <tr><td>Thermal stress</td><td>\(Y\alpha\Delta T\); \(F = YA\alpha\Delta T\)</td><td>Pa; N</td></tr>
+          <tr><td>Beam sag</td><td>\(\delta = \dfrac{Wl^{3}}{4bd^{3}Y}\)</td><td>m</td></tr>
+          <tr><td>Mountain height</td><td>\(h_\text{max} = \sigma_\text{limit}/\rho g\)</td><td>m</td></tr>
+        </tbody>
+      </table></div>
+      <p class="small"><a href="practice.html#youngs">Practise all Solids questions →</a></p>
+    </section>
+
+    <footer class="footer">Mechanical Properties of Solids · NCERT Class 11 Physics, Chapter 8 (rationalised). Numbers in examples use g = 9.8 m s⁻² unless a question says g = 10.</footer>
+  </main>
+</div>
+<script src="assets/sims-solids.js"></script>
+</body>
+</html>

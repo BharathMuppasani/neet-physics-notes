@@ -1,0 +1,1039 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fluids II · Viscosity &amp; Surface Tension</title>
+<meta name="description" content="Viscosity, Stokes' law, terminal velocity, Reynolds number, surface tension, surface energy, angle of contact, drops and bubbles, capillary rise — NEET Class 11, from basics to exam level with interactive simulations.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,750&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<!-- site.js MUST load before MathJax (it holds the MathJax config) -->
+<script src="assets/site.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
+<!-- question data used by inline quizzes -->
+<script src="assets/q-test06.js"></script>
+<style>
+  /* page-specific bits for Fluids II */
+  .ctrl[hidden] { display: none; }
+  .content mjx-container:not([display="true"]) { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; vertical-align: middle; padding-block: 2px; }
+  @media (min-width: 860px) { .sim-body.side > .sim-stage { display: flex; flex-direction: column; justify-content: center; } }
+  .sim-stage canvas.tap { cursor: pointer; }
+  .pull-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
+  .pull-grid svg + svg { border-left: 1px solid var(--line); }
+  @media (max-width: 640px) { .pull-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .pull-grid svg:nth-child(3) { border-left: 0; } .pull-grid svg:nth-child(n+3) { border-top: 1px solid var(--line); } }
+  .pull-fig text { font-family: var(--f-body); font-size: 13px; fill: var(--ink-2); }
+  .pull-fig .t-title { font-weight: 700; fill: var(--ink); font-size: 14px; }
+  .pull-fig .t-f { font-family: var(--f-mono); font-weight: 600; fill: var(--accent); font-size: 13px; }
+  .pull-fig .liq { fill: var(--water-soft); stroke: var(--water); stroke-width: 1.5; }
+  .pull-fig .obj { fill: var(--ink-2); }
+  .pull-fig .arr { stroke: var(--coral); stroke-width: 2; fill: none; }
+  .pull-fig .arrh { fill: var(--coral); }
+  .pull-fig .sep { stroke: var(--line); stroke-width: 1; }
+  .two-col { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .checklist li { padding: 10px 12px 10px 38px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); position: relative; }
+  .checklist li::before { content: ""; position: absolute; left: 12px; top: 14px; width: 14px; height: 14px; border-radius: 4px; border: 2px solid var(--accent); }
+  .pattern { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; display: grid; gap: 6px; align-content: start; }
+  .pattern h4 { color: var(--accent); font-size: 15.5px; }
+  .pattern p { font-size: 15px; color: var(--ink-2); }
+  .patterns { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
+</style>
+</head>
+<body class="ch-fluids2" data-page="fluids2">
+<div class="frame with-toc">
+  <aside class="toc" aria-label="Sections"></aside>
+  <main class="content">
+    <header class="hero">
+      <span class="eyebrow">Class 11 · Chapter 9 · Part 2</span>
+      <h1>Viscosity &amp; Surface Tension</h1>
+      <p class="lede">Why honey pours slowly, why raindrops don't hit like bullets, why drops are round and why water climbs up a thin tube. This is the second half of Mechanical Properties of Fluids, built up from zero to exam level.</p>
+      <div class="chips">
+        <span class="chip accent">CUT-6 syllabus: up to 9.6.5</span>
+        <span class="chip coral">Test-06 traps marked</span>
+        <span class="chip">9 interactive simulations</span>
+      </div>
+      <p class="small muted">Pressure, Pascal's law, buoyancy, continuity and Bernoulli are on <a href="fluids-1.html">Fluids I</a>. Short on time? Read the formula cards, the red “Exam trap” boxes and the <a href="#checklist">night-before checklist</a>.</p>
+    </header>
+
+    <!-- ================================================================ VISCOSITY -->
+    <section id="viscosity" data-num="9.5" data-toc="Viscosity">
+      <div class="sec-head">
+        <span class="num">9.5 <span class="level basic">Basics</span><span class="level core">Core</span></span>
+        <h2>Viscosity: friction inside a fluid</h2>
+      </div>
+      <div class="prose">
+        <p>Tip a jar of honey and a glass of water. Both are liquids, yet honey crawls and water rushes out. Stir both with a spoon: honey drags the spoon back far more. The property that makes the difference is <span class="term">viscosity</span>.</p>
+        <p>Picture a flowing liquid as a stack of very thin sheets (<span class="term">layers</span>) sliding over one another, like the pages of a book when you push the top cover sideways. The layer touching a solid surface sticks to it and does not move. Each layer above moves a little faster than the one below. Neighbouring layers rub against each other: the faster layer tries to drag the slower one forward, and the slower one tries to hold the faster one back. This <span class="hl">internal friction between layers</span> is viscosity.</p>
+        <p>This orderly layer-by-layer flow is called <span class="term">laminar</span> (streamline) flow. Flow through a pipe is also laminar at low speed: the layer at the wall is at rest and the central layer is fastest.</p>
+      </div>
+      <div class="callout def"><span class="label">Definition</span>
+        <p><strong>Viscosity</strong> is the property of a fluid by which it opposes relative motion between its adjacent layers. The tangential force between layers is the <strong>viscous force</strong>. A fluid with zero viscosity (and incompressible) is called an <strong>ideal fluid</strong>.</p>
+      </div>
+      <div class="prose">
+        <p>Newton found experimentally that the viscous force \(F\) between two layers is proportional to the area of contact \(A\) and to how quickly the speed changes as you move from one layer to the next: the <span class="term">velocity gradient</span> \(dv/dx\), where \(x\) is measured <em>perpendicular</em> to the flow.</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Newton's law of viscosity</div>
+          <div class="f-main">\[ F = -\,\eta A \frac{dv}{dx} \]</div>
+          <div class="f-where">\(\eta\) (eta) = coefficient of viscosity. The minus sign says the force opposes the relative motion. For a liquid film of thickness \(d\) under a plate moving at \(v\): \(F = \eta A v/d\).</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Velocity gradient</div>
+          <div class="f-main">\[ \frac{dv}{dx} = \frac{v}{d} \;\;(\text{uniform film}) \]</div>
+          <div class="f-where">Change in speed per unit distance across the layers. Unit s⁻¹. It is also the <em>rate of shear strain</em>.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Units &amp; dimensions of η</div>
+          <div class="f-main">\[ \eta = \frac{F/A}{v/d} \;\Rightarrow\; [\mathrm{M\,L^{-1}\,T^{-1}}] \]</div>
+          <div class="f-where">SI: N s m⁻² = Pa·s (also called poiseuille, PI). CGS: poise. <strong>1 poise = 0.1 Pa·s</strong> (so 1 Pa·s = 10 poise).</div>
+        </div>
+      </div>
+      <div class="callout tip"><span class="label">Link to Solids</span>
+        <p>In a solid, shear modulus = shear stress / shear <em>strain</em>. In a fluid, viscosity = shear stress / <em>rate</em> of shear strain. A fluid keeps deforming as long as the force acts, so the rate, not the strain, is what matters. (See <a href="solids.html#shear">shear modulus</a>.)</p>
+      </div>
+
+      <figure class="sim" id="sim-visc">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Layers sliding over each other</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="mode" role="group" aria-label="Flow type">
+              <button type="button" data-v="plates" aria-pressed="true">Between plates</button>
+              <button type="button" data-v="pipe">Pipe flow</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="vis-v"><span data-lbl="v">Top plate speed v</span> <output data-for="vis-v"></output></label>
+                <input type="range" id="vis-v" min="1" max="10" step="0.5" value="4" data-unit=" cm/s" data-dp="1"></div>
+              <div class="ctrl"><label for="vis-d"><span data-lbl="d">Film thickness d</span> <output data-for="vis-d"></output></label>
+                <input type="range" id="vis-d" min="0.5" max="5" step="0.1" value="2" data-unit=" mm" data-dp="1"></div>
+              <div class="ctrl"><label for="vis-eta">Viscosity η <output data-for="vis-eta"></output></label>
+                <input type="range" id="vis-eta" min="0.1" max="2" step="0.05" value="0.85" data-unit=" Pa·s" data-dp="2"></div>
+              <div class="ctrl" data-only="plates"><label for="vis-A">Plate area A <output data-for="vis-A"></output></label>
+                <input type="range" id="vis-A" min="50" max="500" step="10" value="200" data-unit=" cm²" data-dp="0"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k" data-k="grad">Velocity gradient</span><span class="v" data-r="grad">–</span></div>
+              <div class="readout"><span class="k" data-k="stress">Viscous stress</span><span class="v" data-r="stress">–</span></div>
+              <div class="readout hi"><span class="k">Viscous force F</span><span class="v" data-r="F">–</span></div>
+            </div>
+            <p class="sim-note" data-r="note">Watch the purple dye line: it starts vertical and leans over, because higher layers move faster. Halve d and the gradient (and F) doubles.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <h3>Temperature and viscosity: the classic trap</h3>
+        <p><strong>Liquids:</strong> viscosity comes mainly from the attraction (cohesion) between neighbouring molecules. Heat a liquid and the molecules move apart and gain energy, so \(\eta\) <span class="hl">decreases</span>. Warm honey or engine oil flows easily.</p>
+        <p><strong>Gases:</strong> molecules are far apart; viscosity comes from molecules darting between layers and carrying momentum with them. Hotter means faster molecules and more momentum transfer, so \(\eta\) <span class="hl">increases</span> with temperature.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fluid</th><th>Temperature</th><th>η (approx.)</th></tr></thead>
+          <tbody>
+            <tr><td>Water</td><td>20 °C</td><td>1.0 × 10⁻³ Pa·s</td></tr>
+            <tr><td>Water</td><td>100 °C</td><td>0.3 × 10⁻³ Pa·s (falls)</td></tr>
+            <tr><td>Blood</td><td>37 °C</td><td>≈ 3 × 10⁻³ Pa·s</td></tr>
+            <tr><td>Castor oil / glycerine</td><td>20 °C</td><td>≈ 1 Pa·s</td></tr>
+            <tr><td>Air</td><td>20 °C → 100 °C</td><td>1.8 → 2.2 × 10⁻⁵ Pa·s (rises)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout trap"><span class="label">Exam trap · your Q12, Q23, Q42, Q43</span>
+        <ul>
+          <li><strong>Gas viscosity increases with temperature.</strong> “Viscosity of gases decreases with temperature” is the <em>incorrect</em> statement (Q12). Liquids decrease, gases increase.</li>
+          <li><strong>Ideal fluid: η = 0</strong> (non-viscous) and incompressible (Q42). Not “η = 1”, not “infinite”.</li>
+          <li><strong>A good lubricant has high viscosity</strong> (Q43; you chose low). A viscous oil film is not easily squeezed out from between moving parts, so the metal surfaces stay apart. Very thin oil is pushed out and metal grinds on metal.</li>
+          <li>Viscosity is a property of liquids <em>and</em> gases; solids do not have it.</li>
+        </ul>
+      </div>
+      <div class="callout life"><span class="label">Where you meet it</span>
+        <p>Blood viscosity sets how hard the heart must pump; thicker blood means more work. Engine oil grades are viscosity grades. Shock absorbers and door closers use viscous oil to slow motion smoothly.</p>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical (like Q36)</span>
+          <p>A metal plate of area 200 cm² rests on a 2 mm thick layer of glycerine (η = 8.5 poise) spread on a fixed table. What horizontal force keeps it moving at a steady 4 cm/s? (Set the simulation to these values to check.)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Convert to SI: A = 200 × 10⁻⁴ = 0.02 m², d = 2 × 10⁻³ m, v = 0.04 m/s, η = 8.5 poise = 0.85 Pa·s.</li>
+          <li>Steady speed, so the applied force equals the viscous force: \(F = \eta A v/d\).</li>
+          <li>\(F = 0.85 \times 0.02 \times 0.04 / 0.002 = 0.34\) N.</li>
+        </ol><p class="answer">Answer: 0.34 N</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Derivation (Q1 pattern)</span>
+          <p>A cube of side \(a\) and density \(\rho\) slides down an incline of angle \(\theta\) on a thin oil film of thickness \(t\), at constant speed \(v\). Find η. Then evaluate for a 10 cm wooden cube (ρ = 600 kg/m³), θ = 30°, t = 0.2 mm, v = 0.5 m/s.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Constant speed means zero net force along the incline: \(mg\sin\theta = \eta A \dfrac{v}{t}\).</li>
+          <li>With \(m = \rho a^3\) and contact area \(A = a^2\): \(\rho a^3 g \sin\theta = \eta a^2 v/t\).</li>
+          <li>\(\eta = \dfrac{\rho a g t \sin\theta}{v}\).</li>
+          <li>Numbers: \(\eta = 600 \times 0.1 \times 9.8 \times 2\times10^{-4} \times 0.5 / 0.5 = 0.118\) Pa·s.</li>
+        </ol><p class="answer">Answer: η = ρagt sinθ / v ≈ 0.12 Pa·s</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Velocity gradient (Q31 pattern)</span>
+          <p>A river is 8 m deep. Its surface water flows at 3 m/s and the water at the bed is at rest. Assuming the speed changes uniformly with depth, find the viscous stress between horizontal layers. (η of water = 10⁻³ Pa·s.)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Velocity gradient \(= 3/8 = 0.375\ \text{s}^{-1}\) (uniform, from 0 at the bed to 3 m/s at the top).</li>
+          <li>Stress \(= F/A = \eta\, dv/dx = 10^{-3} \times 0.375\).</li>
+        </ol><p class="answer">Answer: 3.75 × 10⁻⁴ N/m²</p></div></details>
+      </div>
+      <div class="quiz" data-topic="viscosity" data-limit="3"><h3>From your Test-06</h3></div>
+    </section>
+
+    <!-- ================================================================ STOKES -->
+    <section id="stokes" data-num="9.5.1" data-toc="Stokes' law &amp; terminal velocity">
+      <div class="sec-head">
+        <span class="num">9.5.1 <span class="level core">Core</span><span class="level exam">Exam</span></span>
+        <h2>Stokes' law and terminal velocity</h2>
+      </div>
+      <div class="prose">
+        <p>A raindrop falling from a cloud 1 km up would reach about 140 m/s if there were no air, fast enough to hurt badly. Real raindrops arrive at only a few metres per second. Why? As a body falls through a fluid, the fluid drags on it, and <span class="hl">the drag grows with speed</span>. Soon the drag balances the pull of gravity, the net force becomes zero, and the body falls at a constant speed: its <span class="term">terminal velocity</span>.</p>
+        <p>For a small sphere moving slowly through a viscous fluid (laminar flow around it), Stokes showed that the drag is:</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Stokes' law</div>
+          <div class="f-main">\[ F_v = 6\pi\eta r v \]</div>
+          <div class="f-where">r = radius of sphere, v = its speed relative to the fluid. Drag ∝ η, ∝ r, ∝ v. Valid for small spheres at low speed (laminar flow).</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Terminal velocity</div>
+          <div class="f-main">\[ v_t = \frac{2 r^2 (\rho - \sigma) g}{9\eta} \]</div>
+          <div class="f-where">ρ = density of the sphere, σ = density of the fluid. If σ &gt; ρ, \(v_t\) is negative: the body <em>rises</em> (air bubble).</div>
+        </div>
+      </div>
+      <div class="prose">
+        <h3>Where the formula comes from</h3>
+        <p>Three forces act on a sphere of radius \(r\) falling through a fluid:</p>
+        <ul>
+          <li>Weight, down: \(W = \tfrac43\pi r^3 \rho g\)</li>
+          <li>Buoyant force (upthrust), up: \(B = \tfrac43\pi r^3 \sigma g\)</li>
+          <li>Viscous drag, opposite to motion (up): \(F_v = 6\pi\eta r v\), which starts at zero and grows as \(v\) grows</li>
+        </ul>
+        <p>At first \(F_v = 0\), so the sphere accelerates. As \(v\) rises, \(F_v\) rises, the net force shrinks and the acceleration falls. When \(F_v = W - B\), the net force is zero and \(v\) stays fixed:</p>
+        <p>\[ 6\pi\eta r v_t = \tfrac43\pi r^3(\rho - \sigma)g \;\Rightarrow\; v_t = \frac{2r^2(\rho-\sigma)g}{9\eta} \]</p>
+      </div>
+
+      <figure class="sim" id="sim-stokes">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Ball falling through a viscous liquid</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="btn-row">
+              <button class="btn primary" type="button" data-act="drop">Drop</button>
+              <button class="btn" type="button" data-act="reset">Reset</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="st-r">Ball radius r <output data-for="st-r"></output></label>
+                <input type="range" id="st-r" min="0.5" max="3" step="0.1" value="2" data-unit=" mm" data-dp="1"></div>
+              <div class="ctrl"><label for="st-rho">Ball density ρ <output data-for="st-rho"></output></label>
+                <input type="range" id="st-rho" min="200" max="11000" step="100" value="7800" data-unit=" kg/m³" data-dp="0"></div>
+              <div class="ctrl"><label for="st-sig">Liquid density σ <output data-for="st-sig"></output></label>
+                <input type="range" id="st-sig" min="800" max="1400" step="10" value="1260" data-unit=" kg/m³" data-dp="0"></div>
+              <div class="ctrl"><label for="st-eta">Viscosity η <output data-for="st-eta"></output></label>
+                <input type="range" id="st-eta" min="0.5" max="3" step="0.05" value="1.5" data-unit=" Pa·s" data-dp="2"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout hi"><span class="k">Terminal velocity</span><span class="v" data-r="vt">–</span></div>
+              <div class="readout"><span class="k">Time constant</span><span class="v" data-r="tau">–</span></div>
+              <div class="readout"><span class="k">Drag at vₜ (= W − B)</span><span class="v" data-r="fv">–</span></div>
+            </div>
+            <p class="sim-note">Drop, then double r and drop again: the plateau rises 4×, not 2×. Make ρ smaller than σ to see the ball rise like an air bubble. The faint curves are your previous runs.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="prose">
+        <h3>The v–t graph</h3>
+        <p>Speed rises quickly at first, then levels off and approaches \(v_t\) without crossing it: \(v = v_t\,(1 - e^{-t/\tau})\) with \(\tau = 2\rho r^2/9\eta\). Acceleration starts at \(g(1-\sigma/\rho)\), not \(g\), because buoyancy acts from the start, and falls to zero. The distance–time graph curves at first and then becomes a straight line (constant speed). For small drops τ is only milliseconds, so they reach terminal velocity almost at once.</p>
+      </div>
+      <div class="callout trap"><span class="label">Exam trap · your Q24, Q30, Q13</span>
+        <ul>
+          <li>\(v_t \propto r^2\), <strong>not</strong> \(r\) (Q24). The assertion “a bigger raindrop falls faster” is true; the reason “\(v_t \propto r\)” is false.</li>
+          <li>\(v_t \propto r^2\) only when the <em>density</em> is fixed. If the <strong>mass</strong> is fixed (and buoyancy is ignored), \(mg = 6\pi\eta r v_t\) gives \(v_t \propto 1/r\). Same mass, double radius: speed halves (Q30).</li>
+          <li>At a given speed, drag \(\propto r\). Since cross-section area \(A = \pi r^2\), drag \(\propto \sqrt{A}\), i.e. \(A^{1/2}\) (Q13).</li>
+        </ul>
+      </div>
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">At terminal velocity (Q45)</div>
+          <div class="f-main">\[ F_v = W - B = \tfrac43\pi r^3(\rho-\sigma)g = Mg\left(1-\tfrac{\sigma}{\rho}\right) \]</div>
+          <div class="f-where">If σ = ρ/2, the viscous force is Mg/2.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">n drops coalesce (Q32)</div>
+          <div class="f-main">\[ R = n^{1/3}r,\quad v' = n^{2/3}\,v \]</div>
+          <div class="f-where">Volume adds, so \(R^3 = nr^3\). Breaking one sphere into n equal drops: each has \(v/n^{2/3}\) (Q40: 27 pieces → speed ÷ 9).</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Rising air bubble (Q41)</div>
+          <div class="f-main">\[ v = \frac{2r^2\sigma g}{9\eta} \;\Rightarrow\; \eta = \frac{2r^2\sigma g}{9v} \]</div>
+          <div class="f-where">Air density ≈ 0 compared with the liquid density σ, so \(\rho - \sigma \approx -\sigma\): the bubble moves up.</div>
+        </div>
+      </div>
+      <div class="callout tip"><span class="label">Falling-ball method to measure η</span>
+        <p>Drop a small steel ball into a tall jar of the liquid. Once it reaches its terminal velocity, time it between two marks to get \(v_t\), then use \(\eta = 2r^2(\rho-\sigma)g/9v_t\). Start timing well below the surface, after the ball has stopped speeding up.</p>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Ratio (Q3 pattern)</span>
+          <p>A copper ball (8.9 g/cc) and an aluminium ball (2.7 g/cc) of the same radius fall through glycerine (1.3 g/cc). The copper ball's terminal speed is 0.38 m/s. Find the aluminium ball's.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Same r and η, so \(v_t \propto (\rho-\sigma)\). Do not use the density ratio itself.</li>
+          <li>\(\dfrac{v_{Al}}{v_{Cu}} = \dfrac{2.7-1.3}{8.9-1.3} = \dfrac{1.4}{7.6}\).</li>
+          <li>\(v_{Al} = 0.38 \times 1.4/7.6 = 0.07\) m/s.</li>
+        </ol><p class="answer">Answer: 0.07 m/s</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical (Q44 pattern)</span>
+          <p>A steel ball of radius 2 mm (density 7800 kg/m³) reaches a terminal speed of 3 cm/s in an oil of density 900 kg/m³. Find the viscosity of the oil. (g = 9.8 m/s²)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(\eta = \dfrac{2r^2(\rho-\sigma)g}{9v_t} = \dfrac{2 \times (2\times10^{-3})^2 \times 6900 \times 9.8}{9 \times 0.03}\).</li>
+          <li>Numerator \(= 2 \times 4\times10^{-6} \times 6900 \times 9.8 = 0.541\); denominator \(= 0.27\).</li>
+        </ol><p class="answer">Answer: η ≈ 2.0 Pa·s</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Coalescing &amp; ratios (Q32, Q37 pattern)</span>
+          <p>(a) 27 identical rain droplets, each falling at terminal speed \(v\), merge into one drop. New terminal speed? (b) A ball of radius R and density 2σ falls in a liquid of density σ with terminal speed V. A ball of radius R/2 and density 5σ falls in the same liquid. Its terminal speed?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>(a) \(R = 27^{1/3} r = 3r\). \(v_t \propto r^2\), so \(v' = 9v\).</li>
+          <li>(b) \(v_t \propto r^2(\rho-\sigma)\). Old: \(R^2(2\sigma - \sigma) = R^2\sigma\). New: \((R/2)^2(5\sigma-\sigma) = R^2\sigma\). Same!</li>
+        </ol><p class="answer">Answer: (a) 9v (b) V</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Concept (Q30 pattern)</span>
+          <p>Two spheres have the same mass, but one has three times the radius of the other. Ignoring buoyancy, compare their terminal speeds in the same liquid.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>At terminal speed, \(mg = 6\pi\eta r v_t \Rightarrow v_t = mg/6\pi\eta r\).</li>
+          <li>Same m, so \(v_t \propto 1/r\). The bigger sphere is less dense, which is why the \(r^2\) rule does not apply.</li>
+        </ol><p class="answer">Answer: the larger sphere falls at one-third the speed</p></div></details>
+      </div>
+      <div class="quiz" data-topic="stokes" data-limit="3"><h3>From your Test-06</h3></div>
+    </section>
+
+    <!-- ================================================================ REYNOLDS -->
+    <section id="reynolds" data-num="★" data-toc="Reynolds number">
+      <div class="sec-head">
+        <span class="num">★ Coaching extra <span class="level core">Core</span></span>
+        <h2>Reynolds number: smooth or chaotic?</h2>
+      </div>
+      <div class="prose">
+        <p>Open a tap a little: the stream is smooth and glassy. Open it fully: the water churns and turns white. Smoke from an incense stick rises in a smooth thread, then suddenly breaks into curls. Slow flow is <span class="term">laminar</span>; fast flow becomes <span class="term">turbulent</span>, full of eddies.</p>
+        <p>Which one you get depends on a contest between two effects. <strong>Inertia</strong> (ρ and v) keeps a moving lump of fluid going and lets disturbances grow. <strong>Viscosity</strong> (η) damps disturbances and keeps layers orderly. The Reynolds number measures the ratio of the two:</p>
+      </div>
+      <div class="formula">
+        <div class="f-title">Reynolds number</div>
+        <div class="f-main">\[ R_e = \frac{\rho v d}{\eta} = \frac{\text{inertial force}}{\text{viscous force}} \]</div>
+        <div class="f-where">ρ = fluid density, v = flow speed, d = pipe diameter, η = viscosity. Dimensionless (no unit). NCERT ranges: \(R_e \lt 1000\) laminar · 1000–2000 unsteady · \(R_e \gt 2000\) turbulent.</div>
+      </div>
+
+      <figure class="sim" id="sim-reynolds">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Reynolds' dye experiment</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="controls">
+              <div class="ctrl"><label for="re-Re">Reynolds number <output data-for="re-Re"></output></label>
+                <input type="range" id="re-Re" min="100" max="4000" step="50" value="600" data-dp="0"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout hi"><span class="k">Regime</span><span class="v" data-r="regime">–</span></div>
+              <div class="readout"><span class="k">Water speed, 1 cm pipe</span><span class="v" data-r="speed">–</span></div>
+            </div>
+            <p class="sim-note">A thin thread of dye is injected on the axis. At low Re it stays a straight line; above about 2000 it wobbles, breaks into eddies and mixes across the whole pipe.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="callout exam"><span class="label">How it is asked · your Q20</span>
+        <p>“If the Reynolds number is greater than 2000, the flow is ___ and ___ forces dominate.” Answer: <strong>turbulent; inertial</strong>. A large \(R_e\) means inertia beats viscosity. Turbulence is more likely for <em>fast</em> flow, <em>wide</em> pipes, <em>dense</em> and <em>less viscous</em> fluids. Critical speed: \(v_c = R_e\,\eta/\rho d\).</p>
+      </div>
+      <div class="callout trap"><span class="label">Note</span>
+        <p>Reynolds number may not appear in the rationalised NCERT text, but coaching tests still ask it. Use the NCERT numbers 1000 and 2000. Some books quote 2000 and 3000; do not mix them up.</p>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span>
+          <p>(a) Water (ρ = 1000 kg/m³, η = 10⁻³ Pa·s) flows at 15 cm/s through a pipe of diameter 2 cm. What type of flow is it? (b) What is the largest speed for steady laminar flow (\(R_e\) = 1000) in a 1 cm pipe?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>(a) \(R_e = \rho v d/\eta = 1000 \times 0.15 \times 0.02/10^{-3} = 3000 \gt 2000\), so the flow is turbulent.</li>
+          <li>(b) \(v = R_e\eta/\rho d = 1000 \times 10^{-3}/(1000 \times 0.01) = 0.1\) m/s.</li>
+        </ol><p class="answer">Answer: (a) turbulent (Re = 3000) (b) 10 cm/s</p></div></details>
+      </div>
+      <div class="quiz" data-topic="reynolds" data-limit="3"><h3>From your Test-06</h3></div>
+    </section>
+
+    <!-- ================================================================ SURFACE TENSION -->
+    <section id="surface-tension" data-num="9.6" data-toc="Surface tension">
+      <div class="sec-head">
+        <span class="num">9.6 <span class="level basic">Basics</span><span class="level core">Core</span></span>
+        <h2>Surface tension: a liquid's stretched skin</h2>
+      </div>
+      <div class="prose">
+        <p>Lay a needle gently on water and it floats, even though steel is 8 times denser than water. Insects like water striders walk on ponds, and you can see the surface dimpling under their feet. Small drops are round. Wet paint-brush hairs spread out under water but clump together when you pull the brush out. All of these show that a liquid surface behaves like a <span class="hl">stretched elastic skin</span>.</p>
+        <h3>The molecular picture</h3>
+        <p>Molecules in a liquid attract each other, but only over a short range (a few molecular diameters). A molecule deep inside is pulled equally in all directions, so the net force on it is zero. A molecule at the surface has neighbours below and beside it but almost none above, so it feels a <strong>net inward (downward) pull</strong>.</p>
+        <p>Bringing a molecule from inside up to the surface means working against this pull, and the molecule also loses some of its bonds. So <span class="hl">surface molecules have extra energy</span> compared with inside ones. A liquid therefore tends to keep its surface area as small as possible. For a given volume, a sphere has the least area, which is why drops are round.</p>
+      </div>
+
+      <figure class="sim" id="sim-molecules">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Why surface molecules are pulled inward</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="btn-row">
+              <button class="btn" type="button" data-act="bulk">Move deep inside</button>
+              <button class="btn" type="button" data-act="surface">Move to surface</button>
+              <button class="btn" type="button" data-act="second">One layer down</button>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Neighbours in range</span><span class="v" data-r="nb">–</span></div>
+              <div class="readout hi"><span class="k">Net force</span><span class="v" data-r="net">–</span></div>
+            </div>
+            <p class="sim-note">Tap a highlighted molecule to select it, then tap anywhere in the liquid to move it (or drag with a mouse). The dashed circle is its range of attraction.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="callout def"><span class="label">Definition</span>
+        <p><strong>Surface tension</strong> \(T\) (or S) is the force per unit length acting on an imaginary line drawn on the liquid surface. The force is perpendicular to the line and tangent to the surface: \(T = F/L\). Equivalently, it is the <strong>surface energy per unit area</strong> (next section).</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Surface tension</div>
+          <div class="f-main">\[ T = \frac{F}{L} \]</div>
+          <div class="f-where">Unit N m⁻¹ (= J m⁻²). Dimensions [M T⁻²]. Water at 20 °C: ≈ 0.072 N/m. Soap solution: ≈ 0.03 N/m. Mercury: ≈ 0.47 N/m.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Film on a frame (two surfaces)</div>
+          <div class="f-main">\[ F = 2TL \]</div>
+          <div class="f-where">A soap film has a front and a back surface, so a slider of length L is pulled by both: \(T L + T L\).</div>
+        </div>
+      </div>
+
+      <figure class="sim" id="sim-film">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Soap film on a U-frame</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="controls">
+              <div class="ctrl"><label for="fl-L">Slider length L <output data-for="fl-L"></output></label>
+                <input type="range" id="fl-L" min="2" max="10" step="0.5" value="5" data-unit=" cm" data-dp="1"></div>
+              <div class="ctrl"><label for="fl-T">Surface tension T <output data-for="fl-T"></output></label>
+                <input type="range" id="fl-T" min="0.02" max="0.08" step="0.002" value="0.03" data-unit=" N/m" data-dp="3"></div>
+              <div class="ctrl"><label for="fl-x">Pull slider out by Δx <output data-for="fl-x"></output></label>
+                <input type="range" id="fl-x" min="0" max="5" step="0.1" value="2" data-unit=" cm" data-dp="1"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout hi"><span class="k">Force F = 2TL</span><span class="v" data-r="F">–</span></div>
+              <div class="readout"><span class="k">Work F·Δx</span><span class="v" data-r="W">–</span></div>
+              <div class="readout"><span class="k">New area (2 faces)</span><span class="v" data-r="dA">–</span></div>
+            </div>
+            <p class="sim-note">The pull does not depend on how far out the slider is. Unlike a spring, the film just adds new surface; its tension stays T.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="callout trap"><span class="label">Exam trap · your Q27, Q26</span>
+        <ul>
+          <li><strong>Surface tension is a scalar</strong> (Q27). The <em>force</em> due to it has a direction (along the surface, perpendicular to the line), but T itself has no fixed direction. “Surface tension is a vector” is the wrong statement.</li>
+          <li><strong>Temperature:</strong> T decreases as temperature rises (cohesion weakens) and becomes <strong>zero at the critical temperature</strong>.</li>
+          <li><strong>Impurities:</strong> a highly soluble impurity such as <strong>NaCl raises</strong> T. Sparingly soluble ones such as <strong>soap or detergent lower</strong> T. Oil, grease or dust on the surface also lower it (Q26).</li>
+        </ul>
+      </div>
+
+      <div class="prose">
+        <h3>Minimum force to pull something off a liquid surface</h3>
+        <p>When you lift an object off a liquid surface, the liquid clings to its edges and pulls down with \(T\) on every metre of edge the liquid touches. Count every contact line; a wire touched on both sides counts twice.</p>
+      </div>
+      <figure class="fig">
+        <div class="pull-grid">
+          <svg class="pull-fig" viewBox="0 0 200 240" role="img" aria-label="Needle: two contact lines">
+            <defs><marker id="ah0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrh"/></marker></defs>
+            <text class="t-title" x="100" y="26" text-anchor="middle">Needle / wire, length l</text>
+          <path class="liq" d="M10,200 L10,160 L50,160 Q82,160 88,126 L112,126 Q118,160 150,160 L190,160 L190,200 Z"/>
+          <circle class="obj" cx="100" cy="118" r="11"/>
+          <line class="arr" x1="84" y1="128" x2="84" y2="156" marker-end="url(#ah0)"/><line class="arr" x1="116" y1="128" x2="116" y2="156" marker-end="url(#ah0)"/>
+          <text x="100" y="74" text-anchor="middle">2 contact lines</text>
+          <text class="t-f" x="100" y="228" text-anchor="middle">F = 2lT (+ weight)</text>
+          </svg>
+          <svg class="pull-fig" viewBox="200 0 200 240" role="img" aria-label="Disc: one rim">
+            <defs><marker id="ah1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrh"/></marker></defs>
+            <text class="t-title" x="300" y="26" text-anchor="middle">Disc / plate, radius R</text>
+          <path class="liq" d="M210,200 L210,160 L230,160 Q246,160 250,124 L350,124 Q354,160 370,160 L390,160 L390,200 Z"/>
+          <rect class="obj" x="248" y="114" width="104" height="8" rx="2"/>
+          <line class="arr" x1="248" y1="128" x2="248" y2="156" marker-end="url(#ah1)"/><line class="arr" x1="352" y1="128" x2="352" y2="156" marker-end="url(#ah1)"/>
+          <text x="300" y="74" text-anchor="middle">outer edge only</text>
+          <text class="t-f" x="300" y="228" text-anchor="middle">F = 2πRT</text>
+          </svg>
+          <svg class="pull-fig" viewBox="400 0 200 240" role="img" aria-label="Disc with a hole: outer and inner rims">
+            <defs><marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrh"/></marker></defs>
+            <text class="t-title" x="500" y="26" text-anchor="middle">Disc with hole (R, r)</text>
+          <path class="liq" d="M410,200 L410,160 L428,160 Q444,160 448,124 L482,124 Q486,150 500,150 Q514,150 518,124 L552,124 Q556,160 572,160 L590,160 L590,200 Z"/>
+          <rect class="obj" x="446" y="114" width="38" height="8" rx="2"/><rect class="obj" x="516" y="114" width="38" height="8" rx="2"/>
+          <line class="arr" x1="446" y1="128" x2="446" y2="156" marker-end="url(#ah2)"/><line class="arr" x1="554" y1="128" x2="554" y2="156" marker-end="url(#ah2)"/>
+          <line class="arr" x1="487" y1="128" x2="487" y2="148" marker-end="url(#ah2)"/><line class="arr" x1="513" y1="128" x2="513" y2="148" marker-end="url(#ah2)"/>
+          <text x="500" y="74" text-anchor="middle">outer + inner edge</text>
+          <text class="t-f" x="500" y="228" text-anchor="middle">F = 2π(R + r)T</text>
+          </svg>
+          <svg class="pull-fig" viewBox="600 0 200 240" role="img" aria-label="Square wire frame: both sides of each wire">
+            <defs><marker id="ah3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrh"/></marker></defs>
+            <text class="t-title" x="700" y="26" text-anchor="middle">Square wire frame, side l</text>
+          <path class="liq" d="M610,200 L610,160 L628,160 Q646,160 651,126 L661,126 Q666,150 700,150 Q734,150 739,126 L749,126 Q754,160 772,160 L790,160 L790,200 Z"/>
+          <circle class="obj" cx="656" cy="118" r="8"/><circle class="obj" cx="744" cy="118" r="8"/>
+          <line class="arr" x1="649" y1="128" x2="649" y2="156" marker-end="url(#ah3)"/><line class="arr" x1="663" y1="128" x2="663" y2="148" marker-end="url(#ah3)"/>
+          <line class="arr" x1="737" y1="128" x2="737" y2="148" marker-end="url(#ah3)"/><line class="arr" x1="751" y1="128" x2="751" y2="156" marker-end="url(#ah3)"/>
+          <text x="700" y="74" text-anchor="middle">each wire: inside + outside</text>
+          <text class="t-f" x="700" y="228" text-anchor="middle">F = 2 × 4l × T = 8lT</text>
+          </svg>
+        </div>
+        <figcaption>Side views of objects being lifted. Red arrows show where surface tension pulls down. A thin ring of radius R (wire) is touched inside and outside: F = 2 × 2πR × T = 4πRT.</figcaption>
+      </figure>
+      <div class="callout trap"><span class="label">Exam trap · your Q25, Q5</span>
+        <p>A <strong>solid disc</strong> has only its outer rim in contact: \(2\pi RT\). A <strong>disc with a hole</strong> has two rims: \(2\pi(R+r)T\). A <strong>wire frame</strong> is wetted on both sides of every wire: a square of side \(l\) gives \(8lT\), not \(4lT\). A <strong>needle</strong> of length \(l\) has a contact line on each side: \(2lT\).</p>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical (Q28 pattern)</span>
+          <p>A U-frame holds a water film. Its sliding wire is 5 cm long. The film just supports the slider plus a hanging weight, total 7.2 × 10⁻³ N. Find T.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>The film has two surfaces: upward force \(= 2TL\).</li>
+          <li>\(2T(0.05) = 7.2\times10^{-3} \Rightarrow T = 7.2\times10^{-3}/0.1\).</li>
+        </ol><p class="answer">Answer: T = 0.072 N/m (if you forget the factor 2 you get 0.144, which is a common wrong option)</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Floating needle (Q29 pattern)</span>
+          <p>Show that the largest diameter of a steel needle that can float on water is \(d = \sqrt{8T/\pi\rho g}\), and evaluate it for ρ = 7800 kg/m³, T = 0.072 N/m. (Ignore buoyancy.)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Per unit length, weight \(= \dfrac{\pi d^2}{4}\rho g\).</li>
+          <li>The maximum upward pull comes when the surface on both sides becomes vertical: \(2T\) per unit length.</li>
+          <li>\(\dfrac{\pi d^2 \rho g}{4} = 2T \Rightarrow d = \sqrt{\dfrac{8T}{\pi\rho g}} = \sqrt{\dfrac{8 \times 0.072}{\pi \times 7800 \times 9.8}}\).</li>
+        </ol><p class="answer">Answer: d ≈ 1.5 × 10⁻³ m = 1.5 mm</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Concept (Q4 pattern)</span>
+          <p>A thin disc of radius r floats on water. At its rim the water surface meets the disc making an angle θ with the vertical. The disc displaces water of weight W. What is the weight of the disc?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Upward forces: buoyancy W, plus surface tension along the rim. The rim length is \(2\pi r\), and the pull is along the surface, at θ to the vertical, so its vertical part is \(T\cos\theta\) per unit length.</li>
+          <li>Equilibrium: weight \(= W + 2\pi r T\cos\theta\).</li>
+        </ol><p class="answer">Answer: W + 2πrT cos θ</p></div></details>
+      </div>
+      <div class="quiz" data-topic="surface-tension" data-limit="3"><h3>From your Test-06</h3></div>
+    </section>
+
+    <!-- ================================================================ SURFACE ENERGY -->
+    <section id="surface-energy" data-num="9.6.2" data-toc="Surface energy">
+      <div class="sec-head">
+        <span class="num">9.6.1–9.6.2 <span class="level core">Core</span><span class="level exam">Exam</span></span>
+        <h2>Surface energy: making new surface costs work</h2>
+      </div>
+      <div class="prose">
+        <p>Every surface molecule carries extra energy. To make more surface you must haul molecules up from inside, so you must do work. That work is stored as <span class="term">surface energy</span>. Go back to the U-frame: pull the slider out by \(\Delta x\) against the force \(2TL\). The work is \(2TL\Delta x\), and the new area created is \(L\Delta x\) on <em>each</em> of the two faces, \(2L\Delta x\) in total. So</p>
+        <p>\[ W = T \times (\text{total new area}) \quad\Rightarrow\quad T = \frac{W}{\Delta A} \]</p>
+        <p>Surface tension is therefore also the <span class="hl">surface energy per unit area</span>. N/m and J/m² are the same unit.</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Film (two surfaces)</div>
+          <div class="f-main">\[ W = T \cdot 2\,\Delta A \]</div>
+          <div class="f-where">ΔA = change in area of the film as you see it (one face).</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Soap bubble, r₁ → r₂</div>
+          <div class="f-main">\[ W = 8\pi T\,(r_2^2 - r_1^2) \]</div>
+          <div class="f-where">Two surfaces, each \(4\pi r^2\). Blowing from zero: \(8\pi r^2T\).</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Liquid drop (one surface)</div>
+          <div class="f-main">\[ E = 4\pi r^2 T \]</div>
+          <div class="f-where">A drop has only its outer surface.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">n small drops → one big drop</div>
+          <div class="f-main">\[ \Delta E = 4\pi r^2 T\, n\,(1 - n^{-1/3}) = 4\pi R^2 T\,(n^{1/3}-1) \]</div>
+          <div class="f-where">Volume conserved, \(R = n^{1/3} r\). Energy is <em>released</em> (as heat). Splitting R into n drops needs this much work.</div>
+        </div>
+      </div>
+      <div class="callout trap"><span class="label">Exam trap · your Q7, Q15</span>
+        <ul>
+          <li>When drops <strong>merge</strong>, total volume stays the same but total surface area <strong>decreases</strong>, so surface energy is <strong>liberated</strong> (the big drop warms slightly). Nothing about “mass is converted into energy”: mass is conserved here (Q7).</li>
+          <li>Two equal drops of radius r merge: \(R = 2^{1/3}r\), energy released \(= T[2(4\pi r^2) - 4\pi R^2] = 4\pi r^2 T\,(2 - 2^{2/3})\) (Q15).</li>
+          <li>Splitting one drop into many needs energy, since you are creating surface.</li>
+        </ul>
+      </div>
+      <div class="callout tip"><span class="label">Temperature rise when drops merge</span>
+        <p>Energy released heats the big drop: \(\Delta\theta = \dfrac{3T}{\rho s}\left(\dfrac1r - \dfrac1R\right)\), where s is the specific heat (J kg⁻¹ K⁻¹).</p>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Film (Q21 pattern)</span>
+          <p>A rectangular soap film is stretched from 8 cm × 5 cm to 8 cm × 10 cm. The work done is 5.76 × 10⁻⁴ J. Find T.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Change in area of one face: \(8\times10 - 8\times5 = 40\ \text{cm}^2 = 4\times10^{-3}\ \text{m}^2\).</li>
+          <li>Two faces: total new area \(= 8\times10^{-3}\ \text{m}^2\).</li>
+          <li>\(T = W/\Delta A_{total} = 5.76\times10^{-4}/8\times10^{-3}\).</li>
+        </ol><p class="answer">Answer: T = 0.072 N/m</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Bubble (Q33 pattern)</span>
+          <p>A soap bubble (T = 3 × 10⁻² N/m) is blown from radius 1 cm to radius 3 cm. Work done?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(W = 2 \times 4\pi(r_2^2 - r_1^2) \times T = 8\pi T(r_2^2 - r_1^2)\).</li>
+          <li>\(= 8\pi \times 0.03 \times (9 - 1)\times10^{-4} = 8\pi \times 0.03 \times 8\times10^{-4}\).</li>
+        </ol><p class="answer">Answer: W ≈ 6.0 × 10⁻⁴ J (watch out: diameters in the question → halve them first)</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Splitting</span>
+          <p>A water drop of radius 1 mm (T = 0.072 N/m) is sprayed into 1000 identical droplets. How much work is needed?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(r = R/1000^{1/3} = R/10\). New area \(= 1000 \times 4\pi (R/10)^2 = 10 \times 4\pi R^2\).</li>
+          <li>Increase in area \(= 9 \times 4\pi R^2\), i.e. \(4\pi R^2(n^{1/3}-1)\).</li>
+          <li>\(W = 9 \times 4\pi \times 10^{-6} \times 0.072 \approx 8.1\times10^{-6}\) J.</li>
+        </ol><p class="answer">Answer: ≈ 8.1 × 10⁻⁶ J</p></div></details>
+      </div>
+      <div class="quiz" data-topic="surface-energy" data-limit="3"><h3>From your Test-06</h3></div>
+    </section>
+
+    <!-- ================================================================ CONTACT ANGLE -->
+    <section id="contact-angle" data-num="9.6.3" data-toc="Angle of contact">
+      <div class="sec-head">
+        <span class="num">9.6.3 <span class="level basic">Basics</span><span class="level core">Core</span></span>
+        <h2>Angle of contact: does the liquid wet the solid?</h2>
+      </div>
+      <div class="prose">
+        <p>Water dropped on clean glass spreads into a thin patch. Water on a lotus leaf or a waxy, greasy surface rolls into beads. Mercury on glass forms shiny balls. The difference is a tug-of-war between two attractions:</p>
+        <ul>
+          <li><span class="term">Cohesion</span>: liquid molecules attracting each other.</li>
+          <li><span class="term">Adhesion</span>: liquid molecules attracting the solid.</li>
+        </ul>
+        <p>If adhesion wins, the liquid spreads over the solid (it <em>wets</em> it). If cohesion wins, the liquid pulls itself into a ball.</p>
+      </div>
+      <div class="callout def"><span class="label">Definition</span>
+        <p>The <strong>angle of contact θ</strong> is the angle between the tangent to the liquid surface at the point of contact and the solid surface, measured <strong>inside the liquid</strong>. It depends on the pair of materials (and on cleanliness), not on the amount of liquid.</p>
+      </div>
+      <div class="formula">
+        <div class="f-title">Balance of surface tensions at the contact line (NCERT)</div>
+        <div class="f-main">\[ S_{la}\cos\theta + S_{sl} = S_{sa} \;\Rightarrow\; \cos\theta = \frac{S_{sa}-S_{sl}}{S_{la}} \]</div>
+        <div class="f-where">l = liquid, s = solid, a = air. If \(S_{sl} \gt S_{sa}\), cos θ &lt; 0, so θ is obtuse (does not wet, e.g. water–leaf). If \(S_{sl} \lt S_{sa}\), θ is acute (wets, e.g. water–glass).</div>
+      </div>
+
+      <figure class="sim" id="sim-contact">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Contact angle: drop shape and meniscus</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="controls">
+              <div class="ctrl"><label for="ca-th">Contact angle θ <output data-for="ca-th"></output></label>
+                <input type="range" id="ca-th" min="0" max="180" step="1" value="30" data-unit="°" data-dp="0"></div>
+            </div>
+            <div class="btn-row">
+              <button class="btn" type="button" data-preset="0">Water–glass ≈ 0°</button>
+              <button class="btn" type="button" data-preset="90">≈ 90°</button>
+              <button class="btn" type="button" data-preset="140">Mercury–glass ≈ 140°</button>
+            </div>
+            <div class="readouts">
+              <div class="readout hi"><span class="k">Wets?</span><span class="v" data-r="wet">–</span></div>
+              <div class="readout"><span class="k">Meniscus</span><span class="v" data-r="men">–</span></div>
+              <div class="readout"><span class="k">In capillary</span><span class="v" data-r="cap">–</span></div>
+            </div>
+          </div>
+        </div>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>θ &lt; 90° (acute)</th><th>θ = 90°</th><th>θ &gt; 90° (obtuse)</th></tr></thead>
+          <tbody>
+            <tr><td>Attraction</td><td>Adhesion &gt; cohesion</td><td>Balanced</td><td>Cohesion &gt; adhesion</td></tr>
+            <tr><td>Wetting</td><td>Wets the solid</td><td>–</td><td>Does not wet</td></tr>
+            <tr><td>Meniscus in tube</td><td>Concave (curves down in the middle)</td><td>Flat</td><td>Convex (bulges up)</td></tr>
+            <tr><td>Capillary</td><td>Rises</td><td>No rise or fall</td><td>Falls (depression)</td></tr>
+            <tr><td>Example</td><td>Water–clean glass (≈ 0°)</td><td>Water–silver (often quoted)</td><td>Mercury–glass (≈ 140°)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout exam"><span class="label">How it is asked · your Q6, Q8</span>
+        <p>“The angle of contact for a non-wetting liquid is ___” → <strong>obtuse</strong>. “A convex meniscus means θ is ___” → <strong>greater than 90°</strong>. Concave ↔ acute ↔ rises. Convex ↔ obtuse ↔ falls.</p>
+      </div>
+      <div class="callout life"><span class="label">Detergents and waterproofing</span>
+        <p><strong>Soaps and detergents</strong> lower surface tension and reduce θ, so water wets cloth and soaks into the tiny gaps where dirt sits; dirt and grease are then held in the water and washed away. <strong>Waterproofing</strong> agents do the opposite: they make θ large (obtuse), so water beads up and rolls off instead of soaking in.</p>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Statement I / II</span>
+          <p>Statement I: Adding detergent to water increases the angle of contact between water and cloth. Statement II: Detergents reduce the surface tension of water.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Detergent helps water <em>wet</em> the cloth, so θ <strong>decreases</strong>. Statement I is false.</li>
+          <li>Detergent lowers T. Statement II is true.</li>
+        </ol><p class="answer">Answer: Statement I false, Statement II true</p></div></details>
+      </div>
+      <div class="quiz" data-topic="contact-angle" data-limit="3"><h3>From your Test-06</h3></div>
+    </section>
+
+    <!-- ================================================================ DROPS & BUBBLES -->
+    <section id="drops-bubbles" data-num="9.6.4" data-toc="Drops &amp; bubbles">
+      <div class="sec-head">
+        <span class="num">9.6.4 <span class="level core">Core</span><span class="level exam">Exam</span></span>
+        <h2>Drops and bubbles: excess pressure inside</h2>
+      </div>
+      <div class="prose">
+        <p>A curved liquid surface acts like a stretched balloon skin and squeezes what is inside. So the pressure on the <strong>concave side</strong> (inside) of a curved surface is higher than on the convex side (outside). The more curved the surface, i.e. the <em>smaller</em> the radius, the bigger the squeeze. That is why a balloon is hardest to blow at the very start.</p>
+        <h3>Derivation for a drop (energy method)</h3>
+        <p>Let a drop of radius \(r\) have excess pressure \(P_{ex} = P_{in} - P_{out}\). Imagine it grows to \(r + \Delta r\):</p>
+        <ul>
+          <li>Work done by the excess pressure \(= P_{ex} \times \Delta V = P_{ex}\,4\pi r^2\Delta r\)</li>
+          <li>Increase in surface energy \(= T\,\Delta A = T\,8\pi r\Delta r\)</li>
+        </ul>
+        <p>Equating them gives \(P_{ex} = 2T/r\). A soap bubble has two surfaces, so its \(\Delta A\) doubles, giving \(4T/r\). An air bubble inside a liquid has only one surface (liquid–air), giving \(2T/r\). The simulation shows the same result by force balance on half the drop.</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Liquid drop</div>
+          <div class="f-main">\[ P_{in}-P_{out} = \frac{2T}{r} \]</div>
+          <div class="f-where">One surface (outer).</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Soap bubble in air</div>
+          <div class="f-main">\[ P_{in}-P_{out} = \frac{4T}{r} \]</div>
+          <div class="f-where">Two surfaces (outer and inner).</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Air bubble at depth h in a liquid</div>
+          <div class="f-main">\[ P_{in} = P_0 + \rho g h + \frac{2T}{r} \]</div>
+          <div class="f-where">One surface. P₀ = atmospheric pressure on the liquid.</div>
+        </div>
+      </div>
+
+      <figure class="sim" id="sim-bubbles">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>One surface or two? Excess pressure by force balance</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="kind" role="group" aria-label="Object">
+              <button type="button" data-v="drop" aria-pressed="true">Liquid drop</button>
+              <button type="button" data-v="soap">Soap bubble</button>
+              <button type="button" data-v="air">Air bubble in liquid</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="db-R">Radius r <output data-for="db-R"></output></label>
+                <input type="range" id="db-R" min="0.5" max="30" step="0.5" value="2" data-unit=" mm" data-dp="1"></div>
+              <div class="ctrl"><label for="db-T">Surface tension T <output data-for="db-T"></output></label>
+                <input type="range" id="db-T" min="0.02" max="0.5" step="0.01" value="0.07" data-unit=" N/m" data-dp="2"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Surfaces</span><span class="v" data-r="n">–</span></div>
+              <div class="readout hi"><span class="k">Excess pressure</span><span class="v" data-r="P">–</span></div>
+              <div class="readout"><span class="k">Surface energy</span><span class="v" data-r="E">–</span></div>
+            </div>
+            <p class="sim-note">Cut the object in half. The excess pressure pushes the right half to the right over area πr². Surface tension holds it back along the rim, 2πr long, once per surface.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Liquid drop</th><th>Soap bubble (in air)</th><th>Air bubble (in liquid)</th></tr></thead>
+          <tbody>
+            <tr><td>Free surfaces</td><td>1</td><td>2</td><td>1</td></tr>
+            <tr><td>Excess pressure</td><td>2T/r</td><td>4T/r</td><td>2T/r</td></tr>
+            <tr><td>Surface energy</td><td>4πr²T</td><td>8πr²T</td><td>4πr²T</td></tr>
+            <tr><td>Work to grow r₁ → r₂</td><td>4πT(r₂² − r₁²)</td><td>8πT(r₂² − r₁²)</td><td>4πT(r₂² − r₁²)</td></tr>
+            <tr><td>Total pressure inside</td><td>P₀ + 2T/r</td><td>P₀ + 4T/r</td><td>P₀ + ρgh + 2T/r</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose">
+        <h3>Two bubbles connected: the small one empties into the big one</h3>
+        <p>Since \(P_{ex} = 4T/r\), the <strong>smaller</strong> bubble has the <strong>higher</strong> pressure. Connect two bubbles and air flows from small to large. The small bubble shrinks, its pressure rises further, and it keeps emptying. It stops only when it has become a shallow cap on its tube whose radius of curvature equals that of the big bubble.</p>
+      </div>
+      <figure class="sim" id="sim-connect">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Open the valve between two soap bubbles</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="btn-row">
+              <button class="btn primary" type="button" data-act="open">Open valve</button>
+              <button class="btn" type="button" data-act="reset">Reset</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="cb-r1">Bubble 1 radius <output data-for="cb-r1"></output></label>
+                <input type="range" id="cb-r1" min="1" max="3" step="0.1" value="1.5" data-unit=" cm" data-dp="1"></div>
+              <div class="ctrl"><label for="cb-r2">Bubble 2 radius <output data-for="cb-r2"></output></label>
+                <input type="range" id="cb-r2" min="1.5" max="4.5" step="0.1" value="3" data-unit=" cm" data-dp="1"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Excess P, bubble 1</span><span class="v" data-r="p1">–</span></div>
+              <div class="readout"><span class="k">Excess P, bubble 2</span><span class="v" data-r="p2">–</span></div>
+              <div class="readout hi"><span class="k">Air flows</span><span class="v" data-r="flow">–</span></div>
+            </div>
+            <p class="sim-note">T = 0.03 N/m. Notice the moment bubble 1 becomes a hemisphere: that is its smallest radius of curvature, so its pressure peaks there. After that it flattens into a cap.</p>
+          </div>
+        </div>
+      </figure>
+      <div class="callout trap"><span class="label">Exam trap · your Q17, Q19</span>
+        <ul>
+          <li>Q17 (A–R): “the bigger bubble grows and the smaller shrinks” is true, and “pressure inside is inversely proportional to radius” is the correct explanation.</li>
+          <li>Q19: on equal tube mouths, a <strong>hemispherical</strong> bubble has the smallest possible radius of curvature (= the mouth radius), so it has the highest pressure. A <em>less-than-hemisphere</em> cap is flatter (bigger radius of curvature, lower pressure). Air flows from the hemisphere (1) to the other (2), and bubble 1 shrinks.</li>
+        </ul>
+      </div>
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Common interface of two stuck bubbles</div>
+          <div class="f-main">\[ r = \frac{r_1 r_2}{r_2 - r_1} \]</div>
+          <div class="f-where">From \(\frac{4T}{r_1} - \frac{4T}{r_2} = \frac{4T}{r}\) (r₁ &lt; r₂). The interface bulges into the bigger bubble.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Moles of air in a bubble</div>
+          <div class="f-main">\[ n = \frac{PV}{RT_K} = \frac{\left(P_0 + \frac{4T}{r}\right)\frac43\pi r^3}{RT_K} \]</div>
+          <div class="f-where">Use the <em>inside</em> pressure (Q18). \(T_K\) = absolute temperature. If two bubbles merge isothermally in vacuum (P₀ = 0): \(R^2 = r_1^2 + r_2^2\).</div>
+        </div>
+      </div>
+
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical (Q35 pattern)</span>
+          <p>An air bubble of radius 0.2 mm is 10 cm below the surface of water. The pressure inside it exceeds atmospheric pressure by 1700 Pa. Find T. (ρ = 1000 kg/m³, g = 10 m/s²)</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(P_{in} - P_0 = \rho g h + 2T/r\).</li>
+          <li>\(\rho g h = 1000 \times 10 \times 0.1 = 1000\) Pa, so \(2T/r = 700\) Pa.</li>
+          <li>\(T = 700 \times 2\times10^{-4}/2 = 0.07\) N/m.</li>
+        </ol><p class="answer">Answer: T = 0.07 N/m</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Ratio of moles (Q18 pattern)</span>
+          <p>Soap bubbles A (radius 1 cm) and B (radius 2 cm) are inside a chamber kept at 4 N/m². T = 0.02 N/m, same temperature. Find \(n_B/n_A\).</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(P_A = 4 + \dfrac{4(0.02)}{0.01} = 12\) N/m². \(P_B = 4 + \dfrac{4(0.02)}{0.02} = 8\) N/m².</li>
+          <li>\(n \propto PV \propto Pr^3\): \(\dfrac{n_B}{n_A} = \dfrac{8 \times 2^3}{12 \times 1^3} = \dfrac{64}{12}\).</li>
+        </ol><p class="answer">Answer: 16/3 ≈ 5.3</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Interface</span>
+          <p>Two soap bubbles of radii 4 cm and 6 cm stick together. Radius of curvature of the common film?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(r = r_1r_2/(r_2 - r_1) = 24/2\).</li>
+        </ol><p class="answer">Answer: 12 cm, bulging into the 6 cm bubble</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Exam level (Q20b pattern)</span>
+          <p>A liquid drop of density ρ floats half-immersed in another liquid of density σ. The surface tension of the drop's liquid is T. Find the radius of the drop.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Weight (down): \(\tfrac43\pi r^3\rho g\).</li>
+          <li>Buoyancy on the immersed hemisphere (up): \(\tfrac23\pi r^3\sigma g\).</li>
+          <li>Surface tension acts along the waterline circle at the equator (length \(2\pi r\)) and pulls vertically up: \(2\pi r T\).</li>
+          <li>\(\tfrac43\pi r^3\rho g = \tfrac23\pi r^3\sigma g + 2\pi rT \Rightarrow r^2 g\,\dfrac{2(2\rho-\sigma)}{3} = 2T\).</li>
+        </ol><p class="answer">Answer: \(r = \sqrt{\dfrac{3T}{g(2\rho - \sigma)}}\)</p></div></details>
+      </div>
+      <div class="quiz" data-topic="drops-bubbles" data-limit="3"><h3>From your Test-06</h3></div>
+    </section>
+
+    <!-- ================================================================ CAPILLARITY -->
+    <section id="capillarity" data-num="9.6.5" data-toc="Capillary rise">
+      <div class="sec-head">
+        <span class="num">9.6.5 <span class="level core">Core</span><span class="level exam">Exam</span></span>
+        <h2>Capillary rise: water climbing a thin tube</h2>
+      </div>
+      <div class="prose">
+        <p>Dip the corner of a paper towel in water and the water climbs up the towel. A lamp wick lifts oil to the flame. Blotting paper drinks ink. A sugar cube sucks up tea. Water rises through the tiny gaps in soil to plant roots. Each of these is a network of very thin tubes, and liquid rises in thin tubes. This is <span class="term">capillarity</span> (capilla = hair, as in hair-thin).</p>
+        <h3>Why it rises: excess pressure again</h3>
+        <p>Water wets glass, so inside a thin glass tube its surface (meniscus) is <strong>concave</strong>, curving down in the middle. Just below a concave surface the pressure is <em>lower</em> than just above it (above is the inside of the curve, below is the outside). So:</p>
+        <ol>
+          <li>Just above the meniscus the pressure is atmospheric, \(P_0\).</li>
+          <li>Just below the meniscus it is \(P_0 - 2T/R\), where R is the radius of the meniscus.</li>
+          <li>Outside the tube, at the flat water surface, the pressure is \(P_0\). Liquid is pushed up the tube until the column's weight makes up the difference: \(h\rho g = 2T/R\).</li>
+          <li>Geometry: the meniscus meets the wall at θ, so \(R = r/\cos\theta\) (r = inner radius of the tube). For water–glass, θ ≈ 0 and R = r (a hemisphere).</li>
+        </ol>
+      </div>
+      <div class="formula-grid">
+        <div class="formula">
+          <div class="f-title">Capillary rise (Jurin's law)</div>
+          <div class="f-main">\[ h = \frac{2T\cos\theta}{r\rho g} \]</div>
+          <div class="f-where">r = <strong>inner</strong> radius. θ &gt; 90° gives h &lt; 0 (fall, e.g. mercury). \(h \propto 1/r\), so \(hr\) = constant for a given liquid.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Force method: weight held up</div>
+          <div class="f-main">\[ \pi r^2 h\rho g = 2\pi r T\cos\theta \]</div>
+          <div class="f-where">Surface tension pulls up all round the rim. The weight of the column is \(2\pi rT\cos\theta\): independent of h, and <strong>∝ r</strong>. So the mass raised ∝ r.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Measuring T by capillary rise</div>
+          <div class="f-main">\[ T = \frac{r h \rho g}{2\cos\theta} \;\xrightarrow{\theta\,\approx\,0}\; \frac{rh\rho g}{2} \]</div>
+          <div class="f-where">Measure h with a travelling microscope and the bore radius r. A finer version adds the meniscus volume: \(T = r(h + r/3)\rho g/2\).</div>
+        </div>
+      </div>
+
+      <figure class="sim" id="sim-capillary">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Capillary tube lab</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="mode" role="group" aria-label="Situation">
+              <button type="button" data-v="normal" aria-pressed="true">Normal</button>
+              <button type="button" data-v="compare">r, 2r, 3r</button>
+              <button type="button" data-v="tilt">Tilted</button>
+              <button type="button" data-v="short">Short tube</button>
+              <button type="button" data-v="fall">Free fall</button>
+            </div>
+            <div class="btn-row">
+              <button class="btn" type="button" data-preset="water">Water–glass</button>
+              <button class="btn" type="button" data-preset="mercury">Mercury–glass</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="cp-r">Inner radius r <output data-for="cp-r"></output></label>
+                <input type="range" id="cp-r" min="0.1" max="2" step="0.05" value="0.5" data-unit=" mm" data-dp="2"></div>
+              <div class="ctrl"><label for="cp-th">Contact angle θ <output data-for="cp-th"></output></label>
+                <input type="range" id="cp-th" min="0" max="180" step="1" value="0" data-unit="°" data-dp="0"></div>
+              <div class="ctrl"><label for="cp-T">Surface tension T <output data-for="cp-T"></output></label>
+                <input type="range" id="cp-T" min="0.02" max="0.6" step="0.002" value="0.072" data-unit=" N/m" data-dp="3"></div>
+              <div class="ctrl"><label for="cp-rho">Density ρ <output data-for="cp-rho"></output></label>
+                <input type="range" id="cp-rho" min="500" max="14000" step="100" value="1000" data-unit=" kg/m³" data-dp="0"></div>
+              <div class="ctrl" data-mode="tilt" hidden><label for="cp-a">Tilt from vertical α <output data-for="cp-a"></output></label>
+                <input type="range" id="cp-a" min="0" max="70" step="1" value="60" data-unit="°" data-dp="0"></div>
+              <div class="ctrl" data-mode="short" hidden><label for="cp-L">Tube length above surface <output data-for="cp-L"></output></label>
+                <input type="range" id="cp-L" min="30" max="95" step="1" value="60" data-unit="% of h" data-dp="0"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout hi"><span class="k">Height h</span><span class="v" data-r="h">–</span></div>
+              <div class="readout"><span class="k">Meniscus radius</span><span class="v" data-r="R">–</span></div>
+              <div class="readout"><span class="k">Column weight</span><span class="v" data-r="W">–</span></div>
+            </div>
+            <p class="sim-note" data-r="note">–</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="callout trap"><span class="label">Exam traps · your Q9, Q10, Q14, Q16, Q34</span>
+        <ul>
+          <li><strong>Depends on the inner radius</strong> of the tube, not its mass, wall thickness or outer radius (Q16; you chose mass of tube).</li>
+          <li><strong>Tilted tube:</strong> the <em>vertical</em> height stays h. The length of liquid along the tube is \(l = h/\cos\alpha\), with α measured from the vertical. At 60°, \(l = 2h\) (Q9: 2 cm → 4 cm). If the angle is given from the horizontal, use \(l = h/\sin\).</li>
+          <li><strong>Tube shorter than h:</strong> the liquid rises to the top but <strong>does not overflow</strong>. The meniscus becomes flatter (its radius grows) so that \(hR\) = constant: \(R' = Rh/l\) (Q14). No perpetual-motion fountain.</li>
+          <li><strong>Free fall / satellite:</strong> effective g = 0, so the liquid rises and fills the whole tube, whatever its length (Q10: fills all 30 cm). On the Moon (g/6) the rise is 6h if the tube is long enough. In a lift accelerating up, \(g_{eff} = g + a\) and h decreases.</li>
+          <li><strong>Mass raised ∝ r:</strong> double the radius, double the mass, even though h halves (Q34: 2M).</li>
+        </ul>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Numerical (Q11 pattern)</span>
+          <p>Water (θ = 0) rising in a capillary of radius 0.5 mm holds up a column weighing 2.26 × 10⁻⁴ N. Find T.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>Weight held = upward surface-tension force \(= 2\pi r T\cos\theta = 2\pi r T\).</li>
+          <li>\(T = 2.26\times10^{-4}/(2\pi \times 5\times10^{-4}) = 2.26\times10^{-4}/3.14\times10^{-3}\).</li>
+        </ol><p class="answer">Answer: T ≈ 0.072 N/m</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Tilted tube (Q9 pattern)</span>
+          <p>Water rises 3 cm in a vertical capillary. The tube is tilted to 53° from the vertical (cos 53° ≈ 0.6). (a) Vertical height of the water column? (b) Length of tube wetted?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>(a) The pressure balance involves only the vertical height, so it is still 3 cm.</li>
+          <li>(b) \(l = h/\cos\alpha = 3/0.6 = 5\) cm.</li>
+        </ol><p class="answer">Answer: (a) 3 cm (b) 5 cm</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Measuring T</span>
+          <p>In the capillary rise method, water rises 6.0 cm in a clean glass tube of bore radius 0.24 mm. Find T (θ = 0, g = 9.8 m/s²).</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\(T = rh\rho g/2 = 0.24\times10^{-3} \times 0.06 \times 1000 \times 9.8/2\).</li>
+        </ol><p class="answer">Answer: T ≈ 0.071 N/m</p></div></details>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Concept (Q14 pattern)</span>
+          <p>Water would rise 8 cm in a capillary, but only 5 cm of the tube sticks out above the water. What happens?</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>The water reaches the top of the tube and stops; it cannot overflow, because once it reaches the top the meniscus simply changes shape.</li>
+          <li>\(h \propto 1/R\) (meniscus radius), so \(R' = R \times 8/5 = 1.6R\). The meniscus flattens.</li>
+        </ol><p class="answer">Answer: rises to the top (5 cm), no overflow; meniscus radius becomes 1.6 times</p></div></details>
+      </div>
+      <div class="quiz" data-topic="capillarity" data-limit="3"><h3>From your Test-06</h3></div>
+    </section>
+
+    <!-- ================================================================ PROBLEM PATTERNS -->
+    <section id="problem-types" data-num="★" data-toc="Problem patterns">
+      <div class="sec-head">
+        <span class="num">★ <span class="level exam">Exam</span></span>
+        <h2>Problem patterns &amp; shortcuts</h2>
+      </div>
+      <div class="prose">
+        <p>Almost every question in this half of the chapter is one of the patterns below. Spot the pattern, write the proportionality, and the numbers usually fall out in one line.</p>
+      </div>
+      <div class="patterns">
+        <div class="pattern"><h4>1 · Plate on a film / block on an incline</h4>
+          <p>\(F = \eta A v/d\). On an incline at constant v: \(mg\sin\theta = \eta A v/t\). Convert poise → Pa·s (÷10) and cm² → m² (×10⁻⁴).</p></div>
+        <div class="pattern"><h4>2 · Terminal velocity ratios</h4>
+          <p>\(v_t \propto r^2(\rho-\sigma)/\eta\). Same ball in two liquids, or two balls in one liquid: use \((\rho-\sigma)\), never ρ alone.</p></div>
+        <div class="pattern"><h4>3 · Merge / break drops (speed)</h4>
+          <p>n drops → one: \(v \times n^{2/3}\) (8 → ×4, 27 → ×9, 64 → ×16). One → n: \(v/n^{2/3}\).</p></div>
+        <div class="pattern"><h4>4 · Same mass, different size</h4>
+          <p>No buoyancy: \(v_t = mg/6\pi\eta r \propto 1/r\). Double r → half v.</p></div>
+        <div class="pattern"><h4>5 · Free fall, then enters liquid (Q22)</h4>
+          <p>“Speed does not change on entering” means it enters at \(v_t\): \(\sqrt{2gh} = v_t \Rightarrow h = v_t^2/2g\). E.g. a 1 mm ball, ρ = 10.5 × 10³ in water: \(v_t \approx 20.7\) m/s, h ≈ 22 m.</p></div>
+        <div class="pattern"><h4>6 · Viscous force at terminal speed (Q45)</h4>
+          <p>\(F_v = W - B = Mg(1 - \sigma/\rho)\). Liquid half as dense as the ball: Mg/2.</p></div>
+        <div class="pattern"><h4>7 · Film work: count two faces</h4>
+          <p>\(W = 2T\Delta A\) for a film, \(8\pi T(r_2^2-r_1^2)\) for a bubble. Diameters given? Halve them first.</p></div>
+        <div class="pattern"><h4>8 · Merging drops: energy</h4>
+          <p>Released \(= 4\pi r^2 T\,n(1-n^{-1/3}) = 4\pi R^2T(n^{1/3}-1)\). Two drops: \(4\pi r^2T(2-2^{2/3})\). Temperature rise: \(\frac{3T}{\rho s}(\frac1r - \frac1R)\).</p></div>
+        <div class="pattern"><h4>9 · Pull-off force</h4>
+          <p>Needle 2lT · disc 2πRT · disc with hole 2π(R + r)T · thin ring 4πRT · square frame 8lT. Add the object's weight if asked for total force.</p></div>
+        <div class="pattern"><h4>10 · Excess pressure</h4>
+          <p>Drop and air bubble 2T/r, soap bubble 4T/r. At depth: \(P_0 + \rho gh + 2T/r\). Smaller bubble → higher pressure.</p></div>
+        <div class="pattern"><h4>11 · Bubble combos</h4>
+          <p>Interface \(r_1r_2/(r_2-r_1)\). Moles \(\propto (P_0 + 4T/r)r^3\). Merge in vacuum (isothermal): \(R^2 = r_1^2+r_2^2\).</p></div>
+        <div class="pattern"><h4>12 · Capillary ratios</h4>
+          <p>\(h \propto T\cos\theta/r\rho g\); \(hr\) = const; mass raised ∝ r; weight lifted \(= 2\pi rT\cos\theta\); tilted \(l = h/\cos\alpha\); g → 0 fills the tube; tube too short means no overflow.</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Quantity</th><th>Formula</th><th>SI unit</th><th>Dimensions</th></tr></thead>
+          <tbody>
+            <tr><td>Coefficient of viscosity η</td><td>F d / (A v)</td><td>Pa·s = N s m⁻²</td><td>[M L⁻¹ T⁻¹]</td></tr>
+            <tr><td>Velocity gradient</td><td>dv/dx</td><td>s⁻¹</td><td>[T⁻¹]</td></tr>
+            <tr><td>Reynolds number</td><td>ρvd/η</td><td>none</td><td>[M⁰ L⁰ T⁰]</td></tr>
+            <tr><td>Surface tension T</td><td>F/L = W/ΔA</td><td>N m⁻¹ = J m⁻²</td><td>[M T⁻²]</td></tr>
+            <tr><td>Surface energy</td><td>T × A</td><td>J</td><td>[M L² T⁻²]</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="eg">
+        <div class="eg-q"><span class="eg-tag">Worked example · Dimensional analysis</span>
+          <p>Assume the drag on a sphere depends on η, r and v as \(F = k\,\eta^a r^b v^c\). Find a, b, c.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
+          <li>\([\mathrm{MLT^{-2}}] = [\mathrm{ML^{-1}T^{-1}}]^a[\mathrm{L}]^b[\mathrm{LT^{-1}}]^c\).</li>
+          <li>M: a = 1. T: −a − c = −2 ⇒ c = 1. L: −a + b + c = 1 ⇒ b = 1.</li>
+        </ol><p class="answer">Answer: F = k η r v (Stokes found k = 6π)</p></div></details>
+      </div>
+    </section>
+
+    <!-- ================================================================ CHECKLIST -->
+    <section id="checklist" data-num="★" data-toc="Night-before checklist">
+      <div class="sec-head">
+        <span class="num">★ <span class="level exam">Revise</span></span>
+        <h2>Night-before checklist</h2>
+      </div>
+      <div class="two-col">
+        <ul class="checklist">
+          <li>\(F = \eta A\,dv/dx\); η in Pa·s, <strong>1 poise = 0.1 Pa·s</strong>; [ML⁻¹T⁻¹].</li>
+          <li>Liquids: η ↓ with T. <strong>Gases: η ↑ with T.</strong></li>
+          <li>Ideal fluid η = 0. <strong>Good lubricant = high η.</strong></li>
+          <li>Stokes \(F = 6\pi\eta rv\); drag ∝ r ∝ √A.</li>
+          <li>\(v_t = 2r^2(\rho-\sigma)g/9\eta\): <strong>∝ r²</strong>, ∝ (ρ − σ). Same mass: ∝ 1/r.</li>
+          <li>n drops merge: v × n^{2/3}. At v_t: F_v = W − B.</li>
+          <li>Re = ρvd/η; &lt; 1000 laminar, &gt; 2000 turbulent, inertial forces dominate.</li>
+        </ul>
+        <ul class="checklist">
+          <li>T = F/L, N/m, [MT⁻²], <strong>scalar</strong>; T ↓ with temperature, 0 at critical temperature.</li>
+          <li><strong>NaCl ↑ T; soap/detergent ↓ T.</strong></li>
+          <li>Film: 2 surfaces → F = 2TL, W = 2TΔA. Frame side l: 8lT.</li>
+          <li>Merging drops <strong>release</strong> energy (not mass → energy).</li>
+          <li>Excess P: drop 2T/r, soap bubble 4T/r, air bubble 2T/r (+ρgh at depth). Small bubble empties into big one.</li>
+          <li>θ &lt; 90°: wets, concave, rises. θ &gt; 90°: convex, falls. Hg–glass ≈ 140°.</li>
+          <li>\(h = 2T\cos\theta/r\rho g\), <strong>inner</strong> r; hr const; mass ∝ r; tilted l = h/cos α; short tube: no overflow; free fall: fills tube.</li>
+        </ul>
+      </div>
+      <p class="small">More practice: <a href="practice.html">all Test-06 questions</a> · quick formulas: <a href="revise.html">Revise</a> · first half of the chapter: <a href="fluids-1.html">Fluids I</a>.</p>
+    </section>
+
+    <footer class="footer">Fluids II · NCERT Class 11 Ch 9 (rationalised), 9.5–9.6.5, plus coaching extras marked ★. Simulations use g = 9.8 m/s².</footer>
+  </main>
+</div>
+<script src="assets/sims-fluids2.js"></script>
+</body>
+</html>
