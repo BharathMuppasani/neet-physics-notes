@@ -1,5 +1,7 @@
 # Class 11 physics expansion — 4 October 2026
 
+This document records the initial expansion. The later problem-first teaching and visual upgrade is described in [visual-upgrade.md](visual-upgrade.md).
+
 ## Scope and organisation
 
 The uploaded images contain four Class 11 physics volume indices, three chemistry volume indices and two biology contents pages. Original images were renamed into subject folders, preserving bytes and recording filename mappings/SHA-256 in the local `papers/syllabus/file-manifest.json`. The exact duplicate of chemistry volume 3 is retained under `duplicates/`; the exam schedule has its own folder.

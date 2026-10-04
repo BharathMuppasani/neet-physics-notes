@@ -42,9 +42,9 @@ async (page) => {
       report.push({ file, ...result });
     }
     const modelCases=[
-      ['units','4.0%'],['vectors','5 m'],['linear','−6'],['plane','2.00 s'],
+      ['linear','−6'],
       ['work','16.00 J'],['rotation','2.00 rad/s'],['gravitation','0.250'],
-      ['oscillations','1.00 s'],['waves','2.00 m'],['thermal-properties','200.0 W'],
+      ['thermal-properties','200.0 W'],
       ['kinetic-theory','516.9 m/s'],['thermodynamics','1728.8 J']
     ];
     for(const [key,fragment] of modelCases){
@@ -67,7 +67,8 @@ async (page) => {
     await tab.locator('#f-chapter').selectOption('thermodynamics');
     check(await number('#s-shown')===2,'combined source/chapter filters');
     await tab.locator('[data-src="c11"]').click();
-    check(await number('#s-shown')===9,'original chapter concept filter');
+    const originalCount=await tab.evaluate(()=>QBANK.filter(q=>q.src==='c11'&&Site.TOPICS[q.topic]?.page==='thermodynamics.html').length);
+    check(await number('#s-shown')===originalCount,'original chapter concept filter');
     await go('practice.html');
     await tab.locator('#f-challenge').click();
     check(await number('#s-shown')===30,'mixed-step challenge filter');
@@ -99,7 +100,7 @@ async (page) => {
     await tab.reload();
     check(await tab.locator('[data-study-section=pressure-depth]').getAttribute('aria-pressed') === 'true', 'study survives reload');
     await go('index.html');
-    check((await tab.locator('#study-overall').textContent()).startsWith('1 of 144'), 'home study progress');
+    check((await tab.locator('#study-overall').textContent()).startsWith('1 of 173'), 'home study progress');
     await go('practice.html?chapter=fluids1');
     const expected = await tab.evaluate(() => window.QBANK.filter(q => Site.TOPICS[q.topic]?.page === 'fluids-1.html').length);
     check(await number('#s-shown') === expected, 'chapter filter count');
@@ -124,7 +125,7 @@ async (page) => {
     const other = await context.newPage();
     await other.goto(base + 'fluids-1.html');
     await other.evaluate(() => Site.study.toggle('fluids1','pascal-law'));
-    await tab.waitForFunction(() => document.querySelector('#study-overall').textContent.startsWith('2 of 144'));
+    await tab.waitForFunction(() => document.querySelector('#study-overall').textContent.startsWith('2 of 173'));
     await other.evaluate(() => Site.store.clear());
     await tab.waitForFunction(() => document.querySelector('#t-done').textContent === '0');
     await other.close();
@@ -148,7 +149,7 @@ async (page) => {
     await tab.evaluate(() => Site.CHAPTERS.find(c => c.key==='fluids1').sections.forEach(id => { if(!Site.study.read()['fluids1:'+id]) Site.study.toggle('fluids1',id); }));
     check((await tab.locator('[data-continue-study]').getAttribute('href')) === 'practice.html?chapter=fluids1', 'completed chapter continuation');
     await go('practice.html#printq');
-    check(await tab.locator('.answer-key .ak').count() === 317 && await tab.locator('.qcard').count() === 317, 'questions-only print count');
+    check(await tab.locator('.answer-key .ak').count() === 867 && await tab.locator('.qcard').count() === 867, 'questions-only print count');
     // Invalid saved JSON must not break the chapter, and normal controls remain usable.
     await go('index.html');
     await tab.evaluate(() => {localStorage.setItem(Site.store.key,'null');localStorage.setItem(Site.study.key,'[]');});

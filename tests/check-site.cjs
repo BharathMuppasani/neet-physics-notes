@@ -28,7 +28,11 @@ for (const file of fs.readdirSync(path.join(site, 'assets')).filter(f => /^q-.*\
 }
 const engine = sandbox.engine;
 const questions = sandbox.window.QBANK;
-assert.equal(questions.length, 317);
+// Saved answers are keyed by ID: every published question must keep existing.
+const publishedIds = JSON.parse(fs.readFileSync(path.join(__dirname, 'question-ids-v1.json'), 'utf8'));
+const currentIds = new Set(questions.map(q => q.id));
+for (const id of publishedIds) assert(currentIds.has(id), `published question ${id} was removed`);
+assert(questions.length >= publishedIds.length);
 assert.equal(engine.CHAPTERS.length, 18);
 assert.equal(new Set(questions.map(q => q.id)).size, questions.length, 'question IDs must be unique');
 const pages = new Map();

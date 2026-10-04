@@ -3,6 +3,10 @@ import html, json, pathlib, re, sys
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from content.physics_lessons import CHAPTERS
+from content import deep as deep_layer
+deep_layer.apply(CHAPTERS)
+from content.visual_lessons import LABS
+from content.problem_briefs import BRIEFS
 from content.exemplar_practice import QUESTIONS
 from content.challenge_practice import QUESTIONS as CHALLENGES
 SITE=ROOT/'site'
@@ -19,6 +23,57 @@ def hero(eyebrow,title,intro):
     return f'<header class="hero"><span class="eyebrow">{eyebrow}</span><h1>{escape(title)}</h1><p class="lede">{intro}</p></header>'
 def formula(s):
     return '<div class="formula"><div class="f-title">'+escape(s['title'])+'</div><div class="f-main">\\[ '+s['formula']+' \\]</div><div class="f-where"><strong>Symbols and assumptions:</strong> '+s['symbols']+'</div></div>'
+TYPES={'numerical','concept','ar','statement','multi','match','graph'}
+def deep_notes(d):
+    out=''
+    for heading,html_body in d.get('notes',[]):
+        out+=f'<div class="lesson-note"><h3>{escape(heading)}</h3><div class="prose">{html_body}</div></div>'
+    return out
+def deep_formulas(s,d):
+    cards=[s]+list(d.get('formulas',[]))
+    if len(cards)==1:
+        return formula(s)
+    return formula(s)+'<details class="lesson-depth"><summary>Other useful formulas</summary><div class="formula-grid">'+''.join(formula(x) for x in cards[1:])+'</div></details>'
+def deep_figure(d):
+    f=d.get('figure')
+    if not f:
+        return ''
+    return '<figure class="fig">'+f['svg']+'<figcaption>'+f['caption']+'</figcaption></figure>'
+def deep_examples(d):
+    out=''
+    for e in d.get('examples',[]):
+        steps=''.join(f'<li>{x}</li>' for x in e['steps'])
+        out+=('<div class="eg"><div class="eg-q"><span class="eg-tag">Worked example · '+escape(e.get('tag','Numerical'))+'</span><p>'+e['q']+'</p></div>'
+              '<details><summary>Show solution</summary><div class="eg-a"><ol class="steps">'+steps+'</ol><p class="answer">Answer: '+e['answer']+'</p></div></details></div>')
+    return out
+def deep_practice(key,i,s,d):
+    out=[]
+    for n,p in enumerate(d.get('practice',[]),1):
+        opts=p['options'].split('|') if isinstance(p['options'],str) else list(p['options'])
+        assert len(opts)==4 and 0<=p['answer']<4 and p.get('type','numerical') in TYPES, s['id']
+        out.append(dict(id=f"c11-{s['id']}-p{n}",src='c11',qno=f'{key} · {i}.{n}',topic=s['id'],type=p.get('type','numerical'),q=p['q'],opts=opts,ans=p['answer'],sol='<p>'+p['explanation']+'</p>'))
+    return out
+
+def visual_lab(lab):
+    key=lab['key'];p=lab['predict']
+    steps=''.join(f'<li><span class="equation-step-number">{i}</span><div><h4>{escape(s["title"])}</h4><div class="equation-step-math">\\[ {s["equation"]} \\]</div><p>{escape(s["text"])}</p></div></li>' for i,s in enumerate(lab['steps'],1))
+    choices=''.join(f'<button class="btn" data-predict-choice="{i}" aria-pressed="false">{escape(t)}</button>' for i,t in enumerate(p['options']))
+    recipe=''.join(f'<li>{escape(t)}</li>' for t in lab['problem_steps'])
+    return f'''<figure class="physics-lab" id="lab-{key}" data-physics-lab="{key}" data-prediction-answer="{p['answer']}">
+      <figcaption class="lab-heading"><span class="eyebrow">Visual experiment</span><h3>{escape(lab['title'])}</h3><p>{escape(lab['intro'])}</p></figcaption>
+      <div class="lab-workbench"><div class="lab-stage"><p class="muted">The equation walkthrough below explains this experiment. Interactive controls load when JavaScript is available.</p></div><dl class="lab-metrics"></dl></div>
+      <div class="lab-controls"></div><div class="lab-toolbar"><button class="btn primary" data-lab-play aria-pressed="false" hidden>Play motion</button><button class="btn" data-lab-reset>Reset experiment</button><p class="small muted" data-lab-status></p></div>
+      <details class="lab-prediction"><summary>Predict before you change an input</summary><p>{escape(p['question'])}</p><div class="row">{choices}</div><p class="lab-prediction-feedback" role="status" hidden><strong></strong> {escape(p['explanation'])}</p></details>
+      <div class="lab-problem-guide"><span class="eyebrow">Use this in a question</span><p>{escape(lab['use_when'])}</p><ol>{recipe}</ol></div>
+      <details class="lab-equation-depth"><summary>Why the equation works · optional</summary><div class="equation-story"><ol>{steps}</ol></div></details>
+      <p class="lab-assumptions"><strong>Model and symbols:</strong> {escape(lab['assumptions'])}</p>
+    </figure>'''
+
+def chapter_overview(c):
+    labs=[lab for s in c['sections'] for lab in LABS.get(s['id'],[])]
+    n_examples=len(c['sections'])+sum(len(s.get('deep',{}).get('examples',[])) for s in c['sections'])
+    links=''.join(f'<a href="#lab-{lab["key"]}">{escape(lab["title"])}</a>' for lab in labs)
+    return f'<div class="lesson-overview"><div class="lesson-overview-stats"><span><strong>{len(c["sections"])}</strong> concepts</span><span><strong>{n_examples}</strong> worked examples</span><span><strong>{len(labs)}</strong> visual experiments</span></div><p>Understand the idea → see it move → solve a question. Extra theory is there when you need it.</p><div class="experiment-links" aria-label="Jump to an experiment">{links}</div></div>'
 old={}
 engine=(SITE/'assets/site.js').read_text()
 for k,f,label in [('solids','solids.html','Mechanical Properties of Solids'),('fluids1','fluids-1.html','Fluids I · Pressure & Flow'),('fluids2','fluids-2.html','Fluids II · Viscosity & Surface Tension')]:
@@ -57,6 +112,7 @@ questions=[]
 for chapter_index,c in enumerate(CHAPTERS):
     key=c['key']
     body=hero(f'Class 11 · Coaching volume {c["volume"]} · module pp. {c["module_pages"]}',c['title'],c['intro'])
+    body+=chapter_overview(c)
     body+='<div class="row"><a class="btn" href="chapters.html">← All chapters</a><a class="btn" href="practice.html?chapter='+key+'">Practise this chapter →</a></div>'
     if c['ncert']:
         part='1' if c['ncert']<=7 else '2'
@@ -69,14 +125,38 @@ for chapter_index,c in enumerate(CHAPTERS):
         options=s['options'][offset:]+s['options'][:offset]
         question=dict(id='c11-'+s['id'],src='c11',qno=f'{key} · {i}',topic=s['id'],type='concept' if not any(ch.isdigit() for ch in s['question']) else 'numerical',q=s['question'],opts=options,ans=(s['answer']-offset)%4,sol='<p>'+s['explanation']+'</p>')
         questions.append(question)
-        body+=f'<section id="{s["id"]}" data-num="{i}" data-toc="{escape(s["title"],quote=True)}"><div class="sec-head"><span class="num">{i} <span class="level core">Core</span></span><h2>{escape(s["title"])}</h2></div><div class="prose"><p>{s["intro"]}</p><p>{s["reasoning"]}</p></div>'+formula(s)
+        d=s.get('deep') or {}
+        level=d.get('level','core')
+        reasoning=BRIEFS.get(s['id'],s['reasoning'])
+        body+=f'<section id="{s["id"]}" data-num="{i}" data-toc="{escape(s["title"],quote=True)}"><div class="sec-head"><span class="num">{i} <span class="level {level}">{ {"basic":"Basics","core":"Core","exam":"Exam"}[level] }</span></span><h2>{escape(s["title"])}</h2></div><div class="prose"><p>{s["intro"]}</p><p>{reasoning}</p></div>'
+        body+=deep_formulas(s,d)
+        if not LABS.get(s['id']):
+            body+=deep_figure(d)
+        body+=''.join(visual_lab(lab) for lab in LABS.get(s['id'],[]))
         body+='<div class="callout trap"><span class="label">Watch the assumption</span><p>'+s['trap']+'</p></div>'
+        if d.get('tip'):
+            body+='<details class="lesson-depth"><summary>A useful shortcut</summary>'+d['tip']+'</details>'
         body+='<div class="eg"><div class="eg-q"><span class="eg-tag">Worked example</span><p>'+s['example']+'</p></div><details><summary>Show solution</summary><div class="eg-a"><p>'+s['solution']+'</p></div></details></div>'
-        if s['id'] == {'units':'units-propagation','vectors':'vectors-components','linear':'linear-graphs','plane':'plane-projectiles','work':'work-theorem','rotation':'rotation-momentum','gravitation':'gravitation-variation','oscillations':'oscillations-phase','waves':'waves-travelling','thermal-properties':'thermal-properties-conduction','kinetic-theory':'kinetic-theory-speeds','thermodynamics':'thermodynamics-isothermal'}.get(key):
+        examples=d.get('examples',[])
+        body+=deep_examples({'examples':examples[:1]})
+        if len(examples)>1:
+            body+='<details class="lesson-depth"><summary>More solved problem patterns</summary>'+deep_examples({'examples':examples[1:]})+'</details>'
+        if d.get('notes') or d.get('exam') or d.get('traps'):
+            body+='<details class="lesson-depth theory-depth"><summary>Go deeper · extra explanation and derivations</summary>'+(deep_figure(d) if LABS.get(s['id']) else '')+deep_notes(d)
+            if d.get('exam'):
+                body+='<div class="callout exam"><span class="label">Question patterns</span>'+d['exam']+'</div>'
+            for extra in d.get('traps',[]):
+                body+='<div class="callout trap"><span class="label">Another common mistake</span><p>'+extra+'</p></div>'
+            body+='</details>'
+        questions+=deep_practice(key,i,s,d)
+        if not LABS.get(s['id']) and s['id'] == {'units':'units-propagation','vectors':'vectors-components','linear':'linear-graphs','plane':'plane-projectiles','work':'work-theorem','rotation':'rotation-momentum','gravitation':'gravitation-variation','oscillations':'oscillations-phase','waves':'waves-travelling','thermal-properties':'thermal-properties-conduction','kinetic-theory':'kinetic-theory-speeds','thermodynamics':'thermodynamics-isothermal'}.get(key):
             body+=f'<figure class="sim concept-model" data-model="{key}"><div class="sim-head"><span class="tag">Explore</span><h4>Change an input and explain the result</h4></div><div class="model-content"></div></figure>'
-        body+=f'<div class="quiz" data-topic="{s["id"]}" data-limit="2"><h3>Check the idea</h3></div></section>'
+        body+=f'<div class="quiz" data-topic="{s["id"]}" data-limit="{3 if d.get("practice") else 2}"><h3>Check the idea</h3></div></section>'
     body+='<div class="callout tip"><span class="label">Chapter check</span><p>Explain each formula’s symbols and conditions without looking. Solve the examples before revealing their steps, then use <a href="practice.html?chapter='+key+'">chapter practice</a> to check what needs revision.</p></div>'
-    page(key+'.html',key,c['title'],body,True,'<script src="assets/sims-class11.js"></script>')
+    page(key+'.html',key,c['title'],body,True,'<script src="assets/sims-class11.js"></script><script src="assets/physics-labs.js"></script>')
+    lesson_file=SITE/(key+'.html')
+    lesson_text=lesson_file.read_text().replace('<link rel="stylesheet" href="assets/style.css">','<link rel="stylesheet" href="assets/style.css">\n<link rel="stylesheet" href="assets/physics-labs.css">')
+    lesson_file.write_text(lesson_text)
 questions+=CHALLENGES+QUESTIONS
 (SITE/'assets/q-class11.js').write_text('/* Original concept checks + reviewed NCERT Exemplar adaptations. */\nwindow.QBANK = window.QBANK || [];\nwindow.QBANK.push(...'+json.dumps(questions,ensure_ascii=False,indent=2)+');\n')
 # Make data loading identical on every existing learning page, preserving old IDs.
@@ -120,7 +200,7 @@ for meta in ordered:
     c=next((c for c in CHAPTERS if c['key']==key),None)
     if c:
         for entry in c['sections']:
-            body+='<p class="small"><a href="'+meta['page']+'#'+entry['id']+'">Explanation and example →</a></p>'+formula(entry)
+            body+='<p class="small"><a href="'+meta['page']+'#'+entry['id']+'">Explanation and example →</a></p>'+formula(entry)+''.join(formula(x) for x in (entry.get('deep') or {}).get('formulas',[]))
     else:
         text=(SITE/meta['page']).read_text()
         for match in re.finditer(r'<div class="formula">',text):

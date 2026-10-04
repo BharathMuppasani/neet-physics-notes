@@ -28,7 +28,7 @@ async (page) => {
     check(await tab.locator('.nav a[href="fluids-1.html"]').getAttribute('aria-current')==='page','direct chapter active state');
     await tab.locator('[data-study-section="pressure"]').click();
     await clickNav('index.html');
-    check((await tab.locator('#study-overall').textContent()).startsWith('1 of 144'),'saved progress on home');
+    check((await tab.locator('#study-overall').textContent()).startsWith('1 of 173'),'saved progress on home');
     check((await tab.locator('#home-continue').getAttribute('href')).startsWith('fluids-1.html#'),'resume latest chapter');
     check((await tab.locator('[data-study-chapter="fluids1"] [data-study-summary]').textContent()).startsWith('1 of 17'),'featured chapter saved progress');
     await clickNav('chapters.html');
@@ -37,7 +37,7 @@ async (page) => {
     check(await tab.locator('.nav a[href="chapters.html"]').getAttribute('aria-current')==='page','library active for added chapters');
     await clickNav('solids.html');await clickNav('fluids-2.html');
     await clickNav('practice.html');
-    check(await tab.locator('#s-shown').textContent()==='317','practice remains intact');
+    check(await tab.locator('#s-shown').textContent()==='867','practice remains intact');
     await clickNav('revise.html');await clickNav('syllabus.html');await clickNav('index.html');
     await tab.locator('a[href="formula-sheet.html"]').click();await tab.waitForURL('**/formula-sheet.html');
     check(!errors.length,errors.join(';'));
