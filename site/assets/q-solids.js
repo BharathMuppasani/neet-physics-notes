@@ -230,7 +230,7 @@ window.QBANK = window.QBANK || [];
       trap: 'Length is a distractor: breaking load depends only on material and area (∝ r²).',
       key: 'Breaking stress = material property. Breaking load ∝ r², independent of length.' },
 
-    { topic: 'youngs', type: 'numerical',
+    { topic: 'wire-combinations', type: 'numerical',
       q: R`<p>A rubber cord 8 m long hangs vertically from a ceiling. Its density is \(1.5\times10^{3}\ \text{kg m}^{-3}\) and Young's modulus is \(5\times10^{6}\ \text{N m}^{-2}\). The extension of the cord due to its own weight is \((g = 10\ \text{m s}^{-2})\)</p>`,
       opts: [R`\(9.6\times10^{-2}\ \text{m}\)`, R`\(19.2\times10^{-2}\ \text{m}\)`, R`\(9.6\times10^{-3}\ \text{m}\)`, R`\(4.8\times10^{-2}\ \text{m}\)`],
       ans: 0,
@@ -240,7 +240,7 @@ window.QBANK = window.QBANK || [];
         <li>\(\Delta l = \dfrac{1.5\times10^{3}\times10\times 64}{2\times5\times10^{6}} = \dfrac{9.6\times10^{5}}{10^{7}} = 9.6\times10^{-2}\ \text{m}\).</li></ol>`,
       trap: R`Forgetting the factor ½ gives \(19.2\times10^{-2}\) m. The whole weight does not act on every part of the cord.` },
 
-    { topic: 'youngs', type: 'numerical',
+    { topic: 'wire-combinations', type: 'numerical',
       q: R`<p>Two wires of the same length \(L\) and the same area of cross-section, with Young's moduli \(Y_1\) and \(Y_2\), are joined end to end. The composite wire of length \(2L\) behaves like a single wire whose Young's modulus is</p>`,
       opts: [R`\(\dfrac{Y_1+Y_2}{2}\)`, R`\(\dfrac{Y_1Y_2}{Y_1+Y_2}\)`, R`\(\sqrt{Y_1Y_2}\)`, R`\(\dfrac{2Y_1Y_2}{Y_1+Y_2}\)`],
       ans: 3,
@@ -260,7 +260,7 @@ window.QBANK = window.QBANK || [];
         <li>\(Y = \dfrac{FL}{A\,\Delta L} = \dfrac{19.6\times2}{1.96\times10^{-7}\times8\times10^{-4}} \approx 2.5\times10^{11}\ \text{N m}^{-2}\).</li></ol>`,
       trap: R`Using 0.5 mm as the radius gives \(6.2\times10^{10}\). Leaving \(\Delta L\) in mm gives \(2.5\times10^{8}\).` },
 
-    { topic: 'youngs', type: 'numerical',
+    { topic: 'wire-combinations', type: 'numerical',
       q: R`<p>A steel wire of length 2 m and cross-sectional area 1 mm² \((Y = 2\times10^{11}\ \text{N m}^{-2})\) behaves like a spring. Its force constant is</p>`,
       opts: [R`\(1\times10^{5}\ \text{N m}^{-1}\)`, R`\(2\times10^{5}\ \text{N m}^{-1}\)`, R`\(4\times10^{5}\ \text{N m}^{-1}\)`, R`\(1\times10^{11}\ \text{N m}^{-1}\)`],
       ans: 0,

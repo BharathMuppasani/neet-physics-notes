@@ -13,7 +13,19 @@ python3 site/build.py --web
 python3 -m http.server 8000 --directory dist
 ```
 
-Open http://localhost:8000. Practice answers are saved in the visitor's browser. Fonts and MathJax load from external services.
+Open http://localhost:8000. Section reading progress and practice answers are saved in the visitor's browser. Existing quiz answers remain compatible. Fonts and MathJax load from external services.
+
+The three teaching pages contain 42 study sections, 33 interactive models, and a bank of 157 solved questions. Every chapter formula card defines its symbols and assumptions. Questions link directly to the lesson that introduces their concept; practice can be filtered by chapter and individual questions can be retried.
+
+## Verification
+
+Run the dependency-free checks with Node.js:
+
+```sh
+node tests/check-site.cjs
+```
+
+The build workflow runs these checks before publishing. `tests/browser-check.js` contains a Playwright function for a local server on port 8766. It checks answer toggles, saved progress, cross-tab updates, retries, filters, print-preview recovery, model calculations and phone/tablet layouts. The coverage review and reference sources are documented in [docs/site-audit.md](docs/site-audit.md).
 
 ## Deployment
 

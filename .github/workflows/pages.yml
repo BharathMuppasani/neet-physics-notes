@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
+      - name: Check chapter coverage and saved progress
+        run: node tests/check-site.cjs
       - name: Build standalone website
         run: python3 site/build.py --web
       - name: Configure GitHub Pages

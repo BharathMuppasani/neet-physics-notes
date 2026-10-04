@@ -10,9 +10,13 @@
 <link rel="stylesheet" href="assets/style.css">
 <!-- site.js MUST load before MathJax (it holds the MathJax config) -->
 <script src="assets/site.js"></script>
+<script src="assets/q-test05.js"></script>
+<script src="assets/q-test06.js"></script>
+<script src="assets/q-solids.js"></script>
+<script src="assets/q-fluids-extra.js"></script>
+<script src="assets/q-completion.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
 <!-- question data used by inline quizzes -->
-<script src="assets/q-solids.js"></script>
 <style>
   /* page-specific helpers (solids.html) */
   .readout .v.txt { font-family: var(--f-body); font-size: 14px; line-height: 1.3; }
@@ -44,8 +48,8 @@
       <p class="lede">Why a steel wire hardly stretches while a rubber band stretches a lot, how to put a number on "stiffness", and how engineers use it to size ropes, beams and bridges. We start from atoms and springs and work up to exam-level problems.</p>
       <div class="chips">
         <span class="chip accent">10 Qs in CUT-6</span>
-        <span class="chip">9 interactive models</span>
-        <span class="chip">38 practice questions</span>
+        <span class="chip">10 interactive models</span>
+        <span class="chip">41 practice questions</span>
       </div>
     </header>
 
@@ -143,8 +147,8 @@
         <p><strong>Strain</strong> is the fractional change in a dimension: change ÷ original value. It is a ratio of two like quantities, so it has <strong>no unit and no dimensions</strong>.</p>
       </div>
       <div class="formula-grid">
-        <div class="formula"><div class="f-title">Stress</div><div class="f-main">\[ \sigma = \frac{F}{A} \]</div><div class="f-where">SI unit N m⁻² = pascal (Pa). Dimensions \([\mathrm{ML^{-1}T^{-2}}]\), the same as pressure.</div></div>
-        <div class="formula"><div class="f-title">Strain</div><div class="f-main">\[ \text{strain} = \frac{\text{change in size}}{\text{original size}} \]</div><div class="f-where">Pure number, dimensionless \([\mathrm{M^0L^0T^0}]\). Often quoted as a % (strain 0.002 = 0.2%).</div></div>
+        <div class="formula"><div class="f-title">Stress</div><div class="f-main">\[ \sigma = \frac{F}{A} \]</div><div class="f-where">SI unit N m⁻² = pascal (Pa). Dimensions \([\mathrm{ML^{-1}T^{-2}}]\), the same as pressure.<br><strong>Symbols and assumptions:</strong> σ = tensile or compressive stress (Pa); F = normal force (N); A = loaded cross-sectional area (m²).</div></div>
+        <div class="formula"><div class="f-title">Strain</div><div class="f-main">\[ \text{strain} = \frac{\text{change in size}}{\text{original size}} \]</div><div class="f-where">Pure number, dimensionless \([\mathrm{M^0L^0T^0}]\). Often quoted as a % (strain 0.002 = 0.2%).<br><strong>Symbols and assumptions:</strong> Change in size and original size must use the same units. For a wire, longitudinal strain is ΔL/L, with L its original length and ΔL its extension.</div></div>
       </div>
 
       <h3>Three kinds of stress, three kinds of strain</h3>
@@ -218,7 +222,7 @@
       <div class="formula">
         <div class="f-title">Hooke's law</div>
         <div class="f-main">\[ \text{stress} \propto \text{strain} \quad\Rightarrow\quad \text{stress} = k \times \text{strain} \]</div>
-        <div class="f-where">\(k\) is the <strong>modulus of elasticity</strong>. Its unit is Pa and its dimensions are \([\mathrm{ML^{-1}T^{-2}}]\) (strain has none). It is valid only up to the proportional limit.</div>
+        <div class="f-where">\(k\) is the <strong>modulus of elasticity</strong>. Its unit is Pa and its dimensions are \([\mathrm{ML^{-1}T^{-2}}]\) (strain has none). It is valid only up to the proportional limit.<br><strong>Symbols and assumptions:</strong> k here means an elastic modulus (Pa), not a spring constant (N/m). Stress and strain must be the corresponding pair, such as longitudinal stress and longitudinal strain.</div>
       </div>
 
       <h3>What happens if we keep pulling?</h3>
@@ -329,14 +333,14 @@
     </section>
 
     <section id="youngs" data-num="8.5.1" data-toc="Young's modulus">
-      <div class="sec-head"><span class="num">8.5.1–8.5.2 <span class="level core">Core</span></span><h2>Young's modulus</h2></div>
+      <div class="sec-head"><span class="num">8.5.1 <span class="level core">Core</span></span><h2>Young's modulus</h2></div>
       <div class="prose">
         <p>The modulus in Hooke's law gets a different name for each type of stress. For stretching or compressing along the length, it is <span class="term">Young's modulus \(Y\)</span>. It answers one question: <em>how much stress does it take to produce a given fractional stretch?</em> A big \(Y\) means a stiff material.</p>
       </div>
       <div class="formula">
         <div class="f-title">Young's modulus</div>
         <div class="f-main">\[ Y = \frac{\text{tensile (or compressive) stress}}{\text{longitudinal strain}} = \frac{F/A}{\Delta L/L} = \frac{F\,L}{A\,\Delta L} = \frac{MgL}{\pi r^{2}\,\Delta L} \]</div>
-        <div class="f-where">Unit N m⁻² (Pa); dimensions \([\mathrm{ML^{-1}T^{-2}}]\). Rearranged: \(\Delta L = \dfrac{FL}{AY} = \dfrac{4FL}{\pi d^{2} Y}\).</div>
+        <div class="f-where">Unit N m⁻² (Pa); dimensions \([\mathrm{ML^{-1}T^{-2}}]\). Rearranged: \(\Delta L = \dfrac{FL}{AY} = \dfrac{4FL}{\pi d^{2} Y}\).<br><strong>Symbols and assumptions:</strong> Y = Young’s modulus (Pa); F = axial force (N); L = original length (m); ΔL = extension (m); A = cross-sectional area (m²); r = wire radius (m); d = diameter = 2r; M = hanging mass (kg); g = gravitational acceleration (m/s²). The Mg form assumes a static hanging load and negligible wire weight.</div>
       </div>
       <div class="callout trap"><span class="label">Exam traps</span>
         <ul>
@@ -399,7 +403,7 @@
         </div>
       </figure>
 
-      <h3>Measuring Y in the lab (Searle's method, NCERT 8.5.2)</h3>
+      <h3>Measuring Y in the lab: Searle's method</h3>
       <figure class="fig">
         <svg viewBox="0 0 420 300" role="img" aria-label="Searle's apparatus: reference wire with main scale and experimental wire with vernier and load pan">
           <rect x="60" y="14" width="300" height="20" fill="#EEF0F5" stroke="#454F66" stroke-width="1.5"/>
@@ -484,15 +488,42 @@
       <div class="quiz" data-topic="youngs" data-limit="3"><h3>Try it</h3></div>
     </section>
 
-    <section id="shear" data-num="8.5.3" data-toc="Shear modulus">
-      <div class="sec-head"><span class="num">8.5.3 <span class="level core">Core</span></span><h2>Shear modulus (modulus of rigidity)</h2></div>
+    <section id="wire-combinations" data-num="★" data-toc="Combined wires &amp; own weight">
+      <div class="sec-head"><span class="num">★ <span class="level exam">Exam</span></span><h2>Combined wires and a wire's own weight</h2></div>
+      <p class="small">In this section: F = axial load (N); ΔL = extension (m); Y = Young’s modulus (Pa); A = wire area (m²); L = original length (m); k = wire stiffness (N/m). The sliders use N/mm: 1 N/mm = 1000 N/m, so dividing N by N/mm gives extension in mm. Subscripts 1 and 2 identify the two wires.</p>
+      <div class="prose"><p>A wire acts like a spring while it remains in its linear elastic range: \(F=k\Delta L\), with \(k=YA/L\). Young's modulus belongs to the material; stiffness belongs to the whole wire and also depends on its length and area. Two wires of the same metal need not have the same stiffness.</p><p>Draw how the wires are connected before choosing a formula. The useful question is whether they have the same <em>tension</em> or the same <em>extension</em>.</p></div>
+      <div class="compare">
+        <div><h4>Series: one below the other</h4><p>Neglecting wire weight, the same tension F acts in each segment. Extensions add: \(\Delta L=F/k_1+F/k_2\). Hence \(1/k_\text{eq}=1/k_1+1/k_2\). The softer segment stretches more.</p></div>
+        <div><h4>Parallel: side by side</h4><p>If a supported bar stays horizontal and both initially taut wires have equal extension, forces add: \(F=(k_1+k_2)\Delta L\). Thus \(k_\text{eq}=k_1+k_2\), and the force ratio is \(F_1/F_2=k_1/k_2\). A freely tilting bar may not give equal extensions.</p></div>
+      </div>
+      <figure class="sim" id="sim-combined-wires"><div class="sim-head"><span class="tag">Interactive</span><h4>Same wires, two connections</h4></div><div class="sim-body side"><div class="sim-stage"></div><div class="sim-panel">
+        <div class="seg" data-k="connection" role="group" aria-label="Wire connection"><button type="button" data-v="series" aria-pressed="true">Series</button><button type="button" data-v="parallel">Parallel</button></div>
+        <div class="controls">
+          <div class="ctrl"><label for="wc-k1">Wire 1 stiffness <output data-for="wc-k1"></output></label><input id="wc-k1" type="range" min="50" max="400" step="10" value="200" data-unit=" N/mm" data-dp="0"></div>
+          <div class="ctrl"><label for="wc-k2">Wire 2 stiffness <output data-for="wc-k2"></output></label><input id="wc-k2" type="range" min="50" max="400" step="10" value="100" data-unit=" N/mm" data-dp="0"></div>
+          <div class="ctrl"><label for="wc-F">Total load <output data-for="wc-F"></output></label><input id="wc-F" type="range" min="50" max="600" step="10" value="200" data-unit=" N" data-dp="0"></div>
+        </div><div class="readouts"><div class="readout hi"><span class="k">Total extension</span><span class="v" data-r="extension">–</span></div><div class="readout"><span class="k">Equivalent stiffness</span><span class="v" data-r="stiffness">–</span></div><div class="readout"><span class="k">Wire 1 tension</span><span class="v" data-r="force1">–</span></div><div class="readout"><span class="k">Wire 2 tension</span><span class="v" data-r="force2">–</span></div></div>
+        <p class="sim-note">The drawing is schematic and extension is exaggerated. In parallel the bar is constrained to remain horizontal. The model neglects wire weight and assumes elastic behaviour throughout.</p>
+      </div></div></figure>
+      <h3>Equivalent Young's modulus of two joined wires</h3>
+      <div class="prose"><p>For two wires in series with the same area A and lengths L₁ and L₂, compare their total extension with one wire of length L₁ + L₂ and an effective modulus Y_eff. The force F is the same through both pieces:</p><p>\[\frac{F(L_1+L_2)}{AY_\text{eff}}=\frac{FL_1}{AY_1}+\frac{FL_2}{AY_2},\qquad Y_\text{eff}=\frac{L_1+L_2}{L_1/Y_1+L_2/Y_2}.\]</p><p>Y₁ and Y₂ are the individual moduli in Pa; L₁ and L₂ are lengths in m. For equal lengths, \(Y_\text{eff}=2Y_1Y_2/(Y_1+Y_2)\), the harmonic mean. The result is not the arithmetic mean: the softer material contributes more extension. If their areas differ, calculate each stiffness YA/L instead of using this same-area shortcut.</p></div>
+      <h3>Why a hanging wire needs the factor ½</h3>
+      <div class="prose"><p>For a uniform hanging wire of mass M and length L, a point x above its free lower end supports only the wire below it. That mass is Mx/L, so \(T(x)=Mgx/L\): zero at the bottom and Mg at the top. The tension is not constant.</p><p>An element dx extends by \(d(\Delta L)=T(x)dx/(AY)\). Adding the extensions gives</p></div>
+      <div class="formula"><div class="f-title">Uniform wire under its own weight</div><div class="f-main">\[\Delta L=\int_0^L\frac{Mgx}{LAY}\,dx=\frac{MgL}{2AY}=\frac{\rho gL^2}{2Y}\]</div><div class="f-where">With a point mass m at the bottom, add its constant-tension contribution: \(\Delta L=(m+M/2)gL/(AY)\).<br><strong>Symbols and assumptions:</strong> M = wire mass (kg); m = additional end mass (kg); ρ = wire density (kg/m³); L = original length (m); x = distance above the free lower end (m); A = wire area (m²); Y = Young’s modulus (Pa); g = gravitational acceleration (m/s²); ΔL = extension (m).</div></div>
+      <div class="callout trap"><span class="label">Extension and breaking are different calculations</span><p>The average tension determines total extension, but the maximum stress occurs at the top. For a wire hanging only under its own weight, top stress is ρgL. The ideal maximum length before reaching a specified breaking stress is \(L_\text{max}=\sigma_\text{break}/(\rho g)\), independent of area. A safe working limit is lower than the breaking limit.</p></div>
+      <div class="eg"><div class="eg-q"><span class="eg-tag">Worked example · Reading the connection</span><p>Two wires have stiffnesses 200 N/mm and 100 N/mm. Compare their total extension under 200 N when connected in series and in parallel with equal extensions.</p></div><details><summary>Show solution</summary><div class="eg-a"><ol class="steps"><li>Series: \(\Delta L=200/200+200/100=3\) mm; each carries 200 N.</li><li>Parallel: \(k=300\) N/mm, so \(\Delta L=200/300=0.667\) mm.</li><li>Parallel loads: 133.3 N and 66.7 N. Their sum is 200 N; the stiffer wire carries twice as much.</li></ol><p class="answer">3 mm in series; 0.667 mm in parallel</p></div></details></div>
+      <div class="quiz" data-topic="wire-combinations"><h3>Check your understanding</h3></div>
+    </section>
+
+    <section id="shear" data-num="8.5.2" data-toc="Shear modulus">
+      <div class="sec-head"><span class="num">8.5.2 <span class="level core">Core</span></span><h2>Shear modulus (modulus of rigidity)</h2></div>
       <div class="prose">
         <p>Put a thick book on the table and push its top cover sideways while the bottom stays put. The pages slide a little over one another and the book leans: its <em>shape</em> changes, but its volume does not. That is shear. The stiffness against this sliding is the <span class="term">shear modulus</span> \(G\), also called the <span class="term">modulus of rigidity</span> (some books use \(\eta\)).</p>
       </div>
       <div class="formula">
         <div class="f-title">Shear modulus</div>
-        <div class="f-main">\[ G = \frac{\text{shearing stress}}{\text{shearing strain}} = \frac{F/A}{\Delta x/L} = \frac{F\,L}{A\,\Delta x} = \frac{F}{A\,\theta} \]</div>
-        <div class="f-where">\(A\) is the area of the face the force acts <em>along</em>; \(L\) is the distance between the fixed and moving faces; \(\theta \approx \Delta x/L\) in radian. Unit Pa; dimensions \([\mathrm{ML^{-1}T^{-2}}]\). For most solids \(G \approx Y/3\).</div>
+        <div class="f-main">\[ G = \frac{\text{shearing stress}}{\text{shearing strain}} = \frac{F/A}{\Delta x/L} = \frac{F\,L}{A\,\Delta x} \approx \frac{F}{A\,\theta} \]</div>
+        <div class="f-where">\(A\) is the area of the face the force acts <em>along</em>; \(L\) is the distance between the fixed and moving faces; \(\theta \approx \Delta x/L\) in radian. Unit Pa; dimensions \([\mathrm{ML^{-1}T^{-2}}]\). For most solids \(G \approx Y/3\).<br><strong>Symbols and assumptions:</strong> G = shear modulus (Pa); F = tangential force (N); Δx = sideways displacement (m); A = loaded face area (m²); L = separation of the faces (m); θ = small shear angle (radians); Y = Young’s modulus (Pa).</div>
       </div>
 
       <figure class="sim" id="sim-shear">
@@ -547,15 +578,15 @@
       <div class="quiz" data-topic="shear" data-limit="3"><h3>Try it</h3></div>
     </section>
 
-    <section id="bulk" data-num="8.5.4" data-toc="Bulk modulus">
-      <div class="sec-head"><span class="num">8.5.4 <span class="level core">Core</span></span><h2>Bulk modulus and compressibility</h2></div>
+    <section id="bulk" data-num="8.5.3" data-toc="Bulk modulus">
+      <div class="sec-head"><span class="num">8.5.3 <span class="level core">Core</span></span><h2>Bulk modulus and compressibility</h2></div>
       <div class="prose">
         <p>Take a steel ball deep into the sea. The water presses on it equally from every side, so it keeps its shape but becomes very slightly smaller. How strongly a material resists this all-round squeeze is measured by its <span class="term">bulk modulus</span> \(B\). Its reciprocal, the <span class="term">compressibility</span> \(k\), tells you how easily it is squeezed.</p>
       </div>
       <div class="formula-grid">
-        <div class="formula"><div class="f-title">Bulk modulus</div><div class="f-main">\[ B = -\frac{p}{\Delta V/V} = -\frac{V\,\Delta p}{\Delta V} \]</div><div class="f-where">\(p\) = hydraulic stress (extra pressure). The minus sign makes \(B\) positive, since \(\Delta V &lt; 0\) when pressure rises. Unit Pa; dimensions \([\mathrm{ML^{-1}T^{-2}}]\).</div></div>
-        <div class="formula"><div class="f-title">Compressibility</div><div class="f-main">\[ k = \frac{1}{B} = -\frac{1}{\Delta p}\,\frac{\Delta V}{V} \]</div><div class="f-where">Unit Pa⁻¹ (m² N⁻¹); dimensions \([\mathrm{M^{-1}LT^{2}}]\). Gases ≫ liquids ≫ solids.</div></div>
-        <div class="formula"><div class="f-title">Sphere under pressure</div><div class="f-main">\[ \frac{\Delta V}{V} = 3\,\frac{\Delta r}{r} \;\Rightarrow\; \frac{\Delta r}{r} = \frac{p}{3B} \]</div><div class="f-where">Because \(V \propto r^{3}\). Likewise, for a cube \(\Delta V/V = 3\,\Delta a/a\).</div></div>
+        <div class="formula"><div class="f-title">Bulk modulus</div><div class="f-main">\[ B = -\frac{p}{\Delta V/V} = -\frac{V\,\Delta p}{\Delta V} \]</div><div class="f-where">\(p\) = hydraulic stress (extra pressure). The minus sign makes \(B\) positive, since \(\Delta V &lt; 0\) when pressure rises. Unit Pa; dimensions \([\mathrm{ML^{-1}T^{-2}}]\).<br><strong>Symbols and assumptions:</strong> B = bulk modulus (Pa); p or Δp = added pressure (Pa); V = initial volume (m³); ΔV = signed volume change (m³), negative on compression. The finite-change expression assumes small compression and approximately constant B.</div></div>
+        <div class="formula"><div class="f-title">Compressibility</div><div class="f-main">\[ k = \frac{1}{B} = -\frac{1}{\Delta p}\,\frac{\Delta V}{V} \]</div><div class="f-where">Unit Pa⁻¹ (m² N⁻¹); dimensions \([\mathrm{M^{-1}LT^{2}}]\). Gases ≫ liquids ≫ solids.<br><strong>Symbols and assumptions:</strong> k = compressibility (Pa⁻¹), distinct from a spring constant; B = bulk modulus (Pa); Δp = pressure increase (Pa); V = initial volume (m³); ΔV = signed volume change (m³).</div></div>
+        <div class="formula"><div class="f-title">Sphere under pressure</div><div class="f-main">\[ \frac{\Delta V}{V} = 3\,\frac{\Delta r}{r} \;\Rightarrow\; \frac{\Delta r}{r} = -\frac{p}{3B} \]</div><div class="f-where">Because \(V \propto r^{3}\). Likewise, for a cube \(\Delta V/V = 3\,\Delta a/a\).<br><strong>Symbols and assumptions:</strong> r = original sphere radius (m); Δr = signed radius change (m), negative on compression; p = added pressure (Pa); B = bulk modulus (Pa); V and ΔV = initial volume and its signed change. For a cube, a is its original side and Δa its change. The positive fractional decrease is p/(3B).</div></div>
       </div>
 
       <figure class="sim" id="sim-bulk">
@@ -617,15 +648,15 @@
       <div class="quiz" data-topic="bulk" data-limit="3"><h3>Try it</h3></div>
     </section>
 
-    <section id="poisson" data-num="★" data-toc="Poisson's ratio">
-      <div class="sec-head"><span class="num">★ Coaching extra <span class="level exam">Exam</span></span><h2>Poisson's ratio</h2></div>
-      <div class="callout life"><span class="label">Syllabus note</span><p>Poisson's ratio was dropped from the rationalised NCERT text, but coaching tests (including Narayana CUTs) still ask 1–2 easy questions on it. Learn the definition, the 0–0.5 range, and the volume-change result.</p></div>
+    <section id="poisson" data-num="8.5.4" data-toc="Poisson's ratio">
+      <div class="sec-head"><span class="num">8.5.4 <span class="level core">Core</span></span><h2>Poisson's ratio</h2></div>
+      <div class="callout life"><span class="label">Syllabus note</span><p>Poisson's ratio appears in section 8.5.4 of the 2026–27 NCERT chapter. Learn its definition and distinguish signed lateral strain from the positive magnitude of contraction. Most familiar materials have a ratio between 0 and 0.5; the volume-change relation below assumes small strain.</p></div>
       <div class="prose">
-        <p>Stretch a rubber band and watch it: it gets <em>thinner</em> as it gets longer. Every material does this to some extent. The longitudinal strain (along the force) comes with a <span class="term">lateral strain</span> (across it) of opposite sign. Their ratio, within the elastic limit, is a constant of the material.</p>
+        <p>Stretch a rubber band and watch it: it gets <em>thinner</em> as it gets longer. Most conventional materials do this. Materials with negative Poisson's ratio, called auxetic materials, can instead become wider when stretched. The longitudinal strain (along the force) comes with a <span class="term">lateral strain</span> (across it) of opposite sign. Their ratio, within the elastic limit, is a constant of the material.</p>
       </div>
       <div class="formula-grid">
-        <div class="formula"><div class="f-title">Poisson's ratio</div><div class="f-main">\[ \sigma = -\frac{\text{lateral strain}}{\text{longitudinal strain}} = -\frac{\Delta d/d}{\Delta L/L} \]</div><div class="f-where">Dimensionless, no unit. The minus sign makes \(\sigma\) positive. Theory allows \(-1 &lt; \sigma &lt; 0.5\); real materials have about 0 to 0.5. Steel ≈ 0.28–0.30, rubber ≈ 0.49, cork ≈ 0.</div></div>
-        <div class="formula"><div class="f-title">Volume change of a stretched wire</div><div class="f-main">\[ \frac{\Delta V}{V} = (1-2\sigma)\,\frac{\Delta L}{L} \]</div><div class="f-where">From \(V = \tfrac{\pi}{4}d^{2}L\): \(\Delta V/V = \Delta L/L + 2\,\Delta d/d\). Volume is unchanged only if \(\sigma = 0.5\) (incompressible).</div></div>
+        <div class="formula"><div class="f-title">Poisson's ratio</div><div class="f-main">\[ \sigma = -\frac{\text{lateral strain}}{\text{longitudinal strain}} = -\frac{\Delta d/d}{\Delta L/L} \]</div><div class="f-where">Dimensionless, no unit. The minus sign makes \(\sigma\) positive when stretching causes lateral contraction. Here σ denotes Poisson's ratio (often written ν), not stress. For stable isotropic linear elasticity, theory allows \(-1 &lt; \sigma &lt; 0.5\); many familiar materials have about 0 to 0.5. Steel ≈ 0.28–0.30, rubber ≈ 0.49, cork ≈ 0.<br><strong>Symbols and assumptions:</strong> σ (or ν) = Poisson’s ratio; d = original diameter; Δd = signed diameter change; L = original length; ΔL = signed length change. The strains use matching length units. A contracting diameter has Δd < 0 while a stretched length has ΔL > 0.</div></div>
+        <div class="formula"><div class="f-title">Volume change of a stretched wire</div><div class="f-main">\[ \frac{\Delta V}{V} = (1-2\sigma)\,\frac{\Delta L}{L} \]</div><div class="f-where">To first order in small strains, from \(V = \tfrac{\pi}{4}d^{2}L\): \(\Delta V/V = \Delta L/L + 2\,\Delta d/d\). Volume is unchanged only if \(\sigma = 0.5\) (incompressible).<br><strong>Symbols and assumptions:</strong> V = original volume; ΔV = signed volume change; L = original length; ΔL = extension; σ = Poisson’s ratio. Both sides are dimensionless. This is the first-order small-strain result.</div></div>
       </div>
 
       <figure class="sim" id="sim-poisson">
@@ -655,7 +686,7 @@
       </figure>
 
       <div class="callout tip"><span class="label">Advanced aside: links between the moduli</span>
-        <p>For an isotropic material \(Y = 2G(1+\sigma) = 3B(1-2\sigma)\), and eliminating \(\sigma\) gives \(\dfrac{9}{Y} = \dfrac{1}{B} + \dfrac{3}{G}\). Two quick uses: since \(0 \le \sigma \le 0.5\), \(G\) lies between \(Y/3\) and \(Y/2\) (hence "G ≈ Y/3"); and \(B \to \infty\) (incompressible) needs \(\sigma \to 0.5\).</p>
+        <p>For an isotropic material \(Y = 2G(1+\sigma) = 3B(1-2\sigma)\), and eliminating \(\sigma\) gives \(\dfrac{9}{Y} = \dfrac{1}{B} + \dfrac{3}{G}\). Two quick uses: for the usual positive-ratio range \(0 \le \sigma \le 0.5\), \(G\) lies between \(Y/3\) and \(Y/2\) (hence "G ≈ Y/3"); and \(B \to \infty\) (incompressible) needs \(\sigma \to 0.5\).</p>
       </div>
 
       <div class="eg">
@@ -677,15 +708,15 @@
       <div class="quiz" data-topic="poisson" data-limit="3"><h3>Try it</h3></div>
     </section>
 
-    <section id="energy" data-num="★" data-toc="Elastic energy">
-      <div class="sec-head"><span class="num">★ Coaching extra <span class="level exam">Exam</span></span><h2>Elastic potential energy of a stretched wire</h2></div>
-      <div class="callout life"><span class="label">Syllabus note</span><p>This topic was in the older NCERT and is still a favourite in NEET and coaching tests. It is the same idea as the energy of a spring, \(\tfrac12 kx^{2}\).</p></div>
+    <section id="energy" data-num="8.5.5" data-toc="Elastic energy">
+      <div class="sec-head"><span class="num">8.5.5 <span class="level core">Core</span></span><h2>Elastic potential energy of a stretched wire</h2></div>
+      <div class="callout life"><span class="label">Syllabus note</span><p>This topic appears in section 8.5.5 of the 2026–27 NCERT chapter. It is the same idea as the energy of a spring, \(\tfrac12 kx^{2}\).</p></div>
       <div class="prose">
         <p>A stretched catapult rubber can launch a stone, so stretching stores energy. While a wire is being stretched, the restoring force grows from 0 up to its final value \(F\), in direct proportion to the extension (Hooke's law). The work done against it is the <strong>area under the force–extension line</strong>, which is a triangle.</p>
       </div>
       <div class="formula-grid">
-        <div class="formula"><div class="f-title">Energy stored</div><div class="f-main">\[ U = \tfrac12 F\,\Delta l = \tfrac12\,\frac{YA}{L}\,(\Delta l)^{2} \]</div><div class="f-where">Same as \(\tfrac12 kx^{2}\) with \(k = YA/L\).</div></div>
-        <div class="formula"><div class="f-title">Energy per unit volume</div><div class="f-main">\[ u = \tfrac12\,\text{stress}\times\text{strain} = \tfrac12 Y(\text{strain})^{2} = \frac{(\text{stress})^{2}}{2Y} \]</div><div class="f-where">Divide \(U\) by the volume \(AL\). Unit J m⁻³, dimensions \([\mathrm{ML^{-1}T^{-2}}]\), the same as stress.</div></div>
+        <div class="formula"><div class="f-title">Energy stored</div><div class="f-main">\[ U = \tfrac12 F\,\Delta l = \tfrac12\,\frac{YA}{L}\,(\Delta l)^{2} \]</div><div class="f-where">Same as \(\tfrac12 kx^{2}\) with \(k = YA/L\).<br><strong>Symbols and assumptions:</strong> U = stored elastic energy (J); F = final axial force (N); Δl = extension (m); Y = Young’s modulus (Pa); A = cross-sectional area (m²); L = original length (m); k = wire stiffness (N/m); x = extension in the spring notation. Loading is quasistatic and linear elastic.</div></div>
+        <div class="formula"><div class="f-title">Energy per unit volume</div><div class="f-main">\[ u = \tfrac12\,\text{stress}\times\text{strain} = \tfrac12 Y(\text{strain})^{2} = \frac{(\text{stress})^{2}}{2Y} \]</div><div class="f-where">Divide \(U\) by the volume \(AL\). Unit J m⁻³, dimensions \([\mathrm{ML^{-1}T^{-2}}]\), the same as stress.<br><strong>Symbols and assumptions:</strong> u = elastic energy density (J/m³); U = total stored energy (J); Y = Young’s modulus (Pa); AL = initial wire volume (m³). Use dimensionless strain, not its percentage value.</div></div>
       </div>
 
       <figure class="sim" id="sim-energy">
@@ -764,7 +795,7 @@
       <div class="formula">
         <div class="f-title">Thermal stress in a clamped rod</div>
         <div class="f-main">\[ \text{strain} = \frac{L\alpha\Delta T}{L} = \alpha\Delta T,\qquad \text{stress} = Y\alpha\Delta T,\qquad F = YA\alpha\Delta T \]</div>
-        <div class="f-where">\(\alpha\) = coefficient of linear expansion (K⁻¹ or °C⁻¹). <strong>The length cancels</strong>: the stress and the force do not depend on \(L\).</div>
+        <div class="f-where">\(\alpha\) = coefficient of linear expansion (K⁻¹ or °C⁻¹). <strong>The length cancels</strong>: the stress and the force do not depend on \(L\).<br><strong>Symbols and assumptions:</strong> L = original length (m); α = linear expansion coefficient (K⁻¹); ΔT = temperature increase (K or °C difference); Y = Young’s modulus (Pa); A = cross-sectional area (m²); F = force magnitude (N). Heating produces compression; the displayed stress is its magnitude. Supports are rigid and expansion is fully prevented.</div>
       </div>
       <div class="callout trap"><span class="label">Exam traps</span>
         <ul>
@@ -795,7 +826,7 @@
       <div class="formula">
         <div class="f-title">Minimum rope radius</div>
         <div class="f-main">\[ \frac{Mg}{\pi r^{2}} \le \sigma_y \;\Rightarrow\; r \ge \sqrt{\frac{Mg}{\pi\sigma_y}} = \sqrt{\frac{10^{4}\times9.8}{3.14\times3\times10^{8}}} \approx 1\ \text{cm} \]</div>
-        <div class="f-where">Engineers add a <strong>safety factor</strong> of about 10 (design for 10⁵ kg), which gives \(r \approx 3\) cm. A single 3 cm rod would be stiff like a bar, so ropes are made by braiding many thin wires. This gives the same area but is flexible and strong.</div>
+        <div class="f-where">Engineers add a <strong>safety factor</strong> of about 10 (design for 10⁵ kg), which gives \(r \approx 3\) cm. A single 3 cm rod would be stiff like a bar, so ropes are made by braiding many thin wires. This gives the same area but is flexible and strong.<br><strong>Symbols and assumptions:</strong> M = supported mass (kg); g = gravitational acceleration (m/s²); r = rope radius (m); σ_y = material yield stress (Pa). The numerical example uses M = 10⁴ kg and σ_y = 3 × 10⁸ Pa, before adding a safety factor.</div>
       </div>
 
       <h3>2. Why beams are deep, and why girders are I-shaped</h3>
@@ -805,7 +836,7 @@
       <div class="formula">
         <div class="f-title">Sag (bending) of a centrally loaded beam</div>
         <div class="f-main">\[ \delta = \frac{W\,l^{3}}{4\,b\,d^{3}\,Y} \]</div>
-        <div class="f-where">To reduce bending: use a material with large \(Y\), keep the span short, and above all <strong>increase the depth \(d\)</strong>. \(\delta \propto 1/d^{3}\), so doubling the depth cuts the sag to 1/8, while doubling the breadth only halves it.</div>
+        <div class="f-where">To reduce bending: use a material with large \(Y\), keep the span short, and above all <strong>increase the depth \(d\)</strong>. \(\delta \propto 1/d^{3}\), so doubling the depth cuts the sag to 1/8, while doubling the breadth only halves it.<br><strong>Symbols and assumptions:</strong> δ = downward displacement at the middle (m); W = load force (N), not mass; l = distance between supports (m); b = breadth (m); d = vertical depth (m); Y = Young’s modulus (Pa). This is the small-deflection result for a rectangular beam supported at both ends and loaded centrally.</div>
       </div>
 
       <figure class="sim" id="sim-beam">
@@ -855,7 +886,7 @@
       <div class="formula">
         <div class="f-title">Maximum height of a mountain</div>
         <div class="f-main">\[ h\rho g \le \sigma_\text{limit} \;\Rightarrow\; h_\text{max} = \frac{30\times10^{7}}{3\times10^{3}\times10} = 10^{4}\ \text{m} = 10\ \text{km} \]</div>
-        <div class="f-where">Mount Everest is about 8.8 km, just under this limit. (NCERT notes that the stress at the base is really shear, and the estimate is rough.)</div>
+        <div class="f-where">Mount Everest is about 8.8 km, just under this limit. (NCERT notes that the stress at the base is really shear, and the estimate is rough.)<br><strong>Symbols and assumptions:</strong> h = height (m); ρ = rock density (kg/m³); g = gravitational acceleration (m/s²); σ_limit = limiting stress (Pa). The model treats the mountain as a uniform column; it is an order-of-magnitude estimate.</div>
       </div>
 
       <div class="eg">
@@ -985,7 +1016,7 @@
         <li>Stress \(= F/A\) is an internal restoring force per area. Strain is a ratio with <strong>no unit and no dimensions</strong>. Stress and all moduli: Pa, \([\mathrm{ML^{-1}T^{-2}}]\).</li>
         <li>Tensile/compressive → length; shear → shape (volume same); hydraulic → volume (shape same).</li>
         <li>Curve letters: A proportional limit · B yield point/elastic limit \((\sigma_y)\) · D ultimate strength \((\sigma_u)\) · E fracture. Unloading beyond B is parallel to OA and leaves a <strong>permanent set</strong>.</li>
-        <li>D and E far apart → ductile; close → brittle. Rubber and aorta are elastomers: large elastic range, <strong>no Hooke region</strong>, no plastic region.</li>
+        <li>D and E far apart → ductile; close → brittle. Rubber and aorta are elastomers: large elastic range, <strong>nonlinear over most of that range</strong>, no well-defined plastic region.</li>
         <li>\(Y\) depends only on the material (and temperature), <strong>not</strong> on \(L\), \(A\) or the load.</li>
         <li>\(\Delta L = FL/AY \propto L/d^{2}\). <strong>Square the diameter.</strong> Halve the diameter before using \(\pi r^{2}\); 1 mm² = \(10^{-6}\) m².</li>
         <li>Same volume: \(\Delta L \propto L^{2}\); equal extension needs \(F \propto A^{2}\) (A and 3A → F and 9F).</li>
@@ -1017,12 +1048,13 @@
           <tr><td>Mountain height</td><td>\(h_\text{max} = \sigma_\text{limit}/\rho g\)</td><td>m</td></tr>
         </tbody>
       </table></div>
-      <p class="small"><a href="practice.html#youngs">Practise all Solids questions →</a></p>
+      <p class="small"><a href="practice.html?chapter=solids">Practise all Solids questions →</a></p>
     </section>
 
-    <footer class="footer">Mechanical Properties of Solids · NCERT Class 11 Physics, Chapter 8 (rationalised). Numbers in examples use g = 9.8 m s⁻² unless a question says g = 10.</footer>
+    <footer class="footer">Mechanical Properties of Solids · NCERT Class 11 Physics, <a href="https://ncert.nic.in/textbook/pdf/keph201.pdf">Chapter 8, 2026–27 NCERT</a>. Numbers in examples use g = 9.8 m s⁻² unless a question says g = 10.</footer>
   </main>
 </div>
 <script src="assets/sims-solids.js"></script>
+<script src="assets/sims-completion.js"></script>
 </body>
 </html>

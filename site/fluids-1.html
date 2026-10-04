@@ -11,10 +11,13 @@
 <link rel="stylesheet" href="assets/style.css">
 <!-- site.js MUST load before MathJax (it holds the MathJax config) -->
 <script src="assets/site.js"></script>
+<script src="assets/q-test05.js"></script>
+<script src="assets/q-test06.js"></script>
+<script src="assets/q-solids.js"></script>
+<script src="assets/q-fluids-extra.js"></script>
+<script src="assets/q-completion.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
 <!-- question data used by inline quizzes -->
-<script src="assets/q-test05.js"></script>
-<script src="assets/q-fluids-extra.js"></script>
 <style>
   .sim-panel [hidden] { display: none !important; }
   /* MathJax's invisible assistive MathML can stretch the page sideways on phones */
@@ -28,7 +31,8 @@
   .checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
   .checklist li { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px 9px 38px; position: relative; font-size: 15.5px; }
   .checklist li::before { content: ""; position: absolute; left: 12px; top: 13px; width: 14px; height: 14px; border: 2px solid var(--accent); border-radius: 4px; }
-  .fig-row { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  @media (min-width: 860px) { .sim-body.side .sim-stage { display: flex; flex-direction: column; justify-content: center; } }
+  .fig-row { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
 </style>
 </head>
 <body class="ch-fluids1" data-page="fluids1">
@@ -69,17 +73,17 @@
         <div class="formula">
           <div class="f-title">Density and relative density</div>
           <div class="f-main">\[ \rho = \frac{m}{V}, \qquad \text{RD} = \frac{\rho}{1000\ \text{kg m}^{-3}} \]</div>
-          <div class="f-where">1 g cm⁻³ = 1000 kg m⁻³. Water: 1000; seawater: 1030; ice: about 917 (problems often use 900); mercury: 13600; air: about 1.2–1.3 kg m⁻³.</div>
+          <div class="f-where">1 g cm⁻³ = 1000 kg m⁻³. Water: 1000; seawater: 1030; ice: about 917 (problems often use 900); mercury: 13600; air: about 1.2–1.3 kg m⁻³.<br><strong>Symbols and assumptions:</strong> ρ = density (kg/m³); m = mass (kg); V = volume (m³); RD = relative density compared with water of density 1000 kg/m³, dimensionless.</div>
         </div>
         <div class="formula">
           <div class="f-title">Mixing two liquids</div>
           <div class="f-main">\[ \rho_{\text{equal }V} = \frac{\rho_1 + \rho_2}{2}, \qquad \rho_{\text{equal }m} = \frac{2\rho_1\rho_2}{\rho_1 + \rho_2} \]</div>
-          <div class="f-where">Always use total mass ÷ total volume. The equal-mass result (harmonic mean) is always the smaller one.</div>
+          <div class="f-where">Always use total mass ÷ total volume. The equal-mass result (harmonic mean) is always the smaller one.<br><strong>Symbols and assumptions:</strong> ρ₁, ρ₂ = original liquid densities (kg/m³); ρ_equal V = mixture density when equal volumes are mixed; ρ_equal m = mixture density when equal masses are mixed. Both formulas assume volumes add without contraction or expansion.</div>
         </div>
       </div>
 
       <div class="callout exam"><span class="label">What "ideal fluid" means in questions</span>
-        <p>Unless a question says otherwise, take the fluid to be <strong>incompressible</strong> (constant ρ), <strong>non-viscous</strong> (no friction between layers), with <strong>steady</strong> flow that is <strong>irrotational</strong>. Bernoulli's equation needs all four. Viscosity, Stokes' law and surface tension are in <a href="fluids-2.html">Fluids II</a>.</p>
+        <p>The ideal flow model uses an <strong>incompressible</strong> fluid (constant ρ), <strong>negligible viscosity</strong> and <strong>steady</strong> flow. Bernoulli's equation then relates points along a streamline, provided no pump or dissipative loss acts between them. If the flow is also <strong>irrotational</strong>, the same Bernoulli constant applies across streamlines. Viscosity, Stokes' law and surface tension are in <a href="fluids-2.html">Fluids II</a>.</p>
       </div>
 
       <div class="eg">
@@ -92,10 +96,10 @@
       </div>
     </section>
 
-    <section id="pressure" data-num="9.2" data-toc="Pressure &amp; depth">
+    <section id="pressure" data-num="9.2" data-toc="Pressure: definition">
       <div class="sec-head">
         <span class="num">9.2 <span class="level basic">Basics</span></span>
-        <h2>Pressure and how it grows with depth</h2>
+        <h2>Pressure: force spread over an area</h2>
       </div>
       <div class="prose">
         <p>A sharp knife cuts but a blunt one does not, even though your hand pushes just as hard. A camel walks on sand without sinking because its feet are wide. School-bag straps are made wide so they do not dig into your shoulders. In each case what matters is not just the force but <em>how much area it is spread over</em>. That quantity is <span class="term">pressure</span>.</p>
@@ -103,6 +107,11 @@
       <div class="callout def"><span class="label">Definition</span>
         <p><strong>Pressure</strong> is the normal force per unit area: \( P = \dfrac{F_\perp}{A} \). More precisely, \( P = \lim_{\Delta A\to 0} \dfrac{\Delta F}{\Delta A} \) is the pressure <em>at a point</em>.<br>SI unit: pascal, 1 Pa = 1 N m⁻². Dimensions [ML⁻¹T⁻²], the same as stress and energy per unit volume.</p>
       </div>
+    </section>
+
+    <section id="pascal-law" data-num="9.2.1" data-toc="Pascal's law: equal pressure">
+      <div class="sec-head"><span class="num">9.2.1 <span class="level core">Core</span></span><h2>Pascal's law: pressure in a fluid at rest</h2></div>
+      <div class="prose"><p>A fluid at rest cannot sustain a sideways shear stress. On every little surface inside it, the neighbouring fluid pushes normally. At one point the pressure has the same value whichever way that surface faces; changing its orientation changes the direction of force, not the scalar pressure.</p></div>
       <div class="prose">
         <p>Three facts about pressure in a fluid at rest. All three are tested:</p>
         <ol>
@@ -115,6 +124,16 @@
         <p>"Pressure at a point in a fluid acts vertically downward" is <strong>false</strong>. Pressure has no direction; it acts equally in all directions at a point. "The force exerted by a fluid at rest on a surface is normal to the surface" is <strong>true</strong>. So in that A–R question the assertion is false and the reason is true.</p>
       </div>
 
+      <h3>Why equal height means equal pressure</h3>
+      <div class="prose"><p>Imagine a thin horizontal cylinder of liquid of end area A. Its weight acts downward, so it supplies no horizontal force. The pressure forces on its two ends are P₁A and P₂A in opposite directions. Horizontal equilibrium requires P₁A = P₂A, hence P₁ = P₂. If pressures differed, the liquid would accelerate instead of staying at rest.</p><p>This comparison applies within the same connected fluid in equilibrium. It does not equate the pressures in two unrelated sealed vessels merely because their points are at the same height. Across a flat liquid–liquid interface, pressure is continuous when interfacial curvature effects are negligible.</p></div>
+      <div class="formula"><div class="f-title">Pascal's law at one level</div><div class="f-main">\[P_1=P_2\quad\text{at equal height in a connected fluid at rest}\]</div><div class="f-where">P₁ and P₂ are pressures at two points, in Pa. For a small fluid wedge at one point, balancing forces and the projected face areas similarly gives equal pressure in every orientation. Pressure is not the same at every depth: deeper points generally have greater pressure.<br><strong>Symbols and assumptions:</strong> P₁, P₂ = equilibrium pressures (Pa) at two points at the same height in a connected fluid. Different depths can have different pressures.</div></div>
+      <div class="callout tip"><span class="label">Two related uses of Pascal's law</span><p>NCERT 9.2.1 introduces equal pressure in equilibrium. <a href="#pascal">Section 9.2.4</a> uses the undiminished transmission of an <em>added pressure</em> in hydraulic machines. Equal added pressure does not remove the pre-existing difference ρgΔh between different heights.</p></div>
+      <div class="quiz" data-topic="pascal-law"><h3>Check pressure and direction</h3></div>
+    </section>
+
+    <section id="pressure-depth" data-num="9.2.2" data-toc="Variation of pressure with depth">
+      <div class="sec-head"><span class="num">9.2.2 <span class="level core">Core</span></span><h2>Variation of pressure with depth</h2></div>
+      <div class="prose"><p>A lower layer of water supports the layers above it. Pressure therefore increases downward. We can derive the amount of that increase by balancing forces on a small vertical column; we do not need to guess from the total amount of liquid in the vessel.</p></div>
       <h3>Why \(P = P_0 + \rho g h\)</h3>
       <div class="prose">
         <p>Imagine a vertical cylinder of liquid with cross-section \(A\) and height \(h\), its top at the surface. It is in equilibrium, so the upward push on its bottom must hold up the downward push on its top <em>plus</em> its own weight:</p>
@@ -125,12 +144,12 @@
         <div class="formula">
           <div class="f-title">Pressure at depth h</div>
           <div class="f-main">\[ P = P_0 + \rho g h \]</div>
-          <div class="f-where">\(P_0\) = pressure at the free surface (usually atmospheric, 1.013 × 10⁵ Pa), ρ = liquid density, h = vertical depth below the surface.</div>
+          <div class="f-where">\(P_0\) = pressure at the free surface (usually atmospheric, 1.013 × 10⁵ Pa), ρ = liquid density, h = vertical depth below the surface.<br><strong>Symbols and assumptions:</strong> P = absolute pressure at the point (Pa); P₀ = pressure at the free surface (Pa); ρ = liquid density (kg/m³); g = gravitational acceleration (m/s²); h = vertical depth below the surface (m). The liquid is at rest and its density is uniform.</div>
         </div>
         <div class="formula">
           <div class="f-title">Between any two points</div>
           <div class="f-main">\[ P_2 - P_1 = \rho g (h_2 - h_1) \]</div>
-          <div class="f-where">Only the vertical separation matters. Points at the same level in the same connected liquid at rest have the same pressure.</div>
+          <div class="f-where">Only the vertical separation matters. Points at the same level in the same connected liquid at rest have the same pressure.<br><strong>Symbols and assumptions:</strong> P₁, P₂ = pressures (Pa); h₁, h₂ = depths (m) measured downward from the same reference level; ρ = uniform density (kg/m³); g = gravitational acceleration (m/s²). A deeper point has greater h and greater P.</div>
         </div>
       </div>
 
@@ -205,7 +224,7 @@
         <div class="formula">
           <div class="f-title">Force on a vertical wall of width w, liquid depth H</div>
           <div class="f-main">\[ F = \underbrace{\frac{\rho g H}{2}}_{\text{average pressure}} \times (H w) = \frac{\rho g H^2 w}{2} \]</div>
-          <div class="f-where">Gauge force (the atmosphere usually acts on both sides and cancels). The resultant acts at H/3 above the base. On the base itself, F = ρgH × (base area).</div>
+          <div class="f-where">Gauge force (the atmosphere usually acts on both sides and cancels). The resultant acts at H/3 above the base. On the base itself, F = ρgH × (base area).<br><strong>Symbols and assumptions:</strong> F = net force from the water (N); ρ = liquid density (kg/m³); g = gravitational acceleration (m/s²); H = vertical wetted depth (m); w = wall width (m). Atmospheric pressure acts on both sides and cancels; water is on only one side.</div>
         </div>
       </div>
 
@@ -225,6 +244,28 @@
         </ol><p class="answer">Answer: 1.8 × 10⁶ N (using ρgH over the whole wall would wrongly double it)</p></div></details>
       </div>
 
+      <h3>If density changes with depth</h3>
+      <div class="prose"><p>The simple product ρgh assumes constant density. If density is ρ(z), divide the liquid into thin horizontal slices. A slice of thickness dz adds pressure dP = ρ(z)g dz. Add the contributions by integrating. Here z measures depth downward from the free surface:</p><p>\[P(h)-P_0=g\int_0^h\rho(z)\,dz.\]</p><p>For separate uniform layers, integration becomes a sum: P − P₀ = g(ρ₁h₁ + ρ₂h₂ + …), where ρᵢ and hᵢ are each layer's density and vertical thickness. At a given depth, include all the layers above that point.</p></div>
+      <div class="quiz" data-topic="pressure-depth" data-limit="4"><h3>Try pressure, depth and wall force</h3></div>
+    </section>
+
+    <section id="connected-vessels" data-num="★" data-toc="Connected cylinders &amp; energy">
+      <div class="sec-head"><span class="num">★ <span class="level exam">Exam</span></span><h2>Connected cylinders: final level and work done</h2></div>
+      <div class="prose"><p>Two upright vessels are connected at their bottoms by a pipe. Initially, the taller column gives a greater pressure at its end of the pipe. Water flows toward the shorter column. With the same liquid and equal air pressure above both surfaces, the final state at rest has <strong>equal surface heights</strong>, because the bottom pressures must match.</p><p>Equal heights do not necessarily mean equal volumes. A wider cylinder holds more water at the same height. To find the final height, conserve the total liquid volume. Assume both vessels have constant cross-sectional areas and a common bottom level, and the pipe's volume is negligible.</p></div>
+      <div class="formula"><div class="f-title">Final height: conserve volume</div><div class="f-main">\[A_1h_1+A_2h_2=(A_1+A_2)h_f,\qquad h_f=\frac{A_1h_1+A_2h_2}{A_1+A_2}\]</div><div class="f-where">A₁, A₂ = vessel areas (m²); h₁, h₂ = initial depths (m); h_f = final common depth (m). For equal areas, h_f = (h₁ + h₂)/2. A common surface pressure and the same liquid are essential assumptions.<br><strong>Symbols and assumptions:</strong> A₁, A₂ = constant vessel areas (m²); h₁, h₂ = initial depths above the common bottom (m); h_f = settled common depth (m). Both surfaces have the same imposed pressure; the pipe volume is neglected.</div></div>
+      <h3>Where does the lost gravitational energy go?</h3>
+      <div class="prose"><p>A uniform water column of height h and area A has mass ρAh. Its centre of mass is h/2 above the bottom, so its gravitational potential energy is U = ρgAh²/2. Add this energy for the two vessels before and after the transfer.</p><p>Gravity does positive work as the water redistributes: W_g = U_initial − U_final. During transfer some energy becomes kinetic; as real water settles, viscosity turns it into internal energy. In a perfectly lossless model, the liquid would keep oscillating instead of settling. This is why equalisation does not imply conservation of the initial gravitational potential energy.</p></div>
+      <div class="formula"><div class="f-title">Work by gravity during equalisation</div><div class="f-main">\[W_g=\frac{\rho g}{2}\left[A_1h_1^2+A_2h_2^2-(A_1+A_2)h_f^2\right]=\frac{\rho gA_1A_2}{2(A_1+A_2)}(h_1-h_2)^2\]</div><div class="f-where">W_g = work done by gravity (J); ρ = liquid density (kg/m³); g = gravitational acceleration (m/s²). A₁, A₂, h₁, h₂ and h_f have the meanings above. This is the decrease in gravitational potential energy between the initial and settled final states, not useful work automatically delivered by a machine.<br><strong>Symbols and assumptions:</strong> W_g = work by gravity (J); ρ = common liquid density (kg/m³); g = gravitational acceleration (m/s²); A₁, A₂ = vessel areas (m²); h₁, h₂ = initial depths (m); h_f = final depth (m).</div></div>
+      <div class="formula"><div class="f-title">Shortcut for equal-area cylinders</div><div class="f-main">\[W_g=\frac{\rho gA}{4}(h_1-h_2)^2\]</div><div class="f-where">A = area of <em>each</em> cylinder, not their combined area. This special case follows by putting A₁ = A₂ = A in the general formula. The height difference is squared; exchanging the two initial heights leaves the result unchanged.<br><strong>Symbols and assumptions:</strong> W_g = work by gravity (J); ρ = liquid density (kg/m³); g = gravitational acceleration (m/s²); A = area of each cylinder (m²); h₁, h₂ = initial depths (m). Only use this form when the vessel areas are equal.</div></div>
+      <figure class="sim" id="sim-connected-vessels"><div class="sim-head"><span class="tag">Interactive</span><h4>Before and after opening the connecting pipe</h4></div><div class="sim-body side"><div class="sim-stage"></div><div class="sim-panel">
+        <div class="seg" data-k="state" role="group" aria-label="Vessel state"><button type="button" data-v="before" aria-pressed="true">Before connection</button><button type="button" data-v="after">After settling</button></div>
+        <div class="controls">
+          <div class="ctrl"><label for="cv-A1">Cylinder 1 area <output data-for="cv-A1"></output></label><input id="cv-A1" type="range" min="1" max="4" step="0.5" value="2" data-unit=" m²" data-dp="1"></div>
+          <div class="ctrl"><label for="cv-A2">Cylinder 2 area <output data-for="cv-A2"></output></label><input id="cv-A2" type="range" min="1" max="4" step="0.5" value="2" data-unit=" m²" data-dp="1"></div>
+          <div class="ctrl"><label for="cv-h1">Initial depth 1 <output data-for="cv-h1"></output></label><input id="cv-h1" type="range" min="0" max="8" step="0.5" value="6" data-unit=" m" data-dp="1"></div>
+          <div class="ctrl"><label for="cv-h2">Initial depth 2 <output data-for="cv-h2"></output></label><input id="cv-h2" type="range" min="0" max="8" step="0.5" value="4" data-unit=" m" data-dp="1"></div>
+        </div><div class="readouts"><div class="readout hi"><span class="k">Final common depth</span><span class="v" data-r="height">–</span></div><div class="readout"><span class="k">Work done by gravity</span><span class="v" data-r="work">–</span></div><div class="readout"><span class="k">Volume transferred</span><span class="v" data-r="volume">–</span></div></div><p class="sim-note">Water: ρ = 1000 kg/m³, g = 10 m/s² for comparison with Test-05 Q4. Both surfaces are open to the same atmosphere. The widths illustrate different areas; heights share one scale.</p>
+      </div></div></figure>
       <div class="eg">
         <div class="eg-q"><span class="eg-tag">Worked example · Energy (like Test-05 Q4)</span><p>Two identical tanks, each of base area 3 m², stand side by side. One has water 8 m deep and the other 2 m deep. They are joined at the bottom by a thin pipe and the levels equalise. How much work does gravity do? (\(g = 10\) m s⁻²)</p></div>
         <details><summary>Show solution</summary><div class="eg-a"><ol class="steps">
@@ -236,7 +277,8 @@
         </ol><p class="answer">Answer: 2.7 × 10⁵ J</p></div></details>
       </div>
 
-      <div class="quiz" data-topic="pressure" data-limit="3"><h3>From your Test-05</h3></div>
+      <div class="callout trap"><span class="label">Choose the correct setup</span><p>Open connected vessels equalise <em>height</em>. Cylinders with loaded pistons instead have different surface pressures; their final heights can differ. Start by writing the pressure at one common level, including any piston force divided by its area. Do not apply the open-vessel average-height shortcut to a hydraulic press.</p></div>
+      <div class="quiz" data-topic="connected-vessels"><h3>Now try the question from Test-05</h3></div>
     </section>
 
     <section id="atmospheric" data-num="9.2.3" data-toc="Atmospheric &amp; gauge">
@@ -275,7 +317,7 @@
         <div class="formula">
           <div class="f-title">Barometer</div>
           <div class="f-main">\[ P_0 = \rho_{Hg}\, g\, h \]</div>
-          <div class="f-where">At sea level h = 0.76 m: \(13600 \times 9.8 \times 0.76 = 1.013\times10^5\) Pa. With water the column would be 10.3 m tall. The height is the <strong>vertical</strong> height. It does not depend on the tube's width or tilt; tilting only makes the column longer along the tube.</div>
+          <div class="f-where">At sea level h = 0.76 m: \(13600 \times 9.8 \times 0.76 = 1.013\times10^5\) Pa. With water the column would be 10.3 m tall. The height is the <strong>vertical</strong> height. It does not depend on the tube's width or tilt; tilting only makes the column longer along the tube.<br><strong>Symbols and assumptions:</strong> P₀ = atmospheric pressure (Pa); ρ_Hg = mercury density (kg/m³); g = gravitational acceleration (m/s²); h = vertical height difference between mercury surfaces (m). Pressure above the closed-end column is treated as negligible.</div>
         </div>
       </div>
 
@@ -299,7 +341,7 @@
       <div class="formula">
         <div class="f-title">Open-tube manometer</div>
         <div class="f-main">\[ P_{\text{gas}} = P_0 + \rho g h \qquad (h = \text{difference in liquid levels}) \]</div>
-        <div class="f-where">If the open side stands higher, the gas pressure is above atmospheric (h positive). If the open side is lower, the gas pressure is below atmospheric (subtract).</div>
+        <div class="f-where">If the open side stands higher, the gas pressure is above atmospheric (h positive). If the open side is lower, the gas pressure is below atmospheric (subtract).<br><strong>Symbols and assumptions:</strong> P_gas = gas absolute pressure (Pa); P₀ = atmospheric pressure (Pa); ρ = manometer-liquid density (kg/m³); g = gravitational acceleration (m/s²); h = vertical level difference (m). The displayed plus sign applies when the open-arm surface is higher; use a minus sign when it is lower.</div>
       </div>
 
       <h3>U-tube with two liquids that don't mix</h3>
@@ -364,10 +406,10 @@
       <div class="quiz" data-ids="xf-04,xf-05,xf-06,xf-07"><h3>Practice: barometers, manometers, U-tubes</h3></div>
     </section>
 
-    <section id="pascal" data-num="9.2.4" data-toc="Pascal's law &amp; hydraulics">
+    <section id="pascal" data-num="9.2.4" data-toc="Hydraulic machines">
       <div class="sec-head">
         <span class="num">9.2.4 <span class="level core">Core</span></span>
-        <h2>Pascal's law and hydraulic machines</h2>
+        <h2>Hydraulic machines: applying Pascal's law</h2>
       </div>
       <div class="prose">
         <p>Squeeze the end of a toothpaste tube and paste comes out at the nozzle, far from your fingers. Press one side of a water-filled balloon and it bulges everywhere else. An enclosed liquid passes any extra push on to every part of itself. That is Pascal's law, and it lets a mechanic lift a car with one hand.</p>
@@ -385,12 +427,12 @@
         <div class="formula">
           <div class="f-title">Force multiplication</div>
           <div class="f-main">\[ \frac{F_1}{A_1} = \frac{F_2}{A_2} \;\Rightarrow\; F_2 = F_1 \frac{A_2}{A_1} = F_1\left(\frac{d_2}{d_1}\right)^2 \]</div>
-          <div class="f-where">Mechanical advantage = A₂/A₁. For round pistons, area ∝ (diameter)², so square the diameter ratio.</div>
+          <div class="f-where">Mechanical advantage = A₂/A₁. For round pistons, area ∝ (diameter)², so square the diameter ratio.<br><strong>Symbols and assumptions:</strong> F₁ = input force (N); F₂ = balanced load force (N); A₁, A₂ = piston areas (m²); d₁, d₂ = piston diameters in matching units. These are force magnitudes due to the same added pressure; piston weight, friction and height corrections are neglected.</div>
         </div>
         <div class="formula">
           <div class="f-title">No free energy</div>
           <div class="f-main">\[ A_1 x_1 = A_2 x_2, \qquad F_1 x_1 = F_2 x_2 \]</div>
-          <div class="f-where">The liquid volume pushed out of the small cylinder equals the volume entering the big one. The big piston rises only x₂ = x₁A₁/A₂, so work in = work out (ideal machine).</div>
+          <div class="f-where">The liquid volume pushed out of the small cylinder equals the volume entering the big one. The big piston rises only x₂ = x₁A₁/A₂, so work in = work out (ideal machine).<br><strong>Symbols and assumptions:</strong> A₁, A₂ = piston areas (m²); x₁, x₂ = piston displacement magnitudes (m); F₁, F₂ = corresponding forces (N). A₁x₁ = A₂x₂ conserves volume, and F₁x₁ = F₂x₂ conserves work in the ideal machine.</div>
         </div>
       </div>
 
@@ -428,7 +470,7 @@
       </div>
 
       <div class="prose">
-        <p><strong>Hydraulic brakes.</strong> A light push on the brake pedal moves a piston in a small master cylinder. The pressure travels through the brake oil to larger pistons at each wheel, which press the brake pads with a much larger force. Because the pressure is the same everywhere in the oil, all wheels brake equally.</p>
+        <p><strong>Hydraulic brakes.</strong> A light push on the brake pedal moves a piston in a small master cylinder. The pressure travels through the brake oil to larger pistons at each wheel, which press the brake pads with a much larger force. The added pressure is transmitted through the brake oil. The force at each piston equals this pressure increase times its piston area; actual front and rear braking forces can differ by design.</p>
       </div>
 
       <div class="eg">
@@ -479,22 +521,22 @@
         <div class="formula">
           <div class="f-title">Buoyant force</div>
           <div class="f-main">\[ F_B = \rho_l\, V_{sub}\, g \]</div>
-          <div class="f-where">ρ_l = density of the <em>liquid</em>, V_sub = submerged volume. F_B vs V_sub is a straight line through the origin with slope ρ_l g, and it becomes flat once the body is fully under (Test-05 Q36).</div>
+          <div class="f-where">ρ_l = density of the <em>liquid</em>, V_sub = submerged volume. F_B vs V_sub is a straight line through the origin with slope ρ_l g, and it becomes flat once the body is fully under (Test-05 Q36).<br><strong>Symbols and assumptions:</strong> F_B = upward buoyant force (N); ρ_l = liquid density (kg/m³); V_sub = displaced/submerged volume (m³); g = gravitational acceleration (m/s²). The submerged volume need not be the whole body volume.</div>
         </div>
         <div class="formula">
           <div class="f-title">Floating (equilibrium)</div>
           <div class="f-main">\[ \rho_b V g = \rho_l V_{sub} g \;\Rightarrow\; \frac{V_{sub}}{V} = \frac{\rho_b}{\rho_l} \]</div>
-          <div class="f-where">Fraction submerged = density ratio. Ice (900) in water: 90% under. Wood (600) in water: 60% under.</div>
+          <div class="f-where">Fraction submerged = density ratio. Ice (900) in water: 90% under. Wood (600) in water: 60% under.<br><strong>Symbols and assumptions:</strong> ρ_b = mean body density (kg/m³); ρ_l = liquid density (kg/m³); V = total body volume (m³); V_sub = submerged volume (m³); g = gravitational acceleration (m/s²). The body floats freely with no other vertical support or force.</div>
         </div>
         <div class="formula">
           <div class="f-title">Apparent weight (fully immersed)</div>
           <div class="f-main">\[ W_{app} = W - F_B = W\left(1 - \frac{\rho_l}{\rho_b}\right) \]</div>
-          <div class="f-where">Loss of weight = F_B. Relative density of a solid = W_air ÷ (W_air − W_water).</div>
+          <div class="f-where">Loss of weight = F_B. Relative density of a solid = W_air ÷ (W_air − W_water).<br><strong>Symbols and assumptions:</strong> W_app = support-force magnitude/readout (N); W = true weight (N); F_B = buoyancy (N); ρ_l = liquid density; ρ_b = mean body density, both in kg/m³. A negative W − F_B means a downward restraint is needed, not a negative reading on an ordinary hanging spring balance.</div>
         </div>
         <div class="formula">
           <div class="f-title">Body at the interface of two liquids</div>
           <div class="f-main">\[ \rho_b V = \rho_1 V_1 + \rho_2 V_2 \]</div>
-          <div class="f-where">V₁ + V₂ = V. The body's density is the volume-weighted average of the two liquids.</div>
+          <div class="f-where">V₁ + V₂ = V. The body's density is the volume-weighted average of the two liquids.<br><strong>Symbols and assumptions:</strong> ρ_b = mean body density; ρ₁, ρ₂ = upper/lower liquid densities, all in kg/m³; V = total body volume; V₁, V₂ = volumes in the two liquids, all in m³. The displayed form assumes V₁ + V₂ = V; no part is in air.</div>
         </div>
       </div>
 
@@ -562,12 +604,19 @@
         <p>A block carrying a coin floats in a tank. The coin slips off and sinks. Two things happen: the <strong>block rises</strong> (it is lighter, so less of it needs to be under water, and L, its height above the water, increases), and the <strong>water level h falls</strong> (the coin now displaces only its own volume). Students often say "the level stays the same". It doesn't.</p>
       </div>
 
+      <h3>Hollow bodies: material density and mean density differ</h3>
+      <div class="prose"><p>A sealed hollow metal ball can float even if its metal is denser than water. Its weight depends on the volume of metal, while the water displaced depends on the <em>outer</em> submerged volume, including the sealed cavity. Use the total mass divided by the outer volume to decide whether it can float.</p><p>For outer radius R, cavity radius a and material density ρ_s, ignoring the mass of enclosed air, \(M=\rho_s\frac{4\pi}{3}(R^3-a^3)\). The mean density is \(\bar\rho=M/(4\pi R^3/3)=\rho_s[1-(a/R)^3]\). Here M is the mass in kg, R and a are radii in m, and both densities are in kg/m³.</p><p>“Just floats” in the ideal question means fully immersed neutral equilibrium: mean density equals liquid density ρ_l. Hence \((a/R)^3=1-\rho_l/\rho_s\). The same ratio applies to cavity diameter divided by outer diameter. If water enters an open cavity, do not treat that water-filled space as the same sealed displaced volume.</p></div>
+      <h3>Variable-density sphere: average over volume, not radius</h3>
+      <div class="prose"><p>In Test-05 Q13, the sphere's density varies with radial distance r from its centre. An outer shell contains more volume than an equally thick inner shell: for a thin shell, \(dV=4\pi r^2dr\). Therefore a simple average of centre and surface densities is wrong.</p><p>For sphere radius R and density \(\rho(r)=\rho_0(1-r/R)\), where ρ₀ is its central density, add the shell masses:</p><p>\[M=\int_0^R\rho(r)\,4\pi r^2dr=4\pi\rho_0\left[\frac{R^3}{3}-\frac{R^3}{4}\right]=\frac{\pi\rho_0R^3}{3}.\]</p><p>Dividing by total volume \(4\pi R^3/3\) gives \(\bar\rho=\rho_0/4\). Use this mean density in the ordinary floating relation \(V_\text{sub}/V=\bar\rho/\rho_l\). Here V is the sphere volume and V_sub is its submerged volume. This calculation averages the <em>body's</em> density; it differs from integrating a liquid's pressure through depth.</p></div>
+      <h3>A burning candle: follow its bottom and top separately</h3>
+      <div class="prose"><p>Let a uniform floating candle have current length ℓ and submerged fraction f = ρ_c/ρ_l, where ρ_c and ρ_l are candle and liquid densities. Its immersed length is fℓ. If burning decreases total length at rate b, that immersed length decreases at rate fb. Relative to a nearly fixed water surface, the bottom therefore rises at fb, while the top falls at (1 − f)b.</p><p>For a half-submerged candle, f = 1/2. Burning at b = 4 cm/hour makes the bottom rise at 2 cm/hour and the top fall at 2 cm/hour. The large vessel in Q6 (D ≫ d, with D and d the vessel and candle diameters) makes the change of outside liquid level negligible. The model assumes uniform density and cross-section and no retained wax changing the mass balance.</p></div>
+
       <h3>More things that get asked</h3>
       <div class="prose">
         <ul>
           <li><strong>Extra load to sink a floater</strong> (Q11): extra mass needed = ρ_l × (unsubmerged volume). A 1 m³ cube half under water needs 1000 × 0.5 = 500 kg more.</li>
           <li><strong>Burning candle</strong> (Q6): the fraction submerged stays ρ_c/ρ_w. If the candle shortens at rate r, the submerged length shrinks at (ρ_c/ρ_w)r, so the bottom rises at that rate. Half-submerged, burning 4 cm/h → bottom rises 2 cm/h.</li>
-          <li><strong>Hollow and variable-density bodies</strong> (Q9, Q13): use the <em>average</em> density = total mass ÷ total volume. "Just floats" (fully submerged at rest) means ρ_avg = ρ_l. Worked out in <a href="#problem-types">Problem patterns</a>.</li>
+          <li><strong>Hollow and variable-density bodies</strong> (Q9, Q13): use the <em>average</em> density = total mass ÷ total volume. "Just floats" (fully submerged at rest) means ρ_avg = ρ_l. See the shell-mass calculation above and <a href="#problem-types">Problem patterns</a>.</li>
           <li><strong>Body on a spring, fully submerged</strong> (Q10): if it hangs from a spring, kx = mg − F_B. If it is tied to the bottom by a spring (a floater held under), kx = F_B − mg.</li>
           <li><strong>Accelerating container</strong>: in a lift accelerating up with a, replace g by g + a. Weight and buoyancy both scale, so <strong>the fraction submerged does not change</strong>. In free fall there is no buoyancy at all.</li>
           <li><strong>Rising body</strong> (like a bubble, Q14): with drag neglected, net upward force F_B − W = ma gives a = (ρ_l/ρ_b − 1)g. For a = g/100, ρ_l/ρ_b = 1.01.</li>
@@ -603,7 +652,7 @@
       </div>
 
       <div class="quiz" data-ids="t05-12,t05-13,t05-15,t05-36,t05-07"><h3>From your Test-05 (the ones marked on your paper first)</h3></div>
-      <p class="small"><a href="practice.html#buoyancy">See all 12 buoyancy questions from Test-05 in Practice →</a></p>
+      <p class="small"><a href="practice.html#buoyancy">See all buoyancy questions in Practice →</a></p>
     </section>
 
     <section id="flow" data-num="9.3" data-toc="Streamline &amp; turbulent">
@@ -633,7 +682,7 @@
         <div><h4>Turbulent</h4><p>Irregular, with eddies and swirls; velocity at a point changes randomly. Happens above a <strong>critical speed</strong>. Examples: rapids, wake of a ship, smoke higher up, blood flow past a narrowed artery. Turbulence dissipates energy.</p></div>
       </div>
       <div class="callout tip"><span class="label">Link to Fluids II: Reynolds number</span>
-        <p>Whether a flow is laminar or turbulent depends on \( R_e = \dfrac{\rho v d}{\eta} \) (d = size of pipe or object, η = viscosity). Roughly, Re &lt; 1000 is laminar and Re &gt; 2000 is turbulent. Details are in <a href="fluids-2.html">Fluids II</a>. For Test-05 Q18: a <em>smaller</em> model (smaller d) needs a <em>larger</em> v to reach the same Re, so <strong>turbulence starts at a higher speed</strong> for the small model.</p>
+        <p>Whether a flow is laminar or turbulent depends on \( R_e = \dfrac{\rho v d}{\eta} \) (d = size of pipe or object, η = viscosity). The convention in your coaching test uses Re &lt; 1000 for laminar and Re &gt; 2000 for turbulent flow; these are approximate, geometry-dependent ranges. Details are in <a href="fluids-2.html">Fluids II</a>. For Test-05 Q18: a <em>smaller</em> model (smaller d) needs a <em>larger</em> v to reach the same Re, so <strong>turbulence starts at a higher speed</strong> for the small model.</p>
       </div>
 
       <div class="eg">
@@ -667,17 +716,17 @@
         <div class="formula">
           <div class="f-title">Equation of continuity (conservation of mass)</div>
           <div class="f-main">\[ A_1 v_1 = A_2 v_2 = Q \]</div>
-          <div class="f-where">Q = volume flow rate (m³ s⁻¹), constant along the pipe. Mass flow rate = ρQ (kg s⁻¹).</div>
+          <div class="f-where">Q = volume flow rate (m³ s⁻¹), constant along the pipe. Mass flow rate = ρQ (kg s⁻¹).<br><strong>Symbols and assumptions:</strong> A₁, A₂ = cross-sectional areas (m²); v₁, v₂ = section-average flow speeds (m/s); Q = volume flow rate (m³/s). This form requires steady incompressible flow with no leak between the sections.</div>
         </div>
         <div class="formula">
           <div class="f-title">Round pipes</div>
           <div class="f-main">\[ v \propto \frac{1}{A} \propto \frac{1}{d^2}, \qquad \frac{v_1}{v_2} = \left(\frac{d_2}{d_1}\right)^2 \]</div>
-          <div class="f-where">Halve the diameter → 4× the speed. Kinetic energy per volume ½ρv² ∝ 1/d⁴.</div>
+          <div class="f-where">Halve the diameter → 4× the speed. Kinetic energy per volume ½ρv² ∝ 1/d⁴.<br><strong>Symbols and assumptions:</strong> v = section-average speed (m/s); A = area (m²); d = diameter (m); indices 1 and 2 identify two sections. Ratios assume the same conserved volume flow rate; diameter ratios must be squared.</div>
         </div>
         <div class="formula">
           <div class="f-title">Branching and many holes</div>
           <div class="f-main">\[ A v = \sum_i A_i v_i, \qquad A_1 v_1 = n\,a\,v_2 \]</div>
-          <div class="f-where">Flow in = total flow out. Spray pumps and shower heads: n holes, each of area a.</div>
+          <div class="f-where">Flow in = total flow out. Spray pumps and shower heads: n holes, each of area a.<br><strong>Symbols and assumptions:</strong> A, v = inlet area (m²) and mean speed (m/s); A_i, v_i = area and outward mean speed of outlet i; n = number of identical holes; a = area of each hole (m²); A₁, v₁ = inlet values; v₂ = speed at each identical outlet (m/s).</div>
         </div>
       </div>
 
@@ -755,18 +804,18 @@
       <div class="formula">
         <div class="f-title">Bernoulli's equation (along a streamline)</div>
         <div class="f-main">\[ P + \tfrac{1}{2}\rho v^2 + \rho g h = \text{constant} \]</div>
-        <div class="f-where">Each term is energy per unit volume (J m⁻³ = Pa): P = pressure energy, ½ρv² = kinetic energy, ρgh = potential energy, all per unit volume. Valid for steady, incompressible, non-viscous, irrotational flow.</div>
+        <div class="f-where">Each term is energy per unit volume (J m⁻³ = Pa): P = pressure energy, ½ρv² = kinetic energy, ρgh = potential energy, all per unit volume. Valid along a streamline for steady, incompressible flow with negligible viscosity and no added work or energy loss. Irrotational flow permits comparison across streamlines.<br><strong>Symbols and assumptions:</strong> P = local pressure (Pa); ρ = density (kg/m³); v = speed (m/s); g = gravitational acceleration (m/s²); h = height (m) measured upward from a chosen datum. Unlike the earlier depth h, this h is an upward elevation.</div>
       </div>
       <div class="formula-grid">
         <div class="formula">
           <div class="f-title">Per unit mass</div>
           <div class="f-main">\[ \frac{P}{\rho} + \frac{v^2}{2} + g h = \text{const} \]</div>
-          <div class="f-where">Units J kg⁻¹.</div>
+          <div class="f-where">Units J kg⁻¹.<br><strong>Symbols and assumptions:</strong> P = pressure (Pa); ρ = density (kg/m³); v = speed (m/s); g = gravitational acceleration (m/s²); h = upward elevation (m). Each term has units J/kg; the ideal Bernoulli assumptions still apply.</div>
         </div>
         <div class="formula">
           <div class="f-title">Per unit weight ("heads")</div>
           <div class="f-main">\[ \frac{P}{\rho g} + \frac{v^2}{2g} + h = \text{const} \]</div>
-          <div class="f-where">Pressure head + velocity head + elevation head, each a length (m).</div>
+          <div class="f-where">Pressure head + velocity head + elevation head, each a length (m).<br><strong>Symbols and assumptions:</strong> P = pressure (Pa); ρ = density (kg/m³); g = gravitational acceleration (m/s²); v = speed (m/s); h = upward elevation (m). Every term is a head in metres; a head is energy per unit weight.</div>
         </div>
       </div>
       <div class="callout trap"><span class="label">Exam traps · your Test-05 Q21 and Q42</span>
@@ -855,27 +904,27 @@
         <div class="formula">
           <div class="f-title">Speed of efflux</div>
           <div class="f-main">\[ v = \sqrt{2 g h} \]</div>
-          <div class="f-where">h = depth of the hole below the free surface. Independent of the liquid's density and the hole's size.</div>
+          <div class="f-where">h = depth of the hole below the free surface. Independent of the liquid's density and the hole's size.<br><strong>Symbols and assumptions:</strong> v = exit speed (m/s); g = gravitational acceleration (m/s²); h = vertical depth of the hole below the free surface (m). Both surface and exit are at the same pressure; the tank area is much larger than the hole area and losses are neglected.</div>
         </div>
         <div class="formula">
           <div class="f-title">Extra pressure on the surface (closed tank, piston, load)</div>
           <div class="f-main">\[ v = \sqrt{2gh + \frac{2(P - P_0)}{\rho}} \]</div>
-          <div class="f-where">An extra pressure ΔP on the surface adds ΔP/ρg to the effective head (Test-05 Q35).</div>
+          <div class="f-where">An extra pressure ΔP on the surface adds ΔP/ρg to the effective head (Test-05 Q35).<br><strong>Symbols and assumptions:</strong> v = exit speed (m/s); h = hole depth below the free surface (m); P = pressure on the liquid surface (Pa); P₀ = pressure outside the hole (Pa); ρ = liquid density (kg/m³); g = gravitational acceleration (m/s²). A piston load M adds Mg/A to surface pressure, with M its mass and A the piston area.</div>
         </div>
         <div class="formula">
           <div class="f-title">Horizontal range on the ground</div>
           <div class="f-main">\[ R = v\sqrt{\frac{2y}{g}} = 2\sqrt{h\,y} = 2\sqrt{h(H-h)} \]</div>
-          <div class="f-where">h = depth below surface, y = height of hole above the ground, H = h + y (liquid surface above the ground). Maximum R = H when h = y = H/2. Holes at depth h and at depth H − h give the same range.</div>
+          <div class="f-where">h = depth below surface, y = height of hole above the ground, H = h + y (liquid surface above the ground). Maximum R = H when h = y = H/2. Holes at depth h and at depth H − h give the same range.<br><strong>Symbols and assumptions:</strong> R = horizontal range (m); v = horizontal exit speed (m/s); y = hole height above the landing level (m); h = hole depth below the liquid surface (m); H = surface height above the landing level (m), so y = H − h; g = gravitational acceleration (m/s²). Air resistance and changes in surface height during flight are neglected.</div>
         </div>
         <div class="formula">
           <div class="f-title">Time to empty (hole at the bottom)</div>
           <div class="f-main">\[ t = \frac{A}{a}\sqrt{\frac{2H}{g}} \;\propto\; \sqrt{H} \]</div>
-          <div class="f-where">A = tank area, a = hole area. From H₁ to H₂: \( t = \frac{A}{a}\sqrt{\frac{2}{g}}\,(\sqrt{H_1} - \sqrt{H_2}) \). The first half of the height drains in only 29% of the total time.</div>
+          <div class="f-where">A = tank area, a = hole area. From H₁ to H₂: \( t = \frac{A}{a}\sqrt{\frac{2}{g}}\,(\sqrt{H_1} - \sqrt{H_2}) \). The first half of the height drains in only 29% of the total time.<br><strong>Symbols and assumptions:</strong> t = emptying time (s); A = constant tank cross-sectional area (m²); a = hole area (m²); H = initial water depth (m); g = gravitational acceleration (m/s²). The hole is small compared with the tank and viscous/contraction losses are neglected.</div>
         </div>
         <div class="formula">
           <div class="f-title">Thrust (reaction) of the jet</div>
           <div class="f-main">\[ F = \rho a v^2 = 2\rho a g h \]</div>
-          <div class="f-where">Momentum per second carried out by the jet. This is <em>twice</em> the hydrostatic force ρgh·a on a plugged hole. Two holes on opposite walls at depths h₁, h₂: net force 2ρag(h₂ − h₁) (Q40).</div>
+          <div class="f-where">Momentum per second carried out by the jet. This is <em>twice</em> the hydrostatic force ρgh·a on a plugged hole. Two holes on opposite walls at depths h₁, h₂: net force 2ρag(h₂ − h₁) (Q40).<br><strong>Symbols and assumptions:</strong> F = horizontal reaction-force magnitude (N); ρ = liquid density (kg/m³); a = hole area (m²); v = exit speed (m/s); g = gravitational acceleration (m/s²); h = hole depth below the surface (m). The second form uses v² = 2gh.</div>
         </div>
       </div>
 
@@ -985,12 +1034,12 @@
         <div class="formula">
           <div class="f-title">Two equations, two unknowns</div>
           <div class="f-main">\[ A_1v_1 = A_2v_2, \qquad P_1 - P_2 = \tfrac12\rho\,(v_2^2 - v_1^2) \]</div>
-          <div class="f-where">Substitute v₂ = v₁A₁/A₂ into Bernoulli and solve for v₁.</div>
+          <div class="f-where">Substitute v₂ = v₁A₁/A₂ into Bernoulli and solve for v₁.<br><strong>Symbols and assumptions:</strong> A₁, A₂ = pipe areas (m²); v₁, v₂ = flow speeds (m/s); P₁, P₂ = pressures (Pa); ρ = liquid density (kg/m³). The sections are horizontal and the flow is ideal, steady and incompressible.</div>
         </div>
         <div class="formula">
           <div class="f-title">Venturimeter result</div>
           <div class="f-main">\[ v_1 = \sqrt{\frac{2\,\Delta P}{\rho\left[(A_1/A_2)^2 - 1\right]}}, \qquad Q = A_1 v_1 = A_1A_2\sqrt{\frac{2\,\Delta P}{\rho\,(A_1^2 - A_2^2)}} \]</div>
-          <div class="f-where">ΔP = P₁ − P₂. With vertical tubes of the same liquid, ΔP = ρgΔh. With a U-tube manometer holding a heavier liquid ρ_m (e.g. mercury under water), ΔP = (ρ_m − ρ)gh.</div>
+          <div class="f-where">ΔP = P₁ − P₂. With vertical tubes of the same liquid, ΔP = ρgΔh. With a U-tube manometer holding a heavier liquid ρ_m (e.g. mercury under water), ΔP = (ρ_m − ρ)gh.<br><strong>Symbols and assumptions:</strong> v₁ = speed in the wider section (m/s); A₁ = wider area and A₂ = throat area (m²), with A₁ > A₂; ΔP = P₁ − P₂ (Pa), positive; ρ = liquid density (kg/m³); Q = volume flow rate (m³/s). The pressure difference is measured at equal elevation.</div>
         </div>
       </div>
 
@@ -1057,7 +1106,87 @@
         <span class="num">9.4.2 <span class="level core">Core</span></span>
         <h2>Dynamic lift and the Magnus effect</h2>
       </div>
-      <p class="muted">This section is being written…</p>
+      <div class="prose">
+        <p>Aeroplanes, spinning cricket balls and a roof lifted by a storm all involve a pressure difference created by moving air. Start with the pressure: a surface feels a greater push from the side at higher pressure. In the ideal, horizontal-flow model, Bernoulli relates that difference to the air speeds.</p>
+        <p>For speeds \(v_\text{top}\) and \(v_\text{bottom}\), measured relative to the wing, subtract the two Bernoulli equations using the same upstream conditions. Faster flow over the top gives lower pressure there, so the bottom pushes up more strongly than the top pushes down.</p>
+      </div>
+      <div class="formula">
+        <div class="f-title">Uniform-pressure approximation for a wing</div>
+        <div class="f-main">\[P_\text{bottom}-P_\text{top}=\frac12\rho(v_\text{top}^{2}-v_\text{bottom}^{2}),\qquad F_\text{lift}=\Delta P\,A\]</div>
+        <div class="f-where">ρ is the air density; A is the effective wing area. Positive F means upward lift. A real wing has a varying pressure distribution, so its total force is found by adding pressure forces over the surface.<br><strong>Symbols and assumptions:</strong> P_bottom, P_top = air pressures below/above the wing (Pa); v_top, v_bottom = air speeds relative to the wing (m/s); ρ = air density (kg/m³); ΔP = P_bottom − P_top; A = effective wing area (m²); F_lift = signed upward lift (N).</div>
+      </div>
+      <figure class="sim" id="sim-lift">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Pressure lift and a spinning ball</h4></div>
+        <div class="sim-body side"><div class="sim-stage"></div><div class="sim-panel">
+          <div class="seg" data-k="lmode" role="group" aria-label="Lift model">
+            <button type="button" data-v="wing" aria-pressed="true">Wing</button><button type="button" data-v="ball">Spinning ball</button>
+          </div>
+          <div class="controls">
+            <div class="ctrl" data-mode="wing"><label for="li-vt">Air speed above <output data-for="li-vt"></output></label><input id="li-vt" type="range" min="20" max="120" step="1" value="70" data-unit=" m/s" data-dp="0"></div>
+            <div class="ctrl" data-mode="wing"><label for="li-vb">Air speed below <output data-for="li-vb"></output></label><input id="li-vb" type="range" min="20" max="120" step="1" value="60" data-unit=" m/s" data-dp="0"></div>
+            <div class="ctrl" data-mode="wing"><label for="li-A">Effective wing area <output data-for="li-A"></output></label><input id="li-A" type="range" min="1" max="40" step="1" value="20" data-unit=" m²" data-dp="0"></div>
+            <div class="ctrl" data-mode="wing"><label for="rho">Air density <output data-for="rho"></output></label><input id="rho" type="range" min="0.6" max="1.5" step="0.1" value="1.2" data-unit=" kg/m³" data-dp="1"></div>
+            <div class="ctrl" data-mode="ball" hidden><label for="li-spin">Spin (signed model strength) <output data-for="li-spin"></output></label><input id="li-spin" type="range" min="-1" max="1" step="0.1" value="0.5" data-dp="1"></div>
+          </div>
+          <div class="readouts">
+            <div class="readout" data-mode="wing"><span class="k">P below − P above</span><span class="v" data-r="dP">–</span></div>
+            <div class="readout hi" data-mode="wing"><span class="k">Signed lift</span><span class="v" data-r="L">–</span></div>
+            <div class="readout" data-mode="ball" hidden><span class="k">Faster side</span><span class="v" data-r="fast">–</span></div>
+            <div class="readout hi" data-mode="ball" hidden><span class="k">Magnus force</span><span class="v" data-r="force">–</span></div>
+          </div>
+          <p class="sim-note">Make the two wing speeds equal: the model gives zero lift. Reverse their order: the force reverses. In spinning-ball mode, reversing spin reverses the sideways force; spin strength is illustrative, not a calibrated angular speed.</p>
+        </div></div>
+      </figure>
+      <h3>Why a spinning ball curves: the Magnus effect</h3>
+      <div class="prose">
+        <p>View a moving ball in its own frame: air flows past it. Viscosity couples nearby air to its rotating surface. Spin changes the flow around opposite sides and makes the pressure distribution asymmetric. The resulting force is transverse to the ball's motion, bending its path. Reverse the spin while keeping the motion the same and the deflection reverses.</p>
+        <p>In the model above, air travels left to right and the ball moves left relative to the air. When its top surface moves with the air, the faster upper flow corresponds to lower pressure and an upward force. With the opposite spin, the faster side and force reverse. Always draw the relative airflow and rotation before deciding the direction.</p>
+      </div>
+      <div class="callout trap"><span class="label">Avoid the equal-transit-time story</span>
+        <p>Air parcels separated at the front of a wing do <strong>not</strong> have to meet at the trailing edge. A longer upper path alone does not establish the speed. Wing shape and angle of attack create the flow and pressure distribution; the wing also deflects air downward. Bernoulli and momentum conservation describe compatible parts of the same lift process. <a href="https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/bernoulli-and-newton/">NASA explains both views of lift</a>.</p>
+      </div>
+      <h3>Level flight and a small difference in air speeds</h3>
+      <div class="prose"><p>For steady level flight, the vertical lift balances aircraft weight Mg, where M is its mass in kg and g is gravitational acceleration. If the lower airflow speed is v and the upper speed is v + δv, then \(\Delta P=\tfrac12\rho[(v+\delta v)^2-v^2]=\rho v\delta v+\tfrac12\rho(\delta v)^2\).</p><p>If δv is much smaller than v, neglect the squared term and use \(Mg=\Delta P A\). This gives the fractional increase \(\delta v/v\approx Mg/(\rho Av^2)\). Here δv is the speed difference in m/s, v is the lower speed in m/s, ρ is air density in kg/m³ and A is effective wing area in m². For Test-05 Q23, 900 km/h = 250 m/s, so the fraction is 0.064, about 6.4%. Without the small-difference approximation, solve \(\delta v/v=\sqrt{1+2Mg/(\rho Av^2)}-1\), which gives about 6.2%.</p></div>
+      <h3>Storm roofs, atomisers and useful limits</h3>
+      <div class="prose">
+        <p>If air inside a building is approximately at rest while air rushes across its roof, outside pressure can fall below inside pressure. The estimated upward force is \(F=\tfrac12\rho v^2A\). If the wind speed doubles, this ideal estimate grows fourfold.</p>
+        <p>An atomiser uses a fast stream to lower pressure near a tube opening. Higher pressure over the liquid reservoir then pushes liquid up the tube. We often say the liquid is “sucked up”, but the pressure difference is what moves it.</p>
+      </div>
+      <div class="eg"><div class="eg-q"><span class="eg-tag">Worked example · Wing</span><p>Air of density 1.2 kg/m³ moves at 70 m/s above a wing and 60 m/s below it. For an effective area of 20 m², estimate lift.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps"><li>\(\Delta P=\tfrac12(1.2)(70^2-60^2)=780\) Pa.</li><li>\(F=780\times20=15600\) N upward.</li><li>For level flight in this simplified model, this balances a weight of 15600 N; it is not a prediction of lift for every wing of that area.</li></ol><p class="answer">15.6 kN upward</p></div></details>
+      </div>
+      <div class="eg"><div class="eg-q"><span class="eg-tag">Worked example · Roof</span><p>A wind of 20 m/s blows over a 50 m² roof. Air inside is nearly still, and air density is 1.2 kg/m³. Estimate the upward force.</p></div>
+        <details><summary>Show solution</summary><div class="eg-a"><ol class="steps"><li>\(\Delta P=\tfrac12(1.2)(20^2)=240\) Pa.</li><li>\(F=240\times50=12000\) N, upward because the indoor pressure is greater.</li></ol><p class="answer">12 kN upward</p></div></details>
+      </div>
+      <div class="quiz" data-topic="lift"><h3>From your Test-05</h3></div>
+    </section>
+
+    <section id="accelerating-fluids" data-num="★" data-toc="Accelerating containers">
+      <div class="sec-head"><span class="num">★ <span class="level exam">Coaching extra</span></span><h2>Liquids in accelerating containers</h2></div>
+      <div class="prose">
+        <p>Water in a bus rises at the rear when the bus accelerates forward. The liquid is at rest relative to the bus after settling, but the bus frame is accelerating. In that frame include an inertial force opposite the acceleration: the effective gravity is \(\boldsymbol g_\text{eff}=\boldsymbol g-\boldsymbol a\).</p>
+        <p>The pressure increases in the direction of effective gravity. The free surface is perpendicular to it, since points on that surface are at the same atmospheric pressure. For horizontal acceleration, the surface is no longer horizontal.</p>
+      </div>
+      <div class="formula-grid">
+        <div class="formula"><div class="f-title">Horizontal acceleration</div><div class="f-main">\[\tan\theta=\frac{|a|}{g},\qquad |\Delta h|=\frac{|a|\ell}{g}\]</div><div class="f-where">θ is the tilt from horizontal; ℓ is the horizontal tank length. The rear side is higher, assuming enough liquid and no spilling.<br><strong>Symbols and assumptions:</strong> a = signed horizontal tank acceleration (m/s²); g = gravitational acceleration (m/s²); θ = free-surface tilt from horizontal; ℓ = horizontal tank length (m); Δh = surface-height difference across that length (m). Absolute values give magnitudes.</div></div>
+        <div class="formula"><div class="f-title">Vertical acceleration</div><div class="f-main">\[P-P_0=\rho(g+a)h,\qquad F_B=\rho_\ell V_\text{sub}(g+a)\]</div><div class="f-where">Here a is signed positive upward. For downward acceleration of magnitude a, replace g+a with g−a.<br><strong>Symbols and assumptions:</strong> P = absolute pressure at depth h (Pa); P₀ = surface pressure (Pa); ρ or ρ_l = liquid density (kg/m³); g = gravitational acceleration (m/s²); a = signed lift acceleration, positive upward (m/s²); h = vertical depth (m); F_B = buoyancy (N); V_sub = submerged volume (m³).</div></div>
+      </div>
+      <figure class="sim" id="sim-accel"><div class="sim-head"><span class="tag">Interactive</span><h4>Effective gravity and the free surface</h4></div>
+        <div class="sim-body side"><div class="sim-stage"></div><div class="sim-panel">
+          <div class="seg" data-k="adir" role="group" aria-label="Direction of acceleration"><button type="button" data-v="h" aria-pressed="true">Horizontal</button><button type="button" data-v="v">Vertical lift</button></div>
+          <div class="controls"><div class="ctrl"><label for="ac-a">Signed acceleration <output data-for="ac-a"></output></label><input id="ac-a" type="range" min="-9.8" max="9.8" step="0.1" value="4.9" data-unit=" m/s²" data-dp="1"></div></div>
+          <div class="readouts">
+            <div class="readout" data-mode="h"><span class="k">Surface tilt</span><span class="v" data-r="th">–</span></div>
+            <div class="readout hi" data-mode="h"><span class="k">Rise difference across 1 m</span><span class="v" data-r="dy">–</span></div>
+            <div class="readout" data-mode="v" hidden><span class="k">Effective gravity</span><span class="v" data-r="ge">–</span></div>
+            <div class="readout" data-mode="v" hidden><span class="k">Gauge pressure at 0.5 m</span><span class="v" data-r="pb">–</span></div>
+            <div class="readout hi" data-mode="v" hidden><span class="k">Floating fraction</span><span class="v" data-r="frac">–</span></div>
+          </div><p class="sim-note">Positive horizontal acceleration means right; positive vertical acceleration means up. The surface drawing is schematic. In vertical free fall (a = −9.8 m/s²), the gravity-driven pressure gradient and buoyancy vanish; the model omits surface-tension effects.</p>
+        </div></div>
+      </figure>
+      <div class="callout trap"><span class="label">Floating fraction and free fall</span><p>For nonzero effective gravity, both weight and buoyancy scale by the same factor, so \(V_\text{sub}/V=\rho_\text{body}/\rho_\ell\) stays unchanged in a vertical lift. At free fall both become zero: the equation becomes 0 = 0 and no longer selects a floating fraction. Do not cancel zero and claim ordinary floating equilibrium.</p></div>
+      <div class="eg"><div class="eg-q"><span class="eg-tag">Worked example · Bus tank</span><p>A 1 m long tank accelerates horizontally at 4.9 m/s². Find the surface tilt and the level difference, taking g = 9.8 m/s².</p></div><details><summary>Show solution</summary><div class="eg-a"><ol class="steps"><li>\(\tan\theta=4.9/9.8=0.5\), hence \(\theta\approx26.6^\circ\).</li><li>\(\Delta h=a\ell/g=0.5\) m; the rear level is higher.</li></ol><p class="answer">26.6°; 50 cm</p></div></details></div>
+      <div class="quiz" data-topic="accelerating-fluids"><h3>Check your understanding</h3></div>
     </section>
 
     <section id="problem-types" data-num="★" data-toc="Problem patterns">
@@ -1065,7 +1194,17 @@
         <span class="num">★ <span class="level exam">Exam</span></span>
         <h2>Problem patterns and shortcuts</h2>
       </div>
-      <p class="muted">This section is being written…</p>
+      <div class="pattern-list">
+        <div class="pattern"><h4>1 · Pressure and connected liquids</h4><p>Begin at a surface of known pressure. Going down adds ρgΔh; going up subtracts it. At a horizontal level in the same connected liquid, match pressures. Use gauge pressure for a net force when atmospheric pressure acts on both sides.</p></div>
+        <div class="pattern"><h4>2 · Floating and a change in water level</h4><p>For floating, displaced liquid weight equals body weight. A floating object's displacement is m/ρₗ; a fully submerged object's is its own volume. Compare displaced volumes before and after moving an object; do not compare its weight with its volume.</p></div>
+        <div class="pattern"><h4>3 · A hydraulic machine</h4><p>Use F₁/A₁ = F₂/A₂, then A₁x₁ = A₂x₂. Diameter ratio d₂/d₁ must be squared to get the force ratio. Force is multiplied at the cost of distance; an ideal lift does not multiply work.</p></div>
+        <div class="pattern"><h4>4 · Pipes, branches and pressure</h4><p>Find speeds from mass conservation first: ρAv is constant, or Av for an incompressible fluid. Then apply Bernoulli between two chosen points. Keep height and speed changes separate; a narrower section is not automatically at lower pressure if its height or pump input also changes.</p></div>
+        <div class="pattern"><h4>5 · Efflux, flight time and range</h4><p>Distinguish depth h below the liquid surface from hole height y above the landing plane. For an open tank with surface height H: v = √(2gh), t = √(2y/g), R = 2√(hy), h + y = H. Maximum R is H for h = y = H/2. Equal-range holes are symmetric about the midpoint.</p></div>
+        <div class="pattern"><h4>6 · Venturimeter and Pitot tube</h4><p>A venturimeter combines continuity with the static-pressure difference. For two open piezometer tubes carrying the same liquid, ΔP = ρgΔh. A Pitot tube instead measures stagnation minus static pressure, ΔP = ½ρv². With a different manometer liquid, derive its pressure balance before substituting a height.</p></div>
+        <div class="pattern"><h4>7 · Lift, wind and jets</h4><p>Wing or roof: F = ΔPA, with ΔP from the squared speed difference in the stated ideal model. Jet stopping normally on a wall: force = mass flow rate × speed = ρAv². The jet formula comes from momentum conservation; it is not the same pressure calculation.</p></div>
+        <div class="pattern"><h4>8 · An accelerating vessel</h4><p>Use the vessel frame and gₑff = g − a as vectors. For a horizontal acceleration, tan θ = |a|/g. For a lift, replace g by g+a or g−a in pressure and buoyancy. Treat free fall separately.</p></div>
+      </div>
+      <div class="eg"><div class="eg-q"><span class="eg-tag">Worked example · Jet thrust</span><p>A water jet of cross-section 2 cm² hits a fixed flat wall normally at 10 m/s and flows sideways afterwards. Find the force on the wall (ρ = 1000 kg/m³).</p></div><details><summary>Show solution</summary><div class="eg-a"><ol class="steps"><li>\(A=2\times10^{-4}\) m² and \(\dot m=\rho Av=2\) kg/s.</li><li>The normal speed changes from 10 m/s to zero: \(F=\dot m\,v=20\) N.</li><li>If the jet were reversed completely at the same speed, the normal momentum change would double; here it merely loses its normal component.</li></ol><p class="answer">20 N</p></div></details></div>
     </section>
 
     <section id="checklist" data-num="★" data-toc="Night-before checklist">
@@ -1073,12 +1212,39 @@
         <span class="num">★ <span class="level exam">Exam</span></span>
         <h2>Night-before checklist</h2>
       </div>
-      <p class="muted">This section is being written…</p>
+      <ul class="checklist">
+        <li><a href="#pressure">Pressure</a>: P = P₀ + ρgh; it depends on depth and density, not container shape. Gauge pressure is P−P₀.</li>
+        <li><a href="#atmospheric">Manometer</a>: walk through the columns, adding pressure downward and subtracting upward. Heights belong to their own liquid densities.</li>
+        <li><a href="#pascal">Pascal</a>: F/A is transmitted; diameter ratio squared gives force ratio. A₁x₁ = A₂x₂.</li>
+        <li><a href="#buoyancy">Buoyancy</a>: Fᵦ = ρₗVsubg; for floating, Vsub/V = ρbody/ρₗ. An object's whole volume is not always displaced.</li>
+        <li><a href="#continuity">Continuity</a> conserves mass: ρAv; for incompressible flow Av is constant. Halving diameter makes speed four times larger.</li>
+        <li><a href="#bernoulli">Bernoulli</a> conserves mechanical energy in ideal steady flow: P + ½ρv² + ρgh. Each term is in Pa.</li>
+        <li>Along one streamline, irrotational flow is not required; irrotational flow permits the same Bernoulli constant across different streamlines. Real viscous flow loses mechanical energy.</li>
+        <li><a href="#torricelli">Efflux</a>: v = √(2gh) only for the stated open-tank approximation. Both surfaces are at atmospheric pressure; h is depth below the surface.</li>
+        <li>Range uses the hole's height above the landing plane. For an open tank, Rmax = H at half-depth; complementary depths give equal range.</li>
+        <li><a href="#venturi">Venturimeter</a>: derive speed from continuity and static-pressure difference. <a href="#bernoulli">Pitot</a>: stagnation−static = ½ρv².</li>
+        <li><a href="#lift">Lift</a>: faster upper air can mean lower upper pressure; F = ΔPA. Opposite spin reverses the Magnus effect.</li>
+        <li><a href="#accelerating-fluids">Acceleration</a>: use effective gravity; the rear surface rises during forward acceleration. In free fall, gravity-driven buoyancy vanishes.</li>
+      </ul>
+      <h3>Quick formula reference</h3>
+      <div class="table-wrap"><table><thead><tr><th>Quantity</th><th>Formula</th><th>Condition / unit</th></tr></thead><tbody>
+        <tr><td>Hydrostatic pressure</td><td>\(P-P_0=\rho gh\)</td><td>Constant density; Pa</td></tr>
+        <tr><td>Buoyancy</td><td>\(F_B=\rho_\ell V_\text{sub}g\)</td><td>N</td></tr>
+        <tr><td>Volume flow rate</td><td>\(Q=Av\)</td><td>m³/s; v is mean speed</td></tr>
+        <tr><td>Bernoulli</td><td>\(P+\tfrac12\rho v^2+\rho gz=\text{const}\)</td><td>Pa; along a streamline</td></tr>
+        <tr><td>Efflux speed</td><td>\(v=\sqrt{2gh+2\Delta P/\rho}\)</td><td>Large reservoir; m/s</td></tr>
+        <tr><td>Jet range, open tank</td><td>\(R=2\sqrt{h(H-h)}\)</td><td>Landing at base level; m</td></tr>
+        <tr><td>Time to drain an open tank</td><td>\(t=(A/a)\sqrt{2H/g}\)</td><td>Constant tank area A, small hole a; s</td></tr>
+        <tr><td>Lift estimate</td><td>\(F=\tfrac12\rho(v_t^2-v_b^2)A\)</td><td>N; effective uniform pressure</td></tr>
+        <tr><td>Jet stopped by a wall</td><td>\(F=\rho Av^2\)</td><td>N; normal incidence</td></tr>
+      </tbody></table></div>
+      <p><a href="practice.html?chapter=fluids1">Practise the complete Fluids I set</a> · <a href="revise.html#statics">Review formulas</a></p>
     </section>
 
-    <footer class="footer">Fluids I covers NCERT Class 11 Physics Ch 9, sections 9.1–9.4, plus coaching extras (buoyancy, venturimeter). Next: <a href="fluids-2.html">Fluids II: viscosity, Stokes' law, Reynolds number, surface tension, capillarity</a>. Values used: g = 10 m s⁻² unless a question says 9.8; ρ(water) = 1000 kg m⁻³; 1 atm = 1.013 × 10⁵ Pa.</footer>
+    <footer class="footer">Fluids I covers <a href="https://ncert.nic.in/textbook/pdf/keph202.pdf">NCERT Class 11 Physics Chapter 9</a>, sections 9.1–9.4.2, plus buoyancy, venturimeter and accelerating-container extensions. Next: <a href="fluids-2.html">Fluids II: viscosity, Stokes' law, Reynolds number, surface tension, capillarity</a>. Worked examples use g = 10 m s⁻² unless stated otherwise; simulations use g = 9.8 m s⁻²; ρ(water) = 1000 kg m⁻³; 1 atm = 1.013 × 10⁵ Pa.</footer>
   </main>
 </div>
 <script src="assets/sims-fluids1.js"></script>
+<script src="assets/sims-completion.js"></script>
 </body>
 </html>

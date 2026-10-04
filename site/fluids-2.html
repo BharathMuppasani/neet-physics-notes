@@ -11,9 +11,13 @@
 <link rel="stylesheet" href="assets/style.css">
 <!-- site.js MUST load before MathJax (it holds the MathJax config) -->
 <script src="assets/site.js"></script>
+<script src="assets/q-test05.js"></script>
+<script src="assets/q-test06.js"></script>
+<script src="assets/q-solids.js"></script>
+<script src="assets/q-fluids-extra.js"></script>
+<script src="assets/q-completion.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
 <!-- question data used by inline quizzes -->
-<script src="assets/q-test06.js"></script>
 <style>
   /* page-specific bits for Fluids II */
   .ctrl[hidden] { display: none; }
@@ -31,14 +35,14 @@
   .pull-fig .arr { stroke: var(--coral); stroke-width: 2; fill: none; }
   .pull-fig .arrh { fill: var(--coral); }
   .pull-fig .sep { stroke: var(--line); stroke-width: 1; }
-  .two-col { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .two-col { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
   .checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
   .checklist li { padding: 10px 12px 10px 38px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); position: relative; }
   .checklist li::before { content: ""; position: absolute; left: 12px; top: 14px; width: 14px; height: 14px; border-radius: 4px; border: 2px solid var(--accent); }
   .pattern { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; display: grid; gap: 6px; align-content: start; }
   .pattern h4 { color: var(--accent); font-size: 15.5px; }
   .pattern p { font-size: 15px; color: var(--ink-2); }
-  .patterns { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
+  .patterns { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); }
 </style>
 </head>
 <body class="ch-fluids2" data-page="fluids2">
@@ -52,7 +56,7 @@
       <div class="chips">
         <span class="chip accent">CUT-6 syllabus: up to 9.6.5</span>
         <span class="chip coral">Test-06 traps marked</span>
-        <span class="chip">9 interactive simulations</span>
+        <span class="chip">11 interactive simulations</span>
       </div>
       <p class="small muted">Pressure, Pascal's law, buoyancy, continuity and Bernoulli are on <a href="fluids-1.html">Fluids I</a>. Short on time? Read the formula cards, the red “Exam trap” boxes and the <a href="#checklist">night-before checklist</a>.</p>
     </header>
@@ -78,17 +82,17 @@
         <div class="formula">
           <div class="f-title">Newton's law of viscosity</div>
           <div class="f-main">\[ F = -\,\eta A \frac{dv}{dx} \]</div>
-          <div class="f-where">\(\eta\) (eta) = coefficient of viscosity. The minus sign says the force opposes the relative motion. For a liquid film of thickness \(d\) under a plate moving at \(v\): \(F = \eta A v/d\).</div>
+          <div class="f-where">\(\eta\) (eta) = coefficient of viscosity. The minus sign says the force opposes the relative motion. For a liquid film of thickness \(d\) under a plate moving at \(v\): \(F = \eta A v/d\).<br><strong>Symbols and assumptions:</strong> F = signed viscous force (N), opposing relative layer motion; η = dynamic viscosity (Pa·s); A = sheared area (m²); v = flow velocity (m/s); x = distance across layers (m); dv/dx = velocity gradient (s⁻¹). Use |F| = ηA|dv/dx| for the magnitude.</div>
         </div>
         <div class="formula">
           <div class="f-title">Velocity gradient</div>
           <div class="f-main">\[ \frac{dv}{dx} = \frac{v}{d} \;\;(\text{uniform film}) \]</div>
-          <div class="f-where">Change in speed per unit distance across the layers. Unit s⁻¹. It is also the <em>rate of shear strain</em>.</div>
+          <div class="f-where">Change in speed per unit distance across the layers. Unit s⁻¹. It is also the <em>rate of shear strain</em>.<br><strong>Symbols and assumptions:</strong> v = moving-plate speed relative to the fixed plate (m/s); d = film thickness (m); x = perpendicular distance through the film (m); dv/dx = velocity gradient (s⁻¹). The v/d form assumes a linear velocity profile and no slip.</div>
         </div>
         <div class="formula">
           <div class="f-title">Units &amp; dimensions of η</div>
           <div class="f-main">\[ \eta = \frac{F/A}{v/d} \;\Rightarrow\; [\mathrm{M\,L^{-1}\,T^{-1}}] \]</div>
-          <div class="f-where">SI: N s m⁻² = Pa·s (also called poiseuille, PI). CGS: poise. <strong>1 poise = 0.1 Pa·s</strong> (so 1 Pa·s = 10 poise).</div>
+          <div class="f-where">SI: N s m⁻² = Pa·s (also called poiseuille, PI). CGS: poise. <strong>1 poise = 0.1 Pa·s</strong> (so 1 Pa·s = 10 poise).<br><strong>Symbols and assumptions:</strong> η = viscosity (Pa·s); F = viscous-force magnitude (N); A = plate area (m²); v = relative plate speed (m/s); d = film thickness (m). M, L and T in the dimensional expression mean mass, length and time.</div>
         </div>
       </div>
       <div class="callout tip"><span class="label">Link to Solids</span>
@@ -145,7 +149,7 @@
         <ul>
           <li><strong>Gas viscosity increases with temperature.</strong> “Viscosity of gases decreases with temperature” is the <em>incorrect</em> statement (Q12). Liquids decrease, gases increase.</li>
           <li><strong>Ideal fluid: η = 0</strong> (non-viscous) and incompressible (Q42). Not “η = 1”, not “infinite”.</li>
-          <li><strong>A good lubricant has high viscosity</strong> (Q43; you chose low). A viscous oil film is not easily squeezed out from between moving parts, so the metal surfaces stay apart. Very thin oil is pushed out and metal grinds on metal.</li>
+          <li><strong>For this test, choose a lubricant with sufficiently high viscosity</strong> (Q43; you chose low). A viscous oil film is not easily squeezed out from between moving parts, so the metal surfaces stay apart. An oil that is too thin may fail to maintain the film. In practice, viscosity must suit the load, speed and temperature; excessively viscous oil also increases resistance.</li>
           <li>Viscosity is a property of liquids <em>and</em> gases; solids do not have it.</li>
         </ul>
       </div>
@@ -183,6 +187,25 @@
       <div class="quiz" data-topic="viscosity" data-limit="3"><h3>From your Test-06</h3></div>
     </section>
 
+    <section id="pipe-flow" data-num="★" data-toc="Viscous pipe flow">
+      <div class="sec-head"><span class="num">★ <span class="level exam">Coaching extra</span></span><h2>Viscous flow through a pipe: Poiseuille's law</h2></div>
+      <div class="prose"><p>A tap needs a pressure difference to keep water moving through a long pipe. Viscosity transfers momentum between neighbouring layers, and the layer touching a stationary wall has zero speed in the no-slip model. The flow is fastest at the axis. For fully developed, steady laminar flow of an incompressible Newtonian fluid through a straight circular tube, the speed profile is parabolic.</p><p>Let r be the inner tube radius, ℓ its length and ΔP the inlet-to-outlet pressure drop for a horizontal tube. Do not confuse tube radius r with distance s from the axis.</p></div>
+      <div class="formula-grid">
+        <div class="formula"><div class="f-title">Volume flow rate</div><div class="f-main">\[Q=\frac{\pi r^4\Delta P}{8\eta\ell}\]</div><div class="f-where">Q in m³/s, r and ℓ in m, ΔP in Pa and η in Pa·s. Flow resistance is \(\Delta P/Q=8\eta\ell/(\pi r^4)\).<br><strong>Symbols and assumptions:</strong> Q = volume flow rate (m³/s); r = inner pipe radius (m); ΔP = pressure drop (Pa); η = viscosity (Pa·s); ℓ = pipe length (m). The pipe is horizontal, circular, straight and has fully developed laminar flow with no slip.</div></div>
+        <div class="formula"><div class="f-title">Velocity profile</div><div class="f-main">\[v(s)=\frac{\Delta P}{4\eta\ell}(r^2-s^2),\quad v_\text{max}=2\bar v\]</div><div class="f-where">The area-averaged speed is \(\bar v=Q/(\pi r^2)\). Zero at the wall; maximum at s = 0.<br><strong>Symbols and assumptions:</strong> v(s) = axial speed (m/s) at radial distance s from the axis (m); r = pipe radius (m); ΔP = pressure drop (Pa); η = viscosity (Pa·s); ℓ = pipe length (m); v_max = axis speed; v̄ = section-average speed. At s = r, v = 0.</div></div>
+      </div>
+      <figure class="sim" id="sim-pipe-flow"><div class="sim-head"><span class="tag">Interactive</span><h4>Radius matters to the fourth power</h4></div><div class="sim-body side"><div class="sim-stage"></div><div class="sim-panel"><div class="controls">
+        <div class="ctrl"><label for="pf-r">Inner radius <output data-for="pf-r"></output></label><input id="pf-r" type="range" min="0.5" max="2" step="0.1" value="1" data-unit=" mm" data-dp="1"></div>
+        <div class="ctrl"><label for="pf-dP">Pressure drop <output data-for="pf-dP"></output></label><input id="pf-dP" type="range" min="10" max="200" step="10" value="100" data-unit=" Pa" data-dp="0"></div>
+        <div class="ctrl"><label for="pf-eta">Viscosity <output data-for="pf-eta"></output></label><input id="pf-eta" type="range" min="1" max="10" step="1" value="1" data-unit=" mPa·s" data-dp="0"></div>
+        <div class="ctrl"><label for="pf-L">Tube length <output data-for="pf-L"></output></label><input id="pf-L" type="range" min="0.2" max="2" step="0.1" value="1" data-unit=" m" data-dp="1"></div>
+      </div><div class="readouts"><div class="readout hi"><span class="k">Predicted flow Q</span><span class="v" data-r="flow">–</span></div><div class="readout"><span class="k">Mean speed</span><span class="v" data-r="mean">–</span></div><div class="readout"><span class="k">Maximum speed</span><span class="v" data-r="maximum">–</span></div><div class="readout"><span class="k">Re (ρ = 1000 kg/m³)</span><span class="v" data-r="reynolds">–</span></div></div><p class="sim-note" data-r="validity">–</p></div></div></figure>
+      <div class="callout trap"><span class="label">This is not ideal Bernoulli flow</span><p>In a constant-area horizontal pipe, speed may stay the same while pressure drops because viscosity dissipates mechanical energy. Ideal Bernoulli without a loss term cannot describe that pressure drop. Poiseuille's law does not apply to turbulent flow; a large predicted Reynolds number warns that the laminar prediction needs checking.</p></div>
+      <div class="eg"><div class="eg-q"><span class="eg-tag">Worked example · Units and flow rate</span><p>Water (η = 1.0 × 10⁻³ Pa·s) passes through a 1 m long tube of inner radius 1 mm under a 100 Pa pressure difference. Find Q in the laminar model.</p></div><details><summary>Show solution</summary><div class="eg-a"><ol class="steps"><li>\(Q=\pi(10^{-3})^4(100)/(8\times10^{-3}\times1)=3.93\times10^{-8}\) m³/s.</li><li>1 m³ = 10⁶ mL, so Q = 0.0393 mL/s.</li><li>\(\bar v=Q/(\pi r^2)=0.0125\) m/s and \(R_e=\rho\bar v(2r)/\eta=25\), consistent with laminar flow.</li></ol><p class="answer">0.0393 mL/s; mean speed 0.0125 m/s</p></div></details></div>
+      <p class="small">This extension connects viscosity to real pipe flow. Reference: <a href="https://openstax.org/books/university-physics-volume-1/pages/14-7-viscosity-and-turbulence" target="_blank" rel="noopener">OpenStax: viscosity and turbulence</a>.</p>
+      <div class="quiz" data-topic="pipe-flow"><h3>Check your understanding</h3></div>
+    </section>
+
     <!-- ================================================================ STOKES -->
     <section id="stokes" data-num="9.5.1" data-toc="Stokes' law &amp; terminal velocity">
       <div class="sec-head">
@@ -197,12 +220,12 @@
         <div class="formula">
           <div class="f-title">Stokes' law</div>
           <div class="f-main">\[ F_v = 6\pi\eta r v \]</div>
-          <div class="f-where">r = radius of sphere, v = its speed relative to the fluid. Drag ∝ η, ∝ r, ∝ v. Valid for small spheres at low speed (laminar flow).</div>
+          <div class="f-where">r = radius of sphere, v = its speed relative to the fluid. Drag ∝ η, ∝ r, ∝ v. Valid for small spheres at low speed (laminar flow).<br><strong>Symbols and assumptions:</strong> F_v = drag magnitude (N); η = liquid viscosity (Pa·s); r = sphere radius (m); v = sphere speed relative to the liquid (m/s). Drag opposes that relative motion. The sphere is rigid and sufficiently far from walls; the Reynolds number must be very small.</div>
         </div>
         <div class="formula">
           <div class="f-title">Terminal velocity</div>
           <div class="f-main">\[ v_t = \frac{2 r^2 (\rho - \sigma) g}{9\eta} \]</div>
-          <div class="f-where">ρ = density of the sphere, σ = density of the fluid. If σ &gt; ρ, \(v_t\) is negative: the body <em>rises</em> (air bubble).</div>
+          <div class="f-where">ρ = density of the sphere, σ = density of the fluid. If σ &gt; ρ, \(v_t\) is negative: the body <em>rises</em> (air bubble).<br><strong>Symbols and assumptions:</strong> v_t = terminal settling speed (m/s); r = sphere radius (m); ρ = sphere density; σ = liquid density, both in kg/m³; g = gravitational acceleration (m/s²); η = viscosity (Pa·s). Here σ is a density, not stress or Poisson’s ratio. A negative result indicates upward motion; Stokes-flow assumptions must hold.</div>
         </div>
       </div>
       <div class="prose">
@@ -261,17 +284,17 @@
         <div class="formula">
           <div class="f-title">At terminal velocity (Q45)</div>
           <div class="f-main">\[ F_v = W - B = \tfrac43\pi r^3(\rho-\sigma)g = Mg\left(1-\tfrac{\sigma}{\rho}\right) \]</div>
-          <div class="f-where">If σ = ρ/2, the viscous force is Mg/2.</div>
+          <div class="f-where">If σ = ρ/2, the viscous force is Mg/2.<br><strong>Symbols and assumptions:</strong> F_v = upward viscous drag (N); W = weight (N); B = buoyant force (N), not bulk modulus; M = sphere mass (kg); r = sphere radius (m); ρ = sphere density; σ = liquid density (kg/m³); g = gravitational acceleration (m/s²). This form describes a sphere settling downward.</div>
         </div>
         <div class="formula">
           <div class="f-title">n drops coalesce (Q32)</div>
           <div class="f-main">\[ R = n^{1/3}r,\quad v' = n^{2/3}\,v \]</div>
-          <div class="f-where">Volume adds, so \(R^3 = nr^3\). Breaking one sphere into n equal drops: each has \(v/n^{2/3}\) (Q40: 27 pieces → speed ÷ 9).</div>
+          <div class="f-where">Volume adds, so \(R^3 = nr^3\). Breaking one sphere into n equal drops: each has \(v/n^{2/3}\) (Q40: 27 pieces → speed ÷ 9).<br><strong>Symbols and assumptions:</strong> n = number of identical initial drops; r = each small radius; R = merged radius, in matching units; v = initial terminal speed; v′ = merged terminal speed (m/s). Densities and viscosity stay unchanged; both speeds must be in the Stokes regime.</div>
         </div>
         <div class="formula">
           <div class="f-title">Rising air bubble (Q41)</div>
           <div class="f-main">\[ v = \frac{2r^2\sigma g}{9\eta} \;\Rightarrow\; \eta = \frac{2r^2\sigma g}{9v} \]</div>
-          <div class="f-where">Air density ≈ 0 compared with the liquid density σ, so \(\rho - \sigma \approx -\sigma\): the bubble moves up.</div>
+          <div class="f-where">Air density ≈ 0 compared with the liquid density σ, so \(\rho - \sigma \approx -\sigma\): the bubble moves up.<br><strong>Symbols and assumptions:</strong> v = steady upward speed (m/s); r = bubble radius (m); σ = solution density (kg/m³); g = gravitational acceleration (m/s²); η = solution viscosity (Pa·s). Air weight is neglected and the school model assumes Stokes-type drag; a clean mobile bubble interface can behave differently.</div>
         </div>
       </div>
       <div class="callout tip"><span class="label">Falling-ball method to measure η</span>
@@ -326,8 +349,8 @@
       </div>
       <div class="formula">
         <div class="f-title">Reynolds number</div>
-        <div class="f-main">\[ R_e = \frac{\rho v d}{\eta} = \frac{\text{inertial force}}{\text{viscous force}} \]</div>
-        <div class="f-where">ρ = fluid density, v = flow speed, d = pipe diameter, η = viscosity. Dimensionless (no unit). NCERT ranges: \(R_e \lt 1000\) laminar · 1000–2000 unsteady · \(R_e \gt 2000\) turbulent.</div>
+        <div class="f-main">\[ R_e = \frac{\rho v d}{\eta} = \text{inertia/viscosity scale} \]</div>
+        <div class="f-where">ρ = fluid density, v = flow speed, d = pipe diameter, η = viscosity. Dimensionless (no unit). Approximate ranges used in your coaching test: \(R_e \lt 1000\) laminar · 1000–2000 unsteady · \(R_e \gt 2000\) turbulent.<br><strong>Symbols and assumptions:</strong> R_e = Reynolds number, dimensionless; ρ = fluid density (kg/m³); v = mean pipe speed (m/s); d = pipe diameter (m); η = viscosity (Pa·s). The force ratio represents a characteristic scaling, not a universal equality for every geometry.</div>
       </div>
 
       <figure class="sim" id="sim-reynolds">
@@ -352,7 +375,7 @@
         <p>“If the Reynolds number is greater than 2000, the flow is ___ and ___ forces dominate.” Answer: <strong>turbulent; inertial</strong>. A large \(R_e\) means inertia beats viscosity. Turbulence is more likely for <em>fast</em> flow, <em>wide</em> pipes, <em>dense</em> and <em>less viscous</em> fluids. Critical speed: \(v_c = R_e\,\eta/\rho d\).</p>
       </div>
       <div class="callout trap"><span class="label">Note</span>
-        <p>Reynolds number may not appear in the rationalised NCERT text, but coaching tests still ask it. Use the NCERT numbers 1000 and 2000. Some books quote 2000 and 3000; do not mix them up.</p>
+        <p>Use the 1000/2000 convention for the questions in your coaching paper. These are approximate teaching ranges, not universal transition thresholds. The actual onset of turbulence depends on geometry and disturbances; follow the convention stated in a question.</p>
       </div>
       <div class="eg">
         <div class="eg-q"><span class="eg-tag">Worked example · Numerical</span>
@@ -366,14 +389,14 @@
     </section>
 
     <!-- ================================================================ SURFACE TENSION -->
-    <section id="surface-tension" data-num="9.6" data-toc="Surface tension">
+    <section id="surface-tension" data-num="9.6–9.6.1" data-toc="Surface tension">
       <div class="sec-head">
-        <span class="num">9.6 <span class="level basic">Basics</span><span class="level core">Core</span></span>
+        <span class="num">9.6–9.6.1 <span class="level basic">Basics</span><span class="level core">Core</span></span>
         <h2>Surface tension: a liquid's stretched skin</h2>
       </div>
       <div class="prose">
         <p>Lay a needle gently on water and it floats, even though steel is 8 times denser than water. Insects like water striders walk on ponds, and you can see the surface dimpling under their feet. Small drops are round. Wet paint-brush hairs spread out under water but clump together when you pull the brush out. All of these show that a liquid surface behaves like a <span class="hl">stretched elastic skin</span>.</p>
-        <h3>The molecular picture</h3>
+        <h3>9.6.1 · Surface energy: the molecular picture</h3>
         <p>Molecules in a liquid attract each other, but only over a short range (a few molecular diameters). A molecule deep inside is pulled equally in all directions, so the net force on it is zero. A molecule at the surface has neighbours below and beside it but almost none above, so it feels a <strong>net inward (downward) pull</strong>.</p>
         <p>Bringing a molecule from inside up to the surface means working against this pull, and the molecule also loses some of its bonds. So <span class="hl">surface molecules have extra energy</span> compared with inside ones. A liquid therefore tends to keep its surface area as small as possible. For a given volume, a sphere has the least area, which is why drops are round.</p>
       </div>
@@ -404,12 +427,12 @@
         <div class="formula">
           <div class="f-title">Surface tension</div>
           <div class="f-main">\[ T = \frac{F}{L} \]</div>
-          <div class="f-where">Unit N m⁻¹ (= J m⁻²). Dimensions [M T⁻²]. Water at 20 °C: ≈ 0.072 N/m. Soap solution: ≈ 0.03 N/m. Mercury: ≈ 0.47 N/m.</div>
+          <div class="f-where">Unit N m⁻¹ (= J m⁻²). Dimensions [M T⁻²]. Water at 20 °C: ≈ 0.072 N/m. Soap solution: ≈ 0.03 N/m. Mercury: ≈ 0.47 N/m.<br><strong>Symbols and assumptions:</strong> T = surface tension (N/m); F = tangential force (N) across a line of length L (m) on one liquid surface. The line lies in the surface; the force is perpendicular to that line. T here is not temperature.</div>
         </div>
         <div class="formula">
           <div class="f-title">Film on a frame (two surfaces)</div>
           <div class="f-main">\[ F = 2TL \]</div>
-          <div class="f-where">A soap film has a front and a back surface, so a slider of length L is pulled by both: \(T L + T L\).</div>
+          <div class="f-where">A soap film has a front and a back surface, so a slider of length L is pulled by both: \(T L + T L\).<br><strong>Symbols and assumptions:</strong> F = force pulling the movable wire (N); T = surface tension (N/m); L = wire length in contact with one face of the film (m). Both faces contribute, giving the factor 2.</div>
         </div>
       </div>
 
@@ -538,22 +561,22 @@
         <div class="formula">
           <div class="f-title">Film (two surfaces)</div>
           <div class="f-main">\[ W = T \cdot 2\,\Delta A \]</div>
-          <div class="f-where">ΔA = change in area of the film as you see it (one face).</div>
+          <div class="f-where">ΔA = change in area of the film as you see it (one face).<br><strong>Symbols and assumptions:</strong> W = work to increase surface area (J); T = constant surface tension (N/m); ΔA = increase in area of one face (m²). The total new area is 2ΔA.</div>
         </div>
         <div class="formula">
           <div class="f-title">Soap bubble, r₁ → r₂</div>
           <div class="f-main">\[ W = 8\pi T\,(r_2^2 - r_1^2) \]</div>
-          <div class="f-where">Two surfaces, each \(4\pi r^2\). Blowing from zero: \(8\pi r^2T\).</div>
+          <div class="f-where">Two surfaces, each \(4\pi r^2\). Blowing from zero: \(8\pi r^2T\).<br><strong>Symbols and assumptions:</strong> W = increase in surface energy (J); T = surface tension (N/m); r₁, r₂ = initial/final bubble radii (m). This counts two surfaces of a thin soap film and assumes T stays constant.</div>
         </div>
         <div class="formula">
           <div class="f-title">Liquid drop (one surface)</div>
           <div class="f-main">\[ E = 4\pi r^2 T \]</div>
-          <div class="f-where">A drop has only its outer surface.</div>
+          <div class="f-where">A drop has only its outer surface.<br><strong>Symbols and assumptions:</strong> E = surface energy (J); r = drop radius (m); T = surface tension (N/m). The drop has area 4πr² and one liquid–air interface; creating extra area increases E.</div>
         </div>
         <div class="formula">
           <div class="f-title">n small drops → one big drop</div>
           <div class="f-main">\[ \Delta E = 4\pi r^2 T\, n\,(1 - n^{-1/3}) = 4\pi R^2 T\,(n^{1/3}-1) \]</div>
-          <div class="f-where">Volume conserved, \(R = n^{1/3} r\). Energy is <em>released</em> (as heat). Splitting R into n drops needs this much work.</div>
+          <div class="f-where">Volume conserved, \(R = n^{1/3} r\). Energy is <em>released</em> (as heat). Splitting R into n drops needs this much work.<br><strong>Symbols and assumptions:</strong> ΔE = positive energy released (J); n = number of equal small drops; r = each small radius (m); R = merged radius (m); T = surface tension (N/m). Volume conservation gives R³ = nr³; surface area decreases.</div>
         </div>
       </div>
       <div class="callout trap"><span class="label">Exam trap · your Q7, Q15</span>
@@ -615,7 +638,7 @@
       <div class="formula">
         <div class="f-title">Balance of surface tensions at the contact line (NCERT)</div>
         <div class="f-main">\[ S_{la}\cos\theta + S_{sl} = S_{sa} \;\Rightarrow\; \cos\theta = \frac{S_{sa}-S_{sl}}{S_{la}} \]</div>
-        <div class="f-where">l = liquid, s = solid, a = air. If \(S_{sl} \gt S_{sa}\), cos θ &lt; 0, so θ is obtuse (does not wet, e.g. water–leaf). If \(S_{sl} \lt S_{sa}\), θ is acute (wets, e.g. water–glass).</div>
+        <div class="f-where">l = liquid, s = solid, a = air. If \(S_{sl} \gt S_{sa}\), cos θ &lt; 0, so θ is obtuse (does not wet, e.g. water–leaf). If \(S_{sl} \lt S_{sa}\), θ is acute (wets, e.g. water–glass).<br><strong>Symbols and assumptions:</strong> S_la = liquid–air surface tension; S_sl = solid–liquid interfacial energy per area; S_sa = solid–air interfacial energy per area, all in N/m = J/m². θ = equilibrium contact angle measured through the liquid. This balance assumes a smooth equilibrium contact line.</div>
       </div>
 
       <figure class="sim" id="sim-contact">
@@ -690,17 +713,17 @@
         <div class="formula">
           <div class="f-title">Liquid drop</div>
           <div class="f-main">\[ P_{in}-P_{out} = \frac{2T}{r} \]</div>
-          <div class="f-where">One surface (outer).</div>
+          <div class="f-where">One surface (outer).<br><strong>Symbols and assumptions:</strong> P_in, P_out = pressures inside/outside the drop (Pa); T = surface tension (N/m); r = spherical drop radius (m). Their difference is the excess pressure, not the full inside pressure.</div>
         </div>
         <div class="formula">
           <div class="f-title">Soap bubble in air</div>
           <div class="f-main">\[ P_{in}-P_{out} = \frac{4T}{r} \]</div>
-          <div class="f-where">Two surfaces (outer and inner).</div>
+          <div class="f-where">Two surfaces (outer and inner).<br><strong>Symbols and assumptions:</strong> P_in, P_out = inside/outside pressures (Pa); T = surface tension (N/m); r = bubble radius (m). A thin film has two surfaces, giving twice the drop’s excess pressure.</div>
         </div>
         <div class="formula">
           <div class="f-title">Air bubble at depth h in a liquid</div>
           <div class="f-main">\[ P_{in} = P_0 + \rho g h + \frac{2T}{r} \]</div>
-          <div class="f-where">One surface. P₀ = atmospheric pressure on the liquid.</div>
+          <div class="f-where">One surface. P₀ = atmospheric pressure on the liquid.<br><strong>Symbols and assumptions:</strong> P_in = bubble inside pressure (Pa); P₀ = pressure on the liquid free surface (Pa); ρ = surrounding liquid density (kg/m³); g = gravitational acceleration (m/s²); h = bubble depth (m); T = liquid–air surface tension (N/m); r = bubble radius (m).</div>
         </div>
       </div>
 
@@ -781,12 +804,12 @@
         <div class="formula">
           <div class="f-title">Common interface of two stuck bubbles</div>
           <div class="f-main">\[ r = \frac{r_1 r_2}{r_2 - r_1} \]</div>
-          <div class="f-where">From \(\frac{4T}{r_1} - \frac{4T}{r_2} = \frac{4T}{r}\) (r₁ &lt; r₂). The interface bulges into the bigger bubble.</div>
+          <div class="f-where">From \(\frac{4T}{r_1} - \frac{4T}{r_2} = \frac{4T}{r}\) (r₁ &lt; r₂). The interface bulges into the bigger bubble.<br><strong>Symbols and assumptions:</strong> r = radius of curvature of the common film (m); r₁, r₂ = radii of the two bubbles (m), with r₁ < r₂; T = soap-film surface tension (N/m). For equal bubble radii, the separating film is flat, corresponding to infinite r.</div>
         </div>
         <div class="formula">
           <div class="f-title">Moles of air in a bubble</div>
           <div class="f-main">\[ n = \frac{PV}{RT_K} = \frac{\left(P_0 + \frac{4T}{r}\right)\frac43\pi r^3}{RT_K} \]</div>
-          <div class="f-where">Use the <em>inside</em> pressure (Q18). \(T_K\) = absolute temperature. If two bubbles merge isothermally in vacuum (P₀ = 0): \(R^2 = r_1^2 + r_2^2\).</div>
+          <div class="f-where">Use the <em>inside</em> pressure (Q18). \(T_K\) = absolute temperature. If two bubbles merge isothermally in vacuum (P₀ = 0): \(R^2 = r_1^2 + r_2^2\).<br><strong>Symbols and assumptions:</strong> n = amount of gas (mol); P = absolute inside pressure (Pa); V = gas volume (m³); R in PV/(RT_K) = universal gas constant 8.314 J/(mol·K); T_K = gas temperature (K); T = surface tension (N/m); r = bubble radius (m); P₀ = outside pressure (Pa). In the merger result, R instead denotes the final bubble radius: read each R in its local context.</div>
         </div>
       </div>
 
@@ -848,17 +871,17 @@
         <div class="formula">
           <div class="f-title">Capillary rise (Jurin's law)</div>
           <div class="f-main">\[ h = \frac{2T\cos\theta}{r\rho g} \]</div>
-          <div class="f-where">r = <strong>inner</strong> radius. θ &gt; 90° gives h &lt; 0 (fall, e.g. mercury). \(h \propto 1/r\), so \(hr\) = constant for a given liquid.</div>
+          <div class="f-where">r = <strong>inner</strong> radius. θ &gt; 90° gives h &lt; 0 (fall, e.g. mercury). \(h \propto 1/r\), so \(hr\) = constant for a given liquid.<br><strong>Symbols and assumptions:</strong> h = signed vertical rise above the outside liquid level (m); T = surface tension (N/m); θ = contact angle through the liquid; r = tube inner radius (m); ρ = liquid density (kg/m³); g = gravitational acceleration (m/s²). Negative h means capillary depression.</div>
         </div>
         <div class="formula">
           <div class="f-title">Force method: weight held up</div>
           <div class="f-main">\[ \pi r^2 h\rho g = 2\pi r T\cos\theta \]</div>
-          <div class="f-where">Surface tension pulls up all round the rim. The weight of the column is \(2\pi rT\cos\theta\): independent of h, and <strong>∝ r</strong>. So the mass raised ∝ r.</div>
+          <div class="f-where">Surface tension pulls up all round the rim. The weight of the column is \(2\pi rT\cos\theta\): independent of h, and <strong>∝ r</strong>. So the mass raised ∝ r.<br><strong>Symbols and assumptions:</strong> r = inner tube radius (m); h = vertical rise (m); ρ = liquid density (kg/m³); g = gravitational acceleration (m/s²); T = surface tension (N/m); θ = contact angle through the liquid. The left side is the raised column’s weight; the right is the upward component of force around its rim.</div>
         </div>
         <div class="formula">
           <div class="f-title">Measuring T by capillary rise</div>
           <div class="f-main">\[ T = \frac{r h \rho g}{2\cos\theta} \;\xrightarrow{\theta\,\approx\,0}\; \frac{rh\rho g}{2} \]</div>
-          <div class="f-where">Measure h with a travelling microscope and the bore radius r. A finer version adds the meniscus volume: \(T = r(h + r/3)\rho g/2\).</div>
+          <div class="f-where">Measure h with a travelling microscope and the bore radius r. A finer version adds the meniscus volume: \(T = r(h + r/3)\rho g/2\).<br><strong>Symbols and assumptions:</strong> T = inferred surface tension (N/m); r = measured inner radius (m); h = vertical rise to the meniscus bottom (m); ρ = liquid density (kg/m³); g = gravitational acceleration (m/s²); θ = contact angle. The h + r/3 correction assumes a nearly hemispherical meniscus at θ ≈ 0.</div>
         </div>
       </div>
 
@@ -945,6 +968,30 @@
       <div class="quiz" data-topic="capillarity" data-limit="3"><h3>From your Test-06</h3></div>
     </section>
 
+    <section id="capillary-experiment" data-num="9.6.5" data-toc="Measuring surface tension">
+      <div class="sec-head"><span class="num">9.6.5 <span class="level exam">Experiment</span></span><h2>Determining surface tension by capillary rise</h2></div>
+      <div class="prose"><p>The syllabus specifically asks for this method. Knowing that a narrow tube makes water rise is the starting point; the experiment measures the rise and the <em>inner</em> radius to infer surface tension.</p><p>For a long, vertical, clean tube with a nearly circular bore, balance upward force \(2\pi rT\cos\theta\) against the weight \(\pi r^2h\rho g\) of the raised column. For clean water–glass, take \(\theta\approx0\) unless the question states otherwise.</p></div>
+      <div class="formula"><div class="f-title">School-level capillary-rise measurement</div><div class="f-main">\[T=\frac{\rho grh}{2\cos\theta}\approx\frac{\rho grh}{2}\quad(\theta\approx0)\]</div><div class="f-where">Measure h vertically from the outside free surface to the bottom of the concave meniscus. Use the bore radius, not the wall thickness or outer radius. This approximation neglects the small meniscus-volume correction.<br><strong>Symbols and assumptions:</strong> T = inferred surface tension (N/m); ρ = liquid density (kg/m³); g = gravitational acceleration (m/s²); r = inner tube radius (m); h = vertical rise above the outside liquid surface (m); θ = contact angle measured through the liquid.</div></div>
+      <h3>Apparatus and procedure</h3>
+      <ol class="steps">
+        <li>Use a clean capillary held vertically in a beaker of clean water, a travelling microscope or suitable height scale, and a means of measuring the inner bore. Let the water settle and keep temperature approximately constant.</li>
+        <li>Read the position of the bottom of the meniscus inside the capillary, keeping the line of sight level to avoid parallax.</li>
+        <li>Read the outside water level using a pointer or the microscope. Subtract the two readings to obtain h; immersion depth below the outside level is not the capillary rise.</li>
+        <li>Measure the inner diameter in two perpendicular directions at a suitable tube end. If the bore is nearly circular, average the readings and divide by two for r.</li>
+        <li>Convert all lengths to metres and calculate T. Repeat height readings and report the measured temperature and assumptions.</li>
+      </ol>
+      <figure class="sim" id="sim-capillary-measurement"><div class="sim-head"><span class="tag">Interactive</span><h4>From two height readings to surface tension</h4></div><div class="sim-body side"><div class="sim-stage"></div><div class="sim-panel"><div class="controls">
+        <div class="ctrl"><label for="ce-r">Measured inner radius <output data-for="ce-r"></output></label><input id="ce-r" type="range" min="0.1" max="1" step="0.01" value="0.24" data-unit=" mm" data-dp="2"></div>
+        <div class="ctrl"><label for="ce-h">Measured rise h <output data-for="ce-h"></output></label><input id="ce-h" type="range" min="1" max="10" step="0.1" value="6" data-unit=" cm" data-dp="1"></div>
+        <div class="ctrl"><label for="ce-er">Radius uncertainty <output data-for="ce-er"></output></label><input id="ce-er" type="range" min="0" max="5" step="0.5" value="2" data-unit="%" data-dp="1"></div>
+        <div class="ctrl"><label for="ce-eh">Height uncertainty <output data-for="ce-eh"></output></label><input id="ce-eh" type="range" min="0" max="5" step="0.5" value="3" data-unit="%" data-dp="1"></div>
+      </div><div class="readouts"><div class="readout hi"><span class="k">Inferred T</span><span class="v" data-r="tension">–</span></div><div class="readout"><span class="k">Maximum uncertainty</span><span class="v" data-r="error">–</span></div></div><p class="sim-note">This calculator infers T from measured r and h; its two sliders are independent measurements. It assumes θ = 0, ρ = 1000 kg/m³, g = 9.8 m/s² and neglects the meniscus correction. Tube width is exaggerated for visibility.</p></div></div></figure>
+      <h3>Errors, precautions and the small correction</h3>
+      <div class="prose"><p>For \(T=\rho grh/2\), if ρ and g are treated as exact, the first-order maximum fractional uncertainty is \(\Delta T/T\approx\Delta r/r+\Delta h/h\). Independent random uncertainties would normally combine differently; the sum is the school-level worst-case estimate.</p><p>Grease and impurities can change both surface tension and contact angle. A tilted tube gives a length along the tube rather than the vertical height. A tube shorter than its natural rise requires a changed meniscus, so it is unsuitable for the simple measurement.</p><p>For a nearly hemispherical meniscus at θ ≈ 0, the small extra liquid volume gives the refined expression \(T\approx\rho gr(h+r/3)/2\) when h is measured to the meniscus bottom. Use this correction only when requested; do not mix the corrected and uncorrected definitions of height.</p></div>
+      <div class="eg"><div class="eg-q"><span class="eg-tag">Worked example · Measurement and uncertainty</span><p>Measured r = 0.24 mm and h = 6.0 cm for clean water–glass. Estimate T without the small correction. Radius and height uncertainties are 2% and 3%; treat ρ = 1000 kg/m³ and g = 9.8 m/s² as exact.</p></div><details><summary>Show solution</summary><div class="eg-a"><ol class="steps"><li>\(T=1000\times9.8\times0.24\times10^{-3}\times0.060/2=0.07056\) N/m.</li><li>Maximum percentage uncertainty = 2 + 3 = 5%.</li><li>Absolute uncertainty ≈ 0.05 × 0.07056 = 0.00353 N/m.</li></ol><p class="answer">T ≈ (0.071 ± 0.004) N/m, with a 5% worst-case uncertainty</p></div></details></div>
+      <div class="quiz" data-topic="capillary-experiment"><h3>Check your understanding</h3></div>
+    </section>
+
     <!-- ================================================================ PROBLEM PATTERNS -->
     <section id="problem-types" data-num="★" data-toc="Problem patterns">
       <div class="sec-head">
@@ -1012,11 +1059,12 @@
         <ul class="checklist">
           <li>\(F = \eta A\,dv/dx\); η in Pa·s, <strong>1 poise = 0.1 Pa·s</strong>; [ML⁻¹T⁻¹].</li>
           <li>Liquids: η ↓ with T. <strong>Gases: η ↑ with T.</strong></li>
-          <li>Ideal fluid η = 0. <strong>Good lubricant = high η.</strong></li>
-          <li>Stokes \(F = 6\pi\eta rv\); drag ∝ r ∝ √A.</li>
+          <li>Ideal fluid η = 0. For Test-06, a lubricant needs enough viscosity to maintain its film; practical choice depends on operating conditions.</li>
+          <li>Poiseuille: \(Q=\pi r^4\Delta P/(8\eta\ell)\), fully developed laminar flow; axis speed = 2 × mean speed.</li>
+          <li>Stokes \(F = 6\pi\eta rv\); drag ∝ r ∝ √A, for creeping flow around a sphere.</li>
           <li>\(v_t = 2r^2(\rho-\sigma)g/9\eta\): <strong>∝ r²</strong>, ∝ (ρ − σ). Same mass: ∝ 1/r.</li>
           <li>n drops merge: v × n^{2/3}. At v_t: F_v = W − B.</li>
-          <li>Re = ρvd/η; &lt; 1000 laminar, &gt; 2000 turbulent, inertial forces dominate.</li>
+          <li>Re = ρvd/η. Your coaching convention: &lt; 1000 laminar, &gt; 2000 turbulent with inertia dominant; thresholds depend on the flow setup.</li>
         </ul>
         <ul class="checklist">
           <li>T = F/L, N/m, [MT⁻²], <strong>scalar</strong>; T ↓ with temperature, 0 at critical temperature.</li>
@@ -1025,15 +1073,17 @@
           <li>Merging drops <strong>release</strong> energy (not mass → energy).</li>
           <li>Excess P: drop 2T/r, soap bubble 4T/r, air bubble 2T/r (+ρgh at depth). Small bubble empties into big one.</li>
           <li>θ &lt; 90°: wets, concave, rises. θ &gt; 90°: convex, falls. Hg–glass ≈ 140°.</li>
-          <li>\(h = 2T\cos\theta/r\rho g\), <strong>inner</strong> r; hr const; mass ∝ r; tilted l = h/cos α; short tube: no overflow; free fall: fills tube.</li>
+          <li>\(h = 2T\cos\theta/r\rho g\), <strong>inner</strong> r; hr const; mass ∝ r; tilted l = h/cos α; short tube: the meniscus changes shape. In ideal free fall, the gravity limit disappears; finite-tube behaviour depends on wetting and boundaries.</li>
+          <li>Capillary experiment: \(T=\rho grh/2\) for θ ≈ 0; use the inner radius and vertical rise. Maximum relative errors in r and h add.</li>
         </ul>
       </div>
-      <p class="small">More practice: <a href="practice.html">all Test-06 questions</a> · quick formulas: <a href="revise.html">Revise</a> · first half of the chapter: <a href="fluids-1.html">Fluids I</a>.</p>
+      <p class="small">More practice: <a href="practice.html#t06">all Test-06 questions</a> · quick formulas: <a href="revise.html">Revise</a> · first half of the chapter: <a href="fluids-1.html">Fluids I</a>.</p>
     </section>
 
-    <footer class="footer">Fluids II · NCERT Class 11 Ch 9 (rationalised), 9.5–9.6.5, plus coaching extras marked ★. Simulations use g = 9.8 m/s².</footer>
+    <footer class="footer">Fluids II · <a href="https://ncert.nic.in/textbook/pdf/keph202.pdf">NCERT Class 11 Chapter 9</a>, 9.5–9.6.5, plus coaching extras marked ★. Simulations use g = 9.8 m/s².</footer>
   </main>
 </div>
 <script src="assets/sims-fluids2.js"></script>
+<script src="assets/sims-completion.js"></script>
 </body>
 </html>

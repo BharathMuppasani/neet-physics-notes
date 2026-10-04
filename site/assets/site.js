@@ -30,6 +30,12 @@ const Site = {
     { href: 'revise.html', key: 'revise', label: 'Revise' },
   ],
 
+  CHAPTERS: [
+    { key: 'solids', page: 'solids.html', label: 'Solids', sections: ['elasticity', 'stress', 'curve', 'youngs', 'wire-combinations', 'shear', 'bulk', 'poisson', 'energy', 'thermal', 'applications', 'problem-types', 'checklist'] },
+    { key: 'fluids1', page: 'fluids-1.html', label: 'Fluids I', sections: ['intro', 'pressure', 'pascal-law', 'pressure-depth', 'connected-vessels', 'atmospheric', 'pascal', 'buoyancy', 'flow', 'continuity', 'bernoulli', 'torricelli', 'venturi', 'lift', 'accelerating-fluids', 'problem-types', 'checklist'] },
+    { key: 'fluids2', page: 'fluids-2.html', label: 'Fluids II', sections: ['viscosity', 'pipe-flow', 'stokes', 'reynolds', 'surface-tension', 'surface-energy', 'contact-angle', 'drops-bubbles', 'capillarity', 'capillary-experiment', 'problem-types', 'checklist'] },
+  ],
+
   /* topic id → where it is taught. Question objects use these ids in `topic`. */
   TOPICS: {
     // Mechanical properties of solids — solids.html
@@ -37,6 +43,7 @@ const Site = {
     'stress':       { label: 'Stress & strain', page: 'solids.html' },
     'curve':        { label: 'Stress–strain curve', page: 'solids.html' },
     'youngs':       { label: "Young's modulus", page: 'solids.html' },
+    'wire-combinations': { label: 'Combined wires & own weight', page: 'solids.html' },
     'shear':        { label: 'Shear modulus', page: 'solids.html' },
     'bulk':         { label: 'Bulk modulus', page: 'solids.html' },
     'poisson':      { label: "Poisson's ratio", page: 'solids.html' },
@@ -45,6 +52,10 @@ const Site = {
     'applications': { label: 'Applications of elasticity', page: 'solids.html' },
     // Fluids I — fluids-1.html
     'pressure':     { label: 'Pressure & depth', page: 'fluids-1.html' },
+    'pascal-law':   { label: "Pascal's law · equal pressure", page: 'fluids-1.html' },
+    'pressure-depth': { label: 'Variation of pressure with depth', page: 'fluids-1.html' },
+    'connected-vessels': { label: 'Connected vessels & energy', page: 'fluids-1.html' },
+    'atmospheric':  { label: 'Atmospheric pressure & manometers', page: 'fluids-1.html' },
     'pascal':       { label: "Pascal's law & hydraulics", page: 'fluids-1.html' },
     'buoyancy':     { label: 'Buoyancy & floating', page: 'fluids-1.html' },
     'flow':         { label: 'Streamline & turbulent flow', page: 'fluids-1.html' },
@@ -52,8 +63,10 @@ const Site = {
     'bernoulli':    { label: "Bernoulli's principle", page: 'fluids-1.html' },
     'torricelli':   { label: 'Speed of efflux (Torricelli)', page: 'fluids-1.html' },
     'lift':         { label: 'Dynamic lift & Magnus effect', page: 'fluids-1.html' },
+    'accelerating-fluids': { label: 'Accelerating containers', page: 'fluids-1.html' },
     // Fluids II — fluids-2.html
     'viscosity':    { label: 'Viscosity', page: 'fluids-2.html' },
+    'pipe-flow':    { label: 'Viscous pipe flow', page: 'fluids-2.html' },
     'stokes':       { label: "Stokes' law & terminal velocity", page: 'fluids-2.html' },
     'reynolds':     { label: 'Reynolds number', page: 'fluids-2.html' },
     'surface-tension': { label: 'Surface tension', page: 'fluids-2.html' },
@@ -61,6 +74,7 @@ const Site = {
     'contact-angle':   { label: 'Angle of contact', page: 'fluids-2.html' },
     'drops-bubbles':   { label: 'Drops & bubbles (excess pressure)', page: 'fluids-2.html' },
     'capillarity':     { label: 'Capillary rise', page: 'fluids-2.html' },
+    'capillary-experiment': { label: 'Capillary-rise experiment', page: 'fluids-2.html' },
   },
 
   TYPES: {
@@ -78,6 +92,7 @@ const Site = {
     t06: 'Module Test-06 · 03 Oct',
     xs:  'Solids practice set',
     xf:  'Fluids practice set',
+    xc:  'Chapter completion set',
   },
 
   /* Print mode: '#print' (solutions shown) or '#printq' (questions only + answer key).
@@ -85,19 +100,50 @@ const Site = {
   printKind: null,
   enterPrint(kind) {
     if (this.printKind) return;
+    this._printSnapshot = {
+      details: [...document.querySelectorAll('details')].map(el => ({ el, open: el.open })),
+      cards: [...document.querySelectorAll('.qcard')].map(el => ({
+        el, cls: el.className, hidden: el.querySelector('.sol').hidden,
+        options: [...el.querySelectorAll('.opt')].map(option => option.className),
+      })),
+    };
     this.printKind = kind || 'full';
     document.documentElement.classList.add('print', 'print-' + this.printKind);
     document.querySelectorAll('details').forEach(d => { d.open = true; });
     document.querySelectorAll('.qcard').forEach(card => Quiz.printCard(card));
   },
 
+  leavePrint() {
+    if (['#print', '#printq'].includes(location.hash) || !this.printKind) return;
+    document.documentElement.classList.remove('print', 'print-full', 'print-questions');
+    this.printKind = null;
+    this._printSnapshot?.details.forEach(({ el, open }) => { el.open = open; });
+    this._printSnapshot?.cards.forEach(({ el, cls, hidden, options }) => {
+      el.className = cls;
+      el.querySelector('.sol').hidden = hidden;
+      el.querySelectorAll('.opt').forEach((option, i) => { option.className = options[i]; });
+    });
+    this._printSnapshot = null;
+    this.refreshProgress();
+  },
+
   init() {
     const h = location.hash.slice(1);
     if (h === 'print' || h === 'printq') this.enterPrint(h === 'print' ? 'full' : 'questions');
     window.addEventListener('beforeprint', () => this.enterPrint('full'));
+    window.addEventListener('afterprint', () => this.leavePrint());
     this.buildNav();
     this.buildToc();
+    document.querySelectorAll('.eg details').forEach(details => {
+      const summary = details.querySelector('summary');
+      if (!summary || !/^Show (solution|answer)$/.test(summary.textContent.trim())) return;
+      const noun = summary.textContent.trim().split(' ')[1];
+      details.addEventListener('toggle', () => {
+        summary.textContent = `${details.open ? 'Hide' : 'Show'} ${noun}`;
+      });
+    });
     document.querySelectorAll('.quiz[data-topic], .quiz[data-ids]').forEach(el => Quiz.autoMount(el));
+    this.initProgress();
     this.typeset();
   },
 
@@ -163,19 +209,159 @@ const Site = {
     if (list.length) MathJax.typesetPromise(list).catch(() => {});
   },
 
+  initProgress() {
+    const chapter = this.CHAPTERS.find(c => c.key === document.body.dataset.page);
+    if (chapter) {
+      const panel = document.createElement('div');
+      panel.className = 'chapter-progress';
+      panel.innerHTML = `<strong>Your progress in ${chapter.label}</strong><p data-study-summary></p><progress data-study-meter max="${chapter.sections.length}" value="0" aria-label="Sections studied"></progress><p class="small" data-practice-summary></p><a data-continue-study></a><p class="small muted">Mark a section studied when you understand it. Reading progress and quiz answers are saved in this browser.</p>`;
+      document.querySelector('.hero')?.after(panel);
+      for (const id of chapter.sections) {
+        const section = document.getElementById(id);
+        if (!section) continue;
+        const control = document.createElement('div');
+        control.className = 'section-study';
+        const button = document.createElement('button');
+        button.className = 'btn';
+        button.type = 'button';
+        button.dataset.studySection = id;
+        button.addEventListener('click', () => this.study.toggle(chapter.key, id));
+        control.append(button);
+        section.append(control);
+      }
+    }
+    const home = document.getElementById('study-progress');
+    if (home) {
+      home.innerHTML = this.CHAPTERS.map(c => `<article class="card study-card" data-study-chapter="${c.key}"><h3><a href="${c.page}">${c.label}</a></h3><p data-study-summary></p><progress data-study-meter max="${c.sections.length}" value="0" aria-label="${c.label} sections studied"></progress><p class="small" data-practice-summary></p><a data-continue-study></a></article>`).join('');
+    }
+    this.refreshProgress();
+    document.addEventListener('progress:change', () => this.refreshProgress());
+    window.addEventListener('pageshow', () => this.refreshProgress());
+    window.addEventListener('storage', e => {
+      if (e.key === null || [this.store.key, this.study.key].includes(e.key)) {
+        this.refreshProgress();
+        document.dispatchEvent(new CustomEvent('progress:change'));
+      }
+    });
+  },
+
+  questionStats(questions = window.QBANK) {
+    const attempts = this.store.read();
+    const answered = questions.filter(q => Number.isInteger(attempts[q.id]));
+    const correct = answered.filter(q => q.ans === attempts[q.id]).length;
+    return { total: questions.length, answered: answered.length, correct, wrong: answered.length - correct };
+  },
+
+  refreshProgress() {
+    if (!this.printKind) document.querySelectorAll('.qcard').forEach(card => card._sync?.());
+    const studied = this.study.read();
+    const stats = this.questionStats();
+    for (const [id, value] of Object.entries({ 't-total': stats.total, 't-done': stats.answered, 't-right': stats.correct, 't-flag': window.QBANK.filter(q => q.flagged).length })) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+    let totalStudied = 0;
+    for (const chapter of this.CHAPTERS) {
+      const completed = chapter.sections.filter(id => studied[`${chapter.key}:${id}`]);
+      totalStudied += completed.length;
+      const current = chapter.key === document.body.dataset.page;
+      const panel = current ? document.querySelector('.chapter-progress') : document.querySelector(`[data-study-chapter="${chapter.key}"]`);
+      const questions = window.QBANK.filter(q => this.TOPICS[q.topic]?.page === chapter.page);
+      const quiz = this.questionStats(questions);
+      if (panel) {
+        panel.querySelector('[data-study-summary]').textContent = `${completed.length} of ${chapter.sections.length} sections studied`;
+        panel.querySelector('[data-study-meter]').value = completed.length;
+        panel.querySelector('[data-practice-summary]').textContent = `${quiz.answered} of ${quiz.total} questions attempted · ${quiz.correct} correct${quiz.answered ? ` · ${Math.round(100 * quiz.correct / quiz.answered)}% accuracy` : ''}`;
+        const next = chapter.sections.find(id => !completed.includes(id));
+        const link = panel.querySelector('[data-continue-study]');
+        link.href = next ? `${current ? '' : chapter.page}#${next}` : `practice.html?chapter=${chapter.key}`;
+        link.textContent = next ? (completed.length ? 'Continue with the next section' : 'Start this chapter') : 'All sections studied · practise this chapter';
+      }
+      if (current) {
+        for (const id of chapter.sections) {
+          const done = completed.includes(id);
+          const button = document.querySelector(`[data-study-section="${id}"]`);
+          if (button) {
+            button.textContent = done ? 'Studied ✓ · mark unread' : 'Mark this section studied';
+            button.setAttribute('aria-pressed', String(done));
+          }
+          const tocLink = document.querySelector(`.toc [data-id="${id}"]`);
+          if (tocLink) {
+            tocLink.classList.toggle('studied', done);
+            tocLink.setAttribute('aria-label', `${this.sectionLabel(id)}${done ? ', studied' : ', not yet studied'}`);
+          }
+        }
+      }
+    }
+    const summary = document.getElementById('study-overall');
+    if (summary) summary.textContent = `${totalStudied} of ${this.CHAPTERS.reduce((n, c) => n + c.sections.length, 0)} sections studied across Solids and Fluids.`;
+  },
+
+  sectionLabel(id) {
+    return document.getElementById(id)?.querySelector('h2')?.textContent || id;
+  },
+
+  study: {
+    key: 'phy-notes-study-v1',
+    _fallback: null,
+    read() {
+      if (this._fallback) return { ...this._fallback };
+      try {
+        const raw = JSON.parse(localStorage.getItem(this.key) || '{}');
+        if (!raw || Array.isArray(raw) || typeof raw !== 'object') return {};
+        const allowed = new Set(Site.CHAPTERS.flatMap(c => c.sections.map(id => `${c.key}:${id}`)));
+        return Object.fromEntries(Object.entries(raw).filter(([key, value]) => allowed.has(key) && value === true));
+      } catch { return {}; }
+    },
+    toggle(chapter, section) {
+      if (!Site.CHAPTERS.find(c => c.key === chapter)?.sections.includes(section)) return;
+      const data = this.read(), key = `${chapter}:${section}`;
+      if (data[key]) delete data[key]; else data[key] = true;
+      try { localStorage.setItem(this.key, JSON.stringify(data)); this._fallback = null; }
+      catch { this._fallback = data; Site.showStorageNotice(); }
+      document.dispatchEvent(new CustomEvent('progress:change'));
+    },
+  },
+
+  showStorageNotice() {
+    if (document.getElementById('storage-notice')) return;
+    const notice = document.createElement('p');
+    notice.id = 'storage-notice';
+    notice.className = 'callout trap';
+    notice.setAttribute('role', 'status');
+    notice.textContent = 'This browser is blocking saved progress. Your changes may be lost when you leave this page.';
+    document.querySelector('main')?.prepend(notice);
+  },
+
   store: {
     key: 'phy-notes-attempts-v1',
-    read() { try { return JSON.parse(localStorage.getItem(this.key) || '{}'); } catch (e) { return {}; } },
-    write(obj) { try { localStorage.setItem(this.key, JSON.stringify(obj)); } catch (e) { /* storage blocked */ } },
-    set(id, choice) { const o = this.read(); o[id] = choice; this.write(o); },
-    clear() { try { localStorage.removeItem(this.key); } catch (e) {} },
+    _fallback: null,
+    read() {
+      if (this._fallback) return { ...this._fallback };
+      try {
+        const raw = JSON.parse(localStorage.getItem(this.key) || '{}');
+        if (!raw || Array.isArray(raw) || typeof raw !== 'object') return {};
+        return Object.fromEntries(Object.entries(raw).filter(([, value]) => Number.isInteger(value) && value >= 0 && value < 4));
+      } catch { return {}; }
+    },
+    write(obj) {
+      try { localStorage.setItem(this.key, JSON.stringify(obj)); this._fallback = null; }
+      catch { this._fallback = { ...obj }; Site.showStorageNotice(); }
+      document.dispatchEvent(new CustomEvent('progress:change'));
+    },
+    set(id, choice) {
+      if (!Number.isInteger(choice) || choice < 0 || choice >= 4) return;
+      const o = this.read(); o[id] = choice; this.write(o);
+    },
+    remove(id) { const o = this.read(); delete o[id]; this.write(o); },
+    clear() { this.write({}); },
   },
 };
 
 /* =====================================================================
    Quiz engine
    Question object:
-   { id, src: 't05'|'t06'|'xs'|'xf', qno, topic, type, flagged?,
+   { id, src: 't05'|'t06'|'xs'|'xf'|'xc', qno, topic, type, flagged?,
      q: html, fig?: svg html, opts: [html x4], ans: 0-based index,
      sol: html, trap?: html, key?: html }
    ===================================================================== */
@@ -219,6 +405,7 @@ const Quiz = {
     if (q.src === 't06') return `Test-06 · Q${q.qno}`;
     if (q.src === 'xs') return `Solids set · ${q.qno}`;
     if (q.src === 'xf') return `Fluids set · ${q.qno}`;
+    if (q.src === 'xc') return `Completion set · ${q.qno}`;
     return q.id;
   },
 
@@ -237,14 +424,16 @@ const Quiz = {
         ${q.flagged ? `<span class="chip coral" title="This question has a ✗ mark on the paper photo">✗ marked on your paper</span>` : ''}
       </div>
       <div class="qtext">${q.q}${q.fig ? `<div class="qfig">${q.fig}</div>` : ''}</div>
+      ${topic ? `<p class="concept small"><a href="${topic.page}#${q.topic}">Review this concept first: ${topic.label} →</a></p>` : ''}
       <div class="opts ${short ? 'short' : ''}">
         ${q.opts.map((o, i) => `<button class="opt" data-i="${i}" type="button"><span class="on">${i + 1})</span><span class="ot">${o}</span></button>`).join('')}
       </div>
       <div class="qactions">
-        <button class="btn" type="button" data-act="show">Show solution</button>
+        <button class="btn" type="button" data-act="show" aria-expanded="false" aria-controls="sol-${q.id}">Show solution</button>
+        <button class="btn" type="button" data-act="retry" hidden>Try again</button>
         <span class="verdict" aria-live="polite"></span>
       </div>
-      <div class="sol" hidden>
+      <div class="sol" id="sol-${q.id}" hidden>
         <h5>Solution · Answer: option ${q.ans + 1}</h5>
         <div class="stack">${q.sol}</div>
         ${q.trap ? `<div class="callout trap"><span class="label">Exam trap</span><div>${q.trap}</div></div>` : ''}
@@ -256,9 +445,14 @@ const Quiz = {
     const sol = el.querySelector('.sol');
     const verdict = el.querySelector('.verdict');
     const showBtn = el.querySelector('[data-act="show"]');
+    const retryBtn = el.querySelector('[data-act="retry"]');
 
-    const reveal = () => { if (sol.hidden) { sol.hidden = false; showBtn.textContent = 'Hide solution'; } };
+    const reveal = () => {
+      if (sol.hidden) { sol.hidden = false; showBtn.textContent = 'Hide solution'; showBtn.setAttribute('aria-expanded', 'true'); Site.typeset(sol); }
+    };
     const answer = (i, save) => {
+      opts.forEach(b => b.classList.remove('right', 'wrong'));
+      el.classList.remove('done-right', 'done-wrong');
       opts.forEach((b, j) => {
         b.disabled = true;
         if (j === q.ans) b.classList.add('right');
@@ -268,17 +462,36 @@ const Quiz = {
       verdict.textContent = ok ? 'Correct' : `Not quite. The answer is option ${q.ans + 1}.`;
       verdict.className = 'verdict ' + (ok ? 'ok' : 'no');
       el.classList.add(ok ? 'done-right' : 'done-wrong');
+      retryBtn.hidden = false;
       reveal();
       if (save) { Site.store.set(q.id, i); document.dispatchEvent(new CustomEvent('quiz:answer', { detail: { id: q.id, ok } })); }
     };
     opts.forEach((b, i) => b.addEventListener('click', () => answer(i, true)));
     showBtn.addEventListener('click', () => {
-      if (sol.hidden) reveal(); else { sol.hidden = true; showBtn.textContent = 'Show solution'; }
+      if (sol.hidden) reveal(); else { sol.hidden = true; showBtn.textContent = 'Show solution'; showBtn.setAttribute('aria-expanded', 'false'); }
     });
     el._q = q;
     if (Site.printKind) { this.printCard(el); return el; }
-    const prev = Site.store.read()[q.id];
-    if (typeof prev === 'number') answer(prev, false);
+    let previous;
+    el._sync = () => {
+      const choice = Site.store.read()[q.id];
+      if (choice === previous) return;
+      previous = choice;
+      if (Number.isInteger(choice)) answer(choice, false);
+      else {
+        opts.forEach(b => { b.disabled = false; b.classList.remove('right', 'wrong'); });
+        el.classList.remove('done-right', 'done-wrong');
+        sol.hidden = true; showBtn.textContent = 'Show solution';
+        showBtn.setAttribute('aria-expanded', 'false');
+        retryBtn.hidden = true; verdict.textContent = '';
+      }
+    };
+    retryBtn.addEventListener('click', () => {
+      Site.store.remove(q.id);
+      document.dispatchEvent(new CustomEvent('quiz:answer', { detail: { id: q.id, retry: true } }));
+      opts[0].focus();
+    });
+    el._sync();
     return el;
   },
 

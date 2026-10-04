@@ -9,15 +9,16 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,750&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;600&display=swap">
 <link rel="stylesheet" href="assets/style.css">
 <script src="assets/site.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
 <script src="assets/q-test05.js"></script>
 <script src="assets/q-test06.js"></script>
 <script src="assets/q-solids.js"></script>
 <script src="assets/q-fluids-extra.js"></script>
+<script src="assets/q-completion.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
 <style>
   .filters { position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--topbar-h)); z-index: 20; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding-block: 12px; border-bottom: 1px solid var(--line); display: grid; gap: 10px; }
   @media (max-width: 720px) { .filters { top: calc(env(safe-area-inset-top, 0px) + 92px); position: static; } }
-  .frow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .frow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; min-width: 0; }
   .frow .lbl { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); min-width: 52px; }
   .fchip { font: inherit; font-size: 13.5px; font-weight: 600; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink-2); cursor: pointer; }
   .fchip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
@@ -45,12 +46,15 @@
         <button class="fchip" data-src="t06" aria-pressed="false">Test-06</button>
         <button class="fchip" data-src="xs" aria-pressed="false">Solids set</button>
         <button class="fchip" data-src="xf" aria-pressed="false">Fluids set</button>
+        <button class="fchip" data-src="xc" aria-pressed="false">Completion set</button>
       </div>
       <div class="frow">
         <span class="lbl">Show</span>
         <button class="fchip flag" id="f-flag" aria-pressed="false">✗ marked on paper</button>
         <button class="fchip" id="f-unans" aria-pressed="false">Not yet answered</button>
         <button class="fchip" id="f-wrong" aria-pressed="false">Got wrong</button>
+        <label class="sr" for="f-chapter">Chapter</label>
+        <select id="f-chapter"><option value="">All chapters</option></select>
         <label class="sr" for="f-topic" style="position:absolute;left:-9999px">Topic</label>
         <select id="f-topic"><option value="">All topics</option></select>
         <label class="sr" for="f-type" style="position:absolute;left:-9999px">Question type</label>
@@ -76,11 +80,16 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const Q = window.QBANK;
-  const state = { src: 'all', flag: false, unans: false, wrong: false, topic: '', type: '' };
+  const state = { src: 'all', flag: false, unans: false, wrong: false, topic: '', type: '', chapter: '' };
   const $ = id => document.getElementById(id);
 
   // topic & type selects only list what exists in the bank
   const topicSel = $('f-topic'), typeSel = $('f-type');
+  const chapterSel = $('f-chapter');
+  Site.CHAPTERS.forEach(c => chapterSel.insertAdjacentHTML('beforeend', `<option value="${c.key}">${c.label}</option>`));
+  const requestedChapter = new URLSearchParams(location.search).get('chapter');
+  if (Site.CHAPTERS.some(c => c.key === requestedChapter)) state.chapter = requestedChapter;
+  chapterSel.value = state.chapter;
   Object.entries(Site.TOPICS).forEach(([k, t]) => {
     const n = Q.filter(q => q.topic === k).length;
     if (n) topicSel.insertAdjacentHTML('beforeend', `<option value="${k}">${t.label} (${n})</option>`);
@@ -92,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // deep links: #t05 #t06 #xs #xf #flagged or a topic id
   const h = location.hash.slice(1);
-  if (['t05', 't06', 'xs', 'xf'].includes(h)) state.src = h;
+  if (Object.hasOwn(Site.SOURCES, h)) state.src = h;
   else if (h === 'flagged') state.flag = true;
   else if (Site.TOPICS[h]) state.topic = h;
   topicSel.value = state.topic;
@@ -105,13 +114,22 @@ document.addEventListener('DOMContentLoaded', () => {
     $('f-wrong').setAttribute('aria-pressed', String(state.wrong));
   };
 
-  const render = () => {
-    const att = Site.store.read();
-    const list = Q.filter(q =>
+  const syncTopics = () => {
+    const chapter = Site.CHAPTERS.find(c => c.key === state.chapter);
+    [...topicSel.options].forEach(option => {
+      option.disabled = Boolean(option.value && chapter && Site.TOPICS[option.value]?.page !== chapter.page);
+    });
+  };
+
+  const selectedQuestions = () => Q.filter(q =>
       (state.src === 'all' || q.src === state.src) &&
+      (!state.chapter || Site.TOPICS[q.topic]?.page === Site.CHAPTERS.find(c => c.key === state.chapter)?.page) &&
       (!state.flag || q.flagged) &&
       (!state.topic || q.topic === state.topic) &&
-      (!state.type || q.type === state.type) &&
+      (!state.type || q.type === state.type));
+  const render = () => {
+    const att = Site.store.read();
+    const list = selectedQuestions().filter(q =>
       (!state.unans || typeof att[q.id] !== 'number') &&
       (!state.wrong || (typeof att[q.id] === 'number' && att[q.id] !== q.ans)));
     const box = $('list');
@@ -122,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   const score = () => {
     const att = Site.store.read();
-    const done = Q.filter(q => typeof att[q.id] === 'number');
+    const done = selectedQuestions().filter(q => typeof att[q.id] === 'number');
     $('s-done').textContent = done.length;
     $('s-right').textContent = done.filter(q => att[q.id] === q.ans).length;
     $('s-wrong').textContent = done.filter(q => att[q.id] !== q.ans).length;
@@ -134,13 +152,25 @@ document.addEventListener('DOMContentLoaded', () => {
   $('f-wrong').addEventListener('click', () => { state.wrong = !state.wrong; if (state.wrong) state.unans = false; syncButtons(); render(); });
   topicSel.addEventListener('change', () => { state.topic = topicSel.value; render(); });
   typeSel.addEventListener('change', () => { state.type = typeSel.value; render(); });
+  chapterSel.addEventListener('change', () => {
+    state.chapter = chapterSel.value;
+    state.topic = ''; topicSel.value = '';
+    syncTopics();
+    const query = state.chapter ? `?chapter=${state.chapter}` : '';
+    history.replaceState(null, '', `${location.pathname}${query}${location.hash}`);
+    render();
+  });
   document.addEventListener('quiz:answer', score);
+  document.addEventListener('progress:change', score);
+  window.addEventListener('pageshow', () => { if (!Site.printKind) render(); });
+  window.addEventListener('storage', e => { if (e.key === null || e.key === Site.store.key) render(); });
 
   const askReset = (on) => { $('reset').hidden = on; $('reset-yes').hidden = !on; $('reset-no').hidden = !on; };
   $('reset').addEventListener('click', () => askReset(true));
   $('reset-no').addEventListener('click', () => askReset(false));
   $('reset-yes').addEventListener('click', () => { Site.store.clear(); askReset(false); render(); });
 
+  syncTopics();
   syncButtons();
   if (Site.printKind) {
     // print: every question, grouped by source, plus an answer key for the questions-only version

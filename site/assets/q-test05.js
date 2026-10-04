@@ -39,7 +39,7 @@
     sol: R`<p>Statement 1 is Pascal's law: extra pressure applied to an enclosed fluid is transmitted undiminished to every part of it (gravity aside, the pressure evens out everywhere). Statement 2 is also true: hydraulic lifts, presses and brakes all multiply force using Pascal's law.</p>`,
   },
   {
-    id: 't05-03', src: 't05', qno: 3, topic: 'pressure', type: 'ar', flagged: true,
+    id: 't05-03', src: 't05', qno: 3, topic: 'pascal-law', type: 'ar', flagged: true,
     q: R`<div class="ar"><p><strong>Assertion (A):</strong> The pressure at a point in a fluid contained in a vessel placed on a table acts in the downward direction.</p><p><strong>Reason (R):</strong> The force exerted by a fluid at rest on any surface is always normal to that surface.</p></div>`,
     opts: ['Both A and R are true and R is the correct explanation of A.', 'Both A and R are true but R is not the correct explanation of A.', 'A is true but R is false.', 'A is false but R is true.'], ans: 3,
     sol: R`<p><strong>A is false.</strong> Pressure is a <em>scalar</em>. At a point in a fluid at rest it is the same in every direction, so it has no direction of its own, not even "downward".</p>
@@ -47,7 +47,7 @@
     trap: R`It is the <em>force</em> due to pressure that has a direction (normal to the surface). Pressure itself has no direction.`,
   },
   {
-    id: 't05-04', src: 't05', qno: 4, topic: 'pressure', type: 'numerical',
+    id: 't05-04', src: 't05', qno: 4, topic: 'connected-vessels', type: 'numerical',
     q: R`<p>Two cylindrical vessels of equal cross-sectional area of 2 m² contain water up to 6 m and 4 m, respectively. If the vessels are connected at their bottom, then the work done by the force of gravity is (density of water = 10³ kg/m³, g = 10 m/s²):</p>`,
     opts: ['1 × 10⁴ J', '2 × 10⁴ J', '4 × 10⁴ J', '8 × 10⁴ J'], ans: 1,
     sol: R`<ol class="steps">

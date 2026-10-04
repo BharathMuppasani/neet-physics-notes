@@ -11,7 +11,7 @@
 <script src="assets/site.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
 <style>
-  .sheet { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
+  .sheet { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); }
   .fx { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; display: grid; gap: 4px; align-content: start; min-width: 0; overflow-x: auto; }
   .fx .n { font-size: 12.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--c, var(--accent)); }
   .fx .m { font-size: 1.02em; }
@@ -19,7 +19,7 @@
   .s-sol .fx { --c: var(--indigo); }
   .s-f1 .fx { --c: var(--water); }
   .s-f2 .fx { --c: var(--plum); }
-  .traps { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .traps { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
   .traps div { background: var(--coral-soft); border-radius: var(--r); padding: 10px 14px; font-size: 15.5px; }
   .traps div strong { color: var(--coral); }
 </style>
@@ -37,19 +37,20 @@
     <section id="solids" class="s-sol" data-num="8" data-toc="Solids">
       <div class="sec-head"><span class="num" style="color: var(--indigo)">CHAPTER 8</span><h2>Mechanical Properties of Solids</h2></div>
       <div class="sheet">
-        <div class="fx"><span class="n">Stress</span><span class="m">\( \sigma = \dfrac{F}{A} \)</span><span class="w">N m⁻² = Pa, dimensions [ML⁻¹T⁻²]. Internal restoring force per area.</span></div>
-        <div class="fx"><span class="n">Strains</span><span class="m">\( \dfrac{\Delta L}{L},\quad \theta \approx \dfrac{\Delta x}{L},\quad \dfrac{\Delta V}{V} \)</span><span class="w">Longitudinal, shear, volumetric. Dimensionless.</span></div>
-        <div class="fx"><span class="n">Hooke's law</span><span class="m">\( \text{stress} = E \times \text{strain} \)</span><span class="w">Valid only up to the proportional limit. Modulus has stress's units.</span></div>
-        <div class="fx"><span class="n">Young's modulus</span><span class="m">\( Y = \dfrac{FL}{A\,\Delta L} \Rightarrow \Delta L = \dfrac{FL}{\pi r^2 Y} \)</span><span class="w">Solids only. Steel ≈ 2×10¹¹ Pa. Rigid body: Y = ∞.</span></div>
-        <div class="fx"><span class="n">Shear modulus</span><span class="m">\( G = \dfrac{F/A}{\theta} \)</span><span class="w">Solids only. Usually G ≈ Y/3.</span></div>
-        <div class="fx"><span class="n">Bulk modulus</span><span class="m">\( B = -\dfrac{p}{\Delta V/V},\quad k = \dfrac1B \)</span><span class="w">Solids, liquids, gases. Water 2.2×10⁹ Pa. Fractional change in radius = p/3B.</span></div>
-        <div class="fx"><span class="n">Poisson's ratio</span><span class="m">\( \sigma = -\dfrac{\Delta d/d}{\Delta L/L} \)</span><span class="w">Practically 0 to 0.5. \( Y = 2G(1+\sigma) = 3B(1-2\sigma) \).</span></div>
-        <div class="fx"><span class="n">Elastic energy</span><span class="m">\( U = \tfrac12 F\Delta L = \dfrac{YA(\Delta L)^2}{2L} \)</span><span class="w">Per volume: \( u = \tfrac12\,\text{stress}\times\text{strain} = \dfrac{\text{stress}^2}{2Y} \). Mass M stretching wire by l: U = Mgl/2.</span></div>
-        <div class="fx"><span class="n">Wire as a spring</span><span class="m">\( k = \dfrac{YA}{L} \)</span><span class="w">Series: \( 1/k = 1/k_1 + 1/k_2 \). Parallel: \( k = k_1 + k_2 \).</span></div>
-        <div class="fx"><span class="n">Own weight</span><span class="m">\( \Delta L = \dfrac{MgL}{2AY} = \dfrac{\rho g L^2}{2Y} \)</span><span class="w">Half of what the same weight hung at the end would produce.</span></div>
-        <div class="fx"><span class="n">Thermal stress</span><span class="m">\( F = YA\alpha\,\Delta T \)</span><span class="w">Rod clamped between rigid walls. Independent of length.</span></div>
-        <div class="fx"><span class="n">Beam bending</span><span class="m">\( \delta = \dfrac{W\ell^3}{4bd^3Y} \)</span><span class="w">Doubling depth d cuts sag 8×, which is why I-beams are deep.</span></div>
+        <div class="fx"><span class="n">Stress</span><span class="m">\( \sigma = \dfrac{F}{A} \)</span><span class="w">N m⁻² = Pa, dimensions [ML⁻¹T⁻²]. Internal restoring force per area.</span><a class="small" href="solids.html#stress">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Strains</span><span class="m">\( \dfrac{\Delta L}{L},\quad \theta \approx \dfrac{\Delta x}{L},\quad \dfrac{\Delta V}{V} \)</span><span class="w">Longitudinal, shear, volumetric. Dimensionless.</span><a class="small" href="solids.html#stress">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Hooke's law</span><span class="m">\( \text{stress} = E \times \text{strain} \)</span><span class="w">Valid only up to the proportional limit. Modulus has stress's units.</span><a class="small" href="solids.html#curve">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Young's modulus</span><span class="m">\( Y = \dfrac{FL}{A\,\Delta L} \Rightarrow \Delta L = \dfrac{FL}{\pi r^2 Y} \)</span><span class="w">Solids only. Steel ≈ 2×10¹¹ Pa. Rigid body: Y = ∞.</span><a class="small" href="solids.html#youngs">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Shear modulus</span><span class="m">\( G = \dfrac{F/A}{\theta} \)</span><span class="w">Solids only. Usually G ≈ Y/3.</span><a class="small" href="solids.html#shear">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Bulk modulus</span><span class="m">\( B = -\dfrac{p}{\Delta V/V},\quad k = \dfrac1B \)</span><span class="w">Solids, liquids, gases. Water 2.2×10⁹ Pa. Fractional change in radius = p/3B.</span><a class="small" href="solids.html#bulk">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Poisson's ratio</span><span class="m">\( \sigma = -\dfrac{\Delta d/d}{\Delta L/L} \)</span><span class="w">Most conventional materials: 0 to 0.5; auxetic materials can have negative ratios. \( Y = 2G(1+\sigma) = 3B(1-2\sigma) \).</span><a class="small" href="solids.html#poisson">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Elastic energy</span><span class="m">\( U = \tfrac12 F\Delta L = \dfrac{YA(\Delta L)^2}{2L} \)</span><span class="w">Per volume: \( u = \tfrac12\,\text{stress}\times\text{strain} = \dfrac{\text{stress}^2}{2Y} \). Mass M stretching wire by l: U = Mgl/2.</span><a class="small" href="solids.html#energy">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Wire as a spring</span><span class="m">\( k = \dfrac{YA}{L} \)</span><span class="w">Series: \( 1/k = 1/k_1 + 1/k_2 \). Parallel: \( k = k_1 + k_2 \).</span><a class="small" href="solids.html#wire-combinations">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Own weight</span><span class="m">\( \Delta L = \dfrac{MgL}{2AY} = \dfrac{\rho g L^2}{2Y} \)</span><span class="w">Half of what the same weight hung at the end would produce.</span><a class="small" href="solids.html#wire-combinations">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Thermal stress</span><span class="m">\( F = YA\alpha\,\Delta T \)</span><span class="w">Rod clamped between rigid walls. Independent of length.</span><a class="small" href="solids.html#thermal">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Beam bending</span><span class="m">\( \delta = \dfrac{W\ell^3}{4bd^3Y} \)</span><span class="w">Doubling depth d cuts sag 8×, which is why I-beams are deep.</span><a class="small" href="solids.html#applications">Symbols, assumptions and explanation →</a></div>
       </div>
+      <p class="small">Symbol guide: F and W are force magnitudes in N; M is mass in kg; A is cross-sectional area in m²; L or ℓ is length in m; Y, G and B are moduli in Pa. σ denotes stress in the stress card and Poisson's ratio in the Poisson card. Δ means a signed change; p in the compression formulas means the added pressure. In beam bending, b is breadth, d is vertical depth and δ is sag.</p>
       <h3>Ratio shortcuts</h3>
       <div class="table-wrap"><table>
         <tr><th>Situation</th><th>Use</th></tr>
@@ -64,41 +65,45 @@
     <section id="statics" class="s-f1" data-num="9.2" data-toc="Fluids at rest">
       <div class="sec-head"><span class="num" style="color: var(--water)">CHAPTER 9 · PART I</span><h2>Fluids at rest</h2></div>
       <div class="sheet">
-        <div class="fx"><span class="n">Pressure</span><span class="m">\( P = \dfrac{F}{A} \)</span><span class="w">Scalar. Acts equally in all directions at a point; force on a surface is normal to it.</span></div>
-        <div class="fx"><span class="n">Depth</span><span class="m">\( P = P_0 + \rho g h \)</span><span class="w">Same depth, same pressure, whatever the vessel's shape (hydrostatic paradox).</span></div>
-        <div class="fx"><span class="n">Gauge pressure</span><span class="m">\( P - P_0 = \rho g h \)</span><span class="w">1 atm = 1.013×10⁵ Pa = 76 cm Hg. 1 bar = 10⁵ Pa. 1 torr = 1 mm Hg.</span></div>
-        <div class="fx"><span class="n">U-tube, two liquids</span><span class="m">\( \rho_1 h_1 = \rho_2 h_2 \)</span><span class="w">Measured from the common interface level.</span></div>
-        <div class="fx"><span class="n">Pascal / hydraulic lift</span><span class="m">\( \dfrac{F_1}{A_1} = \dfrac{F_2}{A_2} \)</span><span class="w">\( F_2 = F_1 (d_2/d_1)^2 \). Distances: \( A_1x_1 = A_2x_2 \). Work in = work out.</span></div>
-        <div class="fx"><span class="n">Buoyancy</span><span class="m">\( F_B = \rho_\ell V_\text{sub}\, g \)</span><span class="w">Equals weight of liquid displaced, floating or sunk.</span></div>
-        <div class="fx"><span class="n">Floating</span><span class="m">\( \dfrac{V_\text{sub}}{V} = \dfrac{\rho_\text{body}}{\rho_\ell} \)</span><span class="w">Interface of two liquids: \( \rho V = \rho_1V_1 + \rho_2V_2 \).</span></div>
-        <div class="fx"><span class="n">Apparent weight</span><span class="m">\( W' = W\left(1 - \dfrac{\rho_\ell}{\rho_\text{body}}\right) \)</span><span class="w">Loss of weight = buoyant force.</span></div>
+        <div class="fx"><span class="n">Pressure</span><span class="m">\( P = \dfrac{F}{A} \)</span><span class="w">Scalar. Acts equally in all directions at a point; force on a surface is normal to it.</span><a class="small" href="fluids-1.html#pressure">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Depth</span><span class="m">\( P = P_0 + \rho g h \)</span><span class="w">Same depth, same pressure, whatever the vessel's shape (hydrostatic paradox).</span><a class="small" href="fluids-1.html#pressure-depth">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Gauge pressure</span><span class="m">\( P - P_0 = \rho g h \)</span><span class="w">1 atm = 1.013×10⁵ Pa = 76 cm Hg. 1 bar = 10⁵ Pa. 1 torr = 1 mm Hg.</span><a class="small" href="fluids-1.html#atmospheric">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">U-tube, two liquids</span><span class="m">\( \rho_1 h_1 = \rho_2 h_2 \)</span><span class="w">Measured from the common interface level.</span><a class="small" href="fluids-1.html#atmospheric">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Pascal / hydraulic lift</span><span class="m">\( \dfrac{F_1}{A_1} = \dfrac{F_2}{A_2} \)</span><span class="w">\( F_2 = F_1 (d_2/d_1)^2 \). Distances: \( A_1x_1 = A_2x_2 \). Work in = work out.</span><a class="small" href="fluids-1.html#pascal">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Buoyancy</span><span class="m">\( F_B = \rho_\ell V_\text{sub}\, g \)</span><span class="w">Equals weight of liquid displaced, floating or sunk.</span><a class="small" href="fluids-1.html#buoyancy">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Floating</span><span class="m">\( \dfrac{V_\text{sub}}{V} = \dfrac{\rho_\text{body}}{\rho_\ell} \)</span><span class="w">Interface of two liquids: \( \rho V = \rho_1V_1 + \rho_2V_2 \).</span><a class="small" href="fluids-1.html#buoyancy">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Apparent weight</span><span class="m">\( W' = W\left(1 - \dfrac{\rho_\ell}{\rho_\text{body}}\right) \)</span><span class="w">Loss of weight = buoyant force.</span><a class="small" href="fluids-1.html#buoyancy">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Connected cylinders</span><span class="m">\( h_f = \dfrac{A_1h_1+A_2h_2}{A_1+A_2} \)</span><span class="w">A₁, A₂ = vessel areas; h₁, h₂ = initial depths above one bottom level; h_f = final depth. Equal surface pressures and same liquid.</span><a class="small" href="fluids-1.html#connected-vessels">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Gravity's work: equal-area cylinders</span><span class="m">\( W_g = \dfrac{\rho g A}{4}(h_1-h_2)^2 \)</span><span class="w">W_g in J; ρ = liquid density; A = area of each vessel; g = gravity. Gravitational potential energy lost during equalisation.</span><a class="small" href="fluids-1.html#connected-vessels">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Accelerating container</span><span class="m">\( \tan\theta=|a|/g,\quad |\Delta h|=|a|\ell/g \)</span><span class="w">a = horizontal acceleration, ℓ = tank length, θ = tilt, Δh = level difference. Vertical lift: g_eff = g + a, with a positive upward.</span><a class="small" href="fluids-1.html#accelerating-fluids">Symbols, assumptions and explanation →</a></div>
       </div>
     </section>
 
     <section id="flow" class="s-f1" data-num="9.3" data-toc="Fluids in motion">
       <div class="sec-head"><span class="num" style="color: var(--water)">CHAPTER 9 · PART I</span><h2>Fluids in motion</h2></div>
       <div class="sheet">
-        <div class="fx"><span class="n">Continuity (mass)</span><span class="m">\( A_1v_1 = A_2v_2 \)</span><span class="w">\( v \propto 1/d^2 \). Branches: \( A v = \sum a_i v_i \).</span></div>
-        <div class="fx"><span class="n">Bernoulli (energy)</span><span class="m">\( P + \tfrac12\rho v^2 + \rho g h = \text{const} \)</span><span class="w">Each term is energy per volume. Faster → lower pressure.</span></div>
-        <div class="fx"><span class="n">Torricelli</span><span class="m">\( v = \sqrt{2gh} \)</span><span class="w">h = depth below the free surface. With extra surface pressure ΔP: \( v^2 = 2gh + 2\Delta P/\rho \).</span></div>
-        <div class="fx"><span class="n">Range of jet</span><span class="m">\( R = 2\sqrt{h(H-h)} \)</span><span class="w">Max = H at h = H/2. Depths h and H−h give equal ranges.</span></div>
-        <div class="fx"><span class="n">Time to empty</span><span class="m">\( t = \dfrac{A}{a}\sqrt{\dfrac{2H}{g}} \)</span><span class="w">\( t \propto \sqrt{H} \).</span></div>
-        <div class="fx"><span class="n">Venturimeter</span><span class="m">\( \rho g \Delta h = \tfrac12\rho(v_2^2 - v_1^2) \)</span><span class="w">With \( A_1v_1 = A_2v_2 \): \( v_1 = \sqrt{\dfrac{2g\Delta h}{(A_1/A_2)^2 - 1}} \).</span></div>
-        <div class="fx"><span class="n">Lift</span><span class="m">\( F = \tfrac12\rho(v_\text{top}^2 - v_\text{bottom}^2)\,A \)</span><span class="w">Small difference: \( \Delta v/v = \Delta P/\rho v^2 \). Roof: \( F = \tfrac12\rho v^2 A \), upward.</span></div>
-        <div class="fx"><span class="n">Jet thrust</span><span class="m">\( F = \rho a v^2 \)</span><span class="w">Two holes at depth difference h on opposite walls: net 2ρagh.</span></div>
-        <div class="fx"><span class="n">Stagnation rise</span><span class="m">\( h = \dfrac{v^2}{2g} \)</span><span class="w">Pitot-type tube facing the flow.</span></div>
+        <div class="fx"><span class="n">Continuity (mass)</span><span class="m">\( A_1v_1 = A_2v_2 \)</span><span class="w">\( v \propto 1/d^2 \). Branches: \( A v = \sum a_i v_i \).</span><a class="small" href="fluids-1.html#continuity">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Bernoulli (energy)</span><span class="m">\( P + \tfrac12\rho v^2 + \rho g h = \text{const} \)</span><span class="w">P = pressure (Pa), ρ = density (kg/m³), v = speed (m/s), g = gravitational acceleration (m/s²), h = upward elevation (m). Along an ideal steady-flow streamline; at equal elevation, faster flow corresponds to lower pressure.</span><a class="small" href="fluids-1.html#bernoulli">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Torricelli</span><span class="m">\( v = \sqrt{2gh} \)</span><span class="w">h = depth below the free surface. With extra surface pressure ΔP: \( v^2 = 2gh + 2\Delta P/\rho \).</span><a class="small" href="fluids-1.html#torricelli">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Range of jet</span><span class="m">\( R = 2\sqrt{h(H-h)} \)</span><span class="w">Max = H at h = H/2. Depths h and H−h give equal ranges.</span><a class="small" href="fluids-1.html#torricelli">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Time to empty</span><span class="m">\( t = \dfrac{A}{a}\sqrt{\dfrac{2H}{g}} \)</span><span class="w">\( t \propto \sqrt{H} \).</span><a class="small" href="fluids-1.html#torricelli">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Venturimeter</span><span class="m">\( \rho g \Delta h = \tfrac12\rho(v_2^2 - v_1^2) \)</span><span class="w">With \( A_1v_1 = A_2v_2 \): \( v_1 = \sqrt{\dfrac{2g\Delta h}{(A_1/A_2)^2 - 1}} \).</span><a class="small" href="fluids-1.html#venturi">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Lift</span><span class="m">\( F = \tfrac12\rho(v_\text{top}^2 - v_\text{bottom}^2)\,A \)</span><span class="w">Small difference: \( \Delta v/v = \Delta P/\rho v^2 \). Roof: \( F = \tfrac12\rho v^2 A \), upward.</span><a class="small" href="fluids-1.html#lift">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Jet thrust</span><span class="m">\( F = \rho a v^2 \)</span><span class="w">Two holes at depth difference h on opposite walls: net 2ρagh.</span><a class="small" href="fluids-1.html#torricelli">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Stagnation rise</span><span class="m">\( h = \dfrac{v^2}{2g} \)</span><span class="w">Pitot-type tube facing the flow.</span><a class="small" href="fluids-1.html#bernoulli">Symbols, assumptions and explanation →</a></div>
       </div>
     </section>
 
     <section id="viscosity" class="s-f2" data-num="9.5" data-toc="Viscosity">
       <div class="sec-head"><span class="num" style="color: var(--plum)">CHAPTER 9 · PART II</span><h2>Viscosity &amp; terminal velocity</h2></div>
       <div class="sheet">
-        <div class="fx"><span class="n">Newton's law</span><span class="m">\( F = \eta A \dfrac{dv}{dx} \)</span><span class="w">η in Pa·s; 1 poise = 0.1 Pa·s. [ML⁻¹T⁻¹]. Ideal fluid: η = 0.</span></div>
-        <div class="fx"><span class="n">Stokes' law</span><span class="m">\( F = 6\pi\eta r v \)</span><span class="w">∝ r and ∝ v (so ∝ A^½).</span></div>
-        <div class="fx"><span class="n">Terminal velocity</span><span class="m">\( v_t = \dfrac{2r^2(\rho - \sigma)g}{9\eta} \)</span><span class="w">∝ r² and ∝ (ρ − σ). Rising bubble: \( v = 2r^2\sigma g/9\eta \).</span></div>
-        <div class="fx"><span class="n">n drops merge</span><span class="m">\( v' = n^{2/3} v \)</span><span class="w">8 drops → 4v. One sphere broken into n: each gets \( v/n^{2/3} \).</span></div>
-        <div class="fx"><span class="n">At terminal velocity</span><span class="m">\( F_\text{viscous} = W - F_B \)</span><span class="w">If liquid density = ½ body density: viscous force = Mg/2.</span></div>
-        <div class="fx"><span class="n">Reynolds number</span><span class="m">\( R_e = \dfrac{\rho v d}{\eta} \)</span><span class="w">Inertial/viscous. &lt; 1000 laminar, &gt; 2000 turbulent.</span></div>
+        <div class="fx"><span class="n">Newton's law</span><span class="m">\( F = \eta A \dfrac{dv}{dx} \)</span><span class="w">η in Pa·s; 1 poise = 0.1 Pa·s. [ML⁻¹T⁻¹]. Ideal fluid: η = 0.</span><a class="small" href="fluids-2.html#viscosity">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Stokes' law</span><span class="m">\( F = 6\pi\eta r v \)</span><span class="w">∝ r and ∝ v (so ∝ A^½).</span><a class="small" href="fluids-2.html#stokes">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Terminal velocity</span><span class="m">\( v_t = \dfrac{2r^2(\rho - \sigma)g}{9\eta} \)</span><span class="w">∝ r² and ∝ (ρ − σ). Rising bubble: \( v = 2r^2\sigma g/9\eta \).</span><a class="small" href="fluids-2.html#stokes">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">n drops merge</span><span class="m">\( v' = n^{2/3} v \)</span><span class="w">8 drops → 4v. One sphere broken into n: each gets \( v/n^{2/3} \).</span><a class="small" href="fluids-2.html#stokes">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">At terminal velocity</span><span class="m">\( F_\text{viscous} = W - F_B \)</span><span class="w">If liquid density = ½ body density: viscous force = Mg/2.</span><a class="small" href="fluids-2.html#stokes">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Reynolds number</span><span class="m">\( R_e = \dfrac{\rho v d}{\eta} \)</span><span class="w">ρ = fluid density, v = mean speed, d = pipe diameter, η = viscosity. Your coaching convention: &lt; 1000 laminar, &gt; 2000 turbulent; transition depends on the setup.</span><a class="small" href="fluids-2.html#reynolds">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Viscous pipe flow</span><span class="m">\( Q=\dfrac{\pi r^4\Delta P}{8\eta\ell},\quad v_\text{max}=2\bar v \)</span><span class="w">Q = volume flow rate; r = inner radius; ΔP = pressure drop; η = viscosity; ℓ = pipe length; v̄ = mean speed. Fully developed laminar flow in a circular pipe with no slip.</span><a class="small" href="fluids-2.html#pipe-flow">Symbols, assumptions and explanation →</a></div>
       </div>
       <div class="table-wrap"><table>
         <tr><th>When temperature rises</th><th>Liquids</th><th>Gases</th></tr>
@@ -110,15 +115,16 @@
     <section id="surface" class="s-f2" data-num="9.6" data-toc="Surface tension">
       <div class="sec-head"><span class="num" style="color: var(--plum)">CHAPTER 9 · PART II</span><h2>Surface tension &amp; capillarity</h2></div>
       <div class="sheet">
-        <div class="fx"><span class="n">Surface tension</span><span class="m">\( T = \dfrac{F}{L} = \dfrac{W}{\Delta A} \)</span><span class="w">N/m = J/m². Scalar. Salt raises it, soap lowers it.</span></div>
-        <div class="fx"><span class="n">Film on a frame</span><span class="m">\( F = 2TL \)</span><span class="w">Two surfaces. Square frame: 8TL. Ring/disc with hole: 2π(R+r)T.</span></div>
-        <div class="fx"><span class="n">Work on film / bubble</span><span class="m">\( W = 2T\Delta A,\ \ W_\text{bubble} = 8\pi T(r_2^2 - r_1^2) \)</span><span class="w">Drop (one surface): \( 4\pi T(r_2^2 - r_1^2) \).</span></div>
-        <div class="fx"><span class="n">Drops merging</span><span class="m">\( E = 4\pi r^2T\,(n - n^{2/3}) \)</span><span class="w">Energy released (area falls). Splitting needs energy.</span></div>
-        <div class="fx"><span class="n">Excess pressure</span><span class="m">\( \text{drop } \dfrac{2T}{R},\ \text{bubble } \dfrac{4T}{R},\ \text{air bubble } \dfrac{2T}{R} \)</span><span class="w">Air bubble at depth h: \( P_\text{in} = P_0 + \rho g h + 2T/r \).</span></div>
-        <div class="fx"><span class="n">Two bubbles joined</span><span class="m">\( r = \dfrac{r_1 r_2}{r_2 - r_1} \)</span><span class="w">Interface radius. Small bubble shrinks into the big one.</span></div>
-        <div class="fx"><span class="n">Capillary rise</span><span class="m">\( h = \dfrac{2T\cos\theta}{r\rho g} \)</span><span class="w">r = inner radius. hr = const. Mass raised ∝ r: \( mg = 2\pi rT\cos\theta \).</span></div>
-        <div class="fx"><span class="n">Tilted tube</span><span class="m">\( \ell = \dfrac{h}{\cos\alpha} \)</span><span class="w">Vertical height same; α measured from the vertical.</span></div>
-        <div class="fx"><span class="n">Angle of contact</span><span class="m">\( \theta &lt; 90^\circ \) wets, rises, concave</span><span class="w">θ &gt; 90°: doesn't wet, falls, convex (mercury ≈ 140°). Water–glass ≈ 0°.</span></div>
+        <div class="fx"><span class="n">Surface tension</span><span class="m">\( T = \dfrac{F}{L} = \dfrac{W}{\Delta A} \)</span><span class="w">N/m = J/m². Scalar. Salt raises it, soap lowers it.</span><a class="small" href="fluids-2.html#surface-tension">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Film on a frame</span><span class="m">\( F = 2TL \)</span><span class="w">Two surfaces. Square frame: 8TL. Ring/disc with hole: 2π(R+r)T.</span><a class="small" href="fluids-2.html#surface-tension">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Work on film / bubble</span><span class="m">\( W = 2T\Delta A,\ \ W_\text{bubble} = 8\pi T(r_2^2 - r_1^2) \)</span><span class="w">Drop (one surface): \( 4\pi T(r_2^2 - r_1^2) \).</span><a class="small" href="fluids-2.html#surface-energy">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Drops merging</span><span class="m">\( E = 4\pi r^2T\,(n - n^{2/3}) \)</span><span class="w">Energy released (area falls). Splitting needs energy.</span><a class="small" href="fluids-2.html#surface-energy">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Excess pressure</span><span class="m">\( \text{drop } \dfrac{2T}{R},\ \text{bubble } \dfrac{4T}{R},\ \text{air bubble } \dfrac{2T}{R} \)</span><span class="w">Air bubble at depth h: \( P_\text{in} = P_0 + \rho g h + 2T/r \).</span><a class="small" href="fluids-2.html#drops-bubbles">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Two bubbles joined</span><span class="m">\( r = \dfrac{r_1 r_2}{r_2 - r_1} \)</span><span class="w">Interface radius. Small bubble shrinks into the big one.</span><a class="small" href="fluids-2.html#drops-bubbles">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Capillary rise</span><span class="m">\( h = \dfrac{2T\cos\theta}{r\rho g} \)</span><span class="w">r = inner radius. hr = const. Mass raised ∝ r: \( mg = 2\pi rT\cos\theta \).</span><a class="small" href="fluids-2.html#capillarity">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Capillary experiment</span><span class="m">\( T\approx\dfrac{\rho grh}{2},\quad \dfrac{\Delta T}{T}\approx\dfrac{\Delta r}{r}+\dfrac{\Delta h}{h} \)</span><span class="w">T = surface tension; ρ = liquid density; r = inner radius; h = vertical rise; g = gravity. θ ≈ 0; neglect meniscus correction. Error sum is a first-order maximum estimate with ρ and g exact.</span><a class="small" href="fluids-2.html#capillary-experiment">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Tilted tube</span><span class="m">\( \ell = \dfrac{h}{\cos\alpha} \)</span><span class="w">Vertical height same; α measured from the vertical.</span><a class="small" href="fluids-2.html#capillarity">Symbols, assumptions and explanation →</a></div>
+        <div class="fx"><span class="n">Angle of contact</span><span class="m">\( \theta &lt; 90^\circ \) wets, rises, concave</span><span class="w">θ &gt; 90°: doesn't wet, falls, convex (mercury ≈ 140°). Water–glass ≈ 0°.</span><a class="small" href="fluids-2.html#contact-angle">Symbols, assumptions and explanation →</a></div>
       </div>
     </section>
 
@@ -129,7 +135,7 @@
         <div><strong>Pressure has no direction.</strong> Only the force it produces does (Test-05 Q3).</div>
         <div><strong>Coin falls off a block:</strong> block rises, water level falls (Test-05 Q12).</div>
         <div><strong>Variable density:</strong> integrate for the average; don't take the middle value (Test-05 Q13).</div>
-        <div><strong>Buoyancy is never zero</strong> for an immersed body; it equals the weight of liquid displaced (Test-05 Q15).</div>
+        <div><strong>Buoyancy in an ordinary hydrostatic liquid</strong> equals the displaced liquid’s weight; the gravity-driven contribution vanishes in ideal free fall (Test-05 Q15).</div>
         <div><strong>Steady flow</strong> means the velocity at a point is fixed, not each particle's velocity (Test-05 Q16).</div>
         <div><strong>Bernoulli:</strong> P + ρgh + ½ρv². Only the KE term has ½. It is energy conservation (Q21, Q42).</div>
         <div><strong>Max jet range</strong> is at h = H/2 and equals H (Test-05 Q30).</div>
@@ -138,7 +144,7 @@
         <div><strong>Terminal velocity ∝ r²</strong>, not r (Test-06 Q24).</div>
         <div><strong>Count every edge:</strong> disc with hole 2π(R+r)T, frame 8lT (Test-06 Q25).</div>
         <div><strong>Surface tension is a scalar</strong> (Test-06 Q27).</div>
-        <div><strong>Good lubricant = high viscosity</strong> (Test-06 Q43).</div>
+        <div><strong>Lubricant needs enough viscosity to maintain its film</strong> (Test-06 Q43); operating conditions determine the practical choice.</div>
       </div>
     </section>
 
