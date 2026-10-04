@@ -1,0 +1,21 @@
+{
+  "scope": "Uploaded Class 11 coaching contents; not a claim about the current official NEET syllabus",
+  "physics": [
+    {"volume":1,"chapters":[["Mathematical Review & Physical World","1–21","maths"],["Units and Measurements","22–106","units"],["Motion in a Straight Line","107–201","linear"],["Vectors","202–243","vectors"],["Motion in a Plane","244–315","plane"],["Laws of Motion Part 1","316–414","laws"]]},
+    {"volume":2,"chapters":[["Laws of Motion Part 2: Friction","1–69","friction"],["Work, Energy & Power","70–227","work"],["System of Particles & Rotational Motion","228–405","rotation"]]},
+    {"volume":3,"chapters":[["Gravitation","1–97","gravitation"],["Mechanical Properties of Solids","98–170","solids"],["Mechanical Properties of Fluids","171–292","fluids1","fluids2"],["Oscillations","293–395","oscillations"]]},
+    {"volume":4,"chapters":[["Waves","1–104","waves"],["Thermal Properties of Matter","105–281","thermal-properties"],["Kinetic Theory of Gases","282–325","kinetic-theory"],["Thermodynamics","326–398","thermodynamics"]]}
+  ],
+  "chemistry": [
+    {"volume":1,"chapters":[["Structure of Atom","1–117"],["Classification & Periodicity","118–175"],["Chemical Bonding","176–285"],["Some Basic Concepts of Chemistry","286–372"]]},
+    {"volume":2,"chapters":[["Chemical Equilibrium","1–74"],["Ionic Equilibrium","75–150"],["Thermodynamics","151–242"],["p-Block: Group 13","243–265"],["p-Block: Group 14","266–296"],["Redox Reactions","297–374"]]},
+    {"volume":3,"chapters":[["Organic Chemistry: Basic Principles & Techniques","1–184"],["Alkanes","185–216"],["Alkenes","217–254"],["Alkynes","255–279"],["Benzene","280–318"]]}
+  ],
+  "biology": [
+    {"unit":"I · Diversity in the Living World","chapters":[["The Living World",3],["Biological Classification",16],["Plant Kingdom",29],["Animal Kingdom",46]]},
+    {"unit":"II · Structural Organisation in Plants and Animals","chapters":[["Morphology of Flowering Plants",65],["Anatomy of Flowering Plants",84],["Structural Organisation in Animals",100]]},
+    {"unit":"III · Cell: Structure and Function","chapters":[["Cell: The Unit of Life",125],["Biomolecules",142],["Cell Cycle and Cell Division",162]]},
+    {"unit":"IV · Plant Physiology","chapters":[["Transport in Plants",175],["Mineral Nutrition",194],["Photosynthesis in Higher Plants",206],["Respiration in Plants",226],["Plant Growth and Development",239]]},
+    {"unit":"V · Human Physiology","chapters":[["Digestion and Absorption",257],["Breathing and Exchange of Gases",268],["Body Fluids and Circulation",278],["Excretory Products and Their Elimination",290],["Locomotion and Movement",302],["Neural Control and Coordination",315],["Chemical Coordination and Integration",331]]}
+  ]
+}

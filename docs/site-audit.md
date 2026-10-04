@@ -1,5 +1,7 @@
 # Chapter completion review — 4 October 2026
 
+This is the earlier Solids/Fluids checkpoint. The subsequent full Class 11 expansion supersedes its coverage and totals; see [class11-expansion.md](class11-expansion.md).
+
 The scope is the existing Mechanical Properties of Solids and Mechanical Properties of Fluids chapters. The homepage explicitly identifies the other CUT-6 chapters as outside this site's current coverage.
 
 ## Content findings and repairs

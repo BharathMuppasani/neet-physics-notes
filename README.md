@@ -1,36 +1,50 @@
 # NEET Physics Notes
 
-Interactive physics notes, simulations, solved questions, practice quizzes, and a revision sheet covering mechanical properties of solids and fluids.
+Class 11 physics lessons organised around the uploaded coaching syllabus: four volumes, 17 module entries and 18 teaching pages (Fluids remains in two parts).
 
 Live website: https://bharathmuppasani.github.io/neet-physics-notes/
 
+The site has 144 study sections, 45 interactive models and 317 solved questions. The expansion adds 15 chapters with concept introductions, labelled formulas, worked examples and inline checks. Practice includes 30 original mixed-step challenges and 28 independently solved adaptations of NCERT Exemplar patterns. Adaptations link to their exact source question and are not labelled NEET past-year questions.
+
+The chapter catalogue, syllabus library and formula reference cover the full uploaded Class 11 physics sequence. Chemistry and biology contents are organised in the syllabus library; lessons currently focus on physics. Original paper images stay local under `papers/syllabus/`, with a filename/checksum manifest and a separate folder retaining one exact duplicate.
+
 ## Run locally
 
-Requires Python 3. No package installation is needed.
+Requires Python 3.9+ and no additional packages for rendering or serving.
 
 ```sh
+python3 scripts/render_physics.py
 python3 site/build.py --web
 python3 -m http.server 8000 --directory dist
 ```
 
-Open http://localhost:8000. Section reading progress and practice answers are saved in the visitor's browser. Existing quiz answers remain compatible. Fonts and MathJax load from external services.
+Open http://localhost:8000. Section progress and answers are saved in the visitor's browser. Existing valid answers and study marks remain compatible. Fonts and MathJax load from external services.
 
-The three teaching pages contain 42 study sections, 33 interactive models, and a bank of 157 solved questions. Every chapter formula card defines its symbols and assumptions. Questions link directly to the lesson that introduces their concept; practice can be filtered by chapter and individual questions can be retried.
+## Content and sources
+
+- `content/physics_lessons.py`: authored lesson text, definitions, examples and retrieval questions.
+- `content/challenge_practice.py`: original mixed-step NEET-style questions.
+- `content/exemplar_practice.py`: reviewed, rewritten NCERT Exemplar adaptations.
+- `content/syllabus.json`: transcription of the uploaded subject/volume contents.
+- `content/exemplar_sources.json`: official PDF URLs, checksums and extracted question identifiers.
+- `scripts/render_physics.py`: deterministic static-page and question-bank renderer.
+- `scripts/collect_exemplar.py`: optional public-source collector; requires `pypdf`. Downloaded PDFs and extracted text stay in ignored `papers/references/`. Answer keys are not automatically imported.
+
+The syllabus catalogue describes the uploaded books; it is not a claim that every legacy book topic is in the current official exam syllabus. See [docs/syllabus-catalogue.md](docs/syllabus-catalogue.md) and [docs/class11-expansion.md](docs/class11-expansion.md).
 
 ## Verification
 
-Run the dependency-free checks with Node.js:
-
 ```sh
 node tests/check-site.cjs
+node tests/check-physics.cjs
 ```
 
-The build workflow runs these checks before publishing. `tests/browser-check.js` contains a Playwright function for a local server on port 8766. It checks answer toggles, saved progress, cross-tab updates, retries, filters, print-preview recovery, model calculations and phone/tablet layouts. The coverage review and reference sources are documented in [docs/site-audit.md](docs/site-audit.md).
+Checks cover question/section integrity, formula labels, links, saved-state compatibility and recovery, 71 answer fixtures, collision conservation and source identifiers. `tests/browser-check.js` is a Playwright function for a local server on port 8766. It covers solution controls, progress persistence, cross-tab updates, practice filters, print recovery, model calculations and all 24 learning/library pages at phone/tablet widths.
+
+The earlier Solids/Fluids review is retained in [docs/site-audit.md](docs/site-audit.md).
 
 ## Deployment
 
-Pushing to `main` builds the website and deploys it to GitHub Pages using `.github/workflows/pages.yml`. GitHub Pages uses GitHub Actions as its publishing source.
-
-The `site/` folder contains the source HTML, CSS, JavaScript, question banks, and build script. Generated output in `dist/`, original paper photos, and local PDF exports are excluded from Git.
+Pushing to `main` validates, builds and deploys through `.github/workflows/pages.yml`. `site/` contains the published source. Generated `dist/`, original paper photos and local PDF exports are excluded from Git. PDF work is paused.
 
 The original embedded-artifact build is still available with `python3 site/build.py`.

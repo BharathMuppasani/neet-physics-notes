@@ -23,14 +23,13 @@ window.QBANK = window.QBANK || [];
 const Site = {
   PAGES: [
     { href: 'index.html', key: 'home', label: 'Home' },
-    { href: 'solids.html', key: 'solids', label: 'Solids' },
-    { href: 'fluids-1.html', key: 'fluids1', label: 'Fluids I' },
-    { href: 'fluids-2.html', key: 'fluids2', label: 'Fluids II' },
+    { href: 'chapters.html', key: 'chapters', label: 'Chapters' },
+    { href: 'syllabus.html', key: 'syllabus', label: 'Syllabus' },
     { href: 'practice.html', key: 'practice', label: 'Practice' },
-    { href: 'revise.html', key: 'revise', label: 'Revise' },
+    { href: 'formula-sheet.html', key: 'revise', label: 'Revise' },
   ],
 
-  CHAPTERS: [
+  CHAPTERS: window.PHYSICS_CATALOG || [
     { key: 'solids', page: 'solids.html', label: 'Solids', sections: ['elasticity', 'stress', 'curve', 'youngs', 'wire-combinations', 'shear', 'bulk', 'poisson', 'energy', 'thermal', 'applications', 'problem-types', 'checklist'] },
     { key: 'fluids1', page: 'fluids-1.html', label: 'Fluids I', sections: ['intro', 'pressure', 'pascal-law', 'pressure-depth', 'connected-vessels', 'atmospheric', 'pascal', 'buoyancy', 'flow', 'continuity', 'bernoulli', 'torricelli', 'venturi', 'lift', 'accelerating-fluids', 'problem-types', 'checklist'] },
     { key: 'fluids2', page: 'fluids-2.html', label: 'Fluids II', sections: ['viscosity', 'pipe-flow', 'stokes', 'reynolds', 'surface-tension', 'surface-energy', 'contact-angle', 'drops-bubbles', 'capillarity', 'capillary-experiment', 'problem-types', 'checklist'] },
@@ -38,6 +37,7 @@ const Site = {
 
   /* topic id → where it is taught. Question objects use these ids in `topic`. */
   TOPICS: {
+    ...(window.PHYSICS_TOPICS || {}),
     // Mechanical properties of solids — solids.html
     'elasticity':   { label: 'Elasticity basics', page: 'solids.html' },
     'stress':       { label: 'Stress & strain', page: 'solids.html' },
@@ -93,6 +93,8 @@ const Site = {
     xs:  'Solids practice set',
     xf:  'Fluids practice set',
     xc:  'Chapter completion set',
+    c11: 'Original NEET-style concept checks',
+    ex: 'Adapted NCERT Exemplar patterns',
   },
 
   /* Print mode: '#print' (solutions shown) or '#printq' (questions only + answer key).
@@ -155,10 +157,10 @@ const Site = {
       <div class="topbar-inner">
         <a class="brand" href="index.html" aria-label="NEET Physics Notes home">
           <span class="brand-mark">Φ</span>
-          <span class="brand-name">NEET Physics Notes<small>Jr Star · CUT-6 preparation</small></span>
+          <span class="brand-name">NEET Physics Notes<small>Class 11 · NEET preparation</small></span>
         </a>
         <nav class="nav" aria-label="Chapters">
-          ${this.PAGES.map(p => `<a href="${p.href}"${p.key === page ? ' aria-current="page"' : ''}>${p.label}</a>`).join('')}
+          ${this.PAGES.map(p => `<a href="${p.href}"${p.key === page || (p.key === 'chapters' && this.CHAPTERS.some(c => c.key === page)) ? ' aria-current="page"' : ''}>${p.label}</a>`).join('')}
         </nav>
       </div>`;
     document.body.prepend(bar);
@@ -199,14 +201,14 @@ const Site = {
   typeset(el) {
     const target = el || document.body;
     if (window.MathJax && MathJax.typesetPromise && MathJax.startup && MathJax.startup.document) {
-      MathJax.typesetPromise([target]).catch(() => {});
+      this._typesetChain = (this._typesetChain || Promise.resolve()).then(() => MathJax.typesetPromise([target])).catch(() => {});
     } else {
       this._pending.push(target);
     }
   },
   _flushTypeset() {
     const list = this._pending.splice(0);
-    if (list.length) MathJax.typesetPromise(list).catch(() => {});
+    if (list.length) this.typeset(document.body);
   },
 
   initProgress() {
@@ -232,7 +234,7 @@ const Site = {
     }
     const home = document.getElementById('study-progress');
     if (home) {
-      home.innerHTML = this.CHAPTERS.map(c => `<article class="card study-card" data-study-chapter="${c.key}"><h3><a href="${c.page}">${c.label}</a></h3><p data-study-summary></p><progress data-study-meter max="${c.sections.length}" value="0" aria-label="${c.label} sections studied"></progress><p class="small" data-practice-summary></p><a data-continue-study></a></article>`).join('');
+      home.innerHTML = [1, 2, 3, 4].map(volume => `<div><h3>Volume ${volume}</h3><div class="grid-cards">${this.CHAPTERS.filter(c => c.volume === volume).map(c => `<article class="card study-card" data-study-chapter="${c.key}"><h3><a href="${c.page}">${c.label}</a></h3><p data-study-summary></p><progress data-study-meter max="${c.sections.length}" value="0" aria-label="${c.label} sections studied"></progress><p class="small" data-practice-summary></p><a data-continue-study></a></article>`).join('')}</div></div>`).join('');
     }
     this.refreshProgress();
     document.addEventListener('progress:change', () => this.refreshProgress());
@@ -294,7 +296,7 @@ const Site = {
       }
     }
     const summary = document.getElementById('study-overall');
-    if (summary) summary.textContent = `${totalStudied} of ${this.CHAPTERS.reduce((n, c) => n + c.sections.length, 0)} sections studied across Solids and Fluids.`;
+    if (summary) summary.textContent = `${totalStudied} of ${this.CHAPTERS.reduce((n, c) => n + c.sections.length, 0)} sections studied across Class 11 Physics.`;
   },
 
   sectionLabel(id) {
@@ -406,6 +408,8 @@ const Quiz = {
     if (q.src === 'xs') return `Solids set · ${q.qno}`;
     if (q.src === 'xf') return `Fluids set · ${q.qno}`;
     if (q.src === 'xc') return `Completion set · ${q.qno}`;
+    if (q.src === 'c11') return `Original NEET-style · ${q.qno}`;
+    if (q.src === 'ex') return `Adapted NCERT Exemplar · ${q.qno}`;
     return q.id;
   },
 
@@ -420,10 +424,12 @@ const Quiz = {
       <div class="qmeta">
         <span class="src">${this.srcLabel(q)}</span>
         <span class="chip ${t.cls}">${t.label}</span>
+        ${q.difficulty === 'challenge' ? '<span class="chip amber">Mixed-step challenge</span>' : ''}
         ${topic ? `<span class="chip">${topic.label}</span>` : ''}
         ${q.flagged ? `<span class="chip coral" title="This question has a ✗ mark on the paper photo">✗ marked on your paper</span>` : ''}
       </div>
       <div class="qtext">${q.q}${q.fig ? `<div class="qfig">${q.fig}</div>` : ''}</div>
+      ${q.reference ? `<p class="small muted"><a href="${q.reference.url}">${q.reference.label} · source Q${q.reference.question}</a> · independently solved</p>` : ''}
       ${topic ? `<p class="concept small"><a href="${topic.page}#${q.topic}">Review this concept first: ${topic.label} →</a></p>` : ''}
       <div class="opts ${short ? 'short' : ''}">
         ${q.opts.map((o, i) => `<button class="opt" data-i="${i}" type="button"><span class="on">${i + 1})</span><span class="ot">${o}</span></button>`).join('')}

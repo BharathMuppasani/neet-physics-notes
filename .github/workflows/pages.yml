@@ -25,6 +25,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Check chapter coverage and saved progress
         run: node tests/check-site.cjs
+      - name: Check physics answers and source references
+        run: node tests/check-physics.cjs
       - name: Build standalone website
         run: python3 site/build.py --web
       - name: Configure GitHub Pages

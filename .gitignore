@@ -8,6 +8,8 @@ dist/
 papers/
 pdf/
 NEET Physics Notes.pdf
+NEET Physics - *.pdf
 .agents/
 .codex/
 .aws/
+.playwright-mcp/

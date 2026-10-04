@@ -387,3 +387,19 @@ html.print .print-group:first-child { break-before: auto; }
 html.print a { color: inherit; text-decoration: none; }
 html.print .table-wrap { overflow: visible; }
 html.print mjx-container[display="true"] { overflow: visible; }
+
+/* Expanded Class 11 catalogue and models */
+.ch-mechanics { --accent: var(--indigo); --accent-soft: #eef0fc; }
+.content > section { margin-block: 28px; }
+.model-content { padding: 16px; display: grid; gap: 12px; }
+.model-content label { display: grid; gap: 6px; font-weight: 600; }
+.model-content input { width: 100%; min-width: 0; }
+.model-content svg { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.model-readout { font-family: var(--f-mono); font-size: 15px; padding: 10px; border-radius: 8px; background: var(--accent-soft); overflow-wrap: anywhere; }
+.model-content .controls { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,190px),1fr)); gap: 14px; }
+.table-wrap { overflow-x: auto; }
+.formula .f-main { overflow-x: auto; max-width: 100%; }
+@media print { .concept-model { display: none; } }
+.qcard > * { min-width: 0; }
+.qmeta .chip { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.qmeta .src { overflow-wrap: anywhere; }

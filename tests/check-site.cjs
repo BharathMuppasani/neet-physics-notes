@@ -20,6 +20,7 @@ const sandbox = {
 sandbox.window.window = sandbox.window;
 sandbox.matchMedia = sandbox.window.matchMedia;
 vm.createContext(sandbox);
+vm.runInContext(fs.readFileSync(path.join(site, 'assets/catalog.js'), 'utf8'), sandbox);
 vm.runInContext(fs.readFileSync(path.join(site, 'assets/site.js'), 'utf8') + '\nglobalThis.engine = Site;', sandbox);
 sandbox.QBANK = sandbox.window.QBANK;
 for (const file of fs.readdirSync(path.join(site, 'assets')).filter(f => /^q-.*\.js$/.test(f))) {
@@ -27,10 +28,11 @@ for (const file of fs.readdirSync(path.join(site, 'assets')).filter(f => /^q-.*\
 }
 const engine = sandbox.engine;
 const questions = sandbox.window.QBANK;
-assert.equal(questions.length, 157);
+assert.equal(questions.length, 317);
+assert.equal(engine.CHAPTERS.length, 18);
 assert.equal(new Set(questions.map(q => q.id)).size, questions.length, 'question IDs must be unique');
 const pages = new Map();
-for (const file of ['index.html', 'solids.html', 'fluids-1.html', 'fluids-2.html', 'practice.html', 'revise.html']) {
+for (const file of fs.readdirSync(site).filter(f => f.endsWith('.html') && !f.startsWith('_') && f !== 'print-cover.html')) {
   const html = fs.readFileSync(path.join(site, file), 'utf8');
   const ids = [...html.matchAll(/\bid="([^"{}$]+)"/g)].map(m => m[1]);
   assert.equal(new Set(ids).size, ids.length, `${file}: duplicate static IDs`);
@@ -44,7 +46,7 @@ for (const chapter of engine.CHAPTERS) {
   const formulas = [...page.html.matchAll(/<div class="f-title">/g)];
   const definitions = [...page.html.matchAll(/<strong>Symbols and assumptions:<\/strong>/g)];
   assert.equal(formulas.length, definitions.length, `${chapter.key}: every formula card needs symbol definitions`);
-  for (const bank of ['q-test05.js','q-test06.js','q-solids.js','q-fluids-extra.js','q-completion.js']) {
+  for (const bank of ['q-test05.js','q-test06.js','q-solids.js','q-fluids-extra.js','q-completion.js','q-class11.js']) {
     assert.equal(page.html.split(`src="assets/${bank}"`).length - 1, 1, `${chapter.key}: question bank loaded once`);
   }
 }

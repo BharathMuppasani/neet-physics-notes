@@ -8,12 +8,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,750&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;600&display=swap">
 <link rel="stylesheet" href="assets/style.css">
+<script src="assets/catalog.js"></script>
 <script src="assets/site.js"></script>
 <script src="assets/q-test05.js"></script>
 <script src="assets/q-test06.js"></script>
 <script src="assets/q-solids.js"></script>
 <script src="assets/q-fluids-extra.js"></script>
 <script src="assets/q-completion.js"></script>
+<script src="assets/q-class11.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
 <style>
   .filters { position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--topbar-h)); z-index: 20; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding-block: 12px; border-bottom: 1px solid var(--line); display: grid; gap: 10px; }
@@ -35,7 +37,7 @@
     <header class="hero">
       <span class="eyebrow">Question bank</span>
       <h1>Practice</h1>
-      <p class="lede">Every physics question from Module Test-05 and Test-06, plus exam-style sets for Solids and Fluids. Tap an option to check it; each solution explains why the other options are wrong.</p>
+      <p class="lede">Practice across all four Class 11 volumes: original NEET-style concept checks, independently solved adaptations of NCERT Exemplar patterns, and your existing module-test sets. Filter by chapter or source; each question links to its concept introduction.</p>
     </header>
 
     <div class="filters" id="filters">
@@ -47,12 +49,15 @@
         <button class="fchip" data-src="xs" aria-pressed="false">Solids set</button>
         <button class="fchip" data-src="xf" aria-pressed="false">Fluids set</button>
         <button class="fchip" data-src="xc" aria-pressed="false">Completion set</button>
+        <button class="fchip" data-src="c11" aria-pressed="false">NEET-style</button>
+        <button class="fchip" data-src="ex" aria-pressed="false">NCERT Exemplar</button>
       </div>
       <div class="frow">
         <span class="lbl">Show</span>
         <button class="fchip flag" id="f-flag" aria-pressed="false">✗ marked on paper</button>
         <button class="fchip" id="f-unans" aria-pressed="false">Not yet answered</button>
         <button class="fchip" id="f-wrong" aria-pressed="false">Got wrong</button>
+        <button class="fchip" id="f-challenge" aria-pressed="false">Mixed-step challenges</button>
         <label class="sr" for="f-chapter">Chapter</label>
         <select id="f-chapter"><option value="">All chapters</option></select>
         <label class="sr" for="f-topic" style="position:absolute;left:-9999px">Topic</label>
@@ -80,7 +85,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const Q = window.QBANK;
-  const state = { src: 'all', flag: false, unans: false, wrong: false, topic: '', type: '', chapter: '' };
+  const state = { src: 'all', flag: false, unans: false, wrong: false, topic: '', type: '', chapter: '', challenge: false };
   const $ = id => document.getElementById(id);
 
   // topic & type selects only list what exists in the bank
@@ -112,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('f-flag').setAttribute('aria-pressed', String(state.flag));
     $('f-unans').setAttribute('aria-pressed', String(state.unans));
     $('f-wrong').setAttribute('aria-pressed', String(state.wrong));
+    $('f-challenge').setAttribute('aria-pressed', String(state.challenge));
   };
 
   const syncTopics = () => {
@@ -126,7 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
       (!state.chapter || Site.TOPICS[q.topic]?.page === Site.CHAPTERS.find(c => c.key === state.chapter)?.page) &&
       (!state.flag || q.flagged) &&
       (!state.topic || q.topic === state.topic) &&
-      (!state.type || q.type === state.type));
+      (!state.type || q.type === state.type) &&
+      (!state.challenge || q.difficulty === 'challenge'));
   const render = () => {
     const att = Site.store.read();
     const list = selectedQuestions().filter(q =>
@@ -150,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $('f-flag').addEventListener('click', () => { state.flag = !state.flag; syncButtons(); render(); });
   $('f-unans').addEventListener('click', () => { state.unans = !state.unans; if (state.unans) state.wrong = false; syncButtons(); render(); });
   $('f-wrong').addEventListener('click', () => { state.wrong = !state.wrong; if (state.wrong) state.unans = false; syncButtons(); render(); });
+  $('f-challenge').addEventListener('click', () => { state.challenge = !state.challenge; syncButtons(); render(); });
   topicSel.addEventListener('change', () => { state.topic = topicSel.value; render(); });
   typeSel.addEventListener('change', () => { state.type = typeSel.value; render(); });
   chapterSel.addEventListener('change', () => {

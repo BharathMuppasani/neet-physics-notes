@@ -10,12 +10,15 @@ async (page) => {
   const go = async file => {
     await tab.goto(base + file);
     await tab.waitForFunction(() => document.readyState === 'complete');
-    await tab.evaluate(async () => { if (MathJax.startup?.promise) await MathJax.startup.promise; });
+    await tab.evaluate(async () => { if (MathJax.startup?.promise) await MathJax.startup.promise; await Site._typesetChain; });
   };
   const number = async selector => parseFloat(await tab.locator(selector).textContent());
   try {
+    await go('index.html');
+    const chapterFiles=await tab.evaluate(()=>Site.CHAPTERS.map(c=>c.page));
+    const allFiles=['index.html','chapters.html','syllabus.html','practice.html','revise.html','formula-sheet.html',...chapterFiles];
     // Every chapter quiz can show/hide its solution independently, even after answering.
-    for (const file of ['solids.html', 'fluids-1.html', 'fluids-2.html']) {
+    for (const file of chapterFiles) {
       await go(file);
       const result = await tab.evaluate(() => {
         const failures = [], cards = [...document.querySelectorAll('.qcard')];
@@ -26,7 +29,7 @@ async (page) => {
           button.click();
           if (!solution.hidden || getComputedStyle(solution).display !== 'none' || button.getAttribute('aria-expanded') !== 'false') failures.push(card.id + ': hide');
         }
-        return { cards: cards.length, failures, models: document.querySelectorAll('.sim canvas').length, mathErrors: document.querySelectorAll('mjx-merror').length };
+        return { cards: cards.length, failures, models: document.querySelectorAll('.sim canvas, .concept-model svg').length, mathErrors: document.querySelectorAll('mjx-merror').length };
       });
       check(!result.failures.length && !result.mathErrors, file + ': ' + JSON.stringify(result));
       const example = tab.locator('.eg details').first();
@@ -38,6 +41,38 @@ async (page) => {
       check(await example.locator('summary').textContent() === 'Show solution', file + ': example close label');
       report.push({ file, ...result });
     }
+    const modelCases=[
+      ['units','4.0%'],['vectors','5 m'],['linear','−6'],['plane','2.00 s'],
+      ['work','16.00 J'],['rotation','2.00 rad/s'],['gravitation','0.250'],
+      ['oscillations','1.00 s'],['waves','2.00 m'],['thermal-properties','200.0 W'],
+      ['kinetic-theory','516.9 m/s'],['thermodynamics','1728.8 J']
+    ];
+    for(const [key,fragment] of modelCases){
+      await go(key+'.html');
+      const text=await tab.locator('.model-readout').textContent();
+      check(text.includes(key==='linear'?'-6':fragment),key+' default model: '+text);
+      const slider=tab.locator('.concept-model input').first();
+      await slider.evaluate(e=>{e.value=e.max;e.dispatchEvent(new Event('input'));});
+      const changed=await tab.locator('.model-readout').textContent();
+      check(changed!==text,key+': slider must update readout');
+      check(!/NaN|Infinity/.test(changed),key+': finite readout');
+      const button=tab.locator('[data-study-section]').first();
+      await button.click();await tab.reload();
+      check(await tab.locator('[data-study-section]').first().getAttribute('aria-pressed')==='true',key+': saved progress');
+      await tab.locator('[data-study-section]').first().click();
+    }
+    await go('practice.html#ex');
+    check(await number('#s-shown')===28,'curated Exemplar filter');
+    check(await tab.locator('.qcard a[href^="https://ncert.nic.in/pdf/publication/exemplarproblem/"]').count()===28,'source attribution on every adaptation');
+    await tab.locator('#f-chapter').selectOption('thermodynamics');
+    check(await number('#s-shown')===2,'combined source/chapter filters');
+    await tab.locator('[data-src="c11"]').click();
+    check(await number('#s-shown')===9,'original chapter concept filter');
+    await go('practice.html');
+    await tab.locator('#f-challenge').click();
+    check(await number('#s-shown')===30,'mixed-step challenge filter');
+    await tab.locator('#f-chapter').selectOption('work');
+    check(await number('#s-shown')===2,'challenge/chapter intersection');
     await go('fluids-1.html');
     for (const id of ['pascal-law','pressure-depth','connected-vessels']) {
       check(await tab.locator('.toc a[data-id="' + id + '"]').count() === 1, id + ': missing lesson in index');
@@ -64,7 +99,7 @@ async (page) => {
     await tab.reload();
     check(await tab.locator('[data-study-section=pressure-depth]').getAttribute('aria-pressed') === 'true', 'study survives reload');
     await go('index.html');
-    check((await tab.locator('#study-overall').textContent()).startsWith('1 of 42'), 'home study progress');
+    check((await tab.locator('#study-overall').textContent()).startsWith('1 of 144'), 'home study progress');
     await go('practice.html?chapter=fluids1');
     const expected = await tab.evaluate(() => window.QBANK.filter(q => Site.TOPICS[q.topic]?.page === 'fluids-1.html').length);
     check(await number('#s-shown') === expected, 'chapter filter count');
@@ -89,7 +124,7 @@ async (page) => {
     const other = await context.newPage();
     await other.goto(base + 'fluids-1.html');
     await other.evaluate(() => Site.study.toggle('fluids1','pascal-law'));
-    await tab.waitForFunction(() => document.querySelector('#study-overall').textContent.startsWith('2 of 42'));
+    await tab.waitForFunction(() => document.querySelector('#study-overall').textContent.startsWith('2 of 144'));
     await other.evaluate(() => Site.store.clear());
     await tab.waitForFunction(() => document.querySelector('#t-done').textContent === '0');
     await other.close();
@@ -113,7 +148,7 @@ async (page) => {
     await tab.evaluate(() => Site.CHAPTERS.find(c => c.key==='fluids1').sections.forEach(id => { if(!Site.study.read()['fluids1:'+id]) Site.study.toggle('fluids1',id); }));
     check((await tab.locator('[data-continue-study]').getAttribute('href')) === 'practice.html?chapter=fluids1', 'completed chapter continuation');
     await go('practice.html#printq');
-    check(await tab.locator('.answer-key .ak').count() === 157 && await tab.locator('.qcard').count() === 157, 'questions-only print count');
+    check(await tab.locator('.answer-key .ak').count() === 317 && await tab.locator('.qcard').count() === 317, 'questions-only print count');
     // Invalid saved JSON must not break the chapter, and normal controls remain usable.
     await go('index.html');
     await tab.evaluate(() => {localStorage.setItem(Site.store.key,'null');localStorage.setItem(Site.study.key,'[]');});
@@ -123,14 +158,14 @@ async (page) => {
     check(await tab.locator('[data-study-section=pressure]').getAttribute('aria-pressed') === 'true', 'toggle after corrupt state');
     for (const width of [320,390,768]) {
       await tab.setViewportSize({width,height:844});
-      for (const file of ['index.html','solids.html','fluids-1.html','fluids-2.html','practice.html','revise.html']) {
+      for (const file of allFiles) {
         await go(file);
         const geometry=await tab.evaluate(()=>({viewport:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth,mathErrors:document.querySelectorAll('mjx-merror').length}));
         check(geometry.scroll <= geometry.viewport + 1, file + ' overflow at ' + width + ': '+JSON.stringify(geometry));
         check(!geometry.mathErrors, file + ': malformed maths at '+width);
       }
     }
-    report.push({progress:'reload, cross-page, cross-tab, completion and corrupt state passed',quizzes:'all chapter toggles, retries, filters and print recovery passed',models:'worked examples and limiting cases passed',layouts:'all six pages at 320, 390 and 768 px passed'});
+    report.push({progress:'reload, cross-page, cross-tab, completion and corrupt state passed',quizzes:'all chapter toggles, retries, filters and print recovery passed',models:'worked examples and limiting cases passed',layouts:'all 24 pages at 320, 390 and 768 px passed'});
     check(!errors.length, 'page errors: '+errors.join('; '));
     return {report,errors};
   } finally {await context.close();}
