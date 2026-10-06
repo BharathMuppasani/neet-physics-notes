@@ -13,7 +13,7 @@ async (page) => {
       await tab.setViewportSize({width,height:900});await go('index.html');
       const dimensions=await tab.evaluate(()=>({viewport:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth,nav:[...document.querySelectorAll('.nav > a')].map(e=>({text:e.textContent.trim(),clipped:e.scrollWidth>e.clientWidth+1,right:e.getBoundingClientRect().right})),height:document.querySelector('.topbar').getBoundingClientRect().height}));
       check(dimensions.scroll<=dimensions.viewport+1,'homepage overflow at '+width);
-      check(dimensions.nav.length===8&&dimensions.nav.every(n=>!n.clipped&&n.right<=dimensions.viewport),'clipped navigation at '+width+': '+JSON.stringify(dimensions));
+      check(dimensions.nav.length===9&&dimensions.nav.every(n=>!n.clipped&&n.right<=dimensions.viewport),'clipped navigation at '+width+': '+JSON.stringify(dimensions));
       check(await tab.locator('.ch-card').count()===18,'every chapter uses the home card design');
       check(await tab.locator('.chapter-volume').count()===4,'chapters grouped in syllabus order');
       check(await tab.locator('.ch-card .chips').count()===18,'each chapter has concept highlights');
@@ -21,7 +21,7 @@ async (page) => {
       check(await tab.locator('.plan li').count()===4,'revision plan restored');
       check(await tab.locator('#study-progress [data-study-chapter]').count()===3,'original chapter progress visible');
       check(await tab.locator('.nav [aria-current="page"]').innerText()==='Home','home active tab');
-      report.push({width,home:'fits',navigation:'all eight direct tabs visible'});
+      report.push({width,home:'fits',navigation:'all nine direct tabs visible'});
     }
     await tab.setViewportSize({width:390,height:844});await go('index.html');
     await clickNav('fluids-1.html');

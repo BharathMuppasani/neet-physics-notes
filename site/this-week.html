@@ -1,0 +1,931 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>This Week's Physics</title>
+<meta name="description" content="Week of 3–8 October: temperature and heat, temperature scales, thermal expansion and its applications, the laws of thermodynamics, and Experiment 6 (surface tension by capillary rise and the effect of detergents), with interactive models, problems and a quick recap.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,650;12..96,750&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<!-- site.js MUST load before MathJax (it holds the MathJax config) -->
+<script src="assets/catalog.js"></script>
+<script src="assets/site.js"></script>
+<script src="assets/q-test06.js"></script>
+<script src="assets/q-completion.js"></script>
+<script src="assets/q-class11.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
+<style>
+  mjx-assistive-mml { max-width: 100% !important; }
+  .content { overflow-wrap: anywhere; }
+  #heat, #scales           { --accent: var(--coral); --accent-soft: var(--coral-soft); }
+  #expansion, #applications { --accent: var(--amber); --accent-soft: var(--amber-soft); }
+  #water                   { --accent: var(--water); --accent-soft: var(--water-soft); }
+  #thermo-laws             { --accent: var(--teal);  --accent-soft: var(--teal-soft); }
+  #capillary-lab           { --accent: var(--plum);  --accent-soft: var(--plum-soft); }
+  #problems                { --accent: var(--indigo); --accent-soft: var(--indigo-soft); }
+  #recap                   { --accent: var(--green); --accent-soft: var(--green-soft); }
+
+  /* week planner */
+  .days { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+  .day { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--c, var(--accent)); border-radius: var(--r); padding: 12px 14px; display: grid; gap: 6px; align-content: start; }
+  .day.test { background: var(--coral-soft); border-color: color-mix(in srgb, var(--coral) 35%, transparent); border-left-color: var(--coral); }
+  .day-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .day-date { font-family: var(--f-mono); font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--c, var(--accent)); }
+  .day h3 { font-size: 16.5px; line-height: 1.3; }
+  .day p { font-size: 14px; color: var(--ink-2); line-height: 1.45; }
+  .day a { font-size: 13.5px; font-weight: 600; }
+  .tick { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; }
+  .tick input { width: 17px; height: 17px; accent-color: var(--green); margin: 0; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .toolbar .btn[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+  /* one-line idea cards */
+  .ideas3 { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
+  .idea1 { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: var(--r-lg); padding: 14px 16px; display: grid; gap: 8px; align-content: start; box-shadow: var(--shadow); }
+  .idea1 .k { font-family: var(--f-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); }
+  .idea1 .big { font-family: var(--f-display); font-size: 18px; font-weight: 650; line-height: 1.35; }
+  .idea1 .seen { font-size: 14px; color: var(--ink-2); line-height: 1.45; }
+  .idea1 .fx { font-size: 15px; overflow-x: auto; }
+  .trap { font-size: 14.5px; line-height: 1.45; background: var(--coral-soft); border-radius: var(--r); padding: 9px 12px; color: var(--ink); }
+  .trap b { font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-right: 6px; color: var(--coral); }
+
+  /* tap-to-check questions (same pattern as Fluids at a Glance) */
+  .asks { display: grid; gap: 8px; }
+  .ask-head { font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0; }
+  .ask { border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+  .ask summary { list-style: none; cursor: pointer; padding: 10px 12px; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; font-size: 15px; line-height: 1.45; }
+  .ask summary::-webkit-details-marker { display: none; }
+  .ask summary::after { content: "Tap to check ▸"; grid-column: 2; font-size: 12px; font-weight: 600; color: var(--accent); }
+  .ask[open] summary::after { content: "Hide ▾"; }
+  .ask .kind { grid-row: span 2; align-self: start; font-family: var(--f-mono); font-size: 10.5px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); background: color-mix(in srgb, var(--accent) 11%, white); border-radius: 6px; padding: 3px 6px; margin-top: 2px; }
+  .ask .ans { margin: 0 12px 12px; padding: 9px 12px; border-radius: 8px; background: var(--green-soft); font-size: 15px; line-height: 1.55; }
+  .ask .ans::before { content: "✓ "; color: var(--green); font-weight: 700; }
+  .ask.got { border-color: color-mix(in srgb, var(--green) 45%, transparent); }
+  .ask.retry { border-color: color-mix(in srgb, var(--coral) 45%, transparent); }
+  .mark { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 12px 12px; }
+  .mark button { font: inherit; font-size: 13px; font-weight: 600; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink-2); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+  .mark button[aria-pressed="true"][data-m="got"] { background: var(--green); border-color: var(--green); color: #fff; }
+  .mark button[aria-pressed="true"][data-m="retry"] { background: var(--coral); border-color: var(--coral); color: #fff; }
+
+  .split { display: grid; gap: 18px; }
+  @media (min-width: 900px) { .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; } }
+
+  .apps { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); }
+  .app { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; display: grid; gap: 4px; align-content: start; }
+  .app b { font-size: 15px; }
+  .app span { font-size: 14px; color: var(--ink-2); line-height: 1.45; }
+
+  .repeat-note { display: flex; gap: 12px; align-items: flex-start; background: var(--plum-soft); border: 1px solid color-mix(in srgb, var(--plum) 30%, transparent); border-radius: var(--r); padding: 12px 14px; font-size: 15px; line-height: 1.5; }
+  .repeat-note .tagx { flex: none; font-family: var(--f-mono); font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #fff; background: var(--plum); border-radius: 6px; padding: 3px 7px; margin-top: 2px; }
+  .steps-list { margin: 0; padding-left: 22px; display: grid; gap: 6px; font-size: 15.5px; line-height: 1.5; }
+  .lab-table td, .lab-table th { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .lab-table th { text-transform: none; letter-spacing: 0; }
+  .lab-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .lab-mean { font-size: 14.5px; }
+  .detergent-fig svg { width: 100%; height: auto; max-height: 260px; display: block; }
+  .detergent-fig { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 12px; display: grid; gap: 8px; }
+  .detergent-fig figcaption { font-size: 14px; color: var(--ink-2); }
+
+  /* problem scoreboard */
+  .score { position: sticky; top: calc(var(--topbar-h) + 8px); z-index: 2; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 10px 14px; box-shadow: var(--shadow); font-size: 14.5px; }
+  .score strong { font-family: var(--f-mono); }
+  .score .g { color: var(--green); } .score .r { color: var(--coral); }
+  .pgroup { display: grid; gap: 8px; }
+  .pgroup h3 { font-size: 17px; margin-top: 6px; }
+
+  /* recap */
+  .recap-grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); counter-reset: rc; }
+  .rc { --c: var(--accent); position: relative; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--c); border-radius: var(--r); padding: 10px 14px 10px 44px; display: grid; gap: 4px; align-content: start; }
+  .rc::before { counter-increment: rc; content: counter(rc); position: absolute; left: 12px; top: 11px; width: 22px; height: 22px; border-radius: 50%; background: var(--c); color: #fff; font: 700 11.5px/22px var(--f-mono); text-align: center; }
+  .rc p { font-size: 15px; line-height: 1.45; font-weight: 550; }
+  .rc .fx { font-size: 14px; color: var(--ink-2); overflow-x: auto; }
+  .ready { display: grid; gap: 6px; padding: 0; margin: 0; list-style: none; }
+  .ready label { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.45; cursor: pointer; }
+  .ready input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--green); flex: none; }
+  .quiz h3 { font-size: 17px; }
+  /* readout labels carry symbols and units (α, m, K), so keep their case */
+  .readout .k { text-transform: none; letter-spacing: .01em; font-size: 12.5px; }
+  .ctrl[hidden] { display: none; }
+  .sim-note.calc { font-family: var(--f-mono); font-size: 13px; background: var(--surface-2); border-radius: 8px; padding: 8px 10px; color: var(--ink); }
+</style>
+</head>
+<body class="ch-week" data-page="week">
+<div class="frame with-toc">
+  <aside class="toc" aria-label="Sections"></aside>
+  <main class="content">
+    <header class="hero">
+      <span class="eyebrow">Week of 3–8 Oct 2026 · Module Test 7 on Sat 10 Oct</span>
+      <h1>Heat, temperature and expansion</h1>
+      <p class="lede">This week's physics: <strong>Thermal Properties of Matter 10.1–10.3 and 10.5</strong>, the <strong>laws of thermodynamics</strong>, and <strong>Experiment 6</strong>, measuring surface tension by capillary rise and seeing what detergent does to it. Each topic has a short explanation, a model you can play with, the formula, the trap and tap-to-check questions. A 5-minute recap is at the end.</p>
+      <div class="chips">
+        <span class="chip coral">9 interactive models</span>
+        <span class="chip amber">28 solved problems</span>
+        <span class="chip plum">Experiment 6 virtual lab</span>
+        <a class="chip green" href="#recap">5-minute recap ↓</a>
+        <a class="chip" href="thermal-properties.html">Full chapter: Thermal Properties →</a>
+        <a class="chip" href="thermodynamics.html">Full chapter: Thermodynamics →</a>
+      </div>
+    </header>
+
+    <!-- ================= PLAN ================= -->
+    <section id="plan" data-num="★" data-toc="This week's plan">
+      <div class="sec-head"><span class="num">★ <span class="level basic">Start here</span></span><h2>This week's plan</h2></div>
+      <p class="prose">The coaching schedule, day by day, with a link to the part of this page that covers it. Tick a day when you have finished it; your ticks are saved in this browser.</p>
+      <div class="days" data-plan>
+        <div class="day" style="--c: var(--plum)">
+          <div class="day-top"><span class="day-date">Sat 3 Oct</span><label class="tick"><input type="checkbox" data-day="d1"> Done</label></div>
+          <h3>Experiment 6: surface tension by capillary rise</h3>
+          <p>Measure h and r, find T = rhρg/2. Then add detergent and watch the rise drop.</p>
+          <a href="#capillary-lab">Go to the lab →</a>
+        </div>
+        <div class="day" style="--c: var(--coral)">
+          <div class="day-top"><span class="day-date">Mon 5 Oct</span><label class="tick"><input type="checkbox" data-day="d2"> Done</label></div>
+          <h3>10.1–10.3 Temperature, heat and scales</h3>
+          <p>Heat versus temperature, thermometers, fixed points, and converting between °C, °F and K.</p>
+          <a href="#heat">Temperature and heat →</a> <a href="#scales">Scales →</a>
+        </div>
+        <div class="day" style="--c: var(--indigo)">
+          <div class="day-top"><span class="day-date">Tue 6 Oct</span><label class="tick"><input type="checkbox" data-day="d3"> Done</label></div>
+          <h3>Problems on 10.1–10.3</h3>
+          <p>Scale conversions, faulty thermometers and mixed concept questions.</p>
+          <a href="#set-a">Problem set A →</a>
+        </div>
+        <div class="day" style="--c: var(--amber)">
+          <div class="day-top"><span class="day-date">Wed 7 Oct</span><label class="tick"><input type="checkbox" data-day="d4"> Done</label></div>
+          <h3>10.5 Thermal expansion and its applications</h3>
+          <p>Linear, area and volume expansion, thermal stress, bimetallic strips and water's odd behaviour.</p>
+          <a href="#expansion">Expansion →</a> <a href="#applications">Applications →</a>
+        </div>
+        <div class="day" style="--c: var(--indigo)">
+          <div class="day-top"><span class="day-date">Thu 8 Oct</span><label class="tick"><input type="checkbox" data-day="d5"> Done</label></div>
+          <h3>Problems on thermal expansion</h3>
+          <p>Gaps in rails, holes in plates, clamped rods, clocks and density changes.</p>
+          <a href="#set-b">Problem set B →</a> <a href="#set-c">Mixed set C →</a>
+        </div>
+        <div class="day" style="--c: var(--teal)">
+          <div class="day-top"><span class="day-date">Extra · Ch 11</span><label class="tick"><input type="checkbox" data-day="d7"> Done</label></div>
+          <h3>Laws of thermodynamics</h3>
+          <p>Zeroth, first and second laws: Q = ΔU + W, the four processes, heat engines and the Carnot limit.</p>
+          <a href="#thermo-laws">The three laws →</a> <a href="#set-d">Problem set D →</a>
+        </div>
+        <div class="day test">
+          <div class="day-top"><span class="day-date">Sat 10 Oct</span><label class="tick"><input type="checkbox" data-day="d6"> Done</label></div>
+          <h3>Module Test 7</h3>
+          <p>All questions come from the new NCERT textbook, on this week's syllabus. Read the recap the night before.</p>
+          <a href="#recap">5-minute recap →</a>
+        </div>
+      </div>
+      <div class="toolbar">
+        <button class="btn" type="button" data-reveal-all aria-pressed="false">Show every answer</button>
+        <span class="small muted">Use this for a quick read-through. Keep answers hidden when you test yourself.</span>
+      </div>
+    </section>
+
+    <!-- ================= 10.1–10.2 TEMPERATURE AND HEAT ================= -->
+    <section id="heat" data-num="10.2" data-toc="Temperature and heat">
+      <div class="sec-head"><span class="num">10.1–10.2 <span class="level core">Mon 5 Oct</span></span><h2>Temperature and heat are not the same thing</h2></div>
+      <div class="prose">
+        <p>We use "hot" and "heat" loosely in daily life, but physics separates them. <strong>Temperature</strong> tells you <em>how hot</em> a body is. <strong>Heat</strong> is <em>energy that moves</em> from one body to another because their temperatures are different.</p>
+      </div>
+      <div class="ideas3">
+        <div class="idea1"><span class="k">Temperature</span><p class="big">Temperature decides which way energy will flow: always from the hotter body to the colder one.</p><p class="seen">It measures how fast the molecules jiggle on average, not how many molecules there are.</p></div>
+        <div class="idea1"><span class="k">Heat</span><p class="big">Heat is energy in transit. A body does not "contain heat"; it contains internal energy.</p><p class="seen">SI unit: joule (J). Older unit: calorie, 1 cal = 4.186 J.</p></div>
+        <div class="idea1"><span class="k">Thermal equilibrium</span><p class="big">When two bodies reach the same temperature, the net heat flow stops.</p><p class="seen">If A and B are each in equilibrium with a thermometer C, then A and B are at the same temperature. This is why thermometers work.</p></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Temperature</th><th>Heat</th></tr></thead>
+          <tbody>
+            <tr><td>What it is</td><td>Degree of hotness; linked to the average kinetic energy of molecules</td><td>Energy transferred because of a temperature difference</td></tr>
+            <tr><td>SI unit</td><td>kelvin (K)</td><td>joule (J)</td></tr>
+            <tr><td>Depends on the amount of matter?</td><td>No. A cup and a bucket of 50 °C water are both at 50 °C</td><td>Yes. The bucket can give out much more heat as it cools</td></tr>
+            <tr><td>Measured with</td><td>Thermometer</td><td>Calorimeter (10.7, coming later)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="sim" id="sim-heatflow">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Heat flows from hot to cold, not from "more energy" to "less energy"</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="controls">
+              <div class="ctrl"><label for="hf-ta">Temperature of A <output data-for="hf-ta"></output></label><input type="range" id="hf-ta" min="0" max="200" step="1" value="90" data-unit=" °C" data-dp="0"></div>
+              <div class="ctrl"><label for="hf-ma">Mass of A <output data-for="hf-ma"></output></label><input type="range" id="hf-ma" min="0.1" max="5" step="0.1" value="0.5" data-unit=" kg" data-dp="1"></div>
+              <div class="ctrl"><label for="hf-tb">Temperature of B <output data-for="hf-tb"></output></label><input type="range" id="hf-tb" min="0" max="200" step="1" value="20" data-unit=" °C" data-dp="0"></div>
+              <div class="ctrl"><label for="hf-mb">Mass of B <output data-for="hf-mb"></output></label><input type="range" id="hf-mb" min="0.1" max="5" step="0.1" value="4" data-unit=" kg" data-dp="1"></div>
+            </div>
+            <div class="lab-actions">
+              <button class="btn" type="button" data-act="contact">Put them in contact</button>
+              <button class="btn" type="button" data-act="nail">Try: hot nail in a bucket</button>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">A now</span><span class="v" data-r="a">–</span></div>
+              <div class="readout"><span class="k">B now</span><span class="v" data-r="b">–</span></div>
+              <div class="readout hi"><span class="k">Common final T</span><span class="v" data-r="f">–</span></div>
+              <div class="readout"><span class="k">Heat moved</span><span class="v" data-r="q">–</span></div>
+            </div>
+            <p class="sim-note calc" data-r="calc"></p>
+            <p class="sim-note" data-r="note">Both blocks are water. Predict the final temperature first, then put them in contact.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="formula">
+        <div class="f-title">Heat lost by the hot body = heat gained by the cold body</div>
+        <div class="f-main">\[ Q=mc\,\Delta T,\qquad m_Ac\,(T_A-T_f)=m_Bc\,(T_f-T_B)\ \Rightarrow\ T_f=\frac{m_AT_A+m_BT_B}{m_A+m_B} \]</div>
+        <div class="f-where">Heat stops flowing when both reach the same final temperature T<sub>f</sub>. For the same material, T<sub>f</sub> is a mass-weighted average, so it lies closer to the heavier body's temperature. For different materials use \(T_f=\dfrac{m_Ac_AT_A+m_Bc_BT_B}{m_Ac_A+m_Bc_B}\). (Q = mcΔT is studied fully in 10.6, specific heat.)<br><strong>Symbols and assumptions:</strong> Q = heat (J); m = mass (kg); c = specific heat capacity (water: 4186 J kg⁻¹ K⁻¹); T<sub>A</sub>, T<sub>B</sub> = starting temperatures; T<sub>f</sub> = common final temperature; no heat lost to the surroundings and no change of state.</div>
+      </div>
+
+      <p class="trap"><b>Trap</b>"A body at a higher temperature always contains more heat" is false. A small red-hot nail is hotter than a bucket of warm water, so heat flows from the nail into the bucket, yet the bucket stores far more internal energy.</p>
+
+      <div class="asks">
+        <p class="ask-head">How it is asked</p>
+        <details class="ask"><summary><span class="kind">T / F</span>Two bodies with equal amounts of internal energy are put in contact. Heat cannot flow between them. True or false?</summary><p class="ans">False. Heat flow depends only on the temperature difference. If their temperatures differ, heat flows even if their energies are equal.</p></details>
+        <details class="ask"><summary><span class="kind">Concept</span>1 kg of water at 50 °C is mixed with 2 kg of water at 50 °C. What is the final temperature?</summary><p class="ans">50 °C. They are already in thermal equilibrium, so no heat flows. Temperature does not add up with mass.</p></details>
+        <details class="ask"><summary><span class="kind">Concept</span>Which law lets a thermometer compare the temperatures of two bodies that never touch each other?</summary><p class="ans">The zeroth law of thermodynamics: two bodies each in thermal equilibrium with a third (the thermometer) are in equilibrium with each other.</p></details>
+      </div>
+    </section>
+
+    <!-- ================= 10.3 SCALES ================= -->
+    <section id="scales" data-num="10.3" data-toc="Measuring temperature: scales">
+      <div class="sec-head"><span class="num">10.3 <span class="level core">Mon 5 Oct</span></span><h2>Measuring temperature: thermometers and scales</h2></div>
+      <div class="prose">
+        <p>A thermometer uses some property that changes steadily with temperature: the <strong>length</strong> of a mercury or alcohol column, the <strong>resistance</strong> of a platinum wire, or the <strong>pressure</strong> of a gas kept at constant volume. To turn that property into numbers, we mark two <strong>fixed points</strong> that are easy to reproduce:</p>
+        <ul>
+          <li><strong>Ice point</strong>: pure ice melting at 1 atm.</li>
+          <li><strong>Steam point</strong>: pure water boiling at 1 atm.</li>
+        </ul>
+        <p>The gap between the two points is divided into equal parts. Every scale differs only in the numbers it writes at the two points.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Scale</th><th>Ice point</th><th>Steam point</th><th>Divisions between them</th></tr></thead>
+          <tbody>
+            <tr><td>Celsius (°C)</td><td>0</td><td>100</td><td>100</td></tr>
+            <tr><td>Fahrenheit (°F)</td><td>32</td><td>212</td><td>180</td></tr>
+            <tr><td>Kelvin (K)</td><td>273.15</td><td>373.15</td><td>100</td></tr>
+            <tr><td>Any scale X</td><td>L (lower fixed point)</td><td>U (upper fixed point)</td><td>U − L</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="formula">
+        <div class="f-title">One rule converts every scale</div>
+        <div class="f-main">\[ \frac{C-0}{100}=\frac{F-32}{180}=\frac{K-273.15}{100}=\frac{X-L}{U-L} \]</div>
+        <div class="f-where">Each fraction says how far you are from the ice point towards the steam point, so it is the same on every scale. Short form: \(\dfrac{C}{5}=\dfrac{F-32}{9}=\dfrac{K-273}{5}\).<br><strong>Symbols and assumptions:</strong> C, F, K, X = readings of the same temperature on each scale; L, U = readings of scale X at the ice and steam points; both fixed points at 1 atm.</div>
+      </div>
+      <div class="formula">
+        <div class="f-title">Temperature changes (differences)</div>
+        <div class="f-main">\[ \Delta C=\Delta K,\qquad \Delta F=\tfrac95\,\Delta C \]</div>
+        <div class="f-where">A rise of 1 °C is the same as a rise of 1 K and a rise of 1.8 °F. The "−32" and "−273" drop out of differences.<br><strong>Symbols and assumptions:</strong> ΔC, ΔK, ΔF = the same temperature change measured on each scale.</div>
+      </div>
+
+      <figure class="sim" id="sim-scales">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>One thermometer, four scales</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="controls">
+              <div class="ctrl"><label for="sc-t">Temperature <output data-for="sc-t"></output></label><input type="range" id="sc-t" min="-60" max="160" step="0.5" value="37" data-unit=" °C" data-dp="1"></div>
+              <div class="ctrl"><label for="sc-l">Scale X: ice point L <output data-for="sc-l"></output></label><input type="range" id="sc-l" min="-50" max="40" step="1" value="20" data-unit=" °X" data-dp="0"></div>
+              <div class="ctrl"><label for="sc-u">Scale X: steam point U <output data-for="sc-u"></output></label><input type="range" id="sc-u" min="60" max="300" step="1" value="220" data-unit=" °X" data-dp="0"></div>
+            </div>
+            <div class="lab-actions">
+              <button class="btn" type="button" data-go="-40">−40 °C</button>
+              <button class="btn" type="button" data-go="37">Body (37 °C)</button>
+              <button class="btn" type="button" data-go="100">Steam point</button>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Celsius</span><span class="v" data-r="c">–</span></div>
+              <div class="readout"><span class="k">Fahrenheit</span><span class="v" data-r="f">–</span></div>
+              <div class="readout"><span class="k">Kelvin</span><span class="v" data-r="k">–</span></div>
+              <div class="readout hi"><span class="k">Your scale X</span><span class="v" data-r="x">–</span></div>
+            </div>
+            <p class="sim-note" data-r="note">Drag the mercury, or use the slider.</p>
+          </div>
+        </div>
+      </figure>
+
+      <div class="ideas3">
+        <div class="idea1"><span class="k">Special point</span><p class="big">At −40 the Celsius and Fahrenheit readings are equal.</p><p class="fx">\(\tfrac{x}{5}=\tfrac{x-32}{9}\Rightarrow x=-40\)</p></div>
+        <div class="idea1"><span class="k">Special point</span><p class="big">At 574.25 the Fahrenheit and Kelvin readings are equal (taking K = C + 273).</p><p class="fx">\(\tfrac{x-273}{5}=\tfrac{x-32}{9}\Rightarrow x=574.25\)</p></div>
+        <div class="idea1"><span class="k">Graph</span><p class="big">A graph of F against C is a straight line with slope 9/5 and intercept 32.</p><p class="fx">\(F=\tfrac95C+32\)</p></div>
+      </div>
+
+      <h3>Where does the Kelvin scale start?</h3>
+      <div class="prose">
+        <p>In a <strong>constant-volume gas thermometer</strong>, the gas pressure falls in a straight line as the gas is cooled. Real gases turn liquid before the pressure reaches zero, but if you extend every line, they all meet the temperature axis at the same point: <strong>−273.15 °C</strong>. This is <strong>absolute zero</strong>, the zero of the Kelvin scale, so \(T(\mathrm K)=t(^\circ\mathrm C)+273.15\). (This idea belongs to 10.4, but you need it to understand the Kelvin scale.)</p>
+      </div>
+      <figure class="sim" id="sim-gas">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Three gas samples, one absolute zero</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="ext" role="group" aria-label="Show lines">
+              <button type="button" data-v="no" aria-pressed="true">Measured part</button>
+              <button type="button" data-v="yes">Extend the lines</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="gs-t">Gas temperature <output data-for="gs-t"></output></label><input type="range" id="gs-t" min="-50" max="120" step="1" value="25" data-unit=" °C" data-dp="0"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">T in kelvin</span><span class="v" data-r="tk">–</span></div>
+              <div class="readout"><span class="k">P (middle gas)</span><span class="v" data-r="p">–</span></div>
+              <div class="readout hi"><span class="k">P ÷ T(K)</span><span class="v" data-r="ratio">–</span></div>
+            </div>
+            <p class="sim-note" data-r="note">Change the temperature: P ÷ T stays fixed only when T is in kelvin.</p>
+          </div>
+        </div>
+      </figure>
+
+      <p class="trap"><b>Trap</b>Convert <em>temperatures</em> with the full rule, but convert temperature <em>differences</em> without the 32 or 273. A rise of 45 °F is a rise of 25 °C and 25 K, not (45 − 32) × 5/9.</p>
+      <div class="asks">
+        <p class="ask-head">How it is asked</p>
+        <details class="ask"><summary><span class="kind">Num</span>Normal body temperature is 98.6 °F. What is it in °C and in K?</summary><p class="ans">C = (98.6 − 32) × 5/9 = 37 °C; K = 37 + 273 = 310 K.</p></details>
+        <details class="ask"><summary><span class="kind">Scale</span>A scale X reads 20 °X at the ice point and 220 °X at the steam point. What does it read at 50 °C?</summary><p class="ans">(X − 20)/200 = 50/100, so X = 120 °X.</p></details>
+        <details class="ask"><summary><span class="kind">Concept</span>Why is mercury a good thermometer liquid?</summary><p class="ans">It expands uniformly, is opaque and shiny (easy to read), does not wet glass, and stays liquid from −39 °C to 357 °C. Alcohol is used for very low temperatures because it freezes only at about −114 °C.</p></details>
+      </div>
+      <div class="quiz" data-ids="c11-thermal-properties-temperature,c11-thermal-properties-temperature-p1,c11-thermal-properties-temperature-p2,c11-thermal-properties-temperature-p3,c11-thermal-properties-temperature-p4"><h3>NEET-style MCQs: temperature and scales</h3></div>
+    </section>
+
+    <!-- ================= 10.5 EXPANSION ================= -->
+    <section id="expansion" data-num="10.5" data-toc="Thermal expansion">
+      <div class="sec-head"><span class="num">10.5 <span class="level core">Wed 7 Oct</span></span><h2>Thermal expansion: things grow when heated</h2></div>
+      <div class="prose">
+        <p><strong>Why it happens:</strong> heating makes atoms vibrate with bigger swings. The force between atoms is not symmetric (it is easier to pull atoms apart than to squash them together), so bigger swings push the <em>average</em> spacing outwards. Every length of the body, its area and its volume all grow.</p>
+      </div>
+      <div class="ideas3">
+        <div class="idea1"><span class="k">Linear · α</span><p class="big">A rod grows in proportion to its length and to the temperature rise.</p><p class="fx">\(\Delta L=\alpha L\,\Delta T\)</p></div>
+        <div class="idea1"><span class="k">Area · β</span><p class="big">A sheet grows in two directions, so its coefficient is twice as big.</p><p class="fx">\(\Delta A=\beta A\,\Delta T,\ \ \beta=2\alpha\)</p></div>
+        <div class="idea1"><span class="k">Volume · γ</span><p class="big">A block grows in three directions, so its coefficient is three times as big.</p><p class="fx">\(\Delta V=\gamma V\,\Delta T,\ \ \gamma=3\alpha\)</p></div>
+      </div>
+      <div class="formula">
+        <div class="f-title">Coefficients of thermal expansion</div>
+        <div class="f-main">\[ \alpha=\frac{\Delta L}{L\,\Delta T},\qquad \beta=\frac{\Delta A}{A\,\Delta T},\qquad \gamma=\frac{\Delta V}{V\,\Delta T},\qquad \alpha:\beta:\gamma=1:2:3 \]</div>
+        <div class="f-where">All three have the unit K⁻¹ (same number per °C). The new length is \(L'=L(1+\alpha\Delta T)\). Percentage shortcut: if the length grows by x %, the area grows by 2x % and the volume by 3x % (for small changes).<br><strong>Symbols and assumptions:</strong> L, A, V = original length, area, volume; ΔT = temperature rise; isotropic solid (expands equally in every direction); αΔT ≪ 1.</div>
+      </div>
+      <div class="split">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Solid</th><th>α (×10⁻⁵ K⁻¹)</th></tr></thead>
+            <tbody>
+              <tr><td>Aluminium</td><td>2.5</td></tr>
+              <tr><td>Brass</td><td>1.8</td></tr>
+              <tr><td>Copper</td><td>1.7</td></tr>
+              <tr><td>Iron / steel</td><td>1.2</td></tr>
+              <tr><td>Glass (pyrex)</td><td>0.32</td></tr>
+              <tr><td>Invar (alloy)</td><td>about 0.1</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Liquid or gas</th><th>γ (×10⁻⁵ K⁻¹)</th></tr></thead>
+            <tbody>
+              <tr><td>Mercury</td><td>18.2</td></tr>
+              <tr><td>Water (20 °C)</td><td>20.7</td></tr>
+              <tr><td>Alcohol (ethyl)</td><td>110</td></tr>
+              <tr><td>Ideal gas at 0 °C</td><td>366 (= 1/273 K)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ideas3">
+        <div class="idea1"><span class="k">Liquids and gases</span><p class="big">Liquids and gases have no fixed shape, so only volume expansion (γ) matters. Liquids expand far more than solids.</p><p class="fx">Ideal gas at constant pressure: \(\gamma=\dfrac1T\)</p></div>
+        <div class="idea1"><span class="k">Holes grow too</span><p class="big">A hole or cavity expands exactly as if it were made of the material around it.</p><p class="seen">Heating is like a photo enlargement of the whole plate, hole included.</p></div>
+        <div class="idea1"><span class="k">Density falls</span><p class="big">Same mass in a bigger volume, so density drops on heating.</p><p class="fx">\(\rho'=\dfrac{\rho}{1+\gamma\Delta T}\approx\rho(1-\gamma\Delta T)\)</p></div>
+      </div>
+
+      <figure class="sim" id="sim-expand">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Expansion lab: a plate with a hole, and a rod trapped between walls</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="mode" role="group" aria-label="Experiment">
+              <button type="button" data-v="plate" aria-pressed="true">Plate with hole</button>
+              <button type="button" data-v="rod">Rod between walls</button>
+            </div>
+            <div class="seg" data-k="mat" role="group" aria-label="Material">
+              <button type="button" data-v="al">Aluminium</button>
+              <button type="button" data-v="brass">Brass</button>
+              <button type="button" data-v="steel" aria-pressed="true">Steel</button>
+              <button type="button" data-v="glass">Pyrex</button>
+              <button type="button" data-v="invar">Invar</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="ex-dt">Temperature change ΔT <output data-for="ex-dt"></output></label><input type="range" id="ex-dt" min="-100" max="300" step="10" value="150" data-unit=" K" data-dp="0"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k" data-k="r1">–</span><span class="v" data-r="r1">–</span></div>
+              <div class="readout"><span class="k" data-k="r2">–</span><span class="v" data-r="r2">–</span></div>
+              <div class="readout hi"><span class="k" data-k="r3">–</span><span class="v" data-r="r3">–</span></div>
+              <div class="readout"><span class="k" data-k="r4">–</span><span class="v" data-r="r4">–</span></div>
+            </div>
+            <p class="sim-note" data-r="note"></p>
+          </div>
+        </div>
+      </figure>
+
+      <p class="trap"><b>Trap</b>A heated hole gets <strong>bigger</strong>, not smaller. Use β = 2α and γ = 3α only for the <em>same</em> material. For liquids in a container, the container expands too, so the overflow depends on (γ<sub>liquid</sub> − γ<sub>vessel</sub>).</p>
+      <div class="asks">
+        <p class="ask-head">How it is asked</p>
+        <details class="ask"><summary><span class="kind">Ratio</span>α of a metal is 2 × 10⁻⁵ K⁻¹. What are β and γ?</summary><p class="ans">β = 4 × 10⁻⁵ K⁻¹ and γ = 6 × 10⁻⁵ K⁻¹.</p></details>
+        <details class="ask"><summary><span class="kind">%</span>Heating increases the edge of a metal cube by 0.1 %. By what percentage do its surface area and volume increase?</summary><p class="ans">Area by 0.2 % and volume by 0.3 % (2× and 3× the linear change).</p></details>
+        <details class="ask"><summary><span class="kind">Concept</span>A steel ring fits tightly on a steel shaft. Heating which one helps you remove the ring?</summary><p class="ans">Heat the ring. Its hole expands like steel and grows bigger than the shaft.</p></details>
+      </div>
+      <div class="quiz" data-ids="c11-thermal-properties-expansion,c11-thermal-properties-expansion-p1,c11-thermal-properties-expansion-p2,c11-thermal-properties-expansion-p4,c11-thermal-properties-liquids-p4"><h3>NEET-style MCQs: expansion</h3></div>
+    </section>
+
+    <!-- ================= 10.5 APPLICATIONS ================= -->
+    <section id="applications" data-num="10.5" data-toc="Applications of expansion">
+      <div class="sec-head"><span class="num">10.5 <span class="level core">Wed 7 Oct</span></span><h2>Applications: where expansion helps and where it hurts</h2></div>
+      <div class="apps">
+        <div class="app"><b>Railway tracks</b><span>Small gaps are left between rails so they can lengthen in summer without buckling.</span></div>
+        <div class="app"><b>Bridges</b><span>One end rests on rollers or has an expansion joint, so the deck can lengthen freely.</span></div>
+        <div class="app"><b>Power lines</b><span>Wires are hung with some slack. They sag more in summer and tighten in winter.</span></div>
+        <div class="app"><b>Tight lid or glass stopper</b><span>Pour hot water on the lid or neck; it expands and loosens.</span></div>
+        <div class="app"><b>Iron rim on a cart wheel</b><span>The rim is heated, slipped on, then cooled. It shrinks and grips the wheel tightly.</span></div>
+        <div class="app"><b>Pyrex glassware</b><span>Very low α, so it does not crack when heated unevenly.</span></div>
+        <div class="app"><b>Invar</b><span>Almost no expansion, used for pendulums, measuring tapes and precision instruments.</span></div>
+        <div class="app"><b>Bimetallic strip</b><span>Two metals bonded together bend when heated. Used in thermostats, electric irons and fire alarms.</span></div>
+      </div>
+
+      <h3>Thermal stress: when expansion is blocked</h3>
+      <div class="prose"><p>If a rod is clamped between rigid walls, it cannot grow. The walls squeeze it back by exactly the amount it wanted to grow, so the strain is αΔT and the stress follows from Young's modulus.</p></div>
+      <div class="formula">
+        <div class="f-title">Thermal stress in a clamped rod</div>
+        <div class="f-main">\[ \text{strain}=\alpha\Delta T,\qquad \text{stress}=Y\alpha\Delta T,\qquad F=YA\alpha\Delta T \]</div>
+        <div class="f-where">Heating gives compression; cooling gives tension. The stress does not depend on the length or the cross-section of the rod; the force does depend on A.<br><strong>Symbols and assumptions:</strong> Y = Young's modulus (Pa); A = cross-sectional area (m²); α = linear expansion coefficient (K⁻¹); ΔT = temperature change; walls perfectly rigid.</div>
+      </div>
+
+      <h3>Bimetallic strip</h3>
+      <div class="prose"><p>Two strips with different α are riveted together. On heating, the metal with the larger α grows more, so it ends up on the <strong>outside (convex side)</strong> of the curve. On cooling, the strip bends the other way.</p></div>
+      <figure class="sim" id="sim-bimetal">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>A bimetallic strip working as a thermostat</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="pair" role="group" aria-label="Metal pair">
+              <button type="button" data-v="bi" aria-pressed="true">Brass + iron</button>
+              <button type="button" data-v="cs">Copper + steel</button>
+              <button type="button" data-v="ai">Aluminium + invar</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="bm-dt">Temperature change ΔT <output data-for="bm-dt"></output></label><input type="range" id="bm-dt" min="-100" max="200" step="5" value="60" data-unit=" K" data-dp="0"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Δα</span><span class="v" data-r="da">–</span></div>
+              <div class="readout"><span class="k">Radius of curve</span><span class="v" data-r="R">–</span></div>
+              <div class="readout"><span class="k">Tip moves</span><span class="v" data-r="y">–</span></div>
+              <div class="readout hi"><span class="k">Heater</span><span class="v" data-r="sw">–</span></div>
+            </div>
+            <p class="sim-note" data-r="note"></p>
+          </div>
+        </div>
+      </figure>
+      <div class="formula">
+        <div class="f-title">Bending of a bimetallic strip</div>
+        <div class="f-main">\[ R\approx\frac{d}{(\alpha_1-\alpha_2)\,\Delta T} \]</div>
+        <div class="f-where">A bigger difference in α or a bigger ΔT gives a tighter curve (smaller R).<br><strong>Symbols and assumptions:</strong> R = radius of curvature of the strip; d = distance between the middles of the two layers (about the thickness of one layer); α₁ &gt; α₂; layers of similar stiffness.</div>
+      </div>
+
+      <h3>Two coaching favourites</h3>
+      <div class="split">
+        <div class="formula">
+          <div class="f-title">Pendulum clock in summer</div>
+          <div class="f-main">\[ \frac{\Delta T_p}{T_p}=\tfrac12\alpha\,\Delta\theta,\qquad \text{time lost per day}=\tfrac12\alpha\,\Delta\theta\times86400\ \text{s} \]</div>
+          <div class="f-where">A hotter pendulum is longer, so it swings more slowly and the clock <strong>loses</strong> time. A colder one gains time.<br><strong>Symbols and assumptions:</strong> T<sub>p</sub> = period (∝ √L); α = coefficient of the pendulum rod; Δθ = rise above the temperature at which the clock is correct.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Metal scale used when hot</div>
+          <div class="f-main">\[ \text{true length}=\text{reading}\times(1+\alpha\,\Delta\theta) \]</div>
+          <div class="f-where">A hot scale has stretched markings, so it reads <strong>less</strong> than the true length.<br><strong>Symbols and assumptions:</strong> α = coefficient of the scale; Δθ = temperature above the one at which the scale was calibrated; the object's own expansion is ignored.</div>
+        </div>
+      </div>
+
+      <p class="trap"><b>Trap</b>Thermal stress YαΔT is the same for a short rod and a long rod. On heating, the larger-α metal goes to the <strong>convex (outer)</strong> side of a bimetallic strip.</p>
+      <div class="asks">
+        <p class="ask-head">How it is asked</p>
+        <details class="ask"><summary><span class="kind">Num</span>A steel rod (Y = 2 × 10¹¹ Pa, α = 1.2 × 10⁻⁵ K⁻¹) is clamped between rigid walls and heated by 50 K. Find the thermal stress.</summary><p class="ans">2 × 10¹¹ × 1.2 × 10⁻⁵ × 50 = 1.2 × 10⁸ Pa (compressive).</p></details>
+        <details class="ask"><summary><span class="kind">Concept</span>A brass–iron strip is cooled. Which way does it bend?</summary><p class="ans">Brass shrinks more, so brass ends up on the inner (concave) side. The strip bends towards the brass side.</p></details>
+        <details class="ask"><summary><span class="kind">Concept</span>A brass disc fits tightly in a hole in a steel plate. Should you heat or cool the pair to free the disc?</summary><p class="ans">Cool it. Brass has the larger α, so the disc shrinks more than the hole and comes loose.</p></details>
+      </div>
+      <div class="quiz" data-ids="c11-thermal-properties-stress,c11-thermal-properties-stress-p1,c11-thermal-properties-stress-p3,c11-thermal-properties-stress-p4,c11-thermal-properties-expansion-p3"><h3>NEET-style MCQs: stress, strips and clocks</h3></div>
+    </section>
+
+    <!-- ================= 10.5 WATER ================= -->
+    <section id="water" data-num="10.5" data-toc="Water's odd behaviour (0–4 °C)">
+      <div class="sec-head"><span class="num">10.5 <span class="level core">Wed 7 Oct</span></span><h2>Water breaks the rule between 0 °C and 4 °C</h2></div>
+      <div class="ideas3">
+        <div class="idea1"><span class="k">The odd part</span><p class="big">Warming water from 0 °C to 4 °C makes it <em>shrink</em>. Above 4 °C it expands like other liquids.</p></div>
+        <div class="idea1"><span class="k">Result</span><p class="big">Water is densest at 4 °C (about 1000 kg m⁻³). Ice (about 917 kg m⁻³) is lighter, so it floats.</p></div>
+        <div class="idea1"><span class="k">Why it matters</span><p class="big">Lakes freeze from the top down. The bottom stays at 4 °C, so fish survive the winter.</p></div>
+      </div>
+      <figure class="sim" id="sim-water">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Density of water near 4 °C, and a lake in winter</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="controls">
+              <div class="ctrl"><label for="wt-t">Water temperature <output data-for="wt-t"></output></label><input type="range" id="wt-t" min="0" max="12" step="0.1" value="2" data-unit=" °C" data-dp="1"></div>
+              <div class="ctrl"><label for="wt-air">Air above the lake <output data-for="wt-air"></output></label><input type="range" id="wt-air" min="-10" max="12" step="1" value="-5" data-unit=" °C" data-dp="0"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Density</span><span class="v" data-r="rho">–</span></div>
+              <div class="readout"><span class="k">Volume of 1 kg</span><span class="v" data-r="vol">–</span></div>
+              <div class="readout hi"><span class="k">Warm it slightly</span><span class="v" data-r="dir">–</span></div>
+            </div>
+            <p class="sim-note" data-r="note"></p>
+          </div>
+        </div>
+      </figure>
+      <p class="trap"><b>Trap</b>"Water expands on heating" is true only above 4 °C. Water cooled from 10 °C to 0 °C first contracts (down to 4 °C) and then expands.</p>
+      <div class="asks">
+        <p class="ask-head">How it is asked</p>
+        <details class="ask"><summary><span class="kind">Graph</span>Sketch the volume of 1 kg of water from 0 °C to 10 °C.</summary><p class="ans">A U-shaped curve with its lowest point (minimum volume, maximum density) at 4 °C.</p></details>
+        <details class="ask"><summary><span class="kind">Why?</span>Why do water pipes sometimes burst on very cold nights?</summary><p class="ans">Water expands below 4 °C and expands even more (about 9 %) when it freezes, pushing hard on the pipe walls.</p></details>
+      </div>
+      <div class="quiz" data-ids="c11-thermal-properties-liquids,c11-thermal-properties-liquids-p3"><h3>NEET-style MCQs: water</h3></div>
+    </section>
+
+    <!-- ================= LAWS OF THERMODYNAMICS ================= -->
+    <section id="thermo-laws" data-num="11" data-toc="Laws of thermodynamics">
+      <div class="sec-head"><span class="num">CH 11 <span class="level core">Added topic</span></span><h2>The laws of thermodynamics</h2></div>
+      <div class="prose">
+        <p>Thermodynamics is the bookkeeping of energy for a <strong>system</strong> (usually a gas in a cylinder) and its <strong>surroundings</strong>. Three quantities appear in every question:</p>
+        <ul>
+          <li><strong>Internal energy U</strong>: the energy stored inside the gas. For an ideal gas it depends <em>only on temperature</em>, so it is a <strong>state function</strong>: ΔU depends only on the start and end states.</li>
+          <li><strong>Heat Q</strong>: energy that enters because of a temperature difference.</li>
+          <li><strong>Work W</strong>: energy that leaves when the gas pushes a piston outwards. Q and W are <strong>path functions</strong>: they depend on how you go from one state to the other.</li>
+        </ul>
+      </div>
+      <div class="ideas3">
+        <div class="idea1"><span class="k">Zeroth law</span><p class="big">If A and B are each in thermal equilibrium with C, then A and B are in equilibrium with each other.</p><p class="seen">It defines temperature and is the reason a thermometer works. (See <a href="#heat">temperature and heat</a>.)</p></div>
+        <div class="idea1"><span class="k">First law</span><p class="big">Energy is conserved: the heat you give a gas either raises its internal energy or is spent doing work.</p><p class="fx">\(\Delta Q=\Delta U+\Delta W\)</p></div>
+        <div class="idea1"><span class="k">Second law</span><p class="big">No engine turns all its heat into work, and heat never flows from cold to hot by itself.</p><p class="fx">\(\eta&lt;1,\quad \eta_{\max}=1-\dfrac{T_2}{T_1}\)</p></div>
+      </div>
+
+      <h3>The first law and its sign convention</h3>
+      <div class="formula">
+        <div class="f-title">First law of thermodynamics</div>
+        <div class="f-main">\[ \Delta Q=\Delta U+\Delta W,\qquad \Delta W=\int P\,dV=\text{area under the }P\text{–}V\text{ graph},\qquad \Delta U=nC_V\,\Delta T \]</div>
+        <div class="f-where">Q is <strong>+</strong> when heat goes <em>into</em> the gas; W is <strong>+</strong> when the gas does work <em>on the surroundings</em> (expands). ΔU = nC<sub>V</sub>ΔT holds for an ideal gas in <em>any</em> process, not only at constant volume.<br><strong>Symbols and assumptions:</strong> n = moles; C<sub>V</sub> = molar heat capacity at constant volume (3R/2 monatomic, 5R/2 diatomic); C<sub>P</sub> = C<sub>V</sub> + R; γ = C<sub>P</sub>/C<sub>V</sub>; quasi-static (slow) processes for the area rule.</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Process</th><th>What stays fixed</th><th>Work W</th><th>ΔU</th><th>Heat Q</th></tr></thead>
+          <tbody>
+            <tr><td>Isochoric</td><td>Volume</td><td>0</td><td>nC<sub>V</sub>ΔT</td><td>Q = ΔU</td></tr>
+            <tr><td>Isobaric</td><td>Pressure</td><td>PΔV = nRΔT</td><td>nC<sub>V</sub>ΔT</td><td>nC<sub>P</sub>ΔT</td></tr>
+            <tr><td>Isothermal</td><td>Temperature (PV = const)</td><td>nRT ln(V₂/V₁)</td><td>0</td><td>Q = W</td></tr>
+            <tr><td>Adiabatic</td><td>No heat flow (PV<sup>γ</sup> = const)</td><td>(P₁V₁ − P₂V₂)/(γ − 1)</td><td>−W</td><td>0</td></tr>
+            <tr><td>Cyclic</td><td>Returns to start</td><td>Area of the loop</td><td>0</td><td>Q = W</td></tr>
+            <tr><td>Free expansion</td><td>Insulated, into vacuum</td><td>0</td><td>0</td><td>0</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="sim" id="sim-pv">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>One mole of gas, four processes: where does the heat go?</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="proc" role="group" aria-label="Process">
+              <button type="button" data-v="isochoric">Isochoric</button>
+              <button type="button" data-v="isobaric" aria-pressed="true">Isobaric</button>
+              <button type="button" data-v="isothermal">Isothermal</button>
+              <button type="button" data-v="adiabatic">Adiabatic</button>
+            </div>
+            <div class="seg" data-k="gas" role="group" aria-label="Gas">
+              <button type="button" data-v="mono" aria-pressed="true">Monatomic</button>
+              <button type="button" data-v="di">Diatomic</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="pv-x"><span data-lbl>Final volume ÷ start volume</span> <output data-for="pv-x"></output></label><input type="range" id="pv-x" min="0.5" max="2" step="0.05" value="1.6" data-unit="×" data-dp="2"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Heat in, Q</span><span class="v" data-r="q">–</span></div>
+              <div class="readout"><span class="k">Change in U</span><span class="v" data-r="u">–</span></div>
+              <div class="readout hi"><span class="k">Work by gas, W</span><span class="v" data-r="w">–</span></div>
+              <div class="readout"><span class="k">End state</span><span class="v" data-r="state">–</span></div>
+            </div>
+            <p class="sim-note" data-r="note"></p>
+          </div>
+        </div>
+      </figure>
+      <p class="trap"><b>Trap</b>Keep the signs straight: work done <em>on</em> the gas (compression) is negative W. In an adiabatic expansion the gas cools because it pays for its work out of U. In an isothermal process ΔU = 0, but Q is <strong>not</strong> zero.</p>
+
+      <h3>The second law: heat engines and refrigerators</h3>
+      <div class="prose">
+        <p>The first law says energy is conserved; the second law says which way energy can go. NCERT gives it in two equivalent forms:</p>
+        <ul>
+          <li><strong>Kelvin–Planck:</strong> no process can take heat from a reservoir and turn it <em>completely</em> into work. Every engine must throw some heat away to a colder sink.</li>
+          <li><strong>Clausius:</strong> no process can move heat from a colder body to a hotter one <em>without</em> work being done. A refrigerator needs power.</li>
+        </ul>
+        <p>A <strong>reversible</strong> process can be run backwards, leaving no change anywhere: it must be slow and free of friction and of heat flow across a finite temperature difference. Real processes (free expansion, friction, heat flowing from hot to cold) are <strong>irreversible</strong>. The <strong>Carnot engine</strong>, made of two isothermal and two adiabatic steps, is reversible and is the most efficient engine possible between two temperatures.</p>
+      </div>
+      <div class="split">
+        <div class="formula">
+          <div class="f-title">Heat engine efficiency</div>
+          <div class="f-main">\[ \eta=\frac{W}{Q_1}=1-\frac{Q_2}{Q_1},\qquad \eta_{\text{Carnot}}=1-\frac{T_2}{T_1} \]</div>
+          <div class="f-where">An engine takes Q₁ from the hot source, does work W and rejects Q₂ to the sink. No engine between T₁ and T₂ can beat Carnot.<br><strong>Symbols and assumptions:</strong> T₁, T₂ = source and sink temperatures in <strong>kelvin</strong>; W = Q₁ − Q₂ per cycle.</div>
+        </div>
+        <div class="formula">
+          <div class="f-title">Refrigerator (coaching extra ★)</div>
+          <div class="f-main">\[ \beta=\frac{Q_2}{W},\qquad \beta_{\text{Carnot}}=\frac{T_2}{T_1-T_2} \]</div>
+          <div class="f-where">A refrigerator uses work W to pull Q₂ out of the cold inside and dumps Q₁ = Q₂ + W into the room. β can be greater than 1.<br><strong>Symbols and assumptions:</strong> β = coefficient of performance; T₂ = inside (cold) temperature, T₁ = room temperature, both in kelvin.</div>
+        </div>
+      </div>
+
+      <figure class="sim" id="sim-engine">
+        <div class="sim-head"><span class="tag">Interactive</span><h4>Can this engine exist? Test it against the Carnot limit</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="mode" role="group" aria-label="Device">
+              <button type="button" data-v="engine" aria-pressed="true">Heat engine</button>
+              <button type="button" data-v="fridge">Refrigerator</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="en-t1">Hot reservoir T₁ <output data-for="en-t1"></output></label><input type="range" id="en-t1" min="300" max="1000" step="10" value="600" data-unit=" K" data-dp="0"></div>
+              <div class="ctrl"><label for="en-t2">Cold reservoir T₂ <output data-for="en-t2"></output></label><input type="range" id="en-t2" min="200" max="500" step="10" value="300" data-unit=" K" data-dp="0"></div>
+              <div class="ctrl" data-only="engine"><label for="en-eta">Claimed efficiency <output data-for="en-eta"></output></label><input type="range" id="en-eta" min="0" max="100" step="1" value="40" data-unit=" %" data-dp="0"></div>
+              <div class="ctrl" data-only="fridge"><label for="en-cop">Claimed COP β <output data-for="en-cop"></output></label><input type="range" id="en-cop" min="0.5" max="15" step="0.5" value="2" data-dp="1"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k" data-k="lim">Carnot limit</span><span class="v" data-r="lim">–</span></div>
+              <div class="readout"><span class="k">Work W per cycle</span><span class="v" data-r="w">–</span></div>
+              <div class="readout"><span class="k" data-k="other">Heat to cold sink Q₂</span><span class="v" data-r="other">–</span></div>
+              <div class="readout hi"><span class="k">Verdict</span><span class="v" data-r="verdict">–</span></div>
+            </div>
+            <p class="sim-note" data-r="note"></p>
+          </div>
+        </div>
+      </figure>
+
+      <p class="trap"><b>Trap</b>Always put temperatures in <strong>kelvin</strong> into 1 − T₂/T₁. An engine claiming more than the Carnot efficiency is impossible, and so is any engine with η = 100 %.</p>
+      <div class="asks">
+        <p class="ask-head">How it is asked</p>
+        <details class="ask"><summary><span class="kind">Concept</span>Which of these are state functions: internal energy, heat, work, temperature?</summary><p class="ans">Internal energy and temperature. Heat and work depend on the path.</p></details>
+        <details class="ask"><summary><span class="kind">Why?</span>Why does a bicycle pump get hot when you pump quickly?</summary><p class="ans">Fast compression is nearly adiabatic (Q ≈ 0). Work is done on the gas (W negative), so ΔU = −W is positive and the temperature rises.</p></details>
+        <details class="ask"><summary><span class="kind">Num</span>Find the maximum efficiency of an engine working between 127 °C and 27 °C.</summary><p class="ans">T₁ = 400 K, T₂ = 300 K, so η = 1 − 300/400 = 25 %.</p></details>
+        <details class="ask"><summary><span class="kind">Concept</span>An ideal gas expands freely into a vacuum inside an insulated container. What are Q, W and ΔU?</summary><p class="ans">All zero. Nothing pushes back, so W = 0; the container is insulated, so Q = 0; hence ΔU = 0 and the temperature of an ideal gas is unchanged.</p></details>
+      </div>
+      <div class="quiz" data-ids="c11-thermodynamics-first-law,c11-thermodynamics-first-law-p1,c11-thermodynamics-first-law-p2,c11-thermodynamics-work-p2,c11-thermodynamics-isothermal,c11-thermodynamics-adiabatic"><h3>NEET-style MCQs: the first law</h3></div>
+      <div class="quiz" data-ids="c11-thermodynamics-second-law,c11-thermodynamics-second-law-p1,c11-thermodynamics-cycles-p3,c11-thermodynamics-second-law-p2,c11-thermodynamics-second-law-p4"><h3>NEET-style MCQs: the second law and engines</h3></div>
+    </section>
+
+    <!-- ================= EXPERIMENT 6 ================= -->
+    <section id="capillary-lab" data-num="Exp 6" data-toc="Experiment 6: capillary rise + detergent">
+      <div class="sec-head"><span class="num">EXPERIMENT 6 <span class="level exam">Sat 3 Oct</span></span><h2>Surface tension of water by capillary rise, and the effect of detergents</h2></div>
+      <p class="repeat-note"><span class="tagx">Repeat</span><span>You met capillary rise in <a href="fluids-2.html#capillary-experiment">Fluids II §9.6.5</a>. It is repeated here so this week's syllabus is all on one page. The <strong>new part</strong> is the effect of detergents, further down.</span></p>
+
+      <div class="split">
+        <div class="prose">
+          <h3>Aim</h3>
+          <p>To find the surface tension of water by the capillary rise method, and to see how adding a detergent changes it.</p>
+          <h3>Apparatus</h3>
+          <p>Clean glass capillary tubes of different bores, a beaker of water, a clamp stand, a travelling microscope, a pointer (pin) on a stand, and some detergent.</p>
+        </div>
+        <div class="prose">
+          <h3>Theory in one line</h3>
+          <p>The surface pulls the water column up along the edge of the tube, and the column's weight pulls it down. At balance:</p>
+          <p>\[ 2\pi rT\cos\theta=\pi r^{2}h\rho g\ \Rightarrow\ T=\frac{rh\rho g}{2\cos\theta}\approx\frac{rh\rho g}{2} \]</p>
+          <p>For clean glass and water, θ ≈ 0, so cos θ ≈ 1.</p>
+        </div>
+      </div>
+      <div class="formula">
+        <div class="f-title">Surface tension from capillary rise</div>
+        <div class="f-main">\[ T=\frac{r\,h\,\rho\,g}{2},\qquad h=\frac{2T\cos\theta}{r\rho g}\ \Rightarrow\ h\,r=\text{constant} \]</div>
+        <div class="f-where">Thinner tube, higher rise. Lower T (detergent or hot water), lower rise.<br><strong>Symbols and assumptions:</strong> T = surface tension (N m⁻¹); r = <em>inner</em> radius of the tube (m); h = height of the meniscus bottom above the outside water surface (m); ρ = density of water; θ = contact angle (≈ 0 for clean glass); the small volume of water in the curved meniscus is neglected.</div>
+      </div>
+
+      <h3>Procedure</h3>
+      <ol class="steps-list">
+        <li>Clean the capillary tube (with dilute acid, then water) so that grease does not change the contact angle.</li>
+        <li>Clamp the tube vertically in the beaker. Water rises inside it.</li>
+        <li>Focus the travelling microscope on the <strong>bottom of the concave meniscus</strong> inside the tube and note the reading R₁.</li>
+        <li>Lower the pointer until its tip just touches the water surface outside. Remove the beaker, focus on the pointer tip and note R₂. Then h = R₁ − R₂.</li>
+        <li>Measure the <strong>inner diameter</strong> of the tube at the meniscus position with the microscope, in two perpendicular directions, and take the mean radius r.</li>
+        <li>Repeat with two or three tubes of different bore. Check that h × r comes out nearly the same.</li>
+        <li>Add a little detergent to the water, stir gently and repeat. Compare the new rise.</li>
+      </ol>
+
+      <figure class="sim" id="sim-caplab">
+        <div class="sim-head"><span class="tag">Virtual lab</span><h4>Capillary rise: measure, record, then add detergent</h4></div>
+        <div class="sim-body side">
+          <div class="sim-stage"></div>
+          <div class="sim-panel">
+            <div class="seg" data-k="tube" role="group" aria-label="Tube to measure">
+              <button type="button" data-v="0">Tube A</button>
+              <button type="button" data-v="1" aria-pressed="true">Tube B</button>
+              <button type="button" data-v="2">Tube C</button>
+              <button type="button" data-v="3">Tube D</button>
+            </div>
+            <div class="controls">
+              <div class="ctrl"><label for="cl-det">Detergent added <output data-for="cl-det"></output></label><input type="range" id="cl-det" min="0" max="10" step="1" value="0" data-unit=" drops" data-dp="0"></div>
+              <div class="ctrl"><label for="cl-temp">Water temperature <output data-for="cl-temp"></output></label><input type="range" id="cl-temp" min="10" max="80" step="5" value="25" data-unit=" °C" data-dp="0"></div>
+            </div>
+            <div class="readouts">
+              <div class="readout"><span class="k">Inner radius r</span><span class="v" data-r="r">–</span></div>
+              <div class="readout"><span class="k">Rise h</span><span class="v" data-r="h">–</span></div>
+              <div class="readout"><span class="k">h × r</span><span class="v" data-r="hr">–</span></div>
+              <div class="readout hi"><span class="k">Surface tension T</span><span class="v" data-r="T">–</span></div>
+            </div>
+            <div class="lab-actions">
+              <button class="btn" type="button" data-act="record">Record this reading</button>
+              <button class="btn" type="button" data-act="clear">Clear table</button>
+            </div>
+            <p class="sim-note" data-r="note"></p>
+          </div>
+        </div>
+        <div class="sim-panel">
+          <div class="table-wrap">
+            <table class="lab-table">
+              <thead><tr><th>#</th><th>Tube</th><th>r (mm)</th><th>Detergent</th><th>Water</th><th>h (cm)</th><th>T = rhρg/2 (N m⁻¹)</th></tr></thead>
+              <tbody data-r="rows"><tr><td colspan="7" class="muted">No readings yet. Pick a tube and press "Record this reading".</td></tr></tbody>
+            </table>
+          </div>
+          <p class="lab-mean" data-r="mean"></p>
+        </div>
+      </figure>
+
+      <div class="split">
+        <div class="prose">
+          <h3>Result</h3>
+          <p>For clean water at room temperature, T ≈ 0.072 N m⁻¹. Adding detergent lowers T, so the water rises less in the same tube.</p>
+          <h3>Precautions</h3>
+          <ul>
+            <li>The tube must be clean, vertical and of uniform bore.</li>
+            <li>Read the <strong>bottom</strong> of the meniscus, and measure h from the <strong>outside</strong> water surface.</li>
+            <li>Measure the <strong>inner</strong> radius at the place where the meniscus stood.</li>
+            <li>Note the water temperature: T falls as temperature rises.</li>
+          </ul>
+        </div>
+        <div class="prose">
+          <h3>Sources of error</h3>
+          <ul>
+            <li>Grease or dust raises the contact angle and lowers the rise.</li>
+            <li>The bore may not be perfectly circular.</li>
+            <li>The water in the curved meniscus is ignored. (The correction replaces h by h + r/3.)</li>
+            <li>Percentage error: \(\dfrac{\Delta T}{T}=\dfrac{\Delta r}{r}+\dfrac{\Delta h}{h}\). Since r is tiny, measuring it is the biggest source of error.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>The new part: detergents and surface tension</h3>
+      <div class="split">
+        <div class="prose">
+          <p>A detergent (or soap) molecule has two ends: a <strong>head</strong> that likes water and a long <strong>tail</strong> that likes oil and grease. Here is what that does:</p>
+          <ul>
+            <li>The molecules crowd at the water surface and at any water–oil boundary, and <strong>lower the surface tension</strong> there.</li>
+            <li>Lower surface tension means less energy is needed to make new surface, so grease breaks into tiny drops. The tails stick into the oil, and the heads face the water, so the drops are carried away when you rinse.</li>
+            <li>Detergent water also <strong>wets</strong> surfaces better (smaller contact angle), so it spreads into fabric and dirt.</li>
+            <li>In a capillary, lower T means a <strong>smaller rise</strong>: h ∝ T.</li>
+          </ul>
+        </div>
+        <figure class="detergent-fig">
+          <svg viewBox="0 0 360 230" role="img" aria-label="An oil drop surrounded by detergent molecules: tails point into the oil, heads face the water">
+            <rect x="0" y="0" width="360" height="230" rx="12" fill="#E3EFF9"/>
+            <circle cx="180" cy="118" r="62" fill="#FAF0DA" stroke="#C2850E" stroke-width="2"/>
+            <text x="180" y="122" text-anchor="middle" font-size="15" font-weight="700" fill="#8a5d06">oil / grease</text>
+            <g stroke="#8B4E9F" stroke-width="2.5" stroke-linecap="round">
+              <line x1="180" y1="70" x2="180" y2="38"/><line x1="214" y1="80" x2="234" y2="56"/><line x1="226" y1="118" x2="258" y2="118"/><line x1="214" y1="156" x2="234" y2="180"/><line x1="180" y1="166" x2="180" y2="198"/><line x1="146" y1="156" x2="126" y2="180"/><line x1="134" y1="118" x2="102" y2="118"/><line x1="146" y1="80" x2="126" y2="56"/>
+            </g>
+            <g fill="#8B4E9F">
+              <circle cx="180" cy="32" r="7"/><circle cx="238" cy="51" r="7"/><circle cx="264" cy="118" r="7"/><circle cx="238" cy="185" r="7"/><circle cx="180" cy="204" r="7"/><circle cx="122" cy="185" r="7"/><circle cx="96" cy="118" r="7"/><circle cx="122" cy="51" r="7"/>
+            </g>
+            <text x="300" y="40" font-size="13" font-weight="700" fill="#3A8CCB">water</text>
+            <text x="18" y="215" font-size="12.5" fill="#454F66">● head likes water · ─ tail likes oil</text>
+          </svg>
+          <figcaption>Detergent molecules surround a grease drop: tails inside the oil, heads out in the water. The drop lifts off and is rinsed away.</figcaption>
+        </figure>
+      </div>
+      <div class="ideas3">
+        <div class="idea1"><span class="k">Try at home</span><p class="big">Sprinkle pepper on water, then touch the middle with a soapy finger. The pepper rushes to the edges.</p><p class="seen">The soapy patch has lower T, so the cleaner water around it pulls the surface outwards.</p></div>
+        <div class="idea1"><span class="k">Try at home</span><p class="big">Float a dry needle on water, then add a drop of detergent nearby. The needle sinks.</p><p class="seen">Lower T can no longer hold up the needle's weight.</p></div>
+        <div class="idea1"><span class="k">Link to heat</span><p class="big">Hot water also has lower surface tension, which is one reason hot soapy water cleans best.</p><p class="seen">T of water drops from about 0.076 N m⁻¹ at 0 °C to about 0.059 N m⁻¹ at 100 °C.</p></div>
+      </div>
+      <p class="trap"><b>Trap</b>Measure h from the <em>outside</em> water level, not from the bottom of the tube. Use the <em>inner</em> radius. Detergent and heating both <strong>lower</strong> T; dissolved salt slightly <strong>raises</strong> it.</p>
+      <div class="asks">
+        <p class="ask-head">How it is asked</p>
+        <details class="ask"><summary><span class="kind">Num</span>Water rises 3.0 cm in a tube of inner radius 0.5 mm. Find T. (ρ = 1000 kg m⁻³, g = 9.8 m s⁻², θ = 0)</summary><p class="ans">T = rhρg/2 = (0.5 × 10⁻³)(0.03)(1000)(9.8)/2 ≈ 0.0735 N m⁻¹.</p></details>
+        <details class="ask"><summary><span class="kind">Detergent</span>Detergent halves the surface tension of water. What happens to the capillary rise in the same tube?</summary><p class="ans">It halves, because h ∝ T (assuming the contact angle stays near zero).</p></details>
+        <details class="ask"><summary><span class="kind">Why?</span>Why do detergents clean greasy clothes better than plain water?</summary><p class="ans">They lower the surface tension of water and of the water–oil boundary, and their molecules bind oil with their tails and water with their heads. The grease breaks into small drops that the water can carry away.</p></details>
+      </div>
+      <div class="quiz" data-ids="xc-10,xc-11,xc-12,t06-16"><h3>NEET-style MCQs: the capillary experiment</h3></div>
+    </section>
+
+    <!-- ================= PROBLEMS ================= -->
+    <section id="problems" data-num="✎" data-toc="28 practice problems">
+      <div class="sec-head"><span class="num">✎ <span class="level exam">Tue 6 + Thu 8 Oct + Ch 11</span></span><h2>28 practice problems, including mixed concepts</h2></div>
+      <p class="prose">Solve each problem on paper first. Then open the solution and mark yourself honestly. Your marks are saved in this browser, so you can come back to the ones marked "Retry".</p>
+      <div class="score" data-score aria-live="polite">
+        <span>Got it: <strong class="g" data-s="got">0</strong></span>
+        <span>Retry: <strong class="r" data-s="retry">0</strong></span>
+        <span>Not tried: <strong data-s="left">28</strong></span>
+        <button class="btn" type="button" data-act="only-retry" aria-pressed="false">Show only "Retry"</button>
+        <button class="btn" type="button" data-act="reset-score">Reset marks</button>
+      </div>
+
+      <div class="pgroup" id="set-a">
+        <h3>Set A · Temperature, heat and scales (Tue)</h3>
+        <details class="ask prob" data-p="a1"><summary><span class="kind">A1</span>Convert −40 °F, 212 °F and 0 K to Celsius.</summary><div class="ans">−40 °F = −40 °C (the special equal point). 212 °F = 100 °C. 0 K = −273.15 °C.</div></details>
+        <details class="ask prob" data-p="a2"><summary><span class="kind">A2</span>The temperature of a body rises by 45 °F. What is the rise in °C and in K?</summary><div class="ans">ΔC = (5/9) × 45 = 25 °C, and ΔK = ΔC = 25 K. (Differences ignore the 32.)</div></details>
+        <details class="ask prob" data-p="a3"><summary><span class="kind">A3</span>At what temperature is the Fahrenheit reading twice the Celsius reading?</summary><div class="ans">F = 2C and F = 1.8C + 32, so 2C = 1.8C + 32, giving C = 160 °C and F = 320 °F.</div></details>
+        <details class="ask prob" data-p="a4"><summary><span class="kind">A4</span>A faulty thermometer reads 5° in melting ice and 95° in steam at 1 atm. What is the correct Celsius temperature when it reads 59°?</summary><div class="ans">(59 − 5)/(95 − 5) = C/100, so C = 54/90 × 100 = 60 °C.</div></details>
+        <details class="ask prob" data-p="a5"><summary><span class="kind">A5</span>On a scale X, the ice point is 20 °X and the steam point is 220 °X. What Celsius temperature does 0 °X correspond to?</summary><div class="ans">(0 − 20)/200 = C/100, so C = −10 °C.</div></details>
+        <details class="ask prob" data-p="a6"><summary><span class="kind">A6</span>A constant-volume gas thermometer shows 1.00 atm at 0 °C. What pressure does it show at 100 °C?</summary><div class="ans">P ∝ T in kelvin: P = 1.00 × 373.15/273.15 ≈ 1.37 atm. (Using °C directly would give an impossible answer.)</div></details>
+      </div>
+
+      <div class="pgroup" id="set-b">
+        <h3>Set B · Thermal expansion and applications (Thu)</h3>
+        <details class="ask prob" data-p="b1"><summary><span class="kind">B1</span>Steel rails 10 m long are laid at 20 °C. What gap must be left between rails for summer days of 40 °C? (α = 1.2 × 10⁻⁵ K⁻¹)</summary><div class="ans">ΔL = αLΔT = 1.2 × 10⁻⁵ × 10 × 20 = 2.4 × 10⁻³ m = 2.4 mm.</div></details>
+        <details class="ask prob" data-p="b2"><summary><span class="kind">B2</span>A brass plate has a hole of diameter 10.00 cm at 20 °C. What is the diameter at 120 °C? (α = 1.8 × 10⁻⁵ K⁻¹)</summary><div class="ans">The hole expands like brass: d' = 10.00 × (1 + 1.8 × 10⁻⁵ × 100) = 10.018 cm.</div></details>
+        <details class="ask prob" data-p="b3"><summary><span class="kind">B3</span>A metal sphere's radius increases by 0.2 % when heated. Find the percentage increase in its surface area and in its volume.</summary><div class="ans">Area: 2 × 0.2 = 0.4 %. Volume: 3 × 0.2 = 0.6 %.</div></details>
+        <details class="ask prob" data-p="b4"><summary><span class="kind">B4</span>A solid has γ = 3 × 10⁻⁵ K⁻¹. By what percentage does its density fall when heated by 100 K?</summary><div class="ans">Δρ/ρ ≈ −γΔT = −3 × 10⁻⁵ × 100 = −3 × 10⁻³, a 0.3 % decrease.</div></details>
+        <details class="ask prob" data-p="b5"><summary><span class="kind">B5</span>A steel rod of cross-section 2 cm² is clamped between rigid walls and heated by 50 K. Find the force on the walls. (Y = 2 × 10¹¹ Pa, α = 1.2 × 10⁻⁵ K⁻¹)</summary><div class="ans">Stress = YαΔT = 1.2 × 10⁸ Pa. F = stress × A = 1.2 × 10⁸ × 2 × 10⁻⁴ = 2.4 × 10⁴ N.</div></details>
+        <details class="ask prob" data-p="b6"><summary><span class="kind">B6</span>Rod P is twice as long as rod Q. Both are made of the same material, clamped between rigid walls and heated equally. Compare their thermal stresses.</summary><div class="ans">Equal. Stress = YαΔT does not depend on length.</div></details>
+        <details class="ask prob" data-p="b7"><summary><span class="kind">B7</span>A pendulum clock with a brass rod (α = 2 × 10⁻⁵ K⁻¹) is correct at 20 °C. How much time does it lose per day at 30 °C?</summary><div class="ans">Fractional slow-down = ½αΔθ = ½ × 2 × 10⁻⁵ × 10 = 10⁻⁴. Time lost = 10⁻⁴ × 86 400 ≈ 8.64 s per day.</div></details>
+        <details class="ask prob" data-p="b8"><summary><span class="kind">B8</span>A brass–iron bimetallic strip is heated. Which metal is on the convex side, and what happens when it is cooled below room temperature instead?</summary><div class="ans">Brass (larger α) is on the convex side when heated. On cooling, brass shrinks more, so it goes to the concave side and the strip bends the other way.</div></details>
+      </div>
+
+      <div class="pgroup" id="set-c">
+        <h3>Set C · Experiment 6 and mixed concepts</h3>
+        <details class="ask prob" data-p="c1"><summary><span class="kind">C1</span>Water rises 6.0 cm in a capillary of inner radius 0.24 mm. Find T. (ρ = 1000 kg m⁻³, g = 9.8 m s⁻², θ = 0)</summary><div class="ans">T = rhρg/2 = (0.24 × 10⁻³)(0.060)(1000)(9.8)/2 ≈ 0.071 N m⁻¹.</div></details>
+        <details class="ask prob" data-p="c2"><summary><span class="kind">C2</span>In tube B water rises 3.0 cm. Detergent lowers T from 0.072 to 0.036 N m⁻¹. What is the new rise in the same tube?</summary><div class="ans">h ∝ T, so h = 3.0 × 0.036/0.072 = 1.5 cm.</div></details>
+        <details class="ask prob" data-p="c3"><summary><span class="kind">C3</span>Two tubes of inner radii 0.2 mm and 0.4 mm are dipped in water. The rise in the wider tube is 3.6 cm. What is the rise in the narrower tube?</summary><div class="ans">hr = constant, so h = 3.6 × 0.4/0.2 = 7.2 cm.</div></details>
+        <details class="ask prob" data-p="c4"><summary><span class="kind">C4 · mixed</span>The water in a capillary experiment is heated from 20 °C to 60 °C. Does the capillary rise increase or decrease? Why?</summary><div class="ans">It decreases. Surface tension falls by about 9 % (from about 0.073 to 0.066 N m⁻¹), while density falls by under 2 %. Since h = 2T/(rρg), the drop in T wins.</div></details>
+        <details class="ask prob" data-p="c5"><summary><span class="kind">C5 · mixed</span>A glass capillary tube is heated, so its bore expands slightly. What happens to the capillary rise of water at the same temperature? (Ignore the change in T.)</summary><div class="ans">It decreases slightly. The bore (a hole) expands like glass, so r increases, and h ∝ 1/r.</div></details>
+        <details class="ask prob" data-p="c6"><summary><span class="kind">C6 · mixed</span>In the experiment, the percentage errors in r and h are 2 % and 1 %. What is the maximum percentage error in T?</summary><div class="ans">T ∝ rh (ρ and g treated as exact), so the error is 2 % + 1 % = 3 %.</div></details>
+      </div>
+
+      <div class="pgroup" id="set-d">
+        <h3>Set D · Laws of thermodynamics (take R = 8.3 J mol⁻¹ K⁻¹)</h3>
+        <details class="ask prob" data-p="d1"><summary><span class="kind">D1</span>A gas absorbs 500 J of heat and does 200 J of work on its surroundings. Find the change in its internal energy.</summary><div class="ans">ΔU = Q − W = 500 − 200 = 300 J (internal energy increases).</div></details>
+        <details class="ask prob" data-p="d2"><summary><span class="kind">D2</span>2 mol of a monatomic ideal gas is heated at constant volume from 300 K to 400 K. Find W, ΔU and Q.</summary><div class="ans">W = 0. ΔU = nC<sub>V</sub>ΔT = 2 × (3/2)(8.3) × 100 = 2490 J. Q = ΔU = 2490 J.</div></details>
+        <details class="ask prob" data-p="d3"><summary><span class="kind">D3</span>The same gas is heated from 300 K to 400 K at constant pressure instead. Find W, ΔU and Q. What fraction of Q raises U?</summary><div class="ans">W = nRΔT = 2 × 8.3 × 100 = 1660 J. ΔU = 2490 J (same ΔT, same ΔU). Q = 4150 J. Fraction = ΔU/Q = C<sub>V</sub>/C<sub>P</sub> = 3/5.</div></details>
+        <details class="ask prob" data-p="d4"><summary><span class="kind">D4</span>A gas expands from 2 L to 5 L at a constant pressure of 2 × 10⁵ Pa. How much work does it do?</summary><div class="ans">W = PΔV = 2 × 10⁵ × 3 × 10⁻³ = 600 J.</div></details>
+        <details class="ask prob" data-p="d5"><summary><span class="kind">D5</span>In one cycle a gas absorbs 800 J of heat and rejects 500 J. Find ΔU for the cycle, the net work and the efficiency.</summary><div class="ans">ΔU = 0 for a full cycle. W = 800 − 500 = 300 J. η = 300/800 = 37.5 %.</div></details>
+        <details class="ask prob" data-p="d6"><summary><span class="kind">D6</span>A Carnot engine works between 527 °C and 127 °C and absorbs 1000 J per cycle. Find its efficiency, the work and the heat rejected.</summary><div class="ans">T₁ = 800 K, T₂ = 400 K, so η = 1 − 400/800 = 50 %. W = 500 J and Q₂ = 500 J.</div></details>
+        <details class="ask prob" data-p="d7"><summary><span class="kind">D7 · mixed</span>An inventor claims an engine working between 400 K and 300 K with 30 % efficiency. Accept or reject?</summary><div class="ans">Reject. The Carnot limit is 1 − 300/400 = 25 %, and no engine can beat it (second law).</div></details>
+        <details class="ask prob" data-p="d8"><summary><span class="kind">D8 · mixed</span>A freezer keeps its inside at 0 °C in a room at 27 °C. What is its maximum coefficient of performance, and what is the least work needed to remove 1000 J from inside?</summary><div class="ans">β = T₂/(T₁ − T₂) = 273/27 ≈ 10.1. W = Q₂/β ≈ 1000/10.1 ≈ 99 J.</div></details>
+      </div>
+    </section>
+
+    <!-- ================= RECAP ================= -->
+    <section id="recap" data-num="⚡" data-toc="5-minute recap">
+      <div class="sec-head"><span class="num">⚡ <span class="level basic">Night before the test</span></span><h2>5-minute recap</h2></div>
+      <p class="prose">The whole week in 24 lines. Read each line, then say the formula without looking.</p>
+      <div class="recap-grid">
+        <div class="rc" style="--c: var(--coral)"><p>Temperature decides which way heat flows; heat is the energy that flows.</p><span class="fx">hot → cold, never the other way by itself</span></div>
+        <div class="rc" style="--c: var(--coral)"><p>Same temperature means thermal equilibrium: no net heat flow.</p><span class="fx">Zeroth law → thermometers work</span></div>
+        <div class="rc" style="--c: var(--coral)"><p>Heat is measured in joules. 1 cal = 4.186 J.</p><span class="fx">A bigger body does not mean a hotter body</span></div>
+        <div class="rc" style="--c: var(--coral)"><p>Every scale is a straight line between the ice point and the steam point.</p><span class="fx">\((X-L)/(U-L)\) is the same on every scale</span></div>
+        <div class="rc" style="--c: var(--coral)"><p>Convert between the three main scales.</p><span class="fx">\(C/5=(F-32)/9=(K-273)/5\)</span></div>
+        <div class="rc" style="--c: var(--coral)"><p>For changes, 1 °C = 1 K = 1.8 °F.</p><span class="fx">\(\Delta F=1.8\,\Delta C\)</span></div>
+        <div class="rc" style="--c: var(--coral)"><p>Equal readings: −40 for °C and °F; 574.25 for °F and K.</p><span class="fx">Body: 37 °C = 98.6 °F = 310 K</span></div>
+        <div class="rc" style="--c: var(--coral)"><p>Kelvin starts at absolute zero, where gas pressure would become zero.</p><span class="fx">\(T=t+273.15\)</span></div>
+        <div class="rc" style="--c: var(--amber)"><p>Heating makes a rod longer in proportion to its length and ΔT.</p><span class="fx">\(\Delta L=\alpha L\Delta T\)</span></div>
+        <div class="rc" style="--c: var(--amber)"><p>Area and volume coefficients are 2 and 3 times the linear one.</p><span class="fx">\(\alpha:\beta:\gamma=1:2:3\)</span></div>
+        <div class="rc" style="--c: var(--amber)"><p>Holes and cavities expand like the material around them.</p><span class="fx">Heated hole → bigger</span></div>
+        <div class="rc" style="--c: var(--amber)"><p>Density falls when a body is heated.</p><span class="fx">\(\rho'\approx\rho(1-\gamma\Delta T)\)</span></div>
+        <div class="rc" style="--c: var(--amber)"><p>Blocked expansion creates thermal stress, whatever the length.</p><span class="fx">\(\text{stress}=Y\alpha\Delta T,\ F=YA\alpha\Delta T\)</span></div>
+        <div class="rc" style="--c: var(--amber)"><p>A heated bimetallic strip bends with the larger-α metal outside.</p><span class="fx">\(R\approx d/(\Delta\alpha\,\Delta T)\)</span></div>
+        <div class="rc" style="--c: var(--amber)"><p>A hot pendulum clock loses time; a hot scale reads too little.</p><span class="fx">loss/day = \(\tfrac12\alpha\Delta\theta\times86400\) s</span></div>
+        <div class="rc" style="--c: var(--water)"><p>Water is densest at 4 °C; lakes freeze from the top and stay 4 °C at the bottom.</p><span class="fx">0 → 4 °C: water contracts on heating</span></div>
+        <div class="rc" style="--c: var(--plum)"><p>Capillary rise gives surface tension: measure h to the meniscus bottom and the inner r.</p><span class="fx">\(T=rh\rho g/2,\ \ hr=\text{const}\)</span></div>
+        <div class="rc" style="--c: var(--plum)"><p>Detergent and hot water lower T, so the rise drops and cleaning improves.</p><span class="fx">\(h\propto T\)</span></div>
+        <div class="rc" style="--c: var(--teal)"><p>Zeroth law: two bodies each in equilibrium with a third are in equilibrium with each other.</p><span class="fx">It defines temperature</span></div>
+        <div class="rc" style="--c: var(--teal)"><p>First law: heat in = rise in internal energy + work done by the gas.</p><span class="fx">\(\Delta Q=\Delta U+\Delta W\)</span></div>
+        <div class="rc" style="--c: var(--teal)"><p>U depends only on temperature (state function); Q and W depend on the path.</p><span class="fx">\(\Delta U=nC_V\Delta T,\ W=\text{area under }P\text{–}V\)</span></div>
+        <div class="rc" style="--c: var(--teal)"><p>Isochoric W = 0; isothermal ΔU = 0; adiabatic Q = 0; cycle ΔU = 0.</p><span class="fx">\(PV=\text{const},\ PV^{\gamma}=\text{const}\)</span></div>
+        <div class="rc" style="--c: var(--teal)"><p>Second law: no engine is 100 % efficient, and heat will not flow from cold to hot by itself.</p><span class="fx">Kelvin–Planck · Clausius</span></div>
+        <div class="rc" style="--c: var(--teal)"><p>Carnot sets the limit; use kelvin.</p><span class="fx">\(\eta=1-T_2/T_1,\ \beta=T_2/(T_1-T_2)\)</span></div>
+      </div>
+
+      <h3>Before Module Test 7, I can…</h3>
+      <ul class="ready" data-ready>
+        <li><label><input type="checkbox" data-item="r1"> explain the difference between heat and temperature with an example.</label></li>
+        <li><label><input type="checkbox" data-item="r2"> convert any temperature between °C, °F, K and a made-up scale.</label></li>
+        <li><label><input type="checkbox" data-item="r3"> convert a temperature <em>change</em> without using 32 or 273.</label></li>
+        <li><label><input type="checkbox" data-item="r4"> use ΔL = αLΔT, β = 2α and γ = 3α, including percentage questions.</label></li>
+        <li><label><input type="checkbox" data-item="r5"> find thermal stress and force in a clamped rod.</label></li>
+        <li><label><input type="checkbox" data-item="r6"> say which way a bimetallic strip bends when heated and when cooled.</label></li>
+        <li><label><input type="checkbox" data-item="r7"> explain why lakes freeze from the top.</label></li>
+        <li><label><input type="checkbox" data-item="r8"> describe the capillary rise experiment and find T from h and r.</label></li>
+        <li><label><input type="checkbox" data-item="r9"> explain how a detergent lowers surface tension and cleans grease.</label></li>
+        <li><label><input type="checkbox" data-item="r10"> apply Q = ΔU + W with the right signs to isochoric, isobaric, isothermal and adiabatic processes.</label></li>
+        <li><label><input type="checkbox" data-item="r11"> state the second law both ways and check an engine against the Carnot limit.</label></li>
+      </ul>
+      <p class="small muted" data-ready-count></p>
+    </section>
+
+    <footer class="footer">This week's page covers NCERT Class 11 Physics Chapter 10 (Thermal Properties of Matter) sections 10.1–10.3 and 10.5, the laws of thermodynamics from Chapter 11, and Experiment 6 from Chapter 9 (Mechanical Properties of Fluids). Values use g = 9.8 m s⁻² unless stated. For the rest of the chapter (calorimetry, latent heat, heat transfer, cooling) open the <a href="thermal-properties.html">full Thermal Properties lesson</a>, or <a href="practice.html?chapter=thermal-properties">practise the whole chapter</a>. For processes in more depth, open the <a href="thermodynamics.html">full Thermodynamics lesson</a>.</footer>
+  </main>
+</div>
+<script src="assets/this-week.js"></script>
+</body>
+</html>

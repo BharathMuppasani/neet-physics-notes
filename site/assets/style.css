@@ -43,6 +43,7 @@ body.ch-fluids1 { --accent: var(--water);  --accent-soft: var(--water-soft); }
 body.ch-fluids2 { --accent: var(--plum);   --accent-soft: var(--plum-soft); }
 body.ch-practice{ --accent: var(--coral);  --accent-soft: var(--coral-soft); }
 body.ch-revise  { --accent: var(--green);  --accent-soft: var(--green-soft); }
+body.ch-week    { --accent: var(--coral);  --accent-soft: var(--coral-soft); }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--topbar-h) + 16px); -webkit-text-size-adjust: 100%; }
@@ -421,8 +422,11 @@ html.print mjx-container[display="true"] { overflow: visible; }
 @media (max-width: 1000px) {
   :root { --topbar-h: 132px; }
   .topbar-inner { display: grid; grid-template-columns: minmax(0,1fr); gap: 8px; padding-block: 10px; }
-  .nav { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 4px; width: 100%; margin: 0; padding: 0; }
+  .nav { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 4px; width: 100%; margin: 0; padding: 0; }
   .nav a { padding: 8px 4px; font-size: 14px; text-align: center; }
+}
+@media (max-width: 560px) {
+  .nav { grid-template-columns: repeat(3,minmax(0,1fr)); }
 }
 @media (max-width: 420px) {
   .nav a { font-size: 12.5px; padding-inline: 2px; }
@@ -444,3 +448,7 @@ html.print mjx-container[display="true"] { overflow: visible; }
 .quick-banner .qb-text span { font-size: 14px; color: var(--ink-2); }
 .quick-banner .qb-go { margin-left: auto; font-size: 22px; font-weight: 700; color: var(--green); }
 @media (max-width: 480px) { .quick-banner { flex-wrap: wrap; gap: 8px; } .quick-banner .qb-go { display: none; } }
+
+/* "This week" tab: the current weekly syllabus page */
+.nav a[href="this-week.html"]:not([aria-current]) { color: var(--coral); }
+.nav a[href="this-week.html"]::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--coral); margin-right: 6px; vertical-align: 2px; }

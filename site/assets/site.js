@@ -26,6 +26,7 @@ const Site = {
     { href: 'solids.html', key: 'solids', label: 'Solids' },
     { href: 'fluids-1.html', key: 'fluids1', label: 'Fluids I' },
     { href: 'fluids-2.html', key: 'fluids2', label: 'Fluids II' },
+    { href: 'this-week.html', key: 'week', label: 'This week' },
     { href: 'chapters.html', key: 'chapters', label: 'All chapters' },
     { href: 'practice.html', key: 'practice', label: 'Practice' },
     { href: 'revise.html', key: 'revise', label: 'Revise' },
